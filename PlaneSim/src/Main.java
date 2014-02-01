@@ -15,8 +15,6 @@ public class Main {
 		
 		Controller c = new Controller();
 		
-		//UI ui = new UI(s, c);
-		
 		new MainWindow(s, c);
 		
 	}
