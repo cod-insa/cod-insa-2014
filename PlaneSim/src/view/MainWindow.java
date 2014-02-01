@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
@@ -16,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -32,18 +35,22 @@ import control.Controller;
 
 public class MainWindow {
 	
-	JFrame frmPowerLivreur;
-	public final JComboBox<?> time_slots_comboBox;
-	protected final SimViewPanel map_panel;
+	JFrame frmPlaneSim;
+	public final JComboBox<?> some_comboBox;
+	protected final SimViewPanel sim_panel;
 	//Component panel_top_btns;
+	
+    //List<JButton> top_btns = new ArrayList<JButton>();
+    protected final JButton btnComputePath = new JButton();
+    public JList<? extends String> some_list;
 	
 	Sim sim;
 	Controller contr;
-
+	
     /**
      * Create the application.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({ })
     public MainWindow(Sim s, Controller c) {
     	sim = s;
     	contr = c;
@@ -55,19 +62,25 @@ public class MainWindow {
         time_slots_comboBox = new JComboBox(timeSlots.toArray());
         map_panel = new MapPanel(this, controller);
         */
-    	map_panel = new SimViewPanel(s);
+    	sim_panel = new SimViewPanel(s);
         //btnComputePath = new JButton();
-        time_slots_comboBox = new JComboBox();
+    	
+    	List<Object> slots = new ArrayList<Object>();
+        slots.add(0,"All");
+        some_comboBox = new JComboBox<>(slots.toArray());
+        
+        btnComputePath.setText("Bar");
+        
         initialize();
-        frmPowerLivreur.setVisible(true);
+        frmPlaneSim.setVisible(true);
     }
 
 	public void initialize() {
 		
 		
-        frmPowerLivreur = new JFrame();
-        frmPowerLivreur.setTitle("Cod'INSA 2014 Final Round - Server");
-        frmPowerLivreur.addWindowListener(new WindowAdapter() {
+        frmPlaneSim = new JFrame();
+        frmPlaneSim.setTitle("Cod'INSA 2014 Final Round - Server");
+        frmPlaneSim.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 quit();
@@ -76,8 +89,8 @@ public class MainWindow {
 
         //TODO frmPowerLivreur.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/HomeFolder.gif")));
         //frmPowerLivreur.setIconImage(Toolkit.getDefaultToolkit().getImage(UI.class.getResource("com/sun/java/swing/plaf/motif/icons/DesktopIcon.gi")));
-        frmPowerLivreur.setBounds(100, 100, 728, 599);
-        frmPowerLivreur.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frmPlaneSim.setBounds(100, 100, 728, 599);
+        frmPlaneSim.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         JScrollPane scrollPane_1 = new JScrollPane();
 
@@ -108,63 +121,44 @@ public class MainWindow {
         JScrollPane scrollPane = new JScrollPane();
 
         //TODO
-        /**
-        delivery_list = new JList<String>();
+        
+        some_list = new JList<String>();
 		
-        scrollPane.setViewportView(delivery_list);
-		*/
+        scrollPane.setViewportView(some_list);
+		
         JPanel panel_top_btns = new JPanel();
-        panel_top_btns.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        final JButton btnPrint = new JButton("Imprimer");
+        panel_top_btns.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        final JButton btnPrint = new JButton("Baz");
         btnPrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	/**
-                PrintRoadMap prm = new PrintRoadMap();
-                try {
-                    controller.execute(prm);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Impossible de créer le fichier!", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    throw e;
-                }
-                JOptionPane.showMessageDialog(new JFrame(), "Le fichier a bien été imprimé : "+prm.getFilePath(), "Succès", JOptionPane.INFORMATION_MESSAGE);
-                */
+            	// TODO
             }
         });
+        //top_btns.add(btnPrint);
         
-        //TODO xml_dependent_btns.add(btnPrint);
         
+        frmPlaneSim.getContentPane().setLayout(new BorderLayout(0, 0));
         
-        frmPowerLivreur.getContentPane().setLayout(new BorderLayout(0, 0));
-
-        //TODO
-        /**
         btnComputePath.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                if (controller.execute(new Optimize())) {
-                    never_computed_path = false;
-                    updateComputePathBtn(true);
-                    if (!model.deliveriesOnTime())
-                        JOptionPane.showMessageDialog(new JFrame(), "Certaines livraisons sont impossibles dans ces tranches horaires !", "Itinéraire impossible", JOptionPane.WARNING_MESSAGE);
-                } else
-                    JOptionPane.showMessageDialog(new JFrame(), "L'itinéraire n'a pas pu être calculé", "Temps dépassé", JOptionPane.ERROR_MESSAGE);
-                updateTimeSlotDeliveryList();
+                // TODO
             }
         });
-        xml_dependent_btns.add(btnComputePath);
-        */
+        //top_btns.add(btnComputePath);
         
-        JButton btnChargerZoneDepuis = new JButton("Charger zone depuis XML");
+        
+        JButton btnChargerZoneDepuis = new JButton("Foo");
         btnChargerZoneDepuis.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO loadZonePrompt();
             }
         });
 
-        /**
+        
         panel_top_btns.add(btnChargerZoneDepuis);
         panel_top_btns.add(btnComputePath);
         panel_top_btns.add(btnPrint);
-        */
+        
 
         GroupLayout gl_panel_1 = new GroupLayout(main_panel);
         gl_panel_1.setHorizontalGroup(
@@ -172,11 +166,11 @@ public class MainWindow {
                 .addGroup(gl_panel_1.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-                        .addComponent(time_slots_comboBox, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(some_comboBox, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
                         .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-                        .addComponent(map_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sim_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panel_top_btns, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
         );
@@ -185,25 +179,25 @@ public class MainWindow {
                 .addGroup(gl_panel_1.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-                        .addComponent(time_slots_comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(some_comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(panel_top_btns, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
                         .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(map_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(sim_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
         );
 
         main_panel.setLayout(gl_panel_1);
-        frmPowerLivreur.getContentPane().add(scrollPane_1);
+        frmPlaneSim.getContentPane().add(scrollPane_1);
 
         JMenuBar menuBar = new JMenuBar();
-        frmPowerLivreur.setJMenuBar(menuBar);
+        frmPlaneSim.setJMenuBar(menuBar);
 
         JMenu mnFile = new JMenu("Application");
         menuBar.add(mnFile);
 
-        JMenuItem mntmQuit = new JMenuItem("Quitter");
+        JMenuItem mntmQuit = new JMenuItem("Quit");
         mntmQuit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 quit();
@@ -215,7 +209,7 @@ public class MainWindow {
         JMenu mnEdit = new JMenu("Edition");
         menuBar.add(mnEdit);
 
-        final JMenuItem mntmUndo = new JMenuItem("Annuler");
+        final JMenuItem mntmUndo = new JMenuItem("Undo");
         mntmUndo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //TODO controller.undo();
@@ -223,7 +217,7 @@ public class MainWindow {
         });
         mnEdit.add(mntmUndo);
 
-        final JMenuItem mntmRedo = new JMenuItem("Refaire");
+        final JMenuItem mntmRedo = new JMenuItem("Redo");
         mntmRedo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO controller.redo();
@@ -239,46 +233,46 @@ public class MainWindow {
             	//TODO mntmRedo.setEnabled(controller.canRedo());
             }
         });
-
-        JMenu mnZone = new JMenu("Zone");
-        menuBar.add(mnZone);
-
-        JMenuItem mntmChargerUneZone = new JMenuItem("Charger une zone depuis XML");
+        
+        JMenu mnDisplay = new JMenu("Display");
+        menuBar.add(mnDisplay);
+        
+        JMenuItem mntmChargerUneZone = new JMenuItem("Some Action");
         mntmChargerUneZone.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO loadZonePrompt();
             }
         });
-        mnZone.add(mntmChargerUneZone);
+        mnDisplay.add(mntmChargerUneZone);
         
         JSeparator separator = new JSeparator();
-        mnZone.add(separator);
+        mnDisplay.add(separator);
         
         final double zoomRatio = 1.3;
         
         final JMenuItem mntmZoomP = new JMenuItem("Zoom +");
         mntmZoomP.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	map_panel.vtrans.zoomIn(zoomRatio);
+            	sim_panel.vtrans.zoomIn(zoomRatio);
             }
         });
-        mnZone.add(mntmZoomP);
+        mnDisplay.add(mntmZoomP);
         
         final JMenuItem mntmZoomM = new JMenuItem("Zoom -");
         mntmZoomM.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	map_panel.vtrans.zoomIn(1/zoomRatio);
+            	sim_panel.vtrans.zoomIn(1/zoomRatio);
             }
         });
-        mnZone.add(mntmZoomM);
+        mnDisplay.add(mntmZoomM);
         
         final JMenuItem mntmZoomNormal = new JMenuItem("Zoom normal");
         mntmZoomNormal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	map_panel.vtrans.zoomReset();
+            	sim_panel.vtrans.zoomReset();
             }
         });
-        mnZone.add(mntmZoomNormal);
+        mnDisplay.add(mntmZoomNormal);
         
 		
 	}
