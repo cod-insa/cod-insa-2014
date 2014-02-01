@@ -10,17 +10,22 @@ public abstract class Entity {
 	
 	final Coord pos = new Coord(0,0);
 	
-	double alt = 1;
-	double rot = 0;
+	private double rot = 0;
 	double spe = 0;
+	double alt = 1;
 	protected boolean _exists = true;
 
 	public final Coord.View position = pos.view;
 	
 	public double rotation() { return rot; }
-	public double altitude() { return alt; }
 	public double speed() { return spe; }
+	public double altitude() { return alt; }
 	public boolean exists() { return _exists; }
+	
+	public void rotate (double angle) {
+		rot += angle;
+		rot %= Math.PI*2;
+	}
 	
 	public final void update(double period) {
 		pos.x += Math.cos(rot)*spe;

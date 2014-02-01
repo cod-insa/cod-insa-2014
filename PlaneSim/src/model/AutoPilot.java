@@ -34,7 +34,7 @@ public final class AutoPilot {
 			_aim.set(entityAim.position);
 		}
 		
-		double aimAngle = Math.atan2(_aim.y-plane.position.y(), _aim.x-plane.position.x()) + Math.PI*2 - plane.rot;
+		double aimAngle = Math.atan2(_aim.y-plane.position.y(), _aim.x-plane.position.x()) + Math.PI*2 - plane.rotation();
 		
 		aimAngle %= Math.PI*2;
 		
@@ -47,10 +47,9 @@ public final class AutoPilot {
 		double delta = aimAngle > mrs? mrs: aimAngle;
 		delta = delta < -mrs? -mrs: delta;
 		
-		plane.rot += delta;
-		plane.rot %= Math.PI*2;
+		plane.rotate(delta);
 		
-	}	
+	}
 	
 
 }
