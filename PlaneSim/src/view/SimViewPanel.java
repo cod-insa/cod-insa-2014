@@ -42,11 +42,12 @@ public class SimViewPanel extends JPanel {
     	sim = s;
     	
     	Random r = new Random();
-    	int nb = 2;
+    	int nb = 5;
     	for (int i = 0; i < nb; i++) {
     		Plane p = new Plane(new Coord(r.nextDouble(), r.nextDouble()).view);
 	    	pls.add(p);
 	    	sim._debug_backdoor().add(p);
+	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view);
     	}
     	pls.get(0).autoPilot.goTo(pls.get(1));
     	pls.get(1).autoPilot.goTo(pls.get(0));

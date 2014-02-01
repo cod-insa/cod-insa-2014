@@ -2,6 +2,8 @@ package view;
 
 import model.Coord;
 
+import common.Util;
+
 public class ViewTransform {
 	
 	/*
@@ -43,8 +45,15 @@ public class ViewTransform {
 	public void setViewSize(int viewSize) {
 		this.viewSize = viewSize;
 	}
-	
 
+	public void zoomReset() {
+		scale.set(Util.unit);
+	}
+	
+	public void zoomIn(double scaleIncreaseRatio) {
+		scale.mult(scaleIncreaseRatio);
+	}
+	
 	//public void zoomIn(int x, int y, double scaleIncreaseRatio) {
 	public void zoomIn(Pixel p, double scaleIncreaseRatio) {
 		
@@ -78,7 +87,8 @@ public class ViewTransform {
 		*/
 
 		Coord sp = getCoord(p); sp.sub(vShift);
-		scale.mult(scaleIncreaseRatio);
+		//scale.mult(scaleIncreaseRatio);
+		zoomIn(scaleIncreaseRatio);
 		Coord sp2 = getCoord(p); sp2.sub(vShift);
 		
 		//sp.mult(scaleIncreaseRatio);

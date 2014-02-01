@@ -83,7 +83,7 @@ public class MainWindow {
 
         final JPanel main_panel = new JPanel();
         scrollPane_1.setViewportView(main_panel);
-
+        
 
         // Catching keyboard: Ctrl-Z / Ctrl-Y for undo/redo
 
@@ -250,19 +250,36 @@ public class MainWindow {
             }
         });
         mnZone.add(mntmChargerUneZone);
-
+        
         JSeparator separator = new JSeparator();
         mnZone.add(separator);
-
+        
+        final double zoomRatio = 1.3;
+        
         final JMenuItem mntmZoomP = new JMenuItem("Zoom +");
+        mntmZoomP.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            	map_panel.vtrans.zoomIn(zoomRatio);
+            }
+        });
         mnZone.add(mntmZoomP);
-
+        
         final JMenuItem mntmZoomM = new JMenuItem("Zoom -");
+        mntmZoomM.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            	map_panel.vtrans.zoomIn(1/zoomRatio);
+            }
+        });
         mnZone.add(mntmZoomM);
-
+        
         final JMenuItem mntmZoomNormal = new JMenuItem("Zoom normal");
+        mntmZoomNormal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            	map_panel.vtrans.zoomReset();
+            }
+        });
         mnZone.add(mntmZoomNormal);
-
+        
 		
 	}
 	
