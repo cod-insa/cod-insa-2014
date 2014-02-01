@@ -35,6 +35,9 @@ public final class Coord {
 		public Coord add (View cv)
 		{ Coord r = new Coord(this); r.add(cv); return r; }
 		
+		public Coord add (double shift)
+		{ Coord r = new Coord(this); r.add(shift); return r; }
+		
 		public Coord rotate (Coord center, double angle)
 		{ Coord r = new Coord(this); r.rotate(center, angle); return r; }
 		
@@ -60,10 +63,14 @@ public final class Coord {
 		x = cv.x();
 		y = cv.y();
 	}
-	
+
 	public void add (View cv) {
 		x += cv.x();
 		y += cv.y();
+	}
+	public void add (double shift) {
+		x += shift;
+		y += shift;
 	}
 	public void sub (View cv) {
 		x -= cv.x();

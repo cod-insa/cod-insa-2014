@@ -7,10 +7,11 @@ public final class Plane extends Entity {
 	public final AutoPilot autoPilot = new AutoPilot(this);
 	final PlaneView view = new PlaneView(this);
 	
-	public Plane (Coord.View p) {
-		pos.set(p);
+	public Plane (Sim sim, Coord pos) {
+		super(sim, pos);
+		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
-		spe = 1E-2;
+		_spe = 1E-2;
 		
 	}
 

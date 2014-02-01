@@ -40,19 +40,21 @@ public class SimViewPanel extends JPanel {
         final SimViewPanel that = this;
         
     	sim = s;
+
+    	/********** FIXME DEV TEST: **********/
     	
-    	/********** DEV TEST: **********/
     	Random r = new Random();
     	int nb = 5;
     	for (int i = 0; i < nb; i++) {
-    		Plane p = new Plane(new Coord(r.nextDouble(), r.nextDouble()).view);
+    		Plane p = new Plane(sim, new Coord(r.nextDouble(), r.nextDouble()));
 	    	pls.add(p);
-	    	sim._debug_backdoor().add(p);
+	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view);
     	}
     	pls.get(0).autoPilot.goTo(pls.get(1));
     	pls.get(1).autoPilot.goTo(pls.get(0));
-    	/*******************************/
+    	
+    	/*************************************/
     	
 
 		new Timer().schedule(new TimerTask() {
@@ -90,13 +92,14 @@ public class SimViewPanel extends JPanel {
                 	*/
                 	
                 	
-                	/********** DEV TEST: **********/
+                	/********** FIXME DEV TEST: **********/
+                	
                 	//sim._debug_backdoor().add( new Plane( vtrans.getCoord(new Pixel(e.getX(), e.getY())).view ) );
                     
                 	for (Plane p: pls)
                 		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view);
 
-                	/*******************************/
+                	/*************************************/
                 	
                     break;
 
@@ -152,8 +155,10 @@ public class SimViewPanel extends JPanel {
         g2d.setColor(Color.blue);
         
         for (Entity e: sim.getEntities()) {
+        	//if (e instanceof Base) System.out.println("ok");
         	
         	e.getView().draw(g2d, vtrans);
+        	
         	
         }
         

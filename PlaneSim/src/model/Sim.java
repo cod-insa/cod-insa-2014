@@ -16,7 +16,7 @@ public class Sim {
 	World w;
 	
 	public Sim() {
-		w = new World();
+		new World(this); // sets this.w
 		
 		new Timer().schedule(new TimerTask() {
             @Override
@@ -29,6 +29,10 @@ public class Sim {
 	
 	public void stop() {
 		running = false;
+	}
+	
+	void addEntity (Entity e) {
+		w.entities.add(e);
 	}
 	
 	public List<Entity> getEntities() {

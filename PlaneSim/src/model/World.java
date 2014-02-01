@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class World {
 	
@@ -10,8 +9,21 @@ public class World {
 	
 	List<Entity> entities = new ArrayList<>();
 	
-	Random r = new Random();
+	public World (Sim sim) {
+		sim.w = this;
+		map = new Map();
+		
 
+    	/********** FIXME DEV TEST: **********/
+
+		map.bases.add(new Base(sim, new Coord(.1,.2)));
+		map.bases.add(new Base(sim, new Coord(.2,.5)));
+		map.bases.add(new Base(sim, new Coord(.7,.6)));
+
+    	/*************************************/
+		
+	}
+	
 	public void update() {
 		update(1);
 	}
