@@ -38,9 +38,7 @@ public class MainWindow {
 	JFrame frmPlaneSim;
 	public final JComboBox<?> some_comboBox;
 	protected final SimViewPanel sim_panel;
-	//Component panel_top_btns;
 	
-    //List<JButton> top_btns = new ArrayList<JButton>();
     protected final JButton btnComputePath = new JButton();
     public JList<? extends String> some_list;
 	
@@ -54,16 +52,8 @@ public class MainWindow {
     public MainWindow(Sim s, Controller c) {
     	sim = s;
     	contr = c;
-        /*
-    	controller = c;
-        model = m;
-        List<Object> timeSlots = new ArrayList<Object>(model.getTimeSlots());
-        timeSlots.add(0,"Toutes les livraisons");
-        time_slots_comboBox = new JComboBox(timeSlots.toArray());
-        map_panel = new MapPanel(this, controller);
-        */
+        
     	sim_panel = new SimViewPanel(s);
-        //btnComputePath = new JButton();
     	
     	List<Object> slots = new ArrayList<Object>();
         slots.add(0,"All");
@@ -86,9 +76,8 @@ public class MainWindow {
                 quit();
             }
         });
-
-        //TODO frmPowerLivreur.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/HomeFolder.gif")));
-        //frmPowerLivreur.setIconImage(Toolkit.getDefaultToolkit().getImage(UI.class.getResource("com/sun/java/swing/plaf/motif/icons/DesktopIcon.gi")));
+        
+        frmPlaneSim.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/motif/icons/DesktopIcon.gif")));
         frmPlaneSim.setBounds(100, 100, 728, 599);
         frmPlaneSim.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -104,7 +93,7 @@ public class MainWindow {
             private static final long serialVersionUID = 1L;
             
             public void actionPerformed(ActionEvent evt) {
-            	//TODO if (!controller.undo()) System.err.println("Undo action has failed (nothing to undo).");
+            	//TODO
             }
         });
         main_panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
@@ -113,7 +102,7 @@ public class MainWindow {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent evt) {
-            	//TODO if (!controller.redo()) System.err.println("Redo action has failed (nothing to redo).");
+            	//TODO
             }
         });
         main_panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
@@ -134,8 +123,6 @@ public class MainWindow {
             	// TODO
             }
         });
-        //top_btns.add(btnPrint);
-        
         
         frmPlaneSim.getContentPane().setLayout(new BorderLayout(0, 0));
         
@@ -144,13 +131,11 @@ public class MainWindow {
                 // TODO
             }
         });
-        //top_btns.add(btnComputePath);
-        
         
         JButton btnChargerZoneDepuis = new JButton("Foo");
         btnChargerZoneDepuis.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	//TODO loadZonePrompt();
+            	//TODO
             }
         });
 
@@ -212,7 +197,7 @@ public class MainWindow {
         final JMenuItem mntmUndo = new JMenuItem("Undo");
         mntmUndo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                //TODO controller.undo();
+                //TODO
             }
         });
         mnEdit.add(mntmUndo);
@@ -220,7 +205,7 @@ public class MainWindow {
         final JMenuItem mntmRedo = new JMenuItem("Redo");
         mntmRedo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	//TODO controller.redo();
+            	//TODO
             }
         });
         mnEdit.add(mntmRedo);
@@ -240,7 +225,7 @@ public class MainWindow {
         JMenuItem mntmChargerUneZone = new JMenuItem("Some Action");
         mntmChargerUneZone.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	//TODO loadZonePrompt();
+            	//TODO
             }
         });
         mnDisplay.add(mntmChargerUneZone);
@@ -274,10 +259,8 @@ public class MainWindow {
         });
         mnDisplay.add(mntmZoomNormal);
         
-		
 	}
 	
-
     /**
      * Exit the application.
      */

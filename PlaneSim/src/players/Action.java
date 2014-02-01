@@ -1,5 +1,5 @@
 package players;
 
-public class Action {
+public interface Action {
 
 }

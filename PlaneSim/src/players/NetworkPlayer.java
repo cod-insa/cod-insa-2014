@@ -11,7 +11,7 @@ package players;
  we will accumulate the decisions here and return them all in a list, following IA's interface
 */
 
-public class NetworkPlayer {
+public class NetworkPlayer /* implements Player */ {
 	
 }
 

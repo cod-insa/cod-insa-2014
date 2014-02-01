@@ -20,17 +20,7 @@ public class PolygonShape {
 			p.y *= scale;
 		}
 	}
-	/*
-	public void rotate (double angle, Point center) {
-		
-		Point2D[] pts = (Point2D[]) points.toArray();
-		
-        AffineTransform.getRotateInstance
-        (Math.toRadians(angle), center.x, center.y)
-                .transform(pts,0,pts,0,pts.length);
-        
-	}
-	*/
+	
 	public void rotate (double angle, Coord.View center) {
 		current_rotation += angle;
 		
@@ -39,20 +29,8 @@ public class PolygonShape {
 		AffineTransform.getRotateInstance(angle, center.x(), center.y()) //center.x(), center.y())
                 .transform(pts,0,pts,0,pts.length);
 	}
-	/*
-	public void rotate (double angle, Point center) {
-		
-	}*/
-
+	
 	public Polygon toPolygon(Coord.View center, double rotation, ViewTransform vtrans) {
-		/*
-		//Point2D.Double[] pts = (Point2D.Double[]) points.toArray();
-		Point2D.Double[] pts = points.toArray(new Point2D.Double[points.size()]);
-		
-		AffineTransform.getRotateInstance(rotation, 0, 0) //center.x(), center.y())
-                .transform(pts,0,pts,0,pts.length);
-		*/
-		
 		rotate(rotation-current_rotation, new Coord(0,0).view);
 		
 		Polygon ret = new Polygon();
@@ -64,7 +42,6 @@ public class PolygonShape {
 		}
 		
 		return ret;
-		//return new Polygon();
 	}
 	
 }

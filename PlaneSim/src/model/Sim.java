@@ -13,13 +13,6 @@ public class Sim {
 	
 	boolean running = true;
 	
-	/**
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-	*/
-	
 	World w;
 	
 	public Sim() {
@@ -38,16 +31,6 @@ public class Sim {
 		running = false;
 	}
 	
-	/*
-	public Iterator<Entity> getEntities() {
-		return w.entities.iterator();
-	}
-	*/
-	/*
-	public ListView<Entity> getEntities() {
-		return new ListView<Entity>(w.entities);
-	}
-	*/
 	public List<Entity> getEntities() {
 		return Collections.unmodifiableList(w.entities);
 	}
@@ -56,14 +39,10 @@ public class Sim {
 	}
 	
 	
-	
 	void update() {
 		w.update();
 		
-		
-		
 	}
-	
 	
 
 }

@@ -41,6 +41,7 @@ public class SimViewPanel extends JPanel {
         
     	sim = s;
     	
+    	/********** DEV TEST: **********/
     	Random r = new Random();
     	int nb = 5;
     	for (int i = 0; i < nb; i++) {
@@ -51,7 +52,7 @@ public class SimViewPanel extends JPanel {
     	}
     	pls.get(0).autoPilot.goTo(pls.get(1));
     	pls.get(1).autoPilot.goTo(pls.get(0));
-    	
+    	/*******************************/
     	
 
 		new Timer().schedule(new TimerTask() {
@@ -64,10 +65,7 @@ public class SimViewPanel extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-
-                //System.out.println("Changed size");
             	
-            	//vtrans.viewSize = (double)getWidth()/100;
             	vtrans.setViewSize(getWidth());
             	
             	that.repaint();
@@ -83,25 +81,26 @@ public class SimViewPanel extends JPanel {
             	
                 switch (e.getButton()) {
                 
-                case MouseEvent.BUTTON1:
+                case MouseEvent.BUTTON1: // Left click
                 	
-                	/*
+                	/* TODO: do unit tests for this
                 	System.out.println(e.getX());
                 	System.out.println(vtrans.getCoord(new Pixel(e.getX(), e.getY())).x);
                 	System.out.println(vtrans.getViewPos(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view).x);
                 	*/
                 	
+                	
+                	/********** DEV TEST: **********/
                 	//sim._debug_backdoor().add( new Plane( vtrans.getCoord(new Pixel(e.getX(), e.getY())).view ) );
                     
                 	for (Plane p: pls)
                 		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view);
-                	
+
+                	/*******************************/
                 	
                     break;
 
-                case MouseEvent.BUTTON3:
-
-                	//System.out.println("ok");
+                case MouseEvent.BUTTON3: // Right click
                 	
                     break;
 
@@ -116,15 +115,10 @@ public class SimViewPanel extends JPanel {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
             	
-            	//System.out.println(e.getPreciseWheelRotation());
-            	
             	double co = Math.pow(1.5, -e.getPreciseWheelRotation());
-
-            	//System.out.println(co);
             	
             	vtrans.zoomIn(new Pixel(e.getX(), e.getY()), co);
             	
-            	//System.out.println(vtrans.scale.x());
             }
 
         });
@@ -157,11 +151,7 @@ public class SimViewPanel extends JPanel {
 
         g2d.setColor(Color.blue);
         
-        //Iterator<Entity> ite = getEntities();
         for (Entity e: sim.getEntities()) {
-        	//g2d.drawRect(e.position.x, e.position.y, 10, 10);
-        	
-        	//System.out.println(e);
         	
         	e.getView().draw(g2d, vtrans);
         	
@@ -171,8 +161,6 @@ public class SimViewPanel extends JPanel {
         g2d.setStroke(new BasicStroke());
 
     }
-	
-	
 	
 	
 }

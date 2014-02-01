@@ -9,9 +9,7 @@ public final class Plane extends Entity {
 	
 	public Plane (Coord.View p) {
 		pos.set(p);
-		//Random r = new Random();
-		//autoPilot.aim = new Coord(r.nextDouble(),r.nextDouble());
-		//autoPilot.goTo(new Coord(r.nextDouble(),r.nextDouble()).view);
+		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
 		spe = 1E-2;
 		
 	}
@@ -19,7 +17,6 @@ public final class Plane extends Entity {
 	@Override
 	public void updateSpecialized(double period) {
 		autoPilot.refresh(period);
-		//autoPilot.refresh();
 	}
 
 	@Override

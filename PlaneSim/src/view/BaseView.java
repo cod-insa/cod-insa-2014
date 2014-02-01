@@ -14,12 +14,14 @@ public class BaseView extends EntityView<Base> {
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
 		
 		Pixel corner = vtrans.getViewPos(entity.position);
+
+		int s = (int) (vtrans.scale.x()*5E-2);
 		
 		g2d.drawOval (
 				corner.x,
 				corner.y,
-				10,
-				10
+				s,
+				s
 			);
 		
 	}
