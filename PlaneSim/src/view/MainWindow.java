@@ -197,14 +197,14 @@ public class MainWindow {
         JMenu mnFile = new JMenu("Application");
         menuBar.add(mnFile);
 
-        JMenuItem mntmQuit = new JMenuItem("Quit");
-        mntmQuit.addActionListener(new ActionListener() {
+        JMenuItem mntmExit = new JMenuItem("Exit");
+        mntmExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 quit();
             }
         });
 
-        mnFile.add(mntmQuit);
+        mnFile.add(mntmExit);
 
         JMenu mnEdit = new JMenu("Edition");
         menuBar.add(mnEdit);
@@ -253,7 +253,7 @@ public class MainWindow {
         final JMenuItem mntmZoomP = new JMenuItem("Zoom +");
         mntmZoomP.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	sim_panel.vtrans.zoomIn(zoomRatio);
+            	sim_panel.vtrans.zoomIn(new Pixel(sim_panel.getWidth()/2, sim_panel.getHeight()/2), zoomRatio);
             }
         });
         mnDisplay.add(mntmZoomP);
@@ -261,7 +261,7 @@ public class MainWindow {
         final JMenuItem mntmZoomM = new JMenuItem("Zoom -");
         mntmZoomM.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	sim_panel.vtrans.zoomIn(1/zoomRatio);
+            	sim_panel.vtrans.zoomIn(new Pixel(sim_panel.getWidth()/2, sim_panel.getHeight()/2), 1/zoomRatio);
             }
         });
         mnDisplay.add(mntmZoomM);
