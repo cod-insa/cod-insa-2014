@@ -39,7 +39,7 @@ public class MainWindow {
 	public final JComboBox<?> some_comboBox;
 	protected final SimViewPanel sim_panel;
 	
-    protected final JButton btnComputePath = new JButton();
+    protected final JButton btnBar = new JButton();
     public JList<? extends String> some_list;
 	
 	Sim sim;
@@ -59,7 +59,7 @@ public class MainWindow {
         slots.add(0,"All");
         some_comboBox = new JComboBox<>(slots.toArray());
         
-        btnComputePath.setText("Bar");
+        btnBar.setText("Bar");
         
         initialize();
         frmPlaneSim.setVisible(true);
@@ -117,8 +117,8 @@ public class MainWindow {
 		
         JPanel panel_top_btns = new JPanel();
         panel_top_btns.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        final JButton btnPrint = new JButton("Baz");
-        btnPrint.addActionListener(new ActionListener() {
+        final JButton btnBaz = new JButton("Baz");
+        btnBaz.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	// TODO
             }
@@ -126,23 +126,31 @@ public class MainWindow {
         
         frmPlaneSim.getContentPane().setLayout(new BorderLayout(0, 0));
         
-        btnComputePath.addActionListener(new ActionListener() {
+        btnBar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 // TODO
             }
         });
         
-        JButton btnChargerZoneDepuis = new JButton("Foo");
-        btnChargerZoneDepuis.addActionListener(new ActionListener() {
+        JButton btnFoo = new JButton("Foo");
+        btnFoo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO
             }
         });
-
         
-        panel_top_btns.add(btnChargerZoneDepuis);
-        panel_top_btns.add(btnComputePath);
-        panel_top_btns.add(btnPrint);
+        JButton btnExit = new JButton("<<  Exit  >>");
+        btnExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            	quit();
+            }
+        });
+        
+        
+        panel_top_btns.add(btnFoo);
+        panel_top_btns.add(btnBar);
+        panel_top_btns.add(btnBaz);
+        panel_top_btns.add(btnExit);
         
 
         GroupLayout gl_panel_1 = new GroupLayout(main_panel);
