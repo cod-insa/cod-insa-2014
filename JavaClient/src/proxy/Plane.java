@@ -1,6 +1,6 @@
 package proxy;
 
-import PlaneModel;
+import model.PlaneModel;
 
 public class Plane {
 	PlaneModel model;

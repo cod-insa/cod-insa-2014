@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import common.Accessors.RAccess;
+
 public class Sim {
 	
 	public final long update_period = 30;
@@ -14,6 +16,18 @@ public class Sim {
 	boolean running = true;
 	
 	World w;
+	
+	//public final Access<List<Entity>> entities = new BasicAccess(w.entities);
+	public final RAccess<List<Entity>> entities = new RAccess<List<Entity>> () {
+		public List<Entity> get() {
+			return Collections.unmodifiableList(w.entities);
+		}
+	};
+	/*// compare to the simpler:
+	public final List<Entity> getEntities() {
+		return Collections.unmodifiableList(w.entities);
+	}
+	*/
 	
 	public Sim() {
 		new World(this); // sets this.w
@@ -35,9 +49,10 @@ public class Sim {
 		w.entities.add(e);
 	}
 	
+	/*
 	public List<Entity> getEntities() {
 		return Collections.unmodifiableList(w.entities);
-	}
+	}*/
 	public List<Entity> _debug_backdoor() { // FIXME
 		return w.entities;
 	}

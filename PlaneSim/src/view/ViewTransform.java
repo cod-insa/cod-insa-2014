@@ -22,23 +22,23 @@ public class ViewTransform {
 	
 	private int viewSize;
 	
-	public ViewTransform(int viewSize) {
+	public ViewTransform (int viewSize) {
 		this.viewSize = viewSize;
 	}
 	
-	public void setViewSize(int viewSize) {
+	public void setViewSize (int viewSize) {
 		this.viewSize = viewSize;
 	}
 
-	public void zoomReset() {
+	public void zoomReset () {
 		_scale.set(Util.unit);
 	}
 	
-	public void zoomIn(double scaleIncreaseRatio) {
+	public void zoomIn (double scaleIncreaseRatio) {
 		_scale.mult(scaleIncreaseRatio);
 	}
 	
-	public void zoomIn(Pixel p, double scaleIncreaseRatio) {
+	public void zoomIn (Pixel p, double scaleIncreaseRatio) {
 		
 		Coord sp = getCoord(p); sp.sub(shift);
 		zoomIn(scaleIncreaseRatio);

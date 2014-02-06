@@ -22,7 +22,6 @@ public final class Plane extends Entity {
 
 	@Override
 	public EntityView<Plane> getView() {
-		//return new PlaneView(this);
 		return view;
 	}
 	

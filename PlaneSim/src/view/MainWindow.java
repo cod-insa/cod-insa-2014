@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -60,9 +61,17 @@ public class MainWindow {
         some_comboBox = new JComboBox<>(slots.toArray());
         
         btnBar.setText("Bar");
+
+        //initialize();
+        //frmPlaneSim.setVisible(true);
         
-        initialize();
-        frmPlaneSim.setVisible(true);
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                initialize();
+                frmPlaneSim.setVisible(true);
+            }
+        });
     }
 
 	public void initialize() {

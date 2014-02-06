@@ -148,13 +148,14 @@ public class SimViewPanel extends JPanel {
 
         g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_BEVEL));
-
+        
         g2d.setColor(Color.lightGray);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
         g2d.setColor(Color.blue);
         
-        for (Entity e: sim.getEntities()) {
+        //for (Entity e: sim.getEntities()) {
+        for (Entity e: sim.entities.get()) {
         	//if (e instanceof Base) System.out.println("ok");
         	
         	e.getView().draw(g2d, vtrans);
