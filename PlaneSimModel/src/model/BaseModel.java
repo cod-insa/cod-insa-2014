@@ -2,10 +2,10 @@ package model;
 
 public class BaseModel {
 
-	protected int id;
-	protected CoordModel coord;
+	public int id;
+	public final Coord coord;
 	
-	public BaseModel(int id, CoordModel c)
+	public BaseModel(int id, Coord c)
 	{
 		this.id = id;
 		this.coord = c;
