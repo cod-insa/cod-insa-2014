@@ -1,6 +1,6 @@
 import model.Sim;
-import view.MainWindow;
 import control.Controller;
+import display.MainWindow;
 
 
 public class Main {

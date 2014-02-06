@@ -1,7 +1,8 @@
 package model;
 
-import view.BaseView;
-import view.EntityView;
+import display.BaseDisplay;
+import display.EntityDisplay;
+
 
 public class Base extends Entity {
 	
@@ -15,8 +16,8 @@ public class Base extends Entity {
 	}
 	
 	@Override
-	public EntityView<Base> getView() {
-		return new BaseView(this);
+	public EntityDisplay<Base> getView() {
+		return new BaseDisplay(this);
 	}
 	
 }

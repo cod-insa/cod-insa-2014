@@ -1,4 +1,4 @@
-package view;
+package display;
 
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;

@@ -1,4 +1,4 @@
-package view;
+package display;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -38,7 +38,7 @@ public class MainWindow {
 	
 	JFrame frmPlaneSim;
 	public final JComboBox<?> some_comboBox;
-	protected final SimViewPanel sim_panel;
+	protected final SimDisplayPanel sim_panel;
 	
     protected final JButton btnBar = new JButton();
     public JList<? extends String> some_list;
@@ -54,7 +54,7 @@ public class MainWindow {
     	sim = s;
     	contr = c;
         
-    	sim_panel = new SimViewPanel(s);
+    	sim_panel = new SimDisplayPanel(s);
     	
     	List<Object> slots = new ArrayList<Object>();
         slots.add(0,"All");

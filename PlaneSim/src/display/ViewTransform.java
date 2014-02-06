@@ -1,4 +1,4 @@
-package view;
+package display;
 
 import model.Coord;
 

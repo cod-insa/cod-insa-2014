@@ -1,11 +1,11 @@
 package model;
 
-import view.EntityView;
-import view.PlaneView;
+import display.EntityDisplay;
+import display.PlaneDisplay;
 
 public final class Plane extends Entity {
 	public final AutoPilot autoPilot = new AutoPilot(this);
-	final PlaneView view = new PlaneView(this);
+	final PlaneDisplay view = new PlaneDisplay(this);
 	
 	public Plane (Sim sim, Coord pos) {
 		super(sim, pos);
@@ -21,7 +21,7 @@ public final class Plane extends Entity {
 	}
 
 	@Override
-	public EntityView<Plane> getView() {
+	public EntityDisplay<Plane> getView() {
 		return view;
 	}
 	

@@ -1,14 +1,14 @@
-package view;
+package display;
 
 import java.awt.Graphics2D;
 
 import model.Entity;
 
-public abstract class EntityView<T extends Entity> {
+public abstract class EntityDisplay<T extends Entity> {
 	
 	T entity;
 	
-	public EntityView(T entity) {
+	public EntityDisplay(T entity) {
 		this.entity = entity;
 	}
 	

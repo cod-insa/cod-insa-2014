@@ -1,4 +1,4 @@
-package view;
+package display;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -22,7 +22,7 @@ import model.Entity;
 import model.Plane;
 import model.Sim;
 
-public class SimViewPanel extends JPanel {
+public class SimDisplayPanel extends JPanel {
 	
     private static final long serialVersionUID = 1L;
     
@@ -33,11 +33,11 @@ public class SimViewPanel extends JPanel {
 	
 	ArrayList<Plane> pls = new ArrayList<Plane>();// FIXME debug
 	
-    public SimViewPanel(Sim s) {
+    public SimDisplayPanel(Sim s) {
     	
         super();
         
-        final SimViewPanel that = this;
+        final SimDisplayPanel that = this;
         
     	sim = s;
 

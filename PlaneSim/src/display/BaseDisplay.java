@@ -1,12 +1,12 @@
-package view;
+package display;
 
 import java.awt.Graphics2D;
 
 import model.Base;
 
-public class BaseView extends EntityView<Base> {
+public class BaseDisplay extends EntityDisplay<Base> {
 
-	public BaseView (Base b) {
+	public BaseDisplay (Base b) {
 		super(b);
 	}
 

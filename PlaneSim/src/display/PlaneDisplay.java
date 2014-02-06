@@ -1,4 +1,4 @@
-package view;
+package display;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 import model.Plane;
 
-public class PlaneView extends EntityView<Plane> {
+public class PlaneDisplay extends EntityDisplay<Plane> {
 	
 	PolygonShape shape;
 
-	public PlaneView (Plane p) {
+	public PlaneDisplay (Plane p) {
 		super(p);
 		
 		ArrayList<Point2D.Double> points = new ArrayList<>();

@@ -1,4 +1,4 @@
-package view;
+package display;
 
 public class Pixel {
 	final int x, y;

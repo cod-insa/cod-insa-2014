@@ -1,6 +1,7 @@
 package model;
 
-import view.EntityView;
+import display.EntityDisplay;
+
 
 
 public abstract class Entity {
@@ -47,7 +48,7 @@ public abstract class Entity {
 	}
 	public abstract void updateSpecialized(double period);
 	
-	public abstract EntityView<?> getView();
+	public abstract EntityDisplay<?> getView();
 
 }
 
