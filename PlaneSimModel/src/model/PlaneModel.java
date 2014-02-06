@@ -2,12 +2,12 @@ package model;
 
 public class PlaneModel {
 	
-	protected int id;
-	protected CoordModel coord;
-	protected double rotation; //FIXME usefull ? On peut g�rer �a uniquement sur le moteur de jeu et �pargner les IA de �a
-	protected int curHealthPoints;
+	public final int id;
+	public final Coord coord;
+	public double rotation; 
+	public int curHealthPoints;
 	
-	public PlaneModel(int id, CoordModel c, double r, int chp)
+	public PlaneModel(int id, Coord c, double r, int chp)
 	{
 		this.id = id;
 		this.coord = c;
