@@ -1,3 +1,3 @@
-package commands;
+package command;
 
 public interface Command {}
