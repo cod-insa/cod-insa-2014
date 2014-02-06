@@ -3,8 +3,9 @@ import java.util.ArrayList;
 
 import network.CommandSender;
 import network.IncomingData;
-import model.PlaneModel;
-import commands.Command;
+
+import command.Command;
+
 import datas.Base;
 import datas.Plane;
 

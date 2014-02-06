@@ -1,5 +1,5 @@
 package network;
-import commands.Command;
+import command.Command;
 
 
 public class CommandSender extends Thread {
