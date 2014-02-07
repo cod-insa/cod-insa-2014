@@ -37,7 +37,7 @@ public class Proxy
 		//return killed_planes;
 		return null; // TODO
 	}
-	public ArrayList<BaseModel.View> getBases()
+	public ArrayList<Base.View> getBases()
 	{
 		//return bases;
 		return null; // TODO
