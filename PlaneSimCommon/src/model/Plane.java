@@ -16,4 +16,5 @@ public class Plane extends Entity implements Serializable {
 	public Plane(int id, Coord pos) {
 		super(id,pos);
 	}
+	
 }

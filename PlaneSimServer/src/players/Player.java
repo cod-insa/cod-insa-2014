@@ -6,6 +6,6 @@ import command.Command;
 
 public interface Player {
 	
-	List<Command> getCommands();
+	List<Command> flushCommands();
 
 }

@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import common.Accessors.RAccess;
 
+import control.Controller;
 import display.Displayer;
 
 public class Sim {
@@ -16,6 +17,7 @@ public class Sim {
 	Displayer disp;
 	
 	int current_frame = 0;
+	public int getCurrentFrame() { return current_frame; }
 	
 	boolean running = true;
 	
@@ -41,6 +43,8 @@ public class Sim {
             @Override
             public void run() {
             	update();
+            	Controller.get().update(Sim.this);
+            	current_frame++;
             }
         }, update_period, update_period);
 		
@@ -76,6 +80,13 @@ public class Sim {
 		
 	}
 	
+	public Plane getPlane(int planeId) {
+		// FIXME use a hashmap instead
+		for (Entity<?> e: entities.get())
+			if (e instanceof Plane && ((Plane)e).id == planeId)
+				return (Plane)e;
+		throw new Error("Not found"); // FIXME better exception
+	}
 
 }
 

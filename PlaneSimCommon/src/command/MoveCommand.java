@@ -1,26 +1,22 @@
 package command;
 
 import model.Coord;
-import model.Plane;
 
 public class MoveCommand implements Command {
+
+	//public final Plane plane;
+	public final int planeId;
 	
-	private Plane plane;
-	private Coord destination;
-	
-	public MoveCommand(Plane pm, Coord cm)
+	final Coord _dest;
+	public final Coord.View destination;
+
+	//public MoveCommand(Plane p, Coord d)
+	public MoveCommand(int pid, Coord d)
 	{
-		plane = pm;
-		destination = cm;
+		//plane = p;
+		planeId = pid;
+		_dest = d;
+		destination = _dest.view;
 	}
-	
-	public Plane getPlane() {
-		return plane;
-	}
-
-	public Coord getDestination() {
-		return destination;
-	}
-
 	
 }

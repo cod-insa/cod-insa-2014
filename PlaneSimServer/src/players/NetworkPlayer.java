@@ -1,5 +1,10 @@
 package players;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import command.Command;
+
 /**
  * @author LP
  *
@@ -11,7 +16,27 @@ package players;
  we will accumulate the decisions here and return them all in a list, following IA's interface
 */
 
-public class NetworkPlayer /* implements Player */ {
+public class NetworkPlayer implements Player {
+	
+	private List<Command> commands = new ArrayList<>();
+
+	public NetworkPlayer(String ip, int port) {
+		// TODO
+	}
+	
+	 // FIXME for debug
+	public void addCommand(Command c) {
+		commands.add(c);
+	}
+
+	@Override
+	public List<Command> flushCommands() {
+		//System.out.println(commands.size());
+		// TODO
+		List<Command> coms = commands;
+		commands = new ArrayList<>();
+		return coms;
+	}
 	
 }
 

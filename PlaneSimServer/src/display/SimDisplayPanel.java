@@ -23,6 +23,11 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 
 import model.Coord;
+import players.NetworkPlayer;
+
+import command.MoveCommand;
+
+import control.Controller;
 
 
 public class SimDisplayPanel extends JPanel {
@@ -105,9 +110,15 @@ public class SimDisplayPanel extends JPanel {
                 	
                 	//sim._debug_backdoor().add( new Plane( vtrans.getCoord(new Pixel(e.getX(), e.getY())).view ) );
                     
+                	/*
                 	for (Plane p: pls)
                 		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view);
-
+					*/
+                	
+                	for (Plane p: pls)
+                		((NetworkPlayer)Controller.get().getPlayers().get(0)).addCommand(
+                				new MoveCommand(p.id, vtrans.getCoord(new Pixel(e.getX(), e.getY()))));
+                	
                 	/*************************************/
                 	
                     break;
