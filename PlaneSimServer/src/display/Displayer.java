@@ -11,7 +11,7 @@ public class Displayer {
 	//List<Entity>[] entities = {new ArrayList<>()};
 	
 	@SuppressWarnings("serial")
-	static class EntityList extends ArrayList<Entity> {}
+	static class EntityList extends ArrayList<Entity<?>> {}
 	
 	final EntityList[] entities;
 	
@@ -21,7 +21,7 @@ public class Displayer {
 			entities[i] = new EntityList();
 	}
 	
-	public void addEntity(Entity e) {
+	public void addEntity(Entity<?> e) {
 		entities[e.altitude.ordinal()].add(e);
 	}
 	

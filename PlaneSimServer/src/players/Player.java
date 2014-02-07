@@ -2,8 +2,10 @@ package players;
 
 import java.util.List;
 
+import command.Command;
+
 public interface Player {
 	
-	List<Action> getActions();
+	List<Command> getCommands();
 
 }

@@ -165,8 +165,8 @@ public class SimDisplayPanel extends JPanel {
         
         //for (Entity e: sim.getEntities()) {
         //for (Entity e: sim.entities.get()) {
-        for (List<Entity> els : disp.entities)
-        	for (Entity e: els) {
+        for (List<Entity<?>> els : disp.entities)
+        	for (Entity<?> e: els) {
             	//if (e instanceof Base) System.out.println("ok");
             	
             	e.getView().draw(g2d, vtrans);

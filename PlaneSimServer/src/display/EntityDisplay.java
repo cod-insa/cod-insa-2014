@@ -5,7 +5,7 @@ import game.Entity;
 import java.awt.Graphics2D;
 
 
-public abstract class EntityDisplay<T extends Entity> {
+public abstract class EntityDisplay<T extends Entity<?>> {
 	
 	T entity;
 	
