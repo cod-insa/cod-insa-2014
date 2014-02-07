@@ -1,8 +1,10 @@
 package display;
 
+import game.Base;
+
+import java.awt.Color;
 import java.awt.Graphics2D;
 
-import model.Base;
 
 public class BaseDisplay extends EntityDisplay<Base> {
 
@@ -25,11 +27,13 @@ public class BaseDisplay extends EntityDisplay<Base> {
 			);
 		*/
 		
-		double size = 5E-2;
-		Pixel left = vtrans.getViewPos(entity.position.add(-size/2).view);
-		Pixel right = vtrans.getViewPos(entity.position.add(size/2).view);
+		g2d.setColor(Color.red);
 		
-		g2d.drawOval (
+		double size = 5E-2;
+		Pixel left = vtrans.getViewPos(entity.vModel.position.add(-size/2).view);
+		Pixel right = vtrans.getViewPos(entity.vModel.position.add(size/2).view);
+		
+		g2d.fillOval (
 				left.x,
 				left.y,
 				right.x-left.x,

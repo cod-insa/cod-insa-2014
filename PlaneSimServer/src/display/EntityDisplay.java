@@ -1,8 +1,9 @@
 package display;
 
+import game.Entity;
+
 import java.awt.Graphics2D;
 
-import model.Entity;
 
 public abstract class EntityDisplay<T extends Entity> {
 	

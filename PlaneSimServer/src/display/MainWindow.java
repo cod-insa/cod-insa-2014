@@ -1,5 +1,7 @@
 package display;
 
+import game.Sim;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -31,7 +33,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import model.Sim;
 import control.Controller;
 
 public class MainWindow {
@@ -50,11 +51,11 @@ public class MainWindow {
      * Create the application.
      */
     @SuppressWarnings({ })
-    public MainWindow(Sim s, Controller c) {
+    public MainWindow(Displayer disp, Sim s, Controller c) {
     	sim = s;
     	contr = c;
         
-    	sim_panel = new SimDisplayPanel(s);
+    	sim_panel = new SimDisplayPanel(disp, s);
     	
     	List<Object> slots = new ArrayList<Object>();
         slots.add(0,"All");

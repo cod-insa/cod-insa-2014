@@ -1,13 +1,12 @@
 package proxy;
 import java.util.ArrayList;
 
+import model.Base;
+import model.Plane;
 import network.CommandSender;
 import network.IncomingData;
 
 import command.Command;
-
-import datas.Base;
-import datas.Plane;
 
 
 public class Proxy 
@@ -28,17 +27,20 @@ public class Proxy
 		ai_planes = new ArrayList<Plane>();
 		killed_planes = new ArrayList<Plane>();
 	}
-	public ArrayList<Plane> getMyPlanes()
+	public ArrayList<Plane.View> getMyPlanes()
 	{
-		return ai_planes;
+		//return ai_planes;
+		return null; // TODO
 	}
-	public ArrayList<Plane> getKilledPlanes()
+	public ArrayList<Plane.View> getKilledPlanes()
 	{
-		return killed_planes;
+		//return killed_planes;
+		return null; // TODO
 	}
-	public ArrayList<Base> getBases()
+	public ArrayList<BaseModel.View> getBases()
 	{
-		return bases;
+		//return bases;
+		return null; // TODO
 	}
 	public void updateSimFrame()
 	{

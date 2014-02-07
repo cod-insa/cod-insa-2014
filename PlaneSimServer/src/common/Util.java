@@ -1,8 +1,10 @@
 package common;
 
+
 import java.util.Random;
 
 import model.Coord;
+
 
 public class Util {
 

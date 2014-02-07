@@ -1,21 +1,24 @@
-import model.Sim;
+import game.Sim;
 import control.Controller;
+import display.Displayer;
 import display.MainWindow;
 
 
 public class Main {
-
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		//System.out.println("Hello World!");
 		
-		Sim s = new Sim();
+		Displayer d = new Displayer();
+		
+		Sim s = new Sim(d);
 		
 		Controller c = new Controller();
 		
-		new MainWindow(s, c);
+		new MainWindow(d, s, c);
 		
 	}
 

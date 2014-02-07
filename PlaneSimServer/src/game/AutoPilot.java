@@ -1,4 +1,6 @@
-package model;
+package game;
+
+import model.Coord;
 
 
 public final class AutoPilot {
@@ -10,7 +12,7 @@ public final class AutoPilot {
 	private final Coord _aim = new Coord(0,0);
 	public final Coord.View currentAim = _aim.view;
 	
-	private Entity entityAim = null;
+	private Entity<?> entityAim = null;
 	
 	public AutoPilot(Plane p) {
 		plane = p;
@@ -20,7 +22,7 @@ public final class AutoPilot {
 		entityAim = null;
 		_aim.set(aim);
 	}
-	public void goTo(Entity e) {
+	public void goTo(Entity<?> e) {
 		if (e == plane)
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		entityAim = e;
@@ -30,11 +32,11 @@ public final class AutoPilot {
 		
 		// The following branch executes if there is an entityAim and if it exists;
 		// if it doesn't exist it sets it to null and doesn't execute the branch
-		if (entityAim != null && (entityAim.exists() || (entityAim = null) != null)) {
-			_aim.set(entityAim.position);
+		if (entityAim != null && (entityAim.model.exists() || (entityAim = null) != null)) {
+			_aim.set(entityAim.model.position);
 		}
 		
-		double aimAngle = Math.atan2(_aim.y-plane.position.y(), _aim.x-plane.position.x()) + Math.PI*2 - plane.rotation();
+		double aimAngle = Math.atan2(_aim.y-plane.model.position.y(), _aim.x-plane.model.position.x()) + Math.PI*2 - plane.model.rotation();
 		
 		aimAngle %= Math.PI*2;
 		
@@ -47,7 +49,7 @@ public final class AutoPilot {
 		double delta = aimAngle > mrs? mrs: aimAngle;
 		delta = delta < -mrs? -mrs: delta;
 		
-		plane.rotate(delta);
+		plane.model.rotate(delta);
 		
 	}
 	

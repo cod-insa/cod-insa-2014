@@ -1,5 +1,9 @@
 package display;
 
+import game.Entity;
+import game.Plane;
+import game.Sim;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,9 +23,7 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 
 import model.Coord;
-import model.Entity;
-import model.Plane;
-import model.Sim;
+
 
 public class SimDisplayPanel extends JPanel {
 	
@@ -30,12 +33,16 @@ public class SimDisplayPanel extends JPanel {
 	
 	Sim sim;
 	ViewTransform vtrans = new ViewTransform(getWidth());
+	Displayer disp = new Displayer();
 	
 	ArrayList<Plane> pls = new ArrayList<Plane>();// FIXME debug
 	
-    public SimDisplayPanel(Sim s) {
+    public SimDisplayPanel(Displayer disp, Sim s) {
     	
         super();
+        
+        //s.setDisplayer(disp);
+        this.disp = disp;
         
         final SimDisplayPanel that = this;
         
@@ -53,6 +60,8 @@ public class SimDisplayPanel extends JPanel {
     	}
     	pls.get(0).autoPilot.goTo(pls.get(1));
     	pls.get(1).autoPilot.goTo(pls.get(0));
+    	
+		//new Base(sim, new Coord(.3,.6));
     	
     	/*************************************/
     	
@@ -155,13 +164,15 @@ public class SimDisplayPanel extends JPanel {
         g2d.setColor(Color.blue);
         
         //for (Entity e: sim.getEntities()) {
-        for (Entity e: sim.entities.get()) {
-        	//if (e instanceof Base) System.out.println("ok");
-        	
-        	e.getView().draw(g2d, vtrans);
-        	
-        	
-        }
+        //for (Entity e: sim.entities.get()) {
+        for (List<Entity> els : disp.entities)
+        	for (Entity e: els) {
+            	//if (e instanceof Base) System.out.println("ok");
+            	
+            	e.getView().draw(g2d, vtrans);
+            	
+            }
+        
         
 
         g2d.setStroke(new BasicStroke());
