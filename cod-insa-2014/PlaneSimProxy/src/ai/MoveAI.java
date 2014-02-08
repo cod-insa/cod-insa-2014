@@ -17,14 +17,16 @@ public class MoveAI {
 	{
 		prox = new Proxy();
 
-		ArrayList<Base.View> bases = prox.getBases();
-		for (Plane.View p : prox.getMyPlanes())
+		prox.updateSimFrame();
+		
+		ArrayList<Base> bases = prox.bases;
+		for (Plane p : prox.ai_planes)
 		{
 			// Get a random base :
-			Base.View b = bases.get(new Random().nextInt(bases.size()));
+			Base b = bases.get(new Random().nextInt(bases.size()));
 			
 			// Make and send a MoveCommand with the plane to the random base
-			MoveCommand mc = new MoveCommand(p.id(),b.position);
+			MoveCommand mc = new MoveCommand(p.id,b._pos);
 			prox.sendCommand(mc);
 		}
 		
