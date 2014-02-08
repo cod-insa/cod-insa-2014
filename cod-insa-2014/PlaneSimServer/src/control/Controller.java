@@ -17,7 +17,7 @@ public class Controller {
 	public static Controller get() { return single; }
 	
 	int period;
-	List<Player> players = new ArrayList<>();
+	List<Player> players = new ArrayList<Player>();
 	
 	public List<Player> getPlayers() {
 		return Collections.unmodifiableList(players);

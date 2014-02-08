@@ -15,7 +15,7 @@ public class PlaneDisplay extends EntityDisplay<Plane> {
 	public PlaneDisplay (Plane p) {
 		super(p);
 		
-		ArrayList<Point2D.Double> points = new ArrayList<>();
+		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
 		
 		points.add(new Point2D.Double(5, 0));
 		points.add(new Point2D.Double(-10, -5));

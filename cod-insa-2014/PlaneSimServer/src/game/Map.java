@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Map {
 	
-	List<Base> bases = new ArrayList<>();
+	List<Base> bases = new ArrayList<Base>();
 	
 	
 	

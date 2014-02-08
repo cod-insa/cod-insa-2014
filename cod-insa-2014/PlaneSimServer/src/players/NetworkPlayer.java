@@ -18,7 +18,7 @@ import command.Command;
 
 public class NetworkPlayer implements Player {
 	
-	private List<Command> commands = new ArrayList<>();
+	private List<Command> commands = new ArrayList<Command>();
 
 	public NetworkPlayer(String ip, int port) {
 		// TODO
@@ -34,7 +34,7 @@ public class NetworkPlayer implements Player {
 		//System.out.println(commands.size());
 		// TODO
 		List<Command> coms = commands;
-		commands = new ArrayList<>();
+		commands = new ArrayList<Command>();
 		return coms;
 	}
 	

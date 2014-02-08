@@ -9,7 +9,7 @@ public class World {
 	
 	Map map;
 	
-	List<Entity<?>> entities = new ArrayList<>();
+	List<Entity<?>> entities = new ArrayList<Entity<?>>();
 	
 	public World (Sim sim) {
 		sim.w = this;
