@@ -26,6 +26,7 @@ public class Proxy
 		cm = new CommandSender();
 		ai_planes = new ArrayList<Plane>();
 		killed_planes = new ArrayList<Plane>();
+		bases = new ArrayList<Base>();
 	}
 	public ArrayList<Plane.View> getMyPlanes()
 	{
