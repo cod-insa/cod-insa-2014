@@ -18,29 +18,27 @@ package network;
  * under the License.
  */
 
+import genbridge.*;
+
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TServer.Args;
 import org.apache.thrift.server.TSimpleServer;
-import org.apache.thrift.server.TThreadPoolServer;
-import org.apache.thrift.transport.TSSLTransportFactory;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
-import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.HashMap;
+public class BridgeJavaServer {
 
-public class JavaServer {
+  public static BridgeHandler handler;
 
-	/*
-  public static CalculatorHandler handler;
-
-  public static Calculator.Processor processor;
+  public static Bridge.Processor processor;
 
   public static void main(String [] args) {
+	  
     try {
-      handler = new CalculatorHandler();
-      processor = new Calculator.Processor(handler);
+      handler = new BridgeHandler();
+      processor = new Bridge.Processor(handler);
 
       Runnable simple = new Runnable() {
         public void run() {
@@ -58,9 +56,9 @@ public class JavaServer {
     } catch (Exception x) {
       x.printStackTrace();
     }
-  }*/
+  }
 
-  /*public static void simple(Calculator.Processor processor) {
+  public static void simple(Bridge.Processor processor) {
     try {
       TServerTransport serverTransport = new TServerSocket(9090);
       TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
@@ -73,10 +71,14 @@ public class JavaServer {
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }*/
+  }
 
-  /*public static void secure(Calculator.Processor processor) {
-    try {*/
+  public static void secure(Bridge.Processor processor) {
+	  throw new NotImplementedException();
+  }
+  
+  
+    /*try {*/
       /*
        * Use TSSLTransportParameters to setup the required SSL parameters. In this example
        * we are setting the keystore and the keystore password. Other things like algorithms,
