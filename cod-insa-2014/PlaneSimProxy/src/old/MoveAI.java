@@ -1,12 +1,10 @@
-package ai;
+package old;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import model.Base;
 import model.Plane;
-import proxy.Proxy;
-
 import command.MoveCommand;
 
 public class MoveAI {

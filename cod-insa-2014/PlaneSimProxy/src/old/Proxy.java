@@ -1,11 +1,8 @@
-package proxy;
+package old;
 import java.util.ArrayList;
 
 import model.Base;
 import model.Plane;
-import network.CommandSender;
-import network.IncomingData;
-
 import command.Command;
 
 
