@@ -17,6 +17,8 @@ public class MoveAI {
 	{
 		prox = new Proxy();
 
+		prox.updateSimFrame();
+		
 		ArrayList<Base.View> bases = prox.getBases();
 		for (Plane.View p : prox.getMyPlanes())
 		{
