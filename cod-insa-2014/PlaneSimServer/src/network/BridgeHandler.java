@@ -2,6 +2,7 @@ package network;
 
 import genbridge.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.thrift.TException;
@@ -16,14 +17,14 @@ public class BridgeHandler implements Bridge.Iface{
 public List<Plane> getMyPlanes() throws TException {
 	System.out.println("getMyPlanes called");
 	// TODO Auto-generated method stub
-	return null;
+	return new ArrayList<Plane>();
 }
 
 @Override
 public List<Plane> getMyBases() throws TException {
 	System.out.println("getMyBases called");
 	// TODO Auto-generated method stub
-	return null;
+	return new ArrayList<Plane>();
 }
 
 @Override
@@ -38,7 +39,7 @@ public boolean addActionToPerform(Action a) throws InvalidActionException,
 public Status getActionsListStatus() throws TException {
 	System.out.println("getActionsListStatus called");
 	// TODO Auto-generated method stub
-	return null;
+	return Status.WAITING;
 }
 
 @Override

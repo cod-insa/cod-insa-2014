@@ -58,10 +58,15 @@ public class BridgeJavaClient {
  
 	  //Call server side methods from here
 	  
+	  System.out.println("Call getMyPlanes");
 	  client.getMyPlanes();
-	  client.getMyPlanes();
+	  System.out.println("Call getMyBases");
+	  client.getMyBases();
+	  System.out.println("Call build_plane");
 	  client.build_plane(0);
+	  System.out.println("Call getActionsListStatus");
 	  client.getActionsListStatus();
+	  System.out.println("Call addActionToPerform");
 	  client.addActionToPerform(null);
 	  
   }

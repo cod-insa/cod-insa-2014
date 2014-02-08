@@ -47,7 +47,7 @@ public class BridgeJavaServer {
       };      
       Runnable secure = new Runnable() {
         public void run() {
-          secure(processor);
+          //secure(processor);
         }
       };
 
