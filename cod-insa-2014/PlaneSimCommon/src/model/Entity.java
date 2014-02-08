@@ -4,7 +4,6 @@ package model;
 public class Entity {
 	
 	public class View {
-		public int id() { return id; }
 		public final Coord.View position = _pos.view;
 		public double rotation() { return _rot; }
 		public double speed() { return _spe; }
