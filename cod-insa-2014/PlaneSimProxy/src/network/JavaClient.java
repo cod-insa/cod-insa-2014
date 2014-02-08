@@ -19,8 +19,6 @@ package network;
  */
 
 // Generated code
-import tutorial.*;
-import shared.*;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TSSLTransportFactory;
@@ -60,18 +58,19 @@ public class JavaClient {
         transport = TSSLTransportFactory.getClientSocket("localhost", 9091, 0, params);
       }
 
-      TProtocol protocol = new  TBinaryProtocol(transport);
+      /*TProtocol protocol = new  TBinaryProtocol(transport);
       Calculator.Client client = new Calculator.Client(protocol);
 
       perform(client);
 
-      transport.close();
+      transport.close();*/
     } catch (TException x) {
       x.printStackTrace();
     } 
   }
+  
 
-  private static void perform(Calculator.Client client) throws TException
+  /*private static void perform(Calculator.Client client) throws TException
   {
     client.ping();
     System.out.println("ping()");
@@ -103,5 +102,5 @@ public class JavaClient {
 
     SharedStruct log = client.getStruct(1);
     System.out.println("Check log: " + log.value);
-  }
+  }*/
 }

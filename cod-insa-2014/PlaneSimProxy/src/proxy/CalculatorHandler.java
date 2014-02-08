@@ -22,9 +22,9 @@ package proxy;
 
 import java.util.HashMap;
 
-public class CalculatorHandler implements Calculator.Iface {
+public class CalculatorHandler /*mplements Calculator.Iface*/ {
 
-  private HashMap<Integer,SharedStruct> log;
+  /*private HashMap<Integer,SharedStruct> log;
 
   public CalculatorHandler() {
     log = new HashMap<Integer, SharedStruct>();
@@ -84,6 +84,6 @@ public class CalculatorHandler implements Calculator.Iface {
   public void zip() {
     System.out.println("zip()");
   }
-
+*/
 }
 
