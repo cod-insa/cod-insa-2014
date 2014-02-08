@@ -117,7 +117,8 @@ public class SimDisplayPanel extends JPanel {
                 	
                 	for (Plane p: pls)
                 		((NetworkPlayer)Controller.get().getPlayers().get(0)).addCommand(
-                				new MoveCommand(p.id, vtrans.getCoord(new Pixel(e.getX(), e.getY()))));
+                				//new MoveCommand(p.id, vtrans.getCoord(new Pixel(e.getX(), e.getY()))));
+                				new MoveCommand(p.id, vtrans.getCoord(new Pixel(e.getX(), e.getY())).view));
                 	
                 	/*************************************/
                 	
