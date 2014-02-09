@@ -1,21 +1,24 @@
-import org.apache.thrift.TException;
+package ai;
 
-import genbridge.Bridge;
+import proxy.Proxy;
 
 
-public class BasicAI{
+public abstract class AbstractAI{
 
-	Bridge.Client client;
+	Proxy proxy;
 	
-	public BasicAI(Bridge.Client client) {
-		this.client = client;
+	
+	public AbstractAI(Proxy p) {
+		proxy = p;
 	}
 	
 	/**
-	 * Teams work starts here
+	 * 
 	 */
-	public void thinkAboutWhatToDo()
+	public abstract void think();
+	/*
 	{
+		// Testing
 		try {
 			  client.getMyBases();
 			  System.out.println("Call getMyPlanes");
@@ -32,5 +35,5 @@ public class BasicAI{
 		} catch (TException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
