@@ -1,3 +1,4 @@
+import network.BridgeJavaServer;
 import game.Sim;
 import players.NetworkPlayer;
 import players.Player;
@@ -12,7 +13,10 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//System.out.println("Hello World!");
+		
+		System.out.println("--- CODINSA 2014 --- Plane simulation server");
+		
+		BridgeJavaServer server = BridgeJavaServer.startServer(9090);
 		
 		Player ai = new NetworkPlayer("localhost", 1515);
 		

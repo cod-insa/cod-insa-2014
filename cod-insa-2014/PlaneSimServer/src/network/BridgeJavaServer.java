@@ -21,91 +21,79 @@ package network;
 import genbridge.*;
 
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TServer.Args;
-import org.apache.thrift.server.TSimpleServer;
+import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+/**
+ * BridgeJavaServer is the server communicating over IP
+ * with all clients. Single and thread.
+ * @author Nicolas Vailliet
+ */
+public class BridgeJavaServer extends Thread{
 
-public class BridgeJavaServer {
+	private static BridgeJavaServer instance = null;
+	private BridgeHandler handler;
+	private Bridge.Processor processor;
+	private TServer server;
+	private int port = 9090;
+	
+	private BridgeJavaServer(int port)
+	{
+		this.port = port;
+		handler = new BridgeHandler();
+		processor = new Bridge.Processor(handler);
+	}
+	
+	/**
+	 * 
+	 * @param port
+	 * @return the unique instance of BridgeJavaServer
+	 */
+	public static BridgeJavaServer startServer(int port)
+	{
+		if(instance == null)
+			instance = new BridgeJavaServer(port);
+		if(!instance.isAlive())
+			instance.start();
+		return instance;
+	}
 
-  public static BridgeHandler handler;
+	/**
+	 * Run function
+	 * The handler handles all requests from clients
+	 * The processor, coming from Thrift, allows communication
+	 *  Simple multithreaded server (not secure version)
+	 */
+	@Override
+	public void run() {
+		super.run();
+		try {
+			TServerTransport serverTransport = new TServerSocket(port);
+			server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
+			System.out.println("Starting the server at localhost:"+port+"...");
+			server.serve();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-  public static Bridge.Processor processor;
-
-  public static void main(String [] args) {
-	  
-    try {
-      handler = new BridgeHandler();
-      processor = new Bridge.Processor(handler);
-
-      Runnable simple = new Runnable() {
-        public void run() {
-          simple(processor);
-        }
-      };      
-      Runnable secure = new Runnable() {
-        public void run() {
-          //secure(processor);
-        }
-      };
-
-      new Thread(simple).start();
-      new Thread(secure).start();
-    } catch (Exception x) {
-      x.printStackTrace();
-    }
-  }
-
-  public static void simple(Bridge.Processor processor) {
-    try {
-      TServerTransport serverTransport = new TServerSocket(9090);
-      TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
-
-      // Use this for a multithreaded server
-      // TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-
-      System.out.println("Starting the simple server...");
-      server.serve();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static void secure(Bridge.Processor processor) {
-	  throw new NotImplementedException();
-  }
-  
-  
-    /*try {*/
-      /*
-       * Use TSSLTransportParameters to setup the required SSL parameters. In this example
-       * we are setting the keystore and the keystore password. Other things like algorithms,
-       * cipher suites, client auth etc can be set. 
-       */
-     /* TSSLTransportParameters params = new TSSLTransportParameters();
-      // The Keystore contains the private key
-      params.setKeyStore(".keystore", "thrift", null, null);
-*/
-      /*
-       * Use any of the TSSLTransportFactory to get a server transport with the appropriate
-       * SSL configuration. You can use the default settings if properties are set in the command line.
-       * Ex: -Djavax.net.ssl.keyStore=.keystore and -Djavax.net.ssl.keyStorePassword=thrift
-       * 
-       * Note: You need not explicitly call open(). The underlying server socket is bound on return
-       * from the factory class. 
-       */
-     /* TServerTransport serverTransport = TSSLTransportFactory.getServerSocket(9091, 0, null, params);
-      TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
-
-      // Use this for a multi threaded server
-      // TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-
-      System.out.println("Starting the secure server...");
-      server.serve();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }*/
+	/**
+	 * Stop the server
+	 */
+	public void stopServer()
+	{
+		if(server.isServing())
+			server.stop();
+	}
+	
+	/**
+	 * Restart server
+	 */
+	public void restartServer()
+	{
+		if(server.isServing())
+			server.stop();
+		server.serve();
+	}
 }
