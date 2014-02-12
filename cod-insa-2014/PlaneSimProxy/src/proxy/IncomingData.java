@@ -28,18 +28,27 @@ public class IncomingData implements Runnable {
 	public void initDatas()
 	{
 		// Rien pour le moment
-		// Peut-être les pays, les sous de départ, la taille de la carte ce genre de choses qui peut varier selon les maps.
+		// Peut-ï¿½tre les pays, les sous de dï¿½part, la taille de la carte ce genre de choses qui peut varier selon les maps.
 	}
 	
 	public void updateDatas()
 	{
 
+		int id;
+		try {
+			id = client.connect("Banane");
+			client.retrieveData(id);
+		} catch (TException e) {
+			e.printStackTrace();
+		}
+		
+		
 		// ArrayList<Base> b = client.getMyBases(); Notworking there
 
-		// Appel aux différentes requêtes de manière asynchrones vers le serveur pour récupérer les données.
+		// Appel aux diffï¿½rentes requï¿½tes de maniï¿½re asynchrones vers le serveur pour rï¿½cupï¿½rer les donnï¿½es.
 		
-		// Attente de toutes les réponses. bloquant
-		// Ce sera bloquant ici. Tant qu'il n'y a pas eu la première itération, rien ne bouge sur le client. Il est prêt à partir.
+		// Attente de toutes les rï¿½ponses. bloquant
+		// Ce sera bloquant ici. Tant qu'il n'y a pas eu la premiï¿½re itï¿½ration, rien ne bouge sur le client. Il est prï¿½t ï¿½ partir.
 		updateDatas();
 	}
 

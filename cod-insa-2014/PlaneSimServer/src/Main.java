@@ -8,7 +8,6 @@ import control.Controller;
 import display.Displayer;
 import display.MainWindow;
 
-
 public class Main {
 	
 	/**

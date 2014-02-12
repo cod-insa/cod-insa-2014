@@ -45,6 +45,8 @@ public class MoveAI extends AbstractAI
 	public void think() {
 		// TODO Let's write the code here
 		
+		
+		
 	}
 	
 	public static void main(String[] args) 
