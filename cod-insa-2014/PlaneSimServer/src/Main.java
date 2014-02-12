@@ -19,6 +19,16 @@ public class Main {
 		//TODO passing port and number of players by argument
 		int port = 9090;
 		int nbplay = 2;
+
+		//FIXME
+		//Displayer d = new Displayer();
+		Controller c = new Controller(50);
+		//Player ai = new NetworkPlayer("localhost", 1515);
+		// new LocalHumanPlayer()
+		//c.addPlayer(ai);
+		//new MainWindow(d, s, c); //and the server to stop it when clicking on cross?
+		
+		
 		
 		System.out.println("--- CODINSA 2014 --- Plane simulation server");
 		
@@ -34,27 +44,9 @@ public class Main {
 		//Starting the server to accept players
 		BridgeJavaServer server = BridgeJavaServer.startServer(port,handler);
 		
-		try {
-			server.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}	
-		finally
-		{		
 		//Shuts down the server
-		server.stopServer();
-		}
-				
-		//Displayer d = new Displayer();
-		//
-		//Controller c = new Controller(50);
+		//server.stopServer();
 		
-		//Player ai = new NetworkPlayer("localhost", 1515);
-		// new LocalHumanPlayer()
-		//c.addPlayer(ai);
-		
-		//new MainWindow(d, s, c); //and the server to stop it when clicking on cross?
 	}
-
 }
 

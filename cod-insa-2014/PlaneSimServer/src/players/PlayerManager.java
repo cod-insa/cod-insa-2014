@@ -53,4 +53,15 @@ public class PlayerManager {
 			planeSimul.start();
 		}
 	}
+	
+	
+	
+	public Player getPlayerById(int playerID)
+	{
+		String res = "Unknown";
+		for (Player p : players) 
+			if(p.getPlayerID() == playerID)
+				return p;
+		return null;
+	}
 }

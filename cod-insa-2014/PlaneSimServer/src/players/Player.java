@@ -10,6 +10,6 @@ public interface Player {
 	void addCommand(Command c);
     int getPlayerID();
     String getTeamName();
-
+    int getFrameNumber();
 	
 }

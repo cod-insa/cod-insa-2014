@@ -22,11 +22,13 @@ public class NetworkPlayer implements Player {
 	private List<Command> commands = new ArrayList<Command>();
 	private int playerID;
 	private String teamName;
+	private int frameNumber;
 	
 	
 	public NetworkPlayer(String name) {
 		this.teamName = name;
 		this.playerID = name.hashCode();
+		this.frameNumber = 0;
 	}
 	
 	// FIXME for debug
@@ -50,6 +52,13 @@ public class NetworkPlayer implements Player {
 		commands = new ArrayList<Command>();
 		return coms;
 	}
+
+	public int getFrameNumber() {
+		frameNumber++;
+		return frameNumber;
+	}
+	
+	
 	
 }
 

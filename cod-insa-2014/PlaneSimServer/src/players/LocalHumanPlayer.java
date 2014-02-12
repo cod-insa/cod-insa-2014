@@ -31,4 +31,10 @@ public class LocalHumanPlayer implements Player {
 		return null;
 	}
 
+	@Override
+	public int getFrameNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
