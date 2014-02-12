@@ -2,54 +2,67 @@ package proxy;
 
 import genbridge.Base;
 import genbridge.Bridge;
+import genbridge.Data;
 
 import java.util.ArrayList;
 
 import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
 
-public class IncomingData implements Runnable {
+public class IncomingData {
 
 	private Proxy proxy;
-	Bridge.Client client;
+	int id;
+	private Bridge.Client client;
 	
-	public IncomingData(Bridge.Client c, Proxy p)
+	public IncomingData(String ip, int port, Proxy p)
 	{
-		client = c;
+		// Initialize client
+		Bridge.Client client = null;
+		try 
+		{
+	    	TTransport transport;
+	    	transport = new TSocket(ip, port);
+	    	transport.open();
+	    	
+	    	TProtocol protocol = new  TBinaryProtocol(transport);
+	    	client = new Bridge.Client(protocol);
+	      
+	    } catch (Exception e) {
+	    	System.err.println("Error while initializing data retriever : ");
+	    	e.printStackTrace();
+	    } 
+		
 		proxy = p;
+		retrieveInitialDatas();
 	}
 	
-	@Override
-	public void run()
-	{
-		initDatas();
-		updateDatas();
-	}
-	
-	public void initDatas()
-	{
-		// Rien pour le moment
-		// Peut-�tre les pays, les sous de d�part, la taille de la carte ce genre de choses qui peut varier selon les maps.
-	}
-	
-	public void updateDatas()
+	public void retrieveInitialDatas()
 	{
 
-		int id;
 		try {
 			id = client.connect("Banane");
-			client.retrieveData(id);
+		} catch (TException e) {
+			System.err.println("Error while connecting to the server");
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateData()
+	{
+		try {
+			Data d = client.retrieveData(id); // Bloquant
+			// TODO Convert elements of Data in PlaneSimCommon.things and update the proxy
 		} catch (TException e) {
 			e.printStackTrace();
 		}
 		
 		
-		// ArrayList<Base> b = client.getMyBases(); Notworking there
-
-		// Appel aux diff�rentes requ�tes de mani�re asynchrones vers le serveur pour r�cup�rer les donn�es.
-		
-		// Attente de toutes les r�ponses. bloquant
-		// Ce sera bloquant ici. Tant qu'il n'y a pas eu la premi�re it�ration, rien ne bouge sur le client. Il est pr�t � partir.
-		updateDatas();
+		// Attente de toutes les reponses. bloquant
+		// Ce sera bloquant ici. Tant qu'il n'y a pas eu la premiere iteration, rien ne bouge sur le client. Il est pr�t � partir.
 	}
 
 }
