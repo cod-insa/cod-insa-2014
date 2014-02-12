@@ -27,7 +27,7 @@ import players.NetworkPlayer;
 
 import command.MoveCommand;
 
-import control.Controller;
+import control.DataUpdater;
 
 
 public class SimDisplayPanel extends JPanel {
@@ -115,9 +115,9 @@ public class SimDisplayPanel extends JPanel {
                 		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view);
 					*/
                 	
-                	for (Plane p: pls)
-                		((NetworkPlayer)Controller.get().getPlayers().get(0)).addCommand(
-                				new MoveCommand(p.id, vtrans.getCoord(new Pixel(e.getX(), e.getY())).view));
+                	/*for (Plane p: pls)
+                		((NetworkPlayer)DataUpdater.get().getPlayers().get(0)).addCommand(
+                				new MoveCommand(p.id, vtrans.getCoord(new Pixel(e.getX(), e.getY())).view));*/
                 	
                 	/*************************************/
                 	

@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 import common.Accessors.RAccess;
 
-import control.Controller;
+import control.DataUpdater;
 import display.Displayer;
 
 public class Sim {
@@ -46,7 +46,7 @@ public class Sim {
             @Override
             public void run() {
             	update();
-            	Controller.get().update(Sim.this);
+            	//DataUpdater.get().update(Sim.this);	//FIXME
             	current_frame++;
             }
         }, update_period, update_period);

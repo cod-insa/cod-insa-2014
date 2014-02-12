@@ -3,6 +3,8 @@ package players;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Base;
+import model.Plane;
 import command.Command;
 
 /**
@@ -20,22 +22,27 @@ import command.Command;
 public class NetworkPlayer implements Player {
 	
 	private List<Command> commands = new ArrayList<Command>();
+	
 	private int playerID;
 	private String teamName;
+	
 	private int frameNumber;
 	
+	private List<Base> bases;
+	private List<Plane> planes;
+	
+	private boolean isWaitingDataUpdate;
+	private Object waitData;
 	
 	public NetworkPlayer(String name) {
 		this.teamName = name;
 		this.playerID = name.hashCode();
 		this.frameNumber = 0;
+		this.bases = new ArrayList<Base>();
+		this.planes = new ArrayList<Plane>();
+		this.isWaitingDataUpdate = false;
 	}
 	
-	// FIXME for debug
-	public void addCommand(Command c) {
-		commands.add(c);
-	}
-
 	public int getPlayerID() {
 		return playerID;
 	}
@@ -44,21 +51,45 @@ public class NetworkPlayer implements Player {
 		return teamName;
 	}
 
-	@Override
-	public List<Command> flushCommands() {
-		//System.out.println(commands.size());
-		// TODO
-		List<Command> coms = commands;
-		commands = new ArrayList<Command>();
-		return coms;
-	}
-
 	public int getFrameNumber() {
 		frameNumber++;
 		return frameNumber;
 	}
 	
+	public boolean isWaitingDataUpdate() {
+		return isWaitingDataUpdate;
+	}
+
+	public void setWaitingDataUpdate(boolean isWaitingDataUpdate) {
+		this.isWaitingDataUpdate = isWaitingDataUpdate;
+	}
+
+	public Object getWaitData() {
+		return waitData;
+	}
+
+	@Override
+	public List<Base> getBases() {
+		return bases;
+	}
+
+	@Override
+	public List<Plane> getPlanes() {
+		return planes;
+	}
 	
+	// FIXME for debug
+	public void addCommand(Command c) {
+		commands.add(c);
+	}
 	
+	// FIXME for debug
+	@Override
+	public List<Command> flushCommands() {
+		//System.out.println(commands.size());
+		List<Command> coms = commands;
+		commands = new ArrayList<Command>();
+		return coms;
+	}
 }
 

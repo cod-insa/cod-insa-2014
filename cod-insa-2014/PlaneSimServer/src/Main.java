@@ -4,7 +4,7 @@ import game.Sim;
 import players.NetworkPlayer;
 import players.Player;
 import players.PlayerManager;
-import control.Controller;
+import control.DataUpdater;
 import display.Displayer;
 import display.MainWindow;
 
@@ -21,15 +21,15 @@ public class Main {
 
 		//FIXME
 		//Displayer d = new Displayer();
-		Controller c = new Controller(50);
 		//Player ai = new NetworkPlayer("localhost", 1515);
 		// new LocalHumanPlayer()
 		//c.addPlayer(ai);
 		//new MainWindow(d, s, c); //and the server to stop it when clicking on cross?
 		
-		
-		
 		System.out.println("--- CODINSA 2014 --- Plane simulation server");
+		
+		//Prepares Controller
+		DataUpdater cont = new DataUpdater(50);
 		
 		//Prepares plane simulation
 		Sim planeSim = new Sim(2);
@@ -38,7 +38,7 @@ public class Main {
 		PlayerManager pmanager = new PlayerManager(planeSim);
 		
 		//Is ready to manage clients
-		BridgeHandler handler = new BridgeHandler(pmanager);
+		BridgeHandler handler = new BridgeHandler(pmanager,cont);
 		
 		//Starting the server to accept players
 		BridgeJavaServer server = BridgeJavaServer.startServer(port,handler);

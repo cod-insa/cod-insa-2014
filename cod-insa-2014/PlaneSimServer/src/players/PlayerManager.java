@@ -50,6 +50,7 @@ public class PlayerManager {
 	private void checkAllHere() {
 		if(players.size() == planeSimul.getNbPlayers())
 		{
+			
 			planeSimul.start();
 		}
 	}

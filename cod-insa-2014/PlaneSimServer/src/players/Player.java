@@ -2,6 +2,8 @@ package players;
 
 import java.util.List;
 
+import model.Base;
+import model.Plane;
 import command.Command;
 
 public interface Player {
@@ -11,5 +13,9 @@ public interface Player {
     int getPlayerID();
     String getTeamName();
     int getFrameNumber();
-	
+    List<Base> getBases();
+    List<Plane> getPlanes();
+	boolean isWaitingDataUpdate();
+	void setWaitingDataUpdate(boolean isWaitingDataUpdate);
+	Object getWaitData();
 }

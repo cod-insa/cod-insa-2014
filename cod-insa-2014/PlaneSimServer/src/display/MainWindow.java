@@ -33,7 +33,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import control.Controller;
+import control.DataUpdater;
 
 public class MainWindow {
 	
@@ -45,13 +45,13 @@ public class MainWindow {
     public JList some_list;
 	
 	Sim sim;
-	Controller contr;
+	DataUpdater contr;
 	
     /**
      * Create the application.
      */
     @SuppressWarnings({ })
-    public MainWindow(Displayer disp, Sim s, Controller c) {
+    public MainWindow(Displayer disp, Sim s, DataUpdater c) {
     	sim = s;
     	contr = c;
         
