@@ -25,6 +25,13 @@ public Data retrieveData(int idConnection) throws TException {
 	return new Data();
 }
 
+@Override
+public Response addActionToPerform(int idConnection, Action act)
+		throws TException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 
 }
 
