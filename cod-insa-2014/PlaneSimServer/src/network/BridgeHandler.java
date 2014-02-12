@@ -4,19 +4,28 @@ import genbridge.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.thrift.TException;
+import players.PlayerManager;
 
 public class BridgeHandler implements Bridge.Iface{
 
-
-  public BridgeHandler() {
+	private PlayerManager playerManager;
+	private List<Integer> authorizedIDs;
+	
+  public BridgeHandler(PlayerManager pmanager) {
+	  this.playerManager = pmanager;
+	  this.authorizedIDs = new ArrayList<Integer>();
   }
 
 @Override
 public int connect(String nom) throws TException {
-	// TODO Auto-generated method stub
-	return 0;
+
+	int id = playerManager.addNewPlayer(nom);
+	
+	if(id != -1)
+		authorizedIDs.add(id);
+		
+	return id;
 }
 
 @Override

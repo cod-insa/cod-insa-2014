@@ -7,6 +7,7 @@ import command.Command;
 
 /**
  * @author LP
+ * @author NV
  *
  */
 
@@ -19,14 +20,26 @@ import command.Command;
 public class NetworkPlayer implements Player {
 	
 	private List<Command> commands = new ArrayList<Command>();
-
-	public NetworkPlayer(String ip, int port) {
-		// TODO
+	private int playerID;
+	private String teamName;
+	
+	
+	public NetworkPlayer(String name) {
+		this.teamName = name;
+		this.playerID = name.hashCode();
 	}
 	
-	 // FIXME for debug
+	// FIXME for debug
 	public void addCommand(Command c) {
 		commands.add(c);
+	}
+
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	public String getTeamName() {
+		return teamName;
 	}
 
 	@Override

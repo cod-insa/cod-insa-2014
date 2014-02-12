@@ -14,12 +14,13 @@ public class Sim {
 	
 	public final long update_period = 30;
 	
-	Displayer disp;
+	//Displayer disp;
+	private int nbPlayers;
 	
 	int current_frame = 0;
 	public int getCurrentFrame() { return current_frame; }
 	
-	boolean running = true;
+	boolean running = false;
 	
 	World w;
 	
@@ -35,8 +36,10 @@ public class Sim {
 	}
 	*/
 	
-	public Sim (Displayer disp) {
-		this.disp = disp;
+	public Sim (/*Displayer disp*/int nbplay) {
+		/*this.disp = disp;*/
+		this.nbPlayers = nbplay;
+		
 		new World(this); // sets this.w
 		
 		new Timer().schedule(new TimerTask() {
@@ -50,6 +53,12 @@ public class Sim {
 		
 	}
 	
+	public void start()
+	{
+		//TODO (called when all players have joined the game)
+		running = true;
+	}
+	
 	public void stop() {
 		running = false;
 	}
@@ -57,7 +66,7 @@ public class Sim {
 	void addEntity (Entity<?> e) {
 		w.entities.add(e);
 		//if (disp != null)
-		disp.addEntity(e);
+		/*disp.addEntity(e);*/
 	}
 	
 	/*
@@ -88,6 +97,11 @@ public class Sim {
 		throw new Error("Not found"); // FIXME better exception
 	}
 
+	
+	public int getNbPlayers() {
+		return nbPlayers;
+	}
+	
 }
 
 

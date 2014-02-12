@@ -38,10 +38,10 @@ public class BridgeJavaServer extends Thread{
 	private TServer server;
 	private int port = 9090;
 	
-	private BridgeJavaServer(int port)
+	private BridgeJavaServer(int port, BridgeHandler handler)
 	{
 		this.port = port;
-		handler = new BridgeHandler();
+		this.handler = handler;
 		processor = new Bridge.Processor(handler);
 	}
 	
@@ -50,10 +50,10 @@ public class BridgeJavaServer extends Thread{
 	 * @param port
 	 * @return the unique instance of BridgeJavaServer
 	 */
-	public static BridgeJavaServer startServer(int port)
+	public static BridgeJavaServer startServer(int port, BridgeHandler handler)
 	{
 		if(instance == null)
-			instance = new BridgeJavaServer(port);
+			instance = new BridgeJavaServer(port,handler);
 		if(!instance.isAlive())
 			instance.start();
 		return instance;

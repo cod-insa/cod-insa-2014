@@ -13,4 +13,22 @@ public class LocalHumanPlayer implements Player {
 		return new ArrayList<Command>();
 	}
 
+	@Override
+	public void addCommand(Command c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getPlayerID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getTeamName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
