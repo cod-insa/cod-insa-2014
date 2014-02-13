@@ -1,6 +1,7 @@
 package proxy;
 import genbridge.Bridge;
 import genbridge.Bridge.AsyncClient;
+import genbridge.Data;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,41 +24,44 @@ public class Proxy
 	private IncomingData idm; 
 	private CommandSender cm; 
 	
-	// Datas // TODO accessors
-	public ArrayList<Base> bases;
-	public ArrayList<Plane> ai_planes;
-	public ArrayList<Plane> killed_planes;
-	
-	
+	// Datas
+	public ArrayList<Base.View> bases;
+	public ArrayList<Plane.View> ai_planes;
+	public ArrayList<Plane.View> killed_planes;
 	
 	public Proxy(String ip, int port)
 	{
 		idm = new IncomingData(ip,port,this);
-		cm = new CommandSender(ip,port,this);
-		ai_planes = new ArrayList<Plane>();
-		killed_planes = new ArrayList<Plane>();
-		bases = new ArrayList<Base>();
+		cm = new CommandSender(ip,port,idm.getIdConnection());
+		ai_planes = new ArrayList<Plane.View>();
+		killed_planes = new ArrayList<Plane.View>();
+		bases = new ArrayList<Base.View>();
 	}
 	public ArrayList<Plane.View> getMyPlanes()
 	{
-		//return ai_planes;
-		return null; // TODO ???
+		return ai_planes;
+		
 	}
+	
+	public void updateProxyData(Data d)
+	{
+		for (genbridge.Base b : d.bases)
+		{
+			// TODO
+		}
+	}
+	
 	public ArrayList<Plane.View> getKilledPlanes()
 	{
-		//return killed_planes;
-		return null; // TODO ???
+		return killed_planes;
 	}
 	public ArrayList<Base.View> getBases()
 	{
-		//return bases;
-		return null; // TODO ???
+		return bases;
 	}
 	public void updateSimFrame()
 	{
-		//TODO Thread have to sleep while there is not any new datas
-		
-		//TODO Update ai_planes
+		idm.updateData();
 	}
 	public void sendCommand(Command c)
 	{

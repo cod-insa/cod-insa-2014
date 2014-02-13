@@ -15,7 +15,7 @@ import org.apache.thrift.transport.TTransport;
 public class IncomingData {
 
 	private Proxy proxy;
-	int id;
+	private int id;
 	private Bridge.Client client;
 	
 	public IncomingData(String ip, int port, Proxy p)
@@ -40,6 +40,10 @@ public class IncomingData {
 		retrieveInitialDatas();
 	}
 	
+	public int getIdConnection() {
+		return id;
+	}
+	
 	public void retrieveInitialDatas()
 	{
 
@@ -55,14 +59,11 @@ public class IncomingData {
 	{
 		try {
 			Data d = client.retrieveData(id); // Bloquant
-			// TODO Convert elements of Data in PlaneSimCommon.things and update the proxy
+			proxy.updateProxyData(d);
 		} catch (TException e) {
 			e.printStackTrace();
 		}
-		
-		
-		// Attente de toutes les reponses. bloquant
-		// Ce sera bloquant ici. Tant qu'il n'y a pas eu la premiere iteration, rien ne bouge sur le client. Il est pr�t � partir.
 	}
+
 
 }

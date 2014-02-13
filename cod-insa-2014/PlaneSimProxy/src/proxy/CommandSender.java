@@ -22,10 +22,11 @@ public class CommandSender {
 	
 
 	private Bridge.AsyncClient client;
-	private Proxy proxy;
 	private ArrayList<String> errors;
+	private boolean isTimeOut;
+	private int idConnection;
 	
-	public CommandSender(String ip, int port, Proxy p)
+	public CommandSender(String ip, int port, int idC)
 	{
 		try {
 			client = new Bridge.AsyncClient(
@@ -37,8 +38,9 @@ public class CommandSender {
 			System.err.println("Error while initializing async client.");
 			e.printStackTrace();
 		}
-		proxy = p;
 		errors = new ArrayList<String>();
+		isTimeOut = false;
+		idConnection = idC;
 	}
 	
 	public synchronized void addError(String errorMessage)
@@ -51,14 +53,17 @@ public class CommandSender {
 		return (ArrayList<String>) errors.clone();
 	}
 	
+	public boolean isTimeOut() {
+		return isTimeOut;
+	}
+
 	public void sendCommand(Command cmd)
 	{
 		if (cmd instanceof MoveCommand)
 		{
 			try {
 				MoveCommand c = (MoveCommand)cmd;
-				// TODO changer le 0 en id récupéré lors de la connexion
-				client.addActionToPerform(0, new Action(1,genbridge.Command.findByValue(1),c.planeId,(int)c.destination.x(), (int)c.destination.y()), new CommandSenderCallback());
+				client.addActionToPerform(0, new Action(idConnection,genbridge.Command.findByValue(1),c.planeId,(int)c.destination.x(), (int)c.destination.y()), new CommandSenderCallback());
 			} catch (TException e) {
 				System.err.println("Error while sending the command");
 				e.printStackTrace();
@@ -79,7 +84,10 @@ public class CommandSender {
 				r = aatp.getResult();
 			
 					if (r.code == 1) // Timeout
+						isTimeOut = true;
+					else if (r.code == 2) // other error
 						addError(r.message);
+					// 0 => no error
 			
 			} catch (TException e) {
 				System.err.println("Unexpected error occured while reading result data from command");
