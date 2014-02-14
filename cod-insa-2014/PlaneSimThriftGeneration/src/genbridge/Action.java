@@ -38,8 +38,8 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
   private static final org.apache.thrift.protocol.TField NUM_FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("numFrame", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField CMD_FIELD_DESC = new org.apache.thrift.protocol.TField("cmd", org.apache.thrift.protocol.TType.I32, (short)2);
   private static final org.apache.thrift.protocol.TField ARG1_FIELD_DESC = new org.apache.thrift.protocol.TField("arg1", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField ARG2_FIELD_DESC = new org.apache.thrift.protocol.TField("arg2", org.apache.thrift.protocol.TType.I32, (short)4);
-  private static final org.apache.thrift.protocol.TField ARG3_FIELD_DESC = new org.apache.thrift.protocol.TField("arg3", org.apache.thrift.protocol.TType.I32, (short)5);
+  private static final org.apache.thrift.protocol.TField ARG2_FIELD_DESC = new org.apache.thrift.protocol.TField("arg2", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
+  private static final org.apache.thrift.protocol.TField ARG3_FIELD_DESC = new org.apache.thrift.protocol.TField("arg3", org.apache.thrift.protocol.TType.DOUBLE, (short)5);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -54,8 +54,8 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
    */
   public Command cmd; // required
   public int arg1; // required
-  public int arg2; // required
-  public int arg3; // required
+  public double arg2; // required
+  public double arg3; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -147,9 +147,9 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
     tmpMap.put(_Fields.ARG1, new org.apache.thrift.meta_data.FieldMetaData("arg1", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.ARG2, new org.apache.thrift.meta_data.FieldMetaData("arg2", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.ARG3, new org.apache.thrift.meta_data.FieldMetaData("arg3", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Action.class, metaDataMap);
   }
@@ -161,8 +161,8 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
     int numFrame,
     Command cmd,
     int arg1,
-    int arg2,
-    int arg3)
+    double arg2,
+    double arg3)
   {
     this();
     this.numFrame = numFrame;
@@ -202,9 +202,9 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
     setArg1IsSet(false);
     this.arg1 = 0;
     setArg2IsSet(false);
-    this.arg2 = 0;
+    this.arg2 = 0.0;
     setArg3IsSet(false);
-    this.arg3 = 0;
+    this.arg3 = 0.0;
   }
 
   public int getNumFrame() {
@@ -285,11 +285,11 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ARG1_ISSET_ID, value);
   }
 
-  public int getArg2() {
+  public double getArg2() {
     return this.arg2;
   }
 
-  public Action setArg2(int arg2) {
+  public Action setArg2(double arg2) {
     this.arg2 = arg2;
     setArg2IsSet(true);
     return this;
@@ -308,11 +308,11 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ARG2_ISSET_ID, value);
   }
 
-  public int getArg3() {
+  public double getArg3() {
     return this.arg3;
   }
 
-  public Action setArg3(int arg3) {
+  public Action setArg3(double arg3) {
     this.arg3 = arg3;
     setArg3IsSet(true);
     return this;
@@ -361,7 +361,7 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
       if (value == null) {
         unsetArg2();
       } else {
-        setArg2((Integer)value);
+        setArg2((Double)value);
       }
       break;
 
@@ -369,7 +369,7 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
       if (value == null) {
         unsetArg3();
       } else {
-        setArg3((Integer)value);
+        setArg3((Double)value);
       }
       break;
 
@@ -388,10 +388,10 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
       return Integer.valueOf(getArg1());
 
     case ARG2:
-      return Integer.valueOf(getArg2());
+      return Double.valueOf(getArg2());
 
     case ARG3:
-      return Integer.valueOf(getArg3());
+      return Double.valueOf(getArg3());
 
     }
     throw new IllegalStateException();
@@ -655,16 +655,16 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
             }
             break;
           case 4: // ARG2
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.arg2 = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.arg2 = iprot.readDouble();
               struct.setArg2IsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 5: // ARG3
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.arg3 = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.arg3 = iprot.readDouble();
               struct.setArg3IsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -697,10 +697,10 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
       oprot.writeI32(struct.arg1);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(ARG2_FIELD_DESC);
-      oprot.writeI32(struct.arg2);
+      oprot.writeDouble(struct.arg2);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(ARG3_FIELD_DESC);
-      oprot.writeI32(struct.arg3);
+      oprot.writeDouble(struct.arg3);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -746,10 +746,10 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
         oprot.writeI32(struct.arg1);
       }
       if (struct.isSetArg2()) {
-        oprot.writeI32(struct.arg2);
+        oprot.writeDouble(struct.arg2);
       }
       if (struct.isSetArg3()) {
-        oprot.writeI32(struct.arg3);
+        oprot.writeDouble(struct.arg3);
       }
     }
 
@@ -770,11 +770,11 @@ public class Action implements org.apache.thrift.TBase<Action, Action._Fields>, 
         struct.setArg1IsSet(true);
       }
       if (incoming.get(3)) {
-        struct.arg2 = iprot.readI32();
+        struct.arg2 = iprot.readDouble();
         struct.setArg2IsSet(true);
       }
       if (incoming.get(4)) {
-        struct.arg3 = iprot.readI32();
+        struct.arg3 = iprot.readDouble();
         struct.setArg3IsSet(true);
       }
     }

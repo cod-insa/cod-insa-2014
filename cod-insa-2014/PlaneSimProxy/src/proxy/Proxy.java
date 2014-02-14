@@ -1,20 +1,11 @@
 package proxy;
-import genbridge.Bridge;
-import genbridge.Bridge.AsyncClient;
 import genbridge.Data;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.apache.thrift.async.TAsyncClientManager;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TNonblockingSocket;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
 
 import model.Base;
 import model.Plane;
+
 import command.Command;
 
 
@@ -25,27 +16,27 @@ public class Proxy
 	private CommandSender cm; 
 	
 	// Datas
-	public ArrayList<Base.View> bases;
-	public ArrayList<Plane.View> ai_planes;
-	public ArrayList<Plane.View> killed_planes;
+	public ArrayList<Base> bases;
+	public ArrayList<Plane> ai_planes;
+	public ArrayList<Plane> killed_planes;
 	
 	public Proxy(String ip, int port)
 	{
 		idm = new IncomingData(ip,port,this);
 		cm = new CommandSender(ip,port,idm.getIdConnection());
-		ai_planes = new ArrayList<Plane.View>();
-		killed_planes = new ArrayList<Plane.View>();
-		bases = new ArrayList<Base.View>();
+		ai_planes = new ArrayList<Plane>();
+		killed_planes = new ArrayList<Plane>();
+		bases = new ArrayList<Base>();
 	}
 	public ArrayList<Plane.View> getMyPlanes()
 	{
-		return ai_planes;
-		
+		//return ai_planes;
+		return null;
 	}
 	
 	public void updateProxyData(Data d)
 	{
-		for (genbridge.Base b : d.bases)
+		for (model.Base b : bases)
 		{
 			// TODO
 		}
@@ -53,11 +44,13 @@ public class Proxy
 	
 	public ArrayList<Plane.View> getKilledPlanes()
 	{
-		return killed_planes;
+		//return killed_planes;
+		return null;
 	}
 	public ArrayList<Base.View> getBases()
 	{
-		return bases;
+		return null;
+		//return bases;
 	}
 	public void updateSimFrame()
 	{

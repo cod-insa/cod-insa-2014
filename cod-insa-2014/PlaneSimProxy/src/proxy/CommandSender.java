@@ -63,7 +63,7 @@ public class CommandSender {
 		{
 			try {
 				MoveCommand c = (MoveCommand)cmd;
-				client.addActionToPerform(0, new Action(idConnection,genbridge.Command.findByValue(1),c.planeId,(int)c.destination.x(), (int)c.destination.y()), new CommandSenderCallback());
+				client.addActionToPerform(new Action(0,genbridge.Command.findByValue(1),c.planeId,c.destination.x(), c.destination.y()), idConnection, new CommandSenderCallback());
 			} catch (TException e) {
 				System.err.println("Error while sending the command");
 				e.printStackTrace();

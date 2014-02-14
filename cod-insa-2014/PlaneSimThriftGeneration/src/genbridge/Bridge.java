@@ -40,7 +40,7 @@ public class Bridge {
 
     public Data retrieveData(int idConnection) throws org.apache.thrift.TException;
 
-    public Response addActionToPerform(int idConnection, Action act) throws org.apache.thrift.TException;
+    public Response addActionToPerform(Action act, int idConnection) throws org.apache.thrift.TException;
 
   }
 
@@ -50,7 +50,7 @@ public class Bridge {
 
     public void retrieveData(int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void addActionToPerform(int idConnection, Action act, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void addActionToPerform(Action act, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -120,17 +120,17 @@ public class Bridge {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "retrieveData failed: unknown result");
     }
 
-    public Response addActionToPerform(int idConnection, Action act) throws org.apache.thrift.TException
+    public Response addActionToPerform(Action act, int idConnection) throws org.apache.thrift.TException
     {
-      send_addActionToPerform(idConnection, act);
+      send_addActionToPerform(act, idConnection);
       return recv_addActionToPerform();
     }
 
-    public void send_addActionToPerform(int idConnection, Action act) throws org.apache.thrift.TException
+    public void send_addActionToPerform(Action act, int idConnection) throws org.apache.thrift.TException
     {
       addActionToPerform_args args = new addActionToPerform_args();
-      args.setIdConnection(idConnection);
       args.setAct(act);
+      args.setIdConnection(idConnection);
       sendBase("addActionToPerform", args);
     }
 
@@ -226,27 +226,27 @@ public class Bridge {
       }
     }
 
-    public void addActionToPerform(int idConnection, Action act, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void addActionToPerform(Action act, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      addActionToPerform_call method_call = new addActionToPerform_call(idConnection, act, resultHandler, this, ___protocolFactory, ___transport);
+      addActionToPerform_call method_call = new addActionToPerform_call(act, idConnection, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class addActionToPerform_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private int idConnection;
       private Action act;
-      public addActionToPerform_call(int idConnection, Action act, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private int idConnection;
+      public addActionToPerform_call(Action act, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.idConnection = idConnection;
         this.act = act;
+        this.idConnection = idConnection;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("addActionToPerform", org.apache.thrift.protocol.TMessageType.CALL, 0));
         addActionToPerform_args args = new addActionToPerform_args();
-        args.setIdConnection(idConnection);
         args.setAct(act);
+        args.setIdConnection(idConnection);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -336,7 +336,7 @@ public class Bridge {
 
       public addActionToPerform_result getResult(I iface, addActionToPerform_args args) throws org.apache.thrift.TException {
         addActionToPerform_result result = new addActionToPerform_result();
-        result.success = iface.addActionToPerform(args.idConnection, args.act);
+        result.success = iface.addActionToPerform(args.act, args.idConnection);
         return result;
       }
     }
@@ -510,7 +510,7 @@ public class Bridge {
       }
 
       public void start(I iface, addActionToPerform_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
-        iface.addActionToPerform(args.idConnection, args.act,resultHandler);
+        iface.addActionToPerform(args.act, args.idConnection,resultHandler);
       }
     }
 
@@ -1938,8 +1938,8 @@ public class Bridge {
   public static class addActionToPerform_args implements org.apache.thrift.TBase<addActionToPerform_args, addActionToPerform_args._Fields>, java.io.Serializable, Cloneable, Comparable<addActionToPerform_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("addActionToPerform_args");
 
-    private static final org.apache.thrift.protocol.TField ID_CONNECTION_FIELD_DESC = new org.apache.thrift.protocol.TField("idConnection", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField ACT_FIELD_DESC = new org.apache.thrift.protocol.TField("act", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField ACT_FIELD_DESC = new org.apache.thrift.protocol.TField("act", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ID_CONNECTION_FIELD_DESC = new org.apache.thrift.protocol.TField("idConnection", org.apache.thrift.protocol.TType.I32, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -1947,13 +1947,13 @@ public class Bridge {
       schemes.put(TupleScheme.class, new addActionToPerform_argsTupleSchemeFactory());
     }
 
-    public int idConnection; // required
     public Action act; // required
+    public int idConnection; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      ID_CONNECTION((short)1, "idConnection"),
-      ACT((short)2, "act");
+      ACT((short)1, "act"),
+      ID_CONNECTION((short)2, "idConnection");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1968,10 +1968,10 @@ public class Bridge {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // ID_CONNECTION
-            return ID_CONNECTION;
-          case 2: // ACT
+          case 1: // ACT
             return ACT;
+          case 2: // ID_CONNECTION
+            return ID_CONNECTION;
           default:
             return null;
         }
@@ -2017,10 +2017,10 @@ public class Bridge {
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
       tmpMap.put(_Fields.ACT, new org.apache.thrift.meta_data.FieldMetaData("act", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Action.class)));
+      tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(addActionToPerform_args.class, metaDataMap);
     }
@@ -2029,13 +2029,13 @@ public class Bridge {
     }
 
     public addActionToPerform_args(
-      int idConnection,
-      Action act)
+      Action act,
+      int idConnection)
     {
       this();
+      this.act = act;
       this.idConnection = idConnection;
       setIdConnectionIsSet(true);
-      this.act = act;
     }
 
     /**
@@ -2043,10 +2043,10 @@ public class Bridge {
      */
     public addActionToPerform_args(addActionToPerform_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.idConnection = other.idConnection;
       if (other.isSetAct()) {
         this.act = new Action(other.act);
       }
+      this.idConnection = other.idConnection;
     }
 
     public addActionToPerform_args deepCopy() {
@@ -2055,32 +2055,9 @@ public class Bridge {
 
     @Override
     public void clear() {
+      this.act = null;
       setIdConnectionIsSet(false);
       this.idConnection = 0;
-      this.act = null;
-    }
-
-    public int getIdConnection() {
-      return this.idConnection;
-    }
-
-    public addActionToPerform_args setIdConnection(int idConnection) {
-      this.idConnection = idConnection;
-      setIdConnectionIsSet(true);
-      return this;
-    }
-
-    public void unsetIdConnection() {
-      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
-    }
-
-    /** Returns true if field idConnection is set (has been assigned a value) and false otherwise */
-    public boolean isSetIdConnection() {
-      return EncodingUtils.testBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
-    }
-
-    public void setIdConnectionIsSet(boolean value) {
-      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IDCONNECTION_ISSET_ID, value);
     }
 
     public Action getAct() {
@@ -2107,16 +2084,31 @@ public class Bridge {
       }
     }
 
+    public int getIdConnection() {
+      return this.idConnection;
+    }
+
+    public addActionToPerform_args setIdConnection(int idConnection) {
+      this.idConnection = idConnection;
+      setIdConnectionIsSet(true);
+      return this;
+    }
+
+    public void unsetIdConnection() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
+    }
+
+    /** Returns true if field idConnection is set (has been assigned a value) and false otherwise */
+    public boolean isSetIdConnection() {
+      return EncodingUtils.testBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
+    }
+
+    public void setIdConnectionIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IDCONNECTION_ISSET_ID, value);
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case ID_CONNECTION:
-        if (value == null) {
-          unsetIdConnection();
-        } else {
-          setIdConnection((Integer)value);
-        }
-        break;
-
       case ACT:
         if (value == null) {
           unsetAct();
@@ -2125,16 +2117,24 @@ public class Bridge {
         }
         break;
 
+      case ID_CONNECTION:
+        if (value == null) {
+          unsetIdConnection();
+        } else {
+          setIdConnection((Integer)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case ID_CONNECTION:
-        return Integer.valueOf(getIdConnection());
-
       case ACT:
         return getAct();
+
+      case ID_CONNECTION:
+        return Integer.valueOf(getIdConnection());
 
       }
       throw new IllegalStateException();
@@ -2147,10 +2147,10 @@ public class Bridge {
       }
 
       switch (field) {
-      case ID_CONNECTION:
-        return isSetIdConnection();
       case ACT:
         return isSetAct();
+      case ID_CONNECTION:
+        return isSetIdConnection();
       }
       throw new IllegalStateException();
     }
@@ -2168,21 +2168,21 @@ public class Bridge {
       if (that == null)
         return false;
 
-      boolean this_present_idConnection = true;
-      boolean that_present_idConnection = true;
-      if (this_present_idConnection || that_present_idConnection) {
-        if (!(this_present_idConnection && that_present_idConnection))
-          return false;
-        if (this.idConnection != that.idConnection)
-          return false;
-      }
-
       boolean this_present_act = true && this.isSetAct();
       boolean that_present_act = true && that.isSetAct();
       if (this_present_act || that_present_act) {
         if (!(this_present_act && that_present_act))
           return false;
         if (!this.act.equals(that.act))
+          return false;
+      }
+
+      boolean this_present_idConnection = true;
+      boolean that_present_idConnection = true;
+      if (this_present_idConnection || that_present_idConnection) {
+        if (!(this_present_idConnection && that_present_idConnection))
+          return false;
+        if (this.idConnection != that.idConnection)
           return false;
       }
 
@@ -2202,22 +2202,22 @@ public class Bridge {
 
       int lastComparison = 0;
 
-      lastComparison = Boolean.valueOf(isSetIdConnection()).compareTo(other.isSetIdConnection());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetIdConnection()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.idConnection, other.idConnection);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = Boolean.valueOf(isSetAct()).compareTo(other.isSetAct());
       if (lastComparison != 0) {
         return lastComparison;
       }
       if (isSetAct()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.act, other.act);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetIdConnection()).compareTo(other.isSetIdConnection());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIdConnection()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.idConnection, other.idConnection);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2242,16 +2242,16 @@ public class Bridge {
       StringBuilder sb = new StringBuilder("addActionToPerform_args(");
       boolean first = true;
 
-      sb.append("idConnection:");
-      sb.append(this.idConnection);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("act:");
       if (this.act == null) {
         sb.append("null");
       } else {
         sb.append(this.act);
       }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("idConnection:");
+      sb.append(this.idConnection);
       first = false;
       sb.append(")");
       return sb.toString();
@@ -2301,19 +2301,19 @@ public class Bridge {
             break;
           }
           switch (schemeField.id) {
-            case 1: // ID_CONNECTION
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.idConnection = iprot.readI32();
-                struct.setIdConnectionIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // ACT
+            case 1: // ACT
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.act = new Action();
                 struct.act.read(iprot);
                 struct.setActIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // ID_CONNECTION
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.idConnection = iprot.readI32();
+                struct.setIdConnectionIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -2333,14 +2333,14 @@ public class Bridge {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(ID_CONNECTION_FIELD_DESC);
-        oprot.writeI32(struct.idConnection);
-        oprot.writeFieldEnd();
         if (struct.act != null) {
           oprot.writeFieldBegin(ACT_FIELD_DESC);
           struct.act.write(oprot);
           oprot.writeFieldEnd();
         }
+        oprot.writeFieldBegin(ID_CONNECTION_FIELD_DESC);
+        oprot.writeI32(struct.idConnection);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -2359,18 +2359,18 @@ public class Bridge {
       public void write(org.apache.thrift.protocol.TProtocol prot, addActionToPerform_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
-        if (struct.isSetIdConnection()) {
+        if (struct.isSetAct()) {
           optionals.set(0);
         }
-        if (struct.isSetAct()) {
+        if (struct.isSetIdConnection()) {
           optionals.set(1);
         }
         oprot.writeBitSet(optionals, 2);
-        if (struct.isSetIdConnection()) {
-          oprot.writeI32(struct.idConnection);
-        }
         if (struct.isSetAct()) {
           struct.act.write(oprot);
+        }
+        if (struct.isSetIdConnection()) {
+          oprot.writeI32(struct.idConnection);
         }
       }
 
@@ -2379,13 +2379,13 @@ public class Bridge {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.idConnection = iprot.readI32();
-          struct.setIdConnectionIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.act = new Action();
           struct.act.read(iprot);
           struct.setActIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.idConnection = iprot.readI32();
+          struct.setIdConnectionIsSet(true);
         }
       }
     }
