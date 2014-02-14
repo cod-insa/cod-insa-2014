@@ -6,8 +6,6 @@ import genbridge.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.thrift.TException;
 import org.apache.thrift.async.AsyncMethodCallback;
 import org.apache.thrift.async.TAsyncClientManager;
@@ -20,13 +18,13 @@ import command.MoveCommand;
 
 public class CommandSender {
 	
-
 	private Bridge.AsyncClient client;
 	private ArrayList<String> errors;
 	private boolean isTimeOut;
 	private int idConnection;
+	private Proxy proxy;
 	
-	public CommandSender(String ip, int port, int idC)
+	public CommandSender(String ip, int port, int idC, Proxy p)
 	{
 		try {
 			client = new Bridge.AsyncClient(
@@ -41,6 +39,7 @@ public class CommandSender {
 		errors = new ArrayList<String>();
 		isTimeOut = false;
 		idConnection = idC;
+		proxy = p;
 	}
 	
 	public synchronized void addError(String errorMessage)
@@ -56,6 +55,10 @@ public class CommandSender {
 	public boolean isTimeOut() {
 		return isTimeOut;
 	}
+	
+	public void newFrame() {
+		isTimeOut = false;
+	}
 
 	public void sendCommand(Command cmd)
 	{
@@ -63,7 +66,15 @@ public class CommandSender {
 		{
 			try {
 				MoveCommand c = (MoveCommand)cmd;
-				client.addActionToPerform(new Action(0,genbridge.Command.findByValue(1),c.planeId,c.destination.x(), c.destination.y()), idConnection, new CommandSenderCallback());
+				client.addActionToPerform(
+						new Action(
+								proxy.getNumFrame(),
+								genbridge.Command.findByValue(1), // MOVE_COMMAND
+								c.planeId,
+								c.destination.x(), 
+								c.destination.y()),
+						idConnection, 
+						new CommandSenderCallback());
 			} catch (TException e) {
 				System.err.println("Error while sending the command");
 				e.printStackTrace();

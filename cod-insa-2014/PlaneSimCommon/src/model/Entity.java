@@ -5,6 +5,7 @@ public class Entity {
 	
 	public class View {
 		public final Coord.View position = _pos.view;
+		public int id() { return id; }
 		public double rotation() { return _rot; }
 		public double speed() { return _spe; }
 		public boolean exists() { return _exists; }

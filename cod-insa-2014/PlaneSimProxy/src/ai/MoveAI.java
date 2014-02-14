@@ -1,18 +1,13 @@
 package ai;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
-import genbridge.Bridge;
-
-import org.apache.thrift.TException;
-import org.apache.thrift.async.TAsyncClientManager;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TNonblockingSocket;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
-
+import model.Base;
+import model.Plane;
 import proxy.Proxy;
+
+import command.MoveCommand;
 
 public class MoveAI extends AbstractAI 
 {
@@ -20,48 +15,26 @@ public class MoveAI extends AbstractAI
 	public MoveAI(String ip, int port)
 	{
 		super(new Proxy(ip,port));
-		/*
-		super();
-		prox = new Proxy();
-
-		prox.updateSimFrame();
-		
-		ArrayList<Base> bases = prox.bases;
-		for (Plane p : prox.ai_planes)
-		{
-			// Get a random base :
-			Base b = bases.get(new Random().nextInt(bases.size()));
-			
-			// Make and send a MoveCommand with the plane to the random base
-			MoveCommand mc = new MoveCommand(p.id,b._pos);
-			prox.sendCommand(mc);
-		}
-		
-		*/
-		
 	}
 
 	@Override
 	public void think() {
-		// TODO Let's write the code here
+		proxy.updateSimFrame();
 		
-		
-		
+		ArrayList<Base.View> bases = proxy.getBases();
+		for (Plane.View p : proxy.getMyPlanes())
+		{
+			// Get a random base :
+			Base.View b = bases.get(new Random().nextInt(bases.size()));
+			
+			// Make and send a MoveCommand with the plane to the random base
+			MoveCommand mc = new MoveCommand(p.id(),b.position);
+			proxy.sendCommand(mc);
+		}
 	}
 	
 	public static void main(String[] args) 
 	{
-	   /* if (args.length != 1) { 
-	      System.out.println("Please enter 'simple' or 'secure' as attribute");
-	      System.exit(0);
-	    } if (args[0].contains("simple")) {
-        transport = new TSocket("localhost",9090);
-        transport.open();
-	      }
-	      else {
-	    	  throw new NotImplementedException();    	  
-	      }*/
-
 		if (args.length != 2)
 		{
 			System.out.println("Usage : java MoveAI ip port");

@@ -1,10 +1,7 @@
 package proxy;
 
-import genbridge.Base;
 import genbridge.Bridge;
 import genbridge.Data;
-
-import java.util.ArrayList;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -21,9 +18,9 @@ public class IncomingData {
 	public IncomingData(String ip, int port, Proxy p)
 	{
 		// Initialize client
-		Bridge.Client client = null;
 		try 
 		{
+			// Initialize Socket of client
 	    	TTransport transport;
 	    	transport = new TSocket(ip, port);
 	    	transport.open();
@@ -37,8 +34,8 @@ public class IncomingData {
 	    } 
 		
 		proxy = p;
-		retrieveInitialDatas();
 	}
+	
 	
 	public int getIdConnection() {
 		return id;
@@ -46,7 +43,6 @@ public class IncomingData {
 	
 	public void retrieveInitialDatas()
 	{
-
 		try {
 			id = client.connect("Banane");
 		} catch (TException e) {
@@ -58,7 +54,7 @@ public class IncomingData {
 	public void updateData()
 	{
 		try {
-			Data d = client.retrieveData(id); // Bloquant
+			Data d = client.retrieveData(id); // Will be blocked during call
 			proxy.updateProxyData(d);
 		} catch (TException e) {
 			e.printStackTrace();
