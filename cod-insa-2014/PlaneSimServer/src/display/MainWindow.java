@@ -33,7 +33,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import control.DataUpdater;
+import control.SimStepUpdater;
 
 public class MainWindow {
 	
@@ -44,16 +44,16 @@ public class MainWindow {
     protected final JButton btnBar = new JButton();
     public JList some_list;
 	
-	Sim sim;
-	DataUpdater contr;
+	private Sim sim;
+	private SimStepUpdater contr;
 	
     /**
      * Create the application.
      */
     @SuppressWarnings({ })
-    public MainWindow(Displayer disp, Sim s, DataUpdater c) {
+    public MainWindow(Displayer disp, Sim s) {
     	sim = s;
-    	contr = c;
+    	contr = s.getSetpUpdater();
         
     	sim_panel = new SimDisplayPanel(disp, s);
     	
@@ -283,7 +283,9 @@ public class MainWindow {
      * Exit the application.
      */
     void quit() {
-        System.exit(0);
+    	this.frmPlaneSim.dispose();
+    	System.out.println("HMI has been closed. Server still be running!");
+        //System.exit(0);
     }
 	
 

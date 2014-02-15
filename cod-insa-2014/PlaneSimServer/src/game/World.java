@@ -9,6 +9,7 @@ public class World {
 	
 	Map map;
 	
+	//Basically, the information sent to the client at each round (about every second)
 	List<Entity<?>> entities = new ArrayList<Entity<?>>();
 	
 	public World (Sim sim) {
@@ -26,6 +27,12 @@ public class World {
 		
 	}
 	
+	
+	public List<Entity<?>> getEntities() {
+		return entities;
+	}
+
+
 	public void update() {
 		update(1);
 	}

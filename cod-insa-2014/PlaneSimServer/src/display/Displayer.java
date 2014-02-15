@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 public class Displayer {
 	
-	//List<List<Entity>> entities = new ArrayList<>();
-	//List<Entity>[] entities = {new ArrayList<>()};
-	
 	@SuppressWarnings("serial")
 	static class EntityList extends ArrayList<Entity<?>> {}
 	

@@ -1,10 +1,7 @@
 import network.BridgeHandler;
 import network.BridgeJavaServer;
 import game.Sim;
-import players.NetworkPlayer;
-import players.Player;
 import players.PlayerManager;
-import control.DataUpdater;
 import display.Displayer;
 import display.MainWindow;
 
@@ -18,19 +15,9 @@ public class Main {
 		//TODO passing port and number of players by argument
 		int port = 9090;
 		int nbplay = 2;
-
-		//FIXME
-		//Displayer d = new Displayer();
-		//Player ai = new NetworkPlayer("localhost", 1515);
-		// new LocalHumanPlayer()
-		//c.addPlayer(ai);
-		//new MainWindow(d, s, c); //and the server to stop it when clicking on cross?
-		
+				
 		System.out.println("--- CODINSA 2014 --- Plane simulation server");
-		
-		//Prepares Controller
-		DataUpdater cont = new DataUpdater(50);
-		
+				
 		//Prepares plane simulation
 		Sim planeSim = new Sim(2);
 		
@@ -38,14 +25,21 @@ public class Main {
 		PlayerManager pmanager = new PlayerManager(planeSim);
 		
 		//Is ready to manage clients
-		BridgeHandler handler = new BridgeHandler(pmanager,cont);
+		BridgeHandler handler = new BridgeHandler(planeSim,pmanager);
 		
 		//Starting the server to accept players
 		BridgeJavaServer server = BridgeJavaServer.startServer(port,handler);
+				
+		//FIXME
+		Displayer disp = new Displayer();
+		new MainWindow(disp, planeSim); //and the server to stop when clicking on cross?
 		
-		//Shuts down the server
-		//server.stopServer();
-		
+		//Waiting for the server to terminate
+		try {
+			server.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

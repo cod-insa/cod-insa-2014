@@ -83,6 +83,7 @@ public class BridgeJavaServer extends Thread{
 	 */
 	public void stopServer()
 	{
+		System.out.println("Stopping the server...");
 		if(server.isServing())
 			server.stop();
 	}
@@ -92,6 +93,7 @@ public class BridgeJavaServer extends Thread{
 	 */
 	public void restartServer()
 	{
+		System.out.println("Restarting the server...");
 		if(server.isServing())
 			server.stop();
 		server.serve();

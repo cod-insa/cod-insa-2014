@@ -2,24 +2,14 @@ package players;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import model.Base;
 import model.Plane;
 import command.Command;
+import control.DataUpdater;
 
 public class LocalHumanPlayer implements Player {
-
-	@Override
-	public List<Command> flushCommands() {
-		// TODO Auto-generated method stub
-		return new ArrayList<Command>();
-	}
-
-	@Override
-	public void addCommand(Command c) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public int getPlayerID() {
@@ -65,6 +55,36 @@ public class LocalHumanPlayer implements Player {
 
 	@Override
 	public Object getWaitData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataUpdater getDataUpdater() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDataUpdater(DataUpdater dataUp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addCommand(Command c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Queue<Command> flushCommands() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Command getNextCommand() {
 		// TODO Auto-generated method stub
 		return null;
 	}

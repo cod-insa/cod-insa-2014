@@ -1,11 +1,14 @@
 package players;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
+import command.Command;
 import model.Base;
 import model.Plane;
-import command.Command;
+import control.DataUpdater;
 
 /**
  * @author LP
@@ -21,11 +24,10 @@ import command.Command;
 
 public class NetworkPlayer implements Player {
 	
-	private List<Command> commands = new ArrayList<Command>();
+	private Queue<Command> commands = new LinkedList<Command>();
 	
 	private int playerID;
 	private String teamName;
-	
 	private int frameNumber;
 	
 	private List<Base> bases;
@@ -34,6 +36,8 @@ public class NetworkPlayer implements Player {
 	private boolean isWaitingDataUpdate;
 	private Object waitData;
 	
+	private DataUpdater dataUpdater;
+	
 	public NetworkPlayer(String name) {
 		this.teamName = name;
 		this.playerID = name.hashCode();
@@ -41,6 +45,7 @@ public class NetworkPlayer implements Player {
 		this.bases = new ArrayList<Base>();
 		this.planes = new ArrayList<Plane>();
 		this.isWaitingDataUpdate = false;
+		this.dataUpdater = null;			//FIXME is set by PlayerManager
 	}
 	
 	public int getPlayerID() {
@@ -78,18 +83,51 @@ public class NetworkPlayer implements Player {
 		return planes;
 	}
 	
-	// FIXME for debug
-	public void addCommand(Command c) {
-		commands.add(c);
+	@Override
+	public DataUpdater getDataUpdater() {
+		return dataUpdater;
 	}
 	
-	// FIXME for debug
-	@Override
-	public List<Command> flushCommands() {
-		//System.out.println(commands.size());
-		List<Command> coms = commands;
-		commands = new ArrayList<Command>();
-		return coms;
+	public void setDataUpdater(DataUpdater dataUpdater) {
+		this.dataUpdater = dataUpdater;
 	}
+	
+	/**
+	 * Add a command to the FIFO
+	 */
+	 public void addCommand(Command c) {
+		 synchronized (commands) {
+			 commands.offer(c);
+		}
+	 }
+	 
+	 /**
+	  * Remove and return the head of the FIFO ueue
+	  */
+	 public Command getNextCommand() {
+		 Command c = null;
+		 synchronized (commands) {
+			 c = commands.remove();
+		}
+		 return c;
+	 }
+
+	 @Override
+	 /**
+	  * Return a copy of all commands in the FIFO queue
+	  * The queue is flushed
+	  */
+	 public Queue<Command> flushCommands() {
+		 Queue<Command> coms = null;
+	  synchronized (commands) {
+		  coms = new LinkedList<Command>(commands);
+		  commands.clear();
+	}
+	  return coms;
+	 }
 }
 
+
+
+
+ 

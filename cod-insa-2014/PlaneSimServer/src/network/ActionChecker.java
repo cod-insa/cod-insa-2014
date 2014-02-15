@@ -15,6 +15,7 @@ public class ActionChecker {
 	public boolean isValid(Action a)
 	{
 		//TODO is an action valid?
+		//return true;
 		return false;
 	}
 	

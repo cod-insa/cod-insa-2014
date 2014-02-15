@@ -6,22 +6,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.Accessors.RAccess;
-
-import control.DataUpdater;
-import display.Displayer;
+import control.SimStepUpdater;
 
 public class Sim {
 	
 	public final long update_period = 30;
 	
+	private SimStepUpdater stepUpdate;
+	
 	//Displayer disp;
 	private int nbPlayers;
-	
 	int current_frame = 0;
 	public int getCurrentFrame() { return current_frame; }
-	
 	boolean running = false;
-	
 	World w;
 	
 	//public final Access<List<Entity>> entities = new BasicAccess(w.entities);
@@ -36,9 +33,11 @@ public class Sim {
 	}
 	*/
 	
-	public Sim (/*Displayer disp*/int nbplay) {
-		/*this.disp = disp;*/
+	public Sim (int nbplay) {
+		/*this.disp = disp;*/		//FIXME
+		
 		this.nbPlayers = nbplay;
+		this.stepUpdate = new SimStepUpdater(update_period);
 		
 		new World(this); // sets this.w
 		
@@ -46,7 +45,7 @@ public class Sim {
             @Override
             public void run() {
             	update();
-            	//DataUpdater.get().update(Sim.this);	//FIXME
+            	SimStepUpdater.get().update(Sim.this);	//FIXME
             	current_frame++;
             }
         }, update_period, update_period);
@@ -66,7 +65,7 @@ public class Sim {
 	void addEntity (Entity<?> e) {
 		w.entities.add(e);
 		//if (disp != null)
-		/*disp.addEntity(e);*/
+		//disp.addEntity(e);*/
 	}
 	
 	/*
@@ -98,9 +97,19 @@ public class Sim {
 	}
 
 	
+	public SimStepUpdater getSetpUpdater() {
+		return stepUpdate;
+	}
+
 	public int getNbPlayers() {
 		return nbPlayers;
 	}
+
+	public World getW() {
+		return w;
+	}
+	
+	
 	
 }
 
