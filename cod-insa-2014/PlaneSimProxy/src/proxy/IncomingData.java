@@ -45,7 +45,7 @@ public class IncomingData {
 	{
 		System.out.println("Trying to connect to the server...");
 		try {
-			id = client.connect("Banane2");
+			id = client.connect("Banane");
 			System.out.println("Connected!");
 		} catch (TException e) {
 			System.err.println("Error while connecting to the server");

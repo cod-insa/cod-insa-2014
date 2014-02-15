@@ -7,6 +7,7 @@ import java.util.Map;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import model.Base;
+import model.Coord;
 import model.Plane;
 import command.Command;
 
@@ -36,10 +37,13 @@ public class Proxy
 	
 	public void updateProxyData(Data d)
 	{
+		System.out.println("Updating data...");
+		
 		// Update numFrame
 		numFrame = d.numFrame;
 		
 		// Update bases 
+		System.out.println("Looking for "+d.bases.size()+" bases");
 		for (genbridge.Base b : d.bases)
 		{
 			if (bases.containsKey(b.base_id)) // update informations
@@ -49,9 +53,16 @@ public class Proxy
 				base._pos.x = b.posit.longit;
 				base._pos.y = b.posit.latid;
 			}
+			else
+			{
+				model.Base base = new Base(b.base_id, new Coord(b.posit.latid,b.posit.longit));
+				bases.put(base.id, base);
+				//FIXME Check if it's good
+			}
 		}
 		
 		// Update avions
+		System.out.println("Looking for "+d.planes.size()+" planes");
 		for (genbridge.Plane p : d.planes)
 		{
 			if (ai_planes.containsKey(p.plane_id))
@@ -62,6 +73,12 @@ public class Proxy
 				plane._pos.y = p.posit.latid;
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
+			}
+			else
+			{
+				model.Plane plane = new Plane(p.plane_id, new Coord(p.posit.latid,p.posit.longit));
+				ai_planes.put(plane.id, plane);
+				//FIXME Check if it's good
 			}
 		}
 		cm.newFrame(); // notify the command sender that we have a new frame
