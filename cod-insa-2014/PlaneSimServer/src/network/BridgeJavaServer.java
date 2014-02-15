@@ -72,7 +72,9 @@ public class BridgeJavaServer extends Thread{
 			TServerTransport serverTransport = new TServerSocket(port);
 			server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
 			System.out.println("Starting the server at localhost:"+port+"...");
+			System.out.println("Waiting for players to connect...");
 			server.serve();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

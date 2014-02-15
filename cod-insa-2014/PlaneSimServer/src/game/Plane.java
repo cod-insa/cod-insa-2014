@@ -19,6 +19,11 @@ public final class Plane extends Entity<model.Plane> {
 	
 	@Override
 	public void updateSpecialized(double period) {
+		if(autoPilot == null)
+		{
+			System.out.println("Error line 22 Plane.java");	//FIXME
+		}
+		else
 		autoPilot.refresh(period);
 	}
 

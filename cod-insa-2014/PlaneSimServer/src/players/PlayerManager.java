@@ -67,6 +67,7 @@ public class PlayerManager {
 	private void checkAllHere(Player p) {
 		if(players.size() == planeSimul.getNbPlayers())
 		{
+			System.out.println("All players are connected, plane simulation starts now!");
 			planeSimul.start();
 			for (Player pp : players) {
 				pp.notify();
@@ -75,6 +76,7 @@ public class PlayerManager {
 		}
 		else
 		{
+			System.out.println("Waiting for more players... Only "+players.size()+" player(s) is(are) connected, out of"+planeSimul.getNbPlayers());
 			synchronized (planeSimul) {
 				try {
 					//this player waits everybody's ready
