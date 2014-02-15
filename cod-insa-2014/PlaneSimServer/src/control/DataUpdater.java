@@ -3,8 +3,6 @@ package control;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import players.Player;
 import game.Entity;
 import game.Sim;

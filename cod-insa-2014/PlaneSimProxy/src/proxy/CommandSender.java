@@ -62,6 +62,7 @@ public class CommandSender {
 
 	public void sendCommand(Command cmd)
 	{
+		System.out.println("Trying to send command...");
 		if (cmd instanceof MoveCommand)
 		{
 			try {
@@ -99,7 +100,8 @@ public class CommandSender {
 					else if (r.code == 2) // other error
 						addError(r.message);
 					// 0 => no error
-			
+					else
+						System.out.println("Command has been sent");
 			} catch (TException e) {
 				System.err.println("Unexpected error occured while reading result data from command");
 				e.printStackTrace();

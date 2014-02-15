@@ -18,10 +18,18 @@ public class World {
 		
 
     	/********** FIXME DEV TEST: **********/
-
-		map.bases.add(new Base(sim, new Coord(.1,.2)));
+		
+		entities.add(new Plane(sim, new Coord(.4,.8)));
+		entities.add(new Plane(sim, new Coord(.0,.1)));
+		entities.add(new Plane(sim, new Coord(.6,.6)));
+		
+		entities.add(new Base(sim, new Coord(.5,.5)));
+		entities.add(new Base(sim, new Coord(.0,.0)));
+		entities.add(new Base(sim, new Coord(.8,.8)));
+		
+		/*map.bases.add(new Base(sim, new Coord(.1,.2)));
 		map.bases.add(new Base(sim, new Coord(.2,.5)));
-		map.bases.add(new Base(sim, new Coord(.7,.6)));
+		map.bases.add(new Base(sim, new Coord(.7,.6)));*/
 
     	/*************************************/
 		
