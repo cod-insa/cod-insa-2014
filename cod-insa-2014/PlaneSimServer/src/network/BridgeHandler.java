@@ -10,7 +10,6 @@ import org.apache.thrift.TException;
 
 import command.MoveCommand;
 
-import control.DataUpdater;
 import players.Player;
 import players.PlayerManager;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;

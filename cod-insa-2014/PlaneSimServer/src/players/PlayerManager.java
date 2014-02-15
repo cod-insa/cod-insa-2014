@@ -49,12 +49,13 @@ public class PlayerManager {
 	 */
 	public int addNewPlayer(String name) 
 	{
-		if(this.usedNames.contains(name) /*|| !this.authorizedNames.contains(name)*/)	//FIXME Enable here security on name
+		if(this.usedNames.contains(name) || this.players.size()>planeSimul.getNbPlayers() /*|| !this.authorizedNames.contains(name)*/)	//FIXME Enable here security on name
 			return -1;
 
 		Player p = new NetworkPlayer(name);
 		p.setDataUpdater(new DataUpdater(planeSimul, p));
 		players.add(p);
+		usedNames.add(name);
 		this.checkAllHere(p);
 		return p.getPlayerID();
 
@@ -70,14 +71,16 @@ public class PlayerManager {
 			System.out.println("All players are connected, plane simulation starts now!");
 			planeSimul.start();
 			for (Player pp : players) {
-				pp.notify();
-				p.getDataUpdater().start();
+				synchronized (pp) {
+					pp.notify();
+					pp.getDataUpdater().start();
+				}
 			}
 		}
 		else
 		{
-			System.out.println("Waiting for more players... Only "+players.size()+" player(s) is(are) connected, out of"+planeSimul.getNbPlayers());
-			synchronized (planeSimul) {
+			System.out.println("Waiting for more players... Only "+players.size()+" player(s) is(are) connected, out of "+planeSimul.getNbPlayers());
+			synchronized (p) {
 				try {
 					//this player waits everybody's ready
 					p.wait();

@@ -99,8 +99,11 @@ public class DataUpdater extends Thread{
 					}
 				}
 			}
-			// Data is ready, tell the player to take it 
-			p.getWaitData().notify();
+			// Data is ready, tell the player to take it
+			synchronized (p.getWaitData()) {
+				p.getWaitData().notify();
+			}
+			
 
 		}
 	}

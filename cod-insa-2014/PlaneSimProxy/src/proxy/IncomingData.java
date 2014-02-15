@@ -43,8 +43,10 @@ public class IncomingData {
 	
 	public void retrieveInitialDatas()
 	{
+		System.out.println("Trying to connect to the server...");
 		try {
 			id = client.connect("Banane");
+			System.out.println("Connected!");
 		} catch (TException e) {
 			System.err.println("Error while connecting to the server");
 			e.printStackTrace();
@@ -53,9 +55,11 @@ public class IncomingData {
 	
 	public void updateData()
 	{
+		System.out.println("Trying to update data...");
 		try {
 			Data d = client.retrieveData(id); // Will be blocked during call
 			proxy.updateProxyData(d);
+			System.out.println("Data updated");
 		} catch (TException e) {
 			e.printStackTrace();
 		}

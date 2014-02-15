@@ -45,6 +45,7 @@ public class NetworkPlayer implements Player {
 		this.bases = new ArrayList<Base>();
 		this.planes = new ArrayList<Plane>();
 		this.isWaitingDataUpdate = false;
+		this.waitData = new Object();
 		this.dataUpdater = null;			//FIXME is set by PlayerManager
 	}
 	
