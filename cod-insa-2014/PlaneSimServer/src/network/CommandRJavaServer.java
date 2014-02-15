@@ -36,31 +36,19 @@ import org.apache.thrift.transport.TServerTransport;
  * with all clients. Single and thread.
  * @author Nicolas Vailliet
  */
-public class BridgeJavaServer extends Thread{
+public class CommandRJavaServer extends Thread{
 
-	private static BridgeJavaServer instance = null;
-	private BridgeHandler dataHandler;
-	private Bridge.Processor dataProcessor;
+	private static CommandRJavaServer instance = null;
+	private CommandReceiverHandler CommandHandler;
+	private CommandReceiver.Processor commandProcessor;
 	private TServer server;
 	private int port = 9090;
-	
-	/////////////////// FIXME SHOULD BE ELSEWHERE //////////////////
-	private static List<Integer> authorizedIDs = new ArrayList<Integer>();
-	
-	public static List<Integer> getAuthorizedIDs() {
-		return authorizedIDs;
-	}
 
-	public static void addAuthorizedID(int authorizedIDs) {
-		BridgeJavaServer.authorizedIDs.add(authorizedIDs);
-	}
-	/////////////////// SHOULD BE ELSEWHERE //////////////////
-
-	private BridgeJavaServer(int port, BridgeHandler handler)
+	private CommandRJavaServer(int port, CommandReceiverHandler crh)
 	{
 		this.port = port;
-		this.dataHandler = handler;
-		dataProcessor = new Bridge.Processor(handler);
+		this.CommandHandler = crh;
+		commandProcessor = new CommandReceiver.Processor(crh);
 	}
 
 	/**
@@ -68,10 +56,10 @@ public class BridgeJavaServer extends Thread{
 	 * @param port
 	 * @return the unique instance of BridgeJavaServer
 	 */
-	public static BridgeJavaServer startServer(int port, BridgeHandler handler)
+	public static CommandRJavaServer startServer(int port, CommandReceiverHandler comHandler)
 	{
 		if(instance == null)
-			instance = new BridgeJavaServer(port,handler);
+			instance = new CommandRJavaServer(port, comHandler);
 		if(!instance.isAlive())
 			instance.start();
 		return instance;
@@ -87,9 +75,10 @@ public class BridgeJavaServer extends Thread{
 	public void run() {
 		super.run();
 		try {
-			TServerTransport serverTransport = new TServerSocket(port);
-			server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(dataProcessor));
-			
+			TNonblockingServerTransport serverTransport2 = new TNonblockingServerSocket(port+1);
+	 
+	        server = new TNonblockingServer(new TNonblockingServer.Args(serverTransport2).processor(commandProcessor));
+
 			System.out.println("Starting servers at localhost:"+port+" and localhost:"+(port+1)+"...");
 			System.out.println("Waiting for players to connect...");
 			server.serve();

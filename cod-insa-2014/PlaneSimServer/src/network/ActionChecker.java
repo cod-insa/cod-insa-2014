@@ -16,7 +16,7 @@ public class ActionChecker {
 	{
 		//TODO is an action valid?
 		//return true;
-		return false;
+		return true; // Let's say yes.
 	}
 	
 	

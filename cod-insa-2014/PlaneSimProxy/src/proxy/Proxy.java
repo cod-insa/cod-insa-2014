@@ -28,11 +28,11 @@ public class Proxy
 	public Proxy(String ip, int port)
 	{
 		idm = new IncomingData(ip,port,this);
-		cm = new CommandSender(ip,port,idm.getIdConnection(), this);
 		ai_planes = new HashMap<Integer,Plane>();
 		//killed_planes = new HashMap<Integer,Plane>();
 		bases = new HashMap<Integer,Base>();
 		idm.retrieveInitialDatas();
+		cm = new CommandSender(ip,port,idm.getIdConnection(), this);
 	}
 	
 	public void updateProxyData(Data d)
@@ -65,6 +65,12 @@ public class Proxy
 		System.out.println("Looking for "+d.planes.size()+" planes");
 		for (genbridge.Plane p : d.planes)
 		{
+			System.out.print(p.plane_id + " ");
+		}
+		System.out.println();
+		for (genbridge.Plane p : d.planes)
+		{
+			
 			if (ai_planes.containsKey(p.plane_id))
 			{
 				model.Plane plane = ai_planes.get(p.plane_id);

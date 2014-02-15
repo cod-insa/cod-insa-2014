@@ -31,6 +31,7 @@ public class IncomingData {
 	    } catch (Exception e) {
 	    	System.err.println("Error while initializing data retriever : ");
 	    	e.printStackTrace();
+	    	System.exit(-1);
 	    } 
 		
 		proxy = p;
@@ -45,11 +46,20 @@ public class IncomingData {
 	{
 		System.out.println("Trying to connect to the server...");
 		try {
-			id = client.connect("Banane");
+			id = client.connect("Banane2");
+			
+			if (id == -1)
+			{
+				System.err.print("Error while connecting to the server, id sent by servor is not valid.");
+				System.exit(1);
+			}
+			
+			System.out.println("Id :" + id);
 			System.out.println("Connected!");
 		} catch (TException e) {
 			System.err.println("Error while connecting to the server");
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
@@ -61,9 +71,9 @@ public class IncomingData {
 			proxy.updateProxyData(d);
 			System.out.println("Data updated");
 		} catch (TException e) {
+			System.err.println("Error while retrieving datas from server");
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
-
-
 }

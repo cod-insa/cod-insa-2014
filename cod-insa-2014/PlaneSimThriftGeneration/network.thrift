@@ -61,10 +61,12 @@ struct Response {
 
 service Bridge { 
 	int connect(1: string nom),
-Data retrieveData(1: int idConnection),
-Response addActionToPerform(1: Action act, 2: int idConnection)
+	Data retrieveData(1: int idConnection)
 }
 
+service CommandReceiver {
+	Response addActionToPerform(1: Action act, 2: int idConnection)
+}
 
 # Tuto
 

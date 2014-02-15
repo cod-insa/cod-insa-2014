@@ -38,7 +38,6 @@ public class DataUpdater extends Thread{
 		this.working = false;
 
 		this.tobeSent = new Data();
-		this.tobeSent = new Data();
 		this.tobeSent.numFrame = frameNum++;
 		this.tobeSent.bases = new ArrayList<Base>();
 		this.tobeSent.planes = new ArrayList<Plane>();
@@ -63,6 +62,7 @@ public class DataUpdater extends Thread{
 
 
 					List<Entity<?>> entities = simul.getW().getEntities();
+
 					for (Entity<?> entity : entities) {
 
 						//Updating planes
@@ -82,7 +82,7 @@ public class DataUpdater extends Thread{
 							tobeSent.planes.add(p);
 						}  
 						
-						//Updating bases
+						//Updating base
 						if(entity instanceof game.Base)
 						{
 							Base b = new Base();
@@ -92,7 +92,10 @@ public class DataUpdater extends Thread{
 							c.latid = 0;			//FIXME
 							b.setPosit(c);
 							//FIXME add ID Team that own this base
+							
+							tobeSent.bases.add(b);
 						}
+						
 						
 					}
 				}

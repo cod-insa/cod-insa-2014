@@ -20,22 +20,27 @@ public class MoveAI extends AbstractAI
 	@Override
 	public void think() {
 		proxy.updateSimFrame();
-		
 		ArrayList<Base.View> bases = proxy.getBases();
 		for (Plane.View p : proxy.getMyPlanes())
 		{
 			// Get a random base :
 			if(bases.size()>0) {
-			Random r = new Random();
-			r.setSeed(System.currentTimeMillis());
-			int i = r.nextInt(bases.size());
-			System.out.println(i);
-			Base.View b = bases.get(i);
-			
-			// Make and send a MoveCommand with the plane to the random base
-			MoveCommand mc = new MoveCommand(p.id(),b.position);
-			proxy.sendCommand(mc);
+				Random r = new Random();
+				r.setSeed(System.currentTimeMillis());
+				int i = r.nextInt(bases.size());
+				Base.View b = bases.get(i);
+				
+				// Make and send a MoveCommand with the plane to the random base
+				MoveCommand mc = new MoveCommand(p.id(),b.position);
+				proxy.sendCommand(mc);
 			}
+		}
+		try {
+			// le client ne doit pas s'arrêter pas (et ne ferme pas la socket)
+			// wait marche pas, faudra changer ça lorsqu'il sera temps.
+			Thread.sleep(Integer.MAX_VALUE);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
