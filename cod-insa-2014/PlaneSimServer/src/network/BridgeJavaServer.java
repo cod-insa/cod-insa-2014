@@ -23,11 +23,8 @@ import java.util.List;
 
 import genbridge.*;
 
-import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
-import org.apache.thrift.transport.TNonblockingServerSocket;
-import org.apache.thrift.transport.TNonblockingServerTransport;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
@@ -42,23 +39,10 @@ public class BridgeJavaServer extends Thread{
 	private BridgeHandler dataHandler;
 	private Bridge.Processor dataProcessor;
 	private TServer server;
-	private int port = 9090;
+	private int port = NetworkSettings.port;
 	
-	/////////////////// FIXME SHOULD BE ELSEWHERE //////////////////
-	private static List<Integer> authorizedIDs = new ArrayList<Integer>();
-	
-	public static List<Integer> getAuthorizedIDs() {
-		return authorizedIDs;
-	}
-
-	public static void addAuthorizedID(int authorizedIDs) {
-		BridgeJavaServer.authorizedIDs.add(authorizedIDs);
-	}
-	/////////////////// SHOULD BE ELSEWHERE //////////////////
-
-	private BridgeJavaServer(int port, BridgeHandler handler)
+	private BridgeJavaServer(BridgeHandler handler)
 	{
-		this.port = port;
 		this.dataHandler = handler;
 		dataProcessor = new Bridge.Processor(handler);
 	}
@@ -68,10 +52,10 @@ public class BridgeJavaServer extends Thread{
 	 * @param port
 	 * @return the unique instance of BridgeJavaServer
 	 */
-	public static BridgeJavaServer startServer(int port, BridgeHandler handler)
+	public static BridgeJavaServer startServer(BridgeHandler handler)
 	{
 		if(instance == null)
-			instance = new BridgeJavaServer(port,handler);
+			instance = new BridgeJavaServer(handler);
 		if(!instance.isAlive())
 			instance.start();
 		return instance;
@@ -89,9 +73,7 @@ public class BridgeJavaServer extends Thread{
 		try {
 			TServerTransport serverTransport = new TServerSocket(port);
 			server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(dataProcessor));
-			
-			System.out.println("Starting servers at localhost:"+port+" and localhost:"+(port+1)+"...");
-			System.out.println("Waiting for players to connect...");
+			System.out.println("Starting server to manage data update, at "+NetworkSettings.ip_address+":"+this.port);
 			server.serve();
 		} catch (Exception e) {
 			e.printStackTrace();

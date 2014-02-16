@@ -19,6 +19,7 @@ public class PlayerManager {
 	List<String> usedNames;
 	Sim planeSimul;
 	private ArrayList<String> authorizedNames;
+	private ArrayList<Integer> authorizedIds;
 
 	public PlayerManager(Sim planeSim)
 	{
@@ -27,6 +28,7 @@ public class PlayerManager {
 		this.planeSimul = planeSim;
 		
 		//Security	//FIXME if does not satisfy us
+		this.authorizedIds = new ArrayList<Integer>();
 		this.authorizedNames = new ArrayList<String>();
 		authorizedNames.add("team_rennes_495");
 		authorizedNames.add("team_rouen_274");
@@ -56,6 +58,7 @@ public class PlayerManager {
 		p.setDataUpdater(new DataUpdater(planeSimul, p));
 		players.add(p);
 		usedNames.add(name);
+		authorizedIds.add(p.getPlayerID());
 		this.checkAllHere(p);
 		return p.getPlayerID();
 
@@ -98,5 +101,10 @@ public class PlayerManager {
 			if(p.getPlayerID() == playerID)
 				return p;
 		return null;
+	}
+	
+	public boolean isAuthorized(int id)
+	{
+		return this.authorizedIds.contains(id);
 	}
 }

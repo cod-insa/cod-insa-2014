@@ -3,16 +3,15 @@ package network;
 import game.Sim;
 import genbridge.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.thrift.TException;
-
-import command.MoveCommand;
 import players.Player;
 import players.PlayerManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/**
+ * Bridge handler is the handler for connection and data sender.
+ * @author NVA
+ *
+ */
 public class BridgeHandler implements Bridge.Iface{
 
 
@@ -28,7 +27,6 @@ public class BridgeHandler implements Bridge.Iface{
 		int id = playerManager.addNewPlayer(nom);
 		if(id != -1)
 		{
-			BridgeJavaServer.addAuthorizedID(id);
 			System.out.println("Player "+nom+" is now connected");
 		}
 		else
@@ -42,8 +40,7 @@ public class BridgeHandler implements Bridge.Iface{
 	public Data retrieveData(int idConnection) throws TException {
 
 		//ID verification
-		System.out.println("authorizedID: " + BridgeJavaServer.getAuthorizedIDs());
-		if(!BridgeJavaServer.getAuthorizedIDs().contains(idConnection))
+		if(!playerManager.isAuthorized(idConnection))
 		{
 			System.out.println("ID Player "+idConnection+" wants data but is not connected");
 			return new Data();

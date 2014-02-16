@@ -1,19 +1,19 @@
 package network;
 
-import java.util.ArrayList;
-
 import game.Sim;
 import genbridge.Action;
 import genbridge.Response;
 import genbridge.CommandReceiver;
-
 import org.apache.thrift.TException;
-
 import players.Player;
 import players.PlayerManager;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import command.MoveCommand;
 
+/**
+ * CommandReveiverHandler
+ *
+ */
 public class CommandReceiverHandler implements CommandReceiver.Iface {
 
 
@@ -36,7 +36,7 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 			throws TException {
 
 		//ID verification
-		if(!BridgeJavaServer.getAuthorizedIDs().contains(idConnection))
+		if(!playerManager.isAuthorized(idConnection))
 		{
 			System.out.println("ID Player "+idConnection+" action refused. Cause: Client not connected");
 			return new Response(ERROR_FORBIDDEN, "The server does not know you. Please use connect method");

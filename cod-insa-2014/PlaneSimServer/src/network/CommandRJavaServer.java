@@ -18,18 +18,12 @@ package network;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import genbridge.*;
 
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TNonblockingServerTransport;
-import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TServerTransport;
 
 /**
  * BridgeJavaServer is the server communicating over IP
@@ -42,11 +36,10 @@ public class CommandRJavaServer extends Thread{
 	private CommandReceiverHandler CommandHandler;
 	private CommandReceiver.Processor commandProcessor;
 	private TServer server;
-	private int port = 9090;
+	private int port = NetworkSettings.port+1;
 
-	private CommandRJavaServer(int port, CommandReceiverHandler crh)
+	private CommandRJavaServer(CommandReceiverHandler crh)
 	{
-		this.port = port;
 		this.CommandHandler = crh;
 		commandProcessor = new CommandReceiver.Processor(crh);
 	}
@@ -56,10 +49,10 @@ public class CommandRJavaServer extends Thread{
 	 * @param port
 	 * @return the unique instance of BridgeJavaServer
 	 */
-	public static CommandRJavaServer startServer(int port, CommandReceiverHandler comHandler)
+	public static CommandRJavaServer startServer(CommandReceiverHandler comHandler)
 	{
 		if(instance == null)
-			instance = new CommandRJavaServer(port, comHandler);
+			instance = new CommandRJavaServer(comHandler);
 		if(!instance.isAlive())
 			instance.start();
 		return instance;
@@ -75,12 +68,9 @@ public class CommandRJavaServer extends Thread{
 	public void run() {
 		super.run();
 		try {
-			TNonblockingServerTransport serverTransport2 = new TNonblockingServerSocket(port+1);
-	 
+			TNonblockingServerTransport serverTransport2 = new TNonblockingServerSocket(this.port);
 	        server = new TNonblockingServer(new TNonblockingServer.Args(serverTransport2).processor(commandProcessor));
-
-			System.out.println("Starting servers at localhost:"+port+" and localhost:"+(port+1)+"...");
-			System.out.println("Waiting for players to connect...");
+			System.out.println("Starting server thread to manage incoming command, "+NetworkSettings.ip_address+":"+this.port+"...");
 			server.serve();
 		} catch (Exception e) {
 			e.printStackTrace();

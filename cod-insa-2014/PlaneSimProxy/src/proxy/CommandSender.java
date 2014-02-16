@@ -59,7 +59,6 @@ public class CommandSender {
 	public void sendCommand(Command cmd)
 	{
 		System.out.println("Trying to send command...");
-		System.out.println(ip_client + " " + port_client);
 		if (cmd instanceof MoveCommand)
 		{
 			// Convert the command
