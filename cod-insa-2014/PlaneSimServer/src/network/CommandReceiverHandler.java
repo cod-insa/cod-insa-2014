@@ -2,13 +2,16 @@ package network;
 
 import game.Sim;
 import genbridge.Action;
-import genbridge.Response;
 import genbridge.CommandReceiver;
+import genbridge.Response;
+
 import org.apache.thrift.TException;
+
 import players.Player;
 import players.PlayerManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import command.MoveCommand;
+import common.NotSupportedException;
 
 /**
  * CommandReveiverHandler
@@ -62,12 +65,12 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 
 		case BUILD_PLANE:
 			//TODO
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 			//break;
 
 		case WAIT_PLANE:
 			//TODO
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 			//break;
 
 		default:

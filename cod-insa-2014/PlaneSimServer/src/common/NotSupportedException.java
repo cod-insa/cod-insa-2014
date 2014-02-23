@@ -1,6 +1,6 @@
 package common;
 
-public class NotSupportedException extends Exception {
+public class NotSupportedException extends RuntimeException { //Exception {
 	
 	private static final long serialVersionUID = 1L;
 
