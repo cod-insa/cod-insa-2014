@@ -2,6 +2,9 @@ package model;
 
 import java.awt.geom.Point2D;
 
+import common.Copyable;
+import common.Viewable;
+
 /*
 
 When you own a Coord, set it "final".
@@ -21,17 +24,19 @@ the object's view instead:
 Methods on Coord will modify the current Coord object.
 Methods on Coord.View will all leave the objects intact.
 
+A method accepting Coord.Copy means the method wants to own a new independent
+object that no one else has direct access on.
+
 */
 
-public final class Coord {
+//public final class Coord implements Copyable<Coord>, Viewable {
+public final class Coord implements Viewable<Coord.View>, Copyable<Coord> {
 
-	public double x, y;
-	
-	public final class View {
+	public final class View implements Viewable.View { //implements Copyable<Coord> {
 		
 		public double x() { return x; }
 		public double y() { return y; }
-
+		
 		public Coord add (View cv)
 		{ Coord r = new Coord(this); r.add(cv); return r; }
 		
@@ -41,9 +46,39 @@ public final class Coord {
 		public Coord rotate (Coord center, double angle)
 		{ Coord r = new Coord(this); r.rotate(center, angle); return r; }
 		
+		//@Override
+		public Coord copy() { return Coord.this.copy(); }
+		
+	}
+	static public final class Unique extends common.Unique<Coord> {
+		/*public Unique(Coord c) {
+			super(c);
+		}
+		// To directly create an object, avoiding an actual copy
+		public Unique(double x, double y) {
+			//this.object = new Coord(x,y);
+			super(new Coord(x,y), false);
+		}*/
+		public Unique(Coord original) {
+			super(original.copy());
+		}
+		public Unique(double x, double y) {
+			super(new Coord(x,y));
+		}
 	}
 	
+	public double x, y;
+	
 	public final View view = new View();
+	
+	@Override
+	public View getView() {
+		return view;
+	}
+	@Override
+	public Coord copy() {
+		return new Coord(this);
+	}
 	
 	public Coord (double x, double y) {
 		this.x = x;

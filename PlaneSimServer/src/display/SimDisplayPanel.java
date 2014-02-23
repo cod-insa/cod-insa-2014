@@ -58,7 +58,7 @@ public class SimDisplayPanel extends JPanel {
     	Random r = new Random();
     	int nb = 5;
     	for (int i = 0; i < nb; i++) {
-    		Plane p = new Plane(sim, new Coord(r.nextDouble(), r.nextDouble()));
+    		Plane p = new Plane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()));
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view);

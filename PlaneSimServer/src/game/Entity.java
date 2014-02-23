@@ -54,7 +54,7 @@ public abstract class Entity<Model extends model.Entity> {
 	
 	//public Entity(Coord.View pos) {
 	//public Entity(Sim sim, EntityView<?> view, Coord pos) {
-	public Entity(Model model, Sim sim, Coord pos, Altitude alt) {
+	public Entity(Model model, Sim sim, Coord.Unique pos, Altitude alt) {
 		//_pos.set(pos);
 		///System.out.println(T.unit);
 		//_pos = pos;

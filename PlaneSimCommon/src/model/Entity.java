@@ -34,9 +34,9 @@ public class Entity {
 		_rot %= Math.PI*2;
 	}
 	
-	public Entity(int id, Coord pos) {
+	public Entity(int id, Coord.Unique pos) {
 		this.id = id;
-		_pos = pos;
+		_pos = pos.take();
 		position = _pos.view;
 		view = new View();
 		//this.view = view;

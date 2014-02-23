@@ -13,7 +13,7 @@ public class Plane extends Entity implements Serializable {
 	
 	public double health = 1;
 	
-	public Plane(int id, Coord pos) {
+	public Plane(int id, Coord.Unique pos) {
 		super(id,pos);
 	}
 	

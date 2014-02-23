@@ -7,7 +7,7 @@ import display.EntityDisplay;
 
 public class Base extends Entity<model.Base> {
 	
-	public Base(Sim sim, Coord pos) {
+	public Base(Sim sim, Coord.Unique pos) {
 		super(new model.Base(getNextId(), pos), sim, pos, Altitude.GROUND);
 	}
 	

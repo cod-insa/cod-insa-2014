@@ -15,13 +15,13 @@ public class World {
 		sim.w = this;
 		map = new Map();
 		
-
+		
     	/********** FIXME DEV TEST: **********/
-
-		map.bases.add(new Base(sim, new Coord(.1,.2)));
-		map.bases.add(new Base(sim, new Coord(.2,.5)));
-		map.bases.add(new Base(sim, new Coord(.7,.6)));
-
+		
+		map.bases.add(new Base(sim, new Coord.Unique(.1,.2)));
+		map.bases.add(new Base(sim, new Coord.Unique(.2,.5)));
+		map.bases.add(new Base(sim, new Coord.Unique(.7,.6)));
+		
     	/*************************************/
 		
 	}

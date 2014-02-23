@@ -10,7 +10,7 @@ public final class Plane extends Entity<model.Plane> {
 	
 	//model.Plane.View model() { return null; }
 	
-	public Plane (Sim sim, Coord pos) {
+	public Plane (Sim sim, Coord.Unique pos) {
 		super(new model.Plane(getNextId(), pos), sim, pos, Altitude.SKY);
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
