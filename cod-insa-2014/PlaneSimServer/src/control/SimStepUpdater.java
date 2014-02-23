@@ -1,10 +1,13 @@
 package control;
 
 import game.Sim;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import players.Player;
+
 import command.Command;
 import command.MoveCommand;
 
@@ -36,7 +39,7 @@ public class SimStepUpdater {
 	}
 
 	public void apply (Command c, Sim s) {
-		if (c instanceof MoveCommand){
+		if (c instanceof MoveCommand) { System.out.println("ok");
 			MoveCommand mc = (MoveCommand) c;
 			s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
 		} else {

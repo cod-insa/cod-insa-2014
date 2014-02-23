@@ -6,7 +6,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.Accessors.RAccess;
+
 import control.SimStepUpdater;
+import display.Displayer;
 
 public class Sim {
 	
@@ -14,7 +16,7 @@ public class Sim {
 	
 	private SimStepUpdater stepUpdate;
 	
-	//Displayer disp;
+	Displayer disp;
 	private int nbPlayers;
 	int current_frame = 0;
 	public int getCurrentFrame() { return current_frame; }
@@ -33,8 +35,8 @@ public class Sim {
 	}
 	*/
 	
-	public Sim (int nbplay) {
-		/*this.disp = disp;*/		//FIXME
+	public Sim (Displayer disp, int nbplay) {
+		this.disp = disp;
 		
 		this.nbPlayers = nbplay;
 		this.stepUpdate = new SimStepUpdater(update_period);
@@ -65,7 +67,7 @@ public class Sim {
 	void addEntity (Entity<?> e) {
 		w.entities.add(e);
 		//if (disp != null)
-		//disp.addEntity(e);*/
+		disp.addEntity(e);
 	}
 	
 	/*

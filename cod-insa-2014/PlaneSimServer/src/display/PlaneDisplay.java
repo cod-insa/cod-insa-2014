@@ -26,7 +26,7 @@ public class PlaneDisplay extends EntityDisplay<Plane> {
 
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
-
+		
 		g2d.setColor(Color.blue);
 		
 		g2d.draw(shape.toPolygon(entity.vModel.position, entity.vModel.rotation(), vtrans));

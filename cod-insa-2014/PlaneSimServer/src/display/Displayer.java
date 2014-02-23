@@ -10,16 +10,16 @@ public class Displayer {
 	@SuppressWarnings("serial")
 	static class EntityList extends ArrayList<Entity<?>> {}
 	
-	final EntityList[] entities;
+	final EntityList[] entitiesByAltitude;
 	
 	public Displayer() {
-		entities = new EntityList[Entity.Altitude.values().length];
-		for (int i = 0; i < entities.length; i++)
-			entities[i] = new EntityList();
+		entitiesByAltitude = new EntityList[Entity.Altitude.values().length];
+		for (int i = 0; i < entitiesByAltitude.length; i++)
+			entitiesByAltitude[i] = new EntityList();
 	}
 	
 	public void addEntity(Entity<?> e) {
-		entities[e.altitude.ordinal()].add(e);
+		entitiesByAltitude[e.altitude.ordinal()].add(e);
 	}
 	
 }

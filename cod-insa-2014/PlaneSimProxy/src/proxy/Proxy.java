@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import model.Base;
 import model.Coord;
 import model.Plane;
+
 import command.Command;
+import common.NotSupportedException;
 
 
 public class Proxy 
@@ -55,7 +56,7 @@ public class Proxy
 			}
 			else
 			{
-				model.Base base = new Base(b.base_id, new Coord(b.posit.latid,b.posit.longit));
+				model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.latid,b.posit.longit));
 				bases.put(base.id, base);
 				//FIXME Check if it's good
 			}
@@ -82,7 +83,7 @@ public class Proxy
 			}
 			else
 			{
-				model.Plane plane = new Plane(p.plane_id, new Coord(p.posit.latid,p.posit.longit));
+				model.Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
 				ai_planes.put(plane.id, plane);
 				//FIXME Check if it's good
 			}
@@ -93,7 +94,7 @@ public class Proxy
 	public ArrayList<Plane.View> getKilledPlanes()
 	{
 		//return killed_planes; // Not used pour le moment
-		throw new NotImplementedException();
+		throw new NotSupportedException();
 		//return null;
 	}
 	public int getNumFrame() 

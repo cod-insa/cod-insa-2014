@@ -23,11 +23,6 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 
 import model.Coord;
-import players.NetworkPlayer;
-
-import command.MoveCommand;
-
-import control.DataUpdater;
 
 
 public class SimDisplayPanel extends JPanel {
@@ -174,9 +169,11 @@ public class SimDisplayPanel extends JPanel {
 
         g2d.setColor(Color.blue);
         
+        //for (List<Entity<?>> els : disp.entities) System.out.println(els.size());
+        
         //for (Entity e: sim.getEntities()) {
         //for (Entity e: sim.entities.get()) {
-        for (List<Entity<?>> els : disp.entities)
+        for (List<Entity<?>> els : disp.entitiesByAltitude)
         	for (Entity<?> e: els) {
             	//if (e instanceof Base) System.out.println("ok");
             	

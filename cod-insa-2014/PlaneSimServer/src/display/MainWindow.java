@@ -284,7 +284,7 @@ public class MainWindow {
      */
     void quit() {
     	this.frmPlaneSim.dispose();
-    	System.out.println("HMI has been closed. Server still be running!");
+    	System.out.println("HMI has been closed. Server still be running!"); // FIXME try exiting the server
         //System.exit(0);
     }
 	
