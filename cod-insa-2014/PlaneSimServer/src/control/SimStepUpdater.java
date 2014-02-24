@@ -31,11 +31,11 @@ public class SimStepUpdater {
 		single = this;
 	}
 
-	public void update (Sim s) {
+	public void update (Sim s) {/* FIXME
 		if (s.getCurrentFrame()%period == 0)
 			for (Player p: pm.getPlayers())
 				for (Command c: p.flushCommands())
-					apply(c, s);
+					apply(c, s);*/
 	}
 
 	public void apply (Command c, Sim s) { // TODO actually call this
@@ -49,7 +49,9 @@ public class SimStepUpdater {
 
 	public void addPlayer (Player p) {
 		//players.add(p);
-		pm.addNewPlayer(name)
+		/* FIXME
+		 * pm.addNewPlayer(name)
+		 */
 	}
 
 }
