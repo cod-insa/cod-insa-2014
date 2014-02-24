@@ -56,7 +56,7 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 		}
 
 		// 1) Create a Common.command.Command with information from Action
-		command.Command com = null;
+		command.Command com;
 
 		switch (act.cmd) {
 		case MOVE_PLANE:
@@ -75,15 +75,19 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 
 		default:
 			System.err.println("Error: Unknown action, cannot be processed");
-			break;
+			return new Response(ERROR_UNKNOWN, "");
 		}
-
+		
+		//if (com != null)
 		// 2) Send it to the NetworkPlayer
 		p.addCommand(com);
-
+		
 		// OK
 		System.out.println("Player "+p.getTeamName()+" action has been accepted");
 		return new Response(SUCCESS,"");
 	}
 
 }
+
+
+
