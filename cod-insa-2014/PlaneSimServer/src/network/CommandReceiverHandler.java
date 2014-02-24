@@ -4,6 +4,7 @@ import game.Sim;
 import genbridge.Action;
 import genbridge.CommandReceiver;
 import genbridge.Response;
+import model.Coord;
 
 import org.apache.thrift.TException;
 
@@ -60,7 +61,7 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 
 		switch (act.cmd) {
 		case MOVE_PLANE:
-			com = new MoveCommand(idConnection, null);	//FIXME
+			com = new MoveCommand(idConnection, new Coord(0,0).view);  //FIXME coordinate
 			break;
 
 		case BUILD_PLANE:

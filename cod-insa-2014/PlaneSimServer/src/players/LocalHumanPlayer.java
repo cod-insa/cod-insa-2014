@@ -1,12 +1,13 @@
 package players;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
 import model.Base;
 import model.Plane;
+
 import command.Command;
+
 import control.DataUpdater;
 
 public class LocalHumanPlayer implements Player {
@@ -72,9 +73,9 @@ public class LocalHumanPlayer implements Player {
 	}
 
 	@Override
-	public void addCommand(Command c) {
+	public boolean addCommand(Command c) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override

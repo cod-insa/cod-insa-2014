@@ -51,7 +51,7 @@ public class PlayerManager {
 	 */
 	public int addNewPlayer(String name) 
 	{
-		if(this.usedNames.contains(name) || this.players.size()>planeSimul.getNbPlayers() /*|| !this.authorizedNames.contains(name)*/)	//FIXME Enable here security on name
+		if (this.usedNames.contains(name) || this.players.size()>planeSimul.getNbPlayers() /*|| !this.authorizedNames.contains(name)*/)	//FIXME Enable here security on name
 			return -1;
 
 		Player p = new NetworkPlayer(name);

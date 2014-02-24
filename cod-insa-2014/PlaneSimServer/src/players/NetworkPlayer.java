@@ -5,9 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import command.Command;
 import model.Base;
 import model.Plane;
+
+import command.Command;
+
 import control.DataUpdater;
 
 /**
@@ -96,9 +98,10 @@ public class NetworkPlayer implements Player {
 	/**
 	 * Add a command to the FIFO
 	 */
-	 public void addCommand(Command c) {
+	 public boolean addCommand(Command c) {
 		 synchronized (commands) {
-			 commands.offer(c);
+			 return commands.offer(c);
+			 //commands.add(c);
 		}
 	 }
 	 
@@ -118,14 +121,15 @@ public class NetworkPlayer implements Player {
 	  * Return a copy of all commands in the FIFO queue
 	  * The queue is flushed
 	  */
-	 public Queue<Command> flushCommands() {
-		 Queue<Command> coms = null;
-	  synchronized (commands) {
-		  coms = new LinkedList<Command>(commands);
-		  commands.clear();
+	public Queue<Command> flushCommands() {
+		Queue<Command> coms = null;
+		synchronized (commands) {
+			coms = new LinkedList<Command>(commands);
+			commands.clear();
+		}
+		return coms;
 	}
-	  return coms;
-	 }
+	
 }
 
 

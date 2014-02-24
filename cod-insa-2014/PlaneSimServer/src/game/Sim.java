@@ -47,7 +47,7 @@ public class Sim {
             @Override
             public void run() {
             	update();
-            	SimStepUpdater.get().update(Sim.this);	//FIXME
+            	SimStepUpdater.get().update(Sim.this);	//FIXME don't do that here, at each frame!
             	current_frame++;
             }
         }, update_period, update_period);

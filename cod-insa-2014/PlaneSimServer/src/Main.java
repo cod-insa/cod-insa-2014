@@ -28,7 +28,7 @@ public class Main {
 		PlayerManager pmanager = new PlayerManager(planeSim);
 		
 		//Is ready to manage clients
-		BridgeHandler handler = new BridgeHandler(planeSim,pmanager);							//synchronous handler
+		BridgeHandler handler = new BridgeHandler(planeSim, pmanager);							//synchronous handler
 		CommandReceiverHandler comHandler = new CommandReceiverHandler(planeSim, pmanager);		//Asynchronous handler
 		
 		//Starting the server to accept players

@@ -5,12 +5,14 @@ import java.util.Queue;
 
 import model.Base;
 import model.Plane;
+
 import command.Command;
+
 import control.DataUpdater;
 
 public interface Player {
 
-	void addCommand(Command c);
+	boolean addCommand(Command c);
 	Queue<Command> flushCommands();
 	Command getNextCommand();
     int getPlayerID();
