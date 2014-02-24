@@ -1,17 +1,19 @@
 package network;
 
 import game.Sim;
-import genbridge.Action;
 import genbridge.CommandReceiver;
+import genbridge.MoveCommandData;
 import genbridge.Response;
+import genbridge.WaitCommandData;
 import model.Coord;
 
 import org.apache.thrift.TException;
 
 import players.Player;
 import players.PlayerManager;
-
+import command.Command;
 import command.MoveCommand;
+import command.WaitCommand;
 import common.NotSupportedException;
 
 /**
@@ -35,8 +37,8 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 		this.playerManager = pmanager;
 		this.actChecker = new ActionChecker(sim);
 	}
-	@Override
-	public Response addActionToPerform(Action act, int idConnection)
+
+	public Response acceptCommand(Command cmd, int idConnection)
 			throws TException {
 
 		//ID verification
@@ -50,12 +52,12 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 		System.out.println("Player "+p.getTeamName()+" wants to perform action");
 
 		//Action verification
-		if(!actChecker.isValid(act))
+		if(!actChecker.isValid(cmd))
 		{
 			System.out.println("Player "+p.getTeamName()+" action refused. Cause: illegal action");
 			return new Response(ERROR_COMMAND, "This command is not legal");	//FIXME message more explicit?
 		}
-
+/*
 		// 1) Create a Common.command.Command with information from Action
 		command.Command com;
 
@@ -77,15 +79,36 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 		default:
 			System.err.println("Error: Unknown action, cannot be processed");
 			return new Response(ERROR_UNKNOWN, "");
-		}
+		}*/
 		
 		//if (com != null)
-		// 2) Send it to the NetworkPlayer
-		p.addCommand(com);
-		
-		// OK
+
+		p.addCommand(cmd); 
 		System.out.println("Player "+p.getTeamName()+" action has been accepted");
 		return new Response(SUCCESS,"");
+	}
+	
+	
+	@Override
+	public Response sendMoveCommand(MoveCommandData cmd, int idConnection)
+			throws TException {
+
+		// 1) Create a Common.command.Command with information from MoveCommandData
+		Command com = new MoveCommand(cmd.pc.idPlane, new Coord(cmd.posDest.latid,cmd.posDest.longit).view);
+		
+		// 2) Verify and send the command to the NetworkPlayer
+		return acceptCommand(com, idConnection); // then send the result back to the client
+	}
+	
+	
+	@Override
+	public Response sendWaitCommand(WaitCommandData cmd, int idConnection)
+			throws TException {
+		// 1) Create a Common.command.Command with information from WaitCommandData
+		Command com = new WaitCommand(cmd.pc.idPlane);
+		
+		// 2) Verify and send the command to the NetworkPlayer
+		return acceptCommand(com, idConnection); // then send the result back to the client
 	}
 
 }

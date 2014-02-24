@@ -23,7 +23,7 @@ public class SimStepUpdater {
 	*/
 
 	// period: the number of game frames between asking the players their commands
-	public SimStepUpdater(/*PlayerManager pm*/, long update_period) {
+	public SimStepUpdater(/*PlayerManager pm ,*/ long update_period) {
 		this.pm = null;//pm; FIXME
 		this.period = update_period;
 		if (single != null)

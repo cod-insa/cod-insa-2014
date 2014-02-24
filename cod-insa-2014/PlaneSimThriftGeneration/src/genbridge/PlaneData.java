@@ -32,26 +32,28 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, java.io.Serializable, Cloneable, Comparable<Plane> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Plane");
+public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._Fields>, java.io.Serializable, Cloneable, Comparable<PlaneData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("PlaneData");
 
   private static final org.apache.thrift.protocol.TField PLANE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("plane_id", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField POSIT_FIELD_DESC = new org.apache.thrift.protocol.TField("posit", org.apache.thrift.protocol.TType.STRUCT, (short)2);
   private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)3);
   private static final org.apache.thrift.protocol.TField ENERGY_FIELD_DESC = new org.apache.thrift.protocol.TField("energy", org.apache.thrift.protocol.TType.I32, (short)4);
   private static final org.apache.thrift.protocol.TField GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("gaz", org.apache.thrift.protocol.TType.I32, (short)5);
+  private static final org.apache.thrift.protocol.TField ACTION_PERFORMED_FIELD_DESC = new org.apache.thrift.protocol.TField("actionPerformed", org.apache.thrift.protocol.TType.BOOL, (short)6);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new PlaneStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new PlaneTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new PlaneDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new PlaneDataTupleSchemeFactory());
   }
 
   public int plane_id; // required
-  public Coord posit; // required
+  public CoordData posit; // required
   public int ai_id; // required
   public int energy; // required
   public int gaz; // required
+  public boolean actionPerformed; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -59,7 +61,8 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     POSIT((short)2, "posit"),
     AI_ID((short)3, "ai_id"),
     ENERGY((short)4, "energy"),
-    GAZ((short)5, "gaz");
+    GAZ((short)5, "gaz"),
+    ACTION_PERFORMED((short)6, "actionPerformed");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -84,6 +87,8 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
           return ENERGY;
         case 5: // GAZ
           return GAZ;
+        case 6: // ACTION_PERFORMED
+          return ACTION_PERFORMED;
         default:
           return null;
       }
@@ -128,6 +133,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
   private static final int __AI_ID_ISSET_ID = 1;
   private static final int __ENERGY_ISSET_ID = 2;
   private static final int __GAZ_ISSET_ID = 3;
+  private static final int __ACTIONPERFORMED_ISSET_ID = 4;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -135,26 +141,29 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     tmpMap.put(_Fields.PLANE_ID, new org.apache.thrift.meta_data.FieldMetaData("plane_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.POSIT, new org.apache.thrift.meta_data.FieldMetaData("posit", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Coord.class)));
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CoordData.class)));
     tmpMap.put(_Fields.AI_ID, new org.apache.thrift.meta_data.FieldMetaData("ai_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.ENERGY, new org.apache.thrift.meta_data.FieldMetaData("energy", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.GAZ, new org.apache.thrift.meta_data.FieldMetaData("gaz", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+    tmpMap.put(_Fields.ACTION_PERFORMED, new org.apache.thrift.meta_data.FieldMetaData("actionPerformed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Plane.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneData.class, metaDataMap);
   }
 
-  public Plane() {
+  public PlaneData() {
   }
 
-  public Plane(
+  public PlaneData(
     int plane_id,
-    Coord posit,
+    CoordData posit,
     int ai_id,
     int energy,
-    int gaz)
+    int gaz,
+    boolean actionPerformed)
   {
     this();
     this.plane_id = plane_id;
@@ -166,24 +175,27 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     setEnergyIsSet(true);
     this.gaz = gaz;
     setGazIsSet(true);
+    this.actionPerformed = actionPerformed;
+    setActionPerformedIsSet(true);
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public Plane(Plane other) {
+  public PlaneData(PlaneData other) {
     __isset_bitfield = other.__isset_bitfield;
     this.plane_id = other.plane_id;
     if (other.isSetPosit()) {
-      this.posit = new Coord(other.posit);
+      this.posit = new CoordData(other.posit);
     }
     this.ai_id = other.ai_id;
     this.energy = other.energy;
     this.gaz = other.gaz;
+    this.actionPerformed = other.actionPerformed;
   }
 
-  public Plane deepCopy() {
-    return new Plane(this);
+  public PlaneData deepCopy() {
+    return new PlaneData(this);
   }
 
   @Override
@@ -197,13 +209,15 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     this.energy = 0;
     setGazIsSet(false);
     this.gaz = 0;
+    setActionPerformedIsSet(false);
+    this.actionPerformed = false;
   }
 
   public int getPlane_id() {
     return this.plane_id;
   }
 
-  public Plane setPlane_id(int plane_id) {
+  public PlaneData setPlane_id(int plane_id) {
     this.plane_id = plane_id;
     setPlane_idIsSet(true);
     return this;
@@ -222,11 +236,11 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __PLANE_ID_ISSET_ID, value);
   }
 
-  public Coord getPosit() {
+  public CoordData getPosit() {
     return this.posit;
   }
 
-  public Plane setPosit(Coord posit) {
+  public PlaneData setPosit(CoordData posit) {
     this.posit = posit;
     return this;
   }
@@ -250,7 +264,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     return this.ai_id;
   }
 
-  public Plane setAi_id(int ai_id) {
+  public PlaneData setAi_id(int ai_id) {
     this.ai_id = ai_id;
     setAi_idIsSet(true);
     return this;
@@ -273,7 +287,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     return this.energy;
   }
 
-  public Plane setEnergy(int energy) {
+  public PlaneData setEnergy(int energy) {
     this.energy = energy;
     setEnergyIsSet(true);
     return this;
@@ -296,7 +310,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     return this.gaz;
   }
 
-  public Plane setGaz(int gaz) {
+  public PlaneData setGaz(int gaz) {
     this.gaz = gaz;
     setGazIsSet(true);
     return this;
@@ -315,6 +329,29 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __GAZ_ISSET_ID, value);
   }
 
+  public boolean isActionPerformed() {
+    return this.actionPerformed;
+  }
+
+  public PlaneData setActionPerformed(boolean actionPerformed) {
+    this.actionPerformed = actionPerformed;
+    setActionPerformedIsSet(true);
+    return this;
+  }
+
+  public void unsetActionPerformed() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ACTIONPERFORMED_ISSET_ID);
+  }
+
+  /** Returns true if field actionPerformed is set (has been assigned a value) and false otherwise */
+  public boolean isSetActionPerformed() {
+    return EncodingUtils.testBit(__isset_bitfield, __ACTIONPERFORMED_ISSET_ID);
+  }
+
+  public void setActionPerformedIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ACTIONPERFORMED_ISSET_ID, value);
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case PLANE_ID:
@@ -329,7 +366,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       if (value == null) {
         unsetPosit();
       } else {
-        setPosit((Coord)value);
+        setPosit((CoordData)value);
       }
       break;
 
@@ -357,6 +394,14 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       }
       break;
 
+    case ACTION_PERFORMED:
+      if (value == null) {
+        unsetActionPerformed();
+      } else {
+        setActionPerformed((Boolean)value);
+      }
+      break;
+
     }
   }
 
@@ -376,6 +421,9 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
 
     case GAZ:
       return Integer.valueOf(getGaz());
+
+    case ACTION_PERFORMED:
+      return Boolean.valueOf(isActionPerformed());
 
     }
     throw new IllegalStateException();
@@ -398,6 +446,8 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       return isSetEnergy();
     case GAZ:
       return isSetGaz();
+    case ACTION_PERFORMED:
+      return isSetActionPerformed();
     }
     throw new IllegalStateException();
   }
@@ -406,12 +456,12 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof Plane)
-      return this.equals((Plane)that);
+    if (that instanceof PlaneData)
+      return this.equals((PlaneData)that);
     return false;
   }
 
-  public boolean equals(Plane that) {
+  public boolean equals(PlaneData that) {
     if (that == null)
       return false;
 
@@ -460,6 +510,15 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
         return false;
     }
 
+    boolean this_present_actionPerformed = true;
+    boolean that_present_actionPerformed = true;
+    if (this_present_actionPerformed || that_present_actionPerformed) {
+      if (!(this_present_actionPerformed && that_present_actionPerformed))
+        return false;
+      if (this.actionPerformed != that.actionPerformed)
+        return false;
+    }
+
     return true;
   }
 
@@ -469,7 +528,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
   }
 
   @Override
-  public int compareTo(Plane other) {
+  public int compareTo(PlaneData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
@@ -526,6 +585,16 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetActionPerformed()).compareTo(other.isSetActionPerformed());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetActionPerformed()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.actionPerformed, other.actionPerformed);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -543,7 +612,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Plane(");
+    StringBuilder sb = new StringBuilder("PlaneData(");
     boolean first = true;
 
     sb.append("plane_id:");
@@ -568,6 +637,10 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     if (!first) sb.append(", ");
     sb.append("gaz:");
     sb.append(this.gaz);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("actionPerformed:");
+    sb.append(this.actionPerformed);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -599,15 +672,15 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
     }
   }
 
-  private static class PlaneStandardSchemeFactory implements SchemeFactory {
-    public PlaneStandardScheme getScheme() {
-      return new PlaneStandardScheme();
+  private static class PlaneDataStandardSchemeFactory implements SchemeFactory {
+    public PlaneDataStandardScheme getScheme() {
+      return new PlaneDataStandardScheme();
     }
   }
 
-  private static class PlaneStandardScheme extends StandardScheme<Plane> {
+  private static class PlaneDataStandardScheme extends StandardScheme<PlaneData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, Plane struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, PlaneData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -627,7 +700,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
             break;
           case 2: // POSIT
             if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-              struct.posit = new Coord();
+              struct.posit = new CoordData();
               struct.posit.read(iprot);
               struct.setPositIsSet(true);
             } else { 
@@ -658,6 +731,14 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 6: // ACTION_PERFORMED
+            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+              struct.actionPerformed = iprot.readBool();
+              struct.setActionPerformedIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -669,7 +750,7 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, Plane struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, PlaneData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -690,22 +771,25 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       oprot.writeFieldBegin(GAZ_FIELD_DESC);
       oprot.writeI32(struct.gaz);
       oprot.writeFieldEnd();
+      oprot.writeFieldBegin(ACTION_PERFORMED_FIELD_DESC);
+      oprot.writeBool(struct.actionPerformed);
+      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
 
   }
 
-  private static class PlaneTupleSchemeFactory implements SchemeFactory {
-    public PlaneTupleScheme getScheme() {
-      return new PlaneTupleScheme();
+  private static class PlaneDataTupleSchemeFactory implements SchemeFactory {
+    public PlaneDataTupleScheme getScheme() {
+      return new PlaneDataTupleScheme();
     }
   }
 
-  private static class PlaneTupleScheme extends TupleScheme<Plane> {
+  private static class PlaneDataTupleScheme extends TupleScheme<PlaneData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, Plane struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, PlaneData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
       if (struct.isSetPlane_id()) {
@@ -723,7 +807,10 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       if (struct.isSetGaz()) {
         optionals.set(4);
       }
-      oprot.writeBitSet(optionals, 5);
+      if (struct.isSetActionPerformed()) {
+        optionals.set(5);
+      }
+      oprot.writeBitSet(optionals, 6);
       if (struct.isSetPlane_id()) {
         oprot.writeI32(struct.plane_id);
       }
@@ -739,18 +826,21 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       if (struct.isSetGaz()) {
         oprot.writeI32(struct.gaz);
       }
+      if (struct.isSetActionPerformed()) {
+        oprot.writeBool(struct.actionPerformed);
+      }
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, Plane struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, PlaneData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(5);
+      BitSet incoming = iprot.readBitSet(6);
       if (incoming.get(0)) {
         struct.plane_id = iprot.readI32();
         struct.setPlane_idIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.posit = new Coord();
+        struct.posit = new CoordData();
         struct.posit.read(iprot);
         struct.setPositIsSet(true);
       }
@@ -765,6 +855,10 @@ public class Plane implements org.apache.thrift.TBase<Plane, Plane._Fields>, jav
       if (incoming.get(4)) {
         struct.gaz = iprot.readI32();
         struct.setGazIsSet(true);
+      }
+      if (incoming.get(5)) {
+        struct.actionPerformed = iprot.readBool();
+        struct.setActionPerformedIsSet(true);
       }
     }
   }

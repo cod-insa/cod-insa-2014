@@ -32,25 +32,22 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.io.Serializable, Cloneable, Comparable<Base> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Base");
+public class CommandData implements org.apache.thrift.TBase<CommandData, CommandData._Fields>, java.io.Serializable, Cloneable, Comparable<CommandData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CommandData");
 
-  private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField POSIT_FIELD_DESC = new org.apache.thrift.protocol.TField("posit", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+  private static final org.apache.thrift.protocol.TField NUM_FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("numFrame", org.apache.thrift.protocol.TType.I32, (short)1);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new BaseStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new BaseTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new CommandDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new CommandDataTupleSchemeFactory());
   }
 
-  public int base_id; // required
-  public Coord posit; // required
+  public int numFrame; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    BASE_ID((short)1, "base_id"),
-    POSIT((short)2, "posit");
+    NUM_FRAME((short)1, "numFrame");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -65,10 +62,8 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // BASE_ID
-          return BASE_ID;
-        case 2: // POSIT
-          return POSIT;
+        case 1: // NUM_FRAME
+          return NUM_FRAME;
         default:
           return null;
       }
@@ -109,116 +104,76 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
   }
 
   // isset id assignments
-  private static final int __BASE_ID_ISSET_ID = 0;
+  private static final int __NUMFRAME_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.BASE_ID, new org.apache.thrift.meta_data.FieldMetaData("base_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.NUM_FRAME, new org.apache.thrift.meta_data.FieldMetaData("numFrame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.POSIT, new org.apache.thrift.meta_data.FieldMetaData("posit", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Coord.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Base.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CommandData.class, metaDataMap);
   }
 
-  public Base() {
+  public CommandData() {
   }
 
-  public Base(
-    int base_id,
-    Coord posit)
+  public CommandData(
+    int numFrame)
   {
     this();
-    this.base_id = base_id;
-    setBase_idIsSet(true);
-    this.posit = posit;
+    this.numFrame = numFrame;
+    setNumFrameIsSet(true);
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public Base(Base other) {
+  public CommandData(CommandData other) {
     __isset_bitfield = other.__isset_bitfield;
-    this.base_id = other.base_id;
-    if (other.isSetPosit()) {
-      this.posit = new Coord(other.posit);
-    }
+    this.numFrame = other.numFrame;
   }
 
-  public Base deepCopy() {
-    return new Base(this);
+  public CommandData deepCopy() {
+    return new CommandData(this);
   }
 
   @Override
   public void clear() {
-    setBase_idIsSet(false);
-    this.base_id = 0;
-    this.posit = null;
+    setNumFrameIsSet(false);
+    this.numFrame = 0;
   }
 
-  public int getBase_id() {
-    return this.base_id;
+  public int getNumFrame() {
+    return this.numFrame;
   }
 
-  public Base setBase_id(int base_id) {
-    this.base_id = base_id;
-    setBase_idIsSet(true);
+  public CommandData setNumFrame(int numFrame) {
+    this.numFrame = numFrame;
+    setNumFrameIsSet(true);
     return this;
   }
 
-  public void unsetBase_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __BASE_ID_ISSET_ID);
+  public void unsetNumFrame() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __NUMFRAME_ISSET_ID);
   }
 
-  /** Returns true if field base_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetBase_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __BASE_ID_ISSET_ID);
+  /** Returns true if field numFrame is set (has been assigned a value) and false otherwise */
+  public boolean isSetNumFrame() {
+    return EncodingUtils.testBit(__isset_bitfield, __NUMFRAME_ISSET_ID);
   }
 
-  public void setBase_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __BASE_ID_ISSET_ID, value);
-  }
-
-  public Coord getPosit() {
-    return this.posit;
-  }
-
-  public Base setPosit(Coord posit) {
-    this.posit = posit;
-    return this;
-  }
-
-  public void unsetPosit() {
-    this.posit = null;
-  }
-
-  /** Returns true if field posit is set (has been assigned a value) and false otherwise */
-  public boolean isSetPosit() {
-    return this.posit != null;
-  }
-
-  public void setPositIsSet(boolean value) {
-    if (!value) {
-      this.posit = null;
-    }
+  public void setNumFrameIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __NUMFRAME_ISSET_ID, value);
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case BASE_ID:
+    case NUM_FRAME:
       if (value == null) {
-        unsetBase_id();
+        unsetNumFrame();
       } else {
-        setBase_id((Integer)value);
-      }
-      break;
-
-    case POSIT:
-      if (value == null) {
-        unsetPosit();
-      } else {
-        setPosit((Coord)value);
+        setNumFrame((Integer)value);
       }
       break;
 
@@ -227,11 +182,8 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case BASE_ID:
-      return Integer.valueOf(getBase_id());
-
-    case POSIT:
-      return getPosit();
+    case NUM_FRAME:
+      return Integer.valueOf(getNumFrame());
 
     }
     throw new IllegalStateException();
@@ -244,10 +196,8 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
     }
 
     switch (field) {
-    case BASE_ID:
-      return isSetBase_id();
-    case POSIT:
-      return isSetPosit();
+    case NUM_FRAME:
+      return isSetNumFrame();
     }
     throw new IllegalStateException();
   }
@@ -256,30 +206,21 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof Base)
-      return this.equals((Base)that);
+    if (that instanceof CommandData)
+      return this.equals((CommandData)that);
     return false;
   }
 
-  public boolean equals(Base that) {
+  public boolean equals(CommandData that) {
     if (that == null)
       return false;
 
-    boolean this_present_base_id = true;
-    boolean that_present_base_id = true;
-    if (this_present_base_id || that_present_base_id) {
-      if (!(this_present_base_id && that_present_base_id))
+    boolean this_present_numFrame = true;
+    boolean that_present_numFrame = true;
+    if (this_present_numFrame || that_present_numFrame) {
+      if (!(this_present_numFrame && that_present_numFrame))
         return false;
-      if (this.base_id != that.base_id)
-        return false;
-    }
-
-    boolean this_present_posit = true && this.isSetPosit();
-    boolean that_present_posit = true && that.isSetPosit();
-    if (this_present_posit || that_present_posit) {
-      if (!(this_present_posit && that_present_posit))
-        return false;
-      if (!this.posit.equals(that.posit))
+      if (this.numFrame != that.numFrame)
         return false;
     }
 
@@ -292,29 +233,19 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
   }
 
   @Override
-  public int compareTo(Base other) {
+  public int compareTo(CommandData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetBase_id()).compareTo(other.isSetBase_id());
+    lastComparison = Boolean.valueOf(isSetNumFrame()).compareTo(other.isSetNumFrame());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetBase_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.base_id, other.base_id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetPosit()).compareTo(other.isSetPosit());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetPosit()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.posit, other.posit);
+    if (isSetNumFrame()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.numFrame, other.numFrame);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -336,19 +267,11 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Base(");
+    StringBuilder sb = new StringBuilder("CommandData(");
     boolean first = true;
 
-    sb.append("base_id:");
-    sb.append(this.base_id);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("posit:");
-    if (this.posit == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.posit);
-    }
+    sb.append("numFrame:");
+    sb.append(this.numFrame);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -357,9 +280,6 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
     // check for sub-struct validity
-    if (posit != null) {
-      posit.validate();
-    }
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -380,15 +300,15 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
     }
   }
 
-  private static class BaseStandardSchemeFactory implements SchemeFactory {
-    public BaseStandardScheme getScheme() {
-      return new BaseStandardScheme();
+  private static class CommandDataStandardSchemeFactory implements SchemeFactory {
+    public CommandDataStandardScheme getScheme() {
+      return new CommandDataStandardScheme();
     }
   }
 
-  private static class BaseStandardScheme extends StandardScheme<Base> {
+  private static class CommandDataStandardScheme extends StandardScheme<CommandData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, Base struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, CommandData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -398,19 +318,10 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
           break;
         }
         switch (schemeField.id) {
-          case 1: // BASE_ID
+          case 1: // NUM_FRAME
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.base_id = iprot.readI32();
-              struct.setBase_idIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 2: // POSIT
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-              struct.posit = new Coord();
-              struct.posit.read(iprot);
-              struct.setPositIsSet(true);
+              struct.numFrame = iprot.readI32();
+              struct.setNumFrameIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -426,63 +337,47 @@ public class Base implements org.apache.thrift.TBase<Base, Base._Fields>, java.i
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, Base struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, CommandData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(BASE_ID_FIELD_DESC);
-      oprot.writeI32(struct.base_id);
+      oprot.writeFieldBegin(NUM_FRAME_FIELD_DESC);
+      oprot.writeI32(struct.numFrame);
       oprot.writeFieldEnd();
-      if (struct.posit != null) {
-        oprot.writeFieldBegin(POSIT_FIELD_DESC);
-        struct.posit.write(oprot);
-        oprot.writeFieldEnd();
-      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
 
   }
 
-  private static class BaseTupleSchemeFactory implements SchemeFactory {
-    public BaseTupleScheme getScheme() {
-      return new BaseTupleScheme();
+  private static class CommandDataTupleSchemeFactory implements SchemeFactory {
+    public CommandDataTupleScheme getScheme() {
+      return new CommandDataTupleScheme();
     }
   }
 
-  private static class BaseTupleScheme extends TupleScheme<Base> {
+  private static class CommandDataTupleScheme extends TupleScheme<CommandData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, Base struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, CommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetBase_id()) {
+      if (struct.isSetNumFrame()) {
         optionals.set(0);
       }
-      if (struct.isSetPosit()) {
-        optionals.set(1);
-      }
-      oprot.writeBitSet(optionals, 2);
-      if (struct.isSetBase_id()) {
-        oprot.writeI32(struct.base_id);
-      }
-      if (struct.isSetPosit()) {
-        struct.posit.write(oprot);
+      oprot.writeBitSet(optionals, 1);
+      if (struct.isSetNumFrame()) {
+        oprot.writeI32(struct.numFrame);
       }
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, Base struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, CommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
-        struct.base_id = iprot.readI32();
-        struct.setBase_idIsSet(true);
-      }
-      if (incoming.get(1)) {
-        struct.posit = new Coord();
-        struct.posit.read(iprot);
-        struct.setPositIsSet(true);
+        struct.numFrame = iprot.readI32();
+        struct.setNumFrameIsSet(true);
       }
     }
   }

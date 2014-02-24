@@ -45,7 +45,7 @@ public class Proxy
 		
 		// Update bases 
 		System.out.println("Looking for "+d.bases.size()+" bases");
-		for (genbridge.Base b : d.bases)
+		for (genbridge.BaseData b : d.bases)
 		{
 			if (bases.containsKey(b.base_id)) // update informations
 			{
@@ -64,12 +64,12 @@ public class Proxy
 		
 		// Update avions
 		System.out.println("Looking for "+d.planes.size()+" planes");
-		for (genbridge.Plane p : d.planes)
+		for (genbridge.PlaneData p : d.planes)
 		{
 			System.out.print(p.plane_id + " ");
 		}
 		System.out.println();
-		for (genbridge.Plane p : d.planes)
+		for (genbridge.PlaneData p : d.planes)
 		{
 			
 			if (ai_planes.containsKey(p.plane_id))

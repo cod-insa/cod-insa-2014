@@ -6,10 +6,10 @@ import java.util.List;
 import players.Player;
 import game.Entity;
 import game.Sim;
-import genbridge.Coord;
+import genbridge.BaseData;
+import genbridge.CoordData;
 import genbridge.Data;
-import genbridge.Base;
-import genbridge.Plane;
+import genbridge.PlaneData;
 
 
 /*
@@ -39,8 +39,8 @@ public class DataUpdater extends Thread{
 
 		this.tobeSent = new Data();
 		this.tobeSent.numFrame = frameNum++;
-		this.tobeSent.bases = new ArrayList<Base>();
-		this.tobeSent.planes = new ArrayList<Plane>();
+		this.tobeSent.bases = new ArrayList<BaseData>();
+		this.tobeSent.planes = new ArrayList<PlaneData>();
 	}
 
 	@Override
@@ -69,12 +69,12 @@ public class DataUpdater extends Thread{
 						if(entity instanceof game.Plane)
 						{
 							
-							Plane p = new Plane();
+							PlaneData p = new PlaneData();
 							p.setPlane_id(entity.id);
 							p.setAi_id(0);			//FIXME
 							p.setEnergy(0); 		//FIXME
 							p.setGaz(0);			//FIXME
-							Coord c = new Coord();
+							CoordData c = new CoordData();
 							c.longit = 0;			//FIXME
 							c.latid = 0;			//FIXME
 							p.setPosit(c);
@@ -85,9 +85,9 @@ public class DataUpdater extends Thread{
 						//Updating base
 						if(entity instanceof game.Base)
 						{
-							Base b = new Base();
+							BaseData b = new BaseData();
 							b.setBase_id(entity.id);
-							Coord c = new Coord();
+							CoordData c = new CoordData();
 							c.longit = 0;			//FIXME
 							c.latid = 0;			//FIXME
 							b.setPosit(c);

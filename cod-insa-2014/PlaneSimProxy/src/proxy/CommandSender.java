@@ -1,7 +1,10 @@
 package proxy;
-import genbridge.Action;
+import genbridge.CommandData;
 import genbridge.CommandReceiver;
-import genbridge.CommandReceiver.AsyncClient.addActionToPerform_call;
+import genbridge.CommandReceiver.AsyncClient.sendMoveCommand_call;
+import genbridge.CoordData;
+import genbridge.MoveCommandData;
+import genbridge.PlaneCommandData;
 import genbridge.Response;
 
 import java.io.IOException;
@@ -71,15 +74,14 @@ public class CommandSender {
 				        new TNonblockingSocket(ip_client, port_client));
 				
 				// Call async method
-				client.addActionToPerform(
-						new Action(
-								proxy.getNumFrame(),
-								genbridge.Command.findByValue(1), // MOVE_COMMAND
-								c.planeId,
-								c.destination.x(), 
-								c.destination.y()),
-						idConnection, 
-						new CommandSenderCallback());
+				client.sendMoveCommand(
+						new MoveCommandData(
+								new PlaneCommandData(
+										new CommandData(proxy.getNumFrame()),c.planeId), 
+										new CoordData(c.destination.x(), c.destination.y())), 
+										idConnection, 
+										new CommandSenderCallback());
+						
 				System.out.println(idConnection);
 			}catch (IOException e) {
 				System.err.println("Error while initializing async client.");
@@ -94,10 +96,10 @@ public class CommandSender {
 		
 	}
 	
-	class CommandSenderCallback implements AsyncMethodCallback<CommandReceiver.AsyncClient.addActionToPerform_call> 
+	class CommandSenderCallback implements AsyncMethodCallback<CommandReceiver.AsyncClient.sendMoveCommand_call> 
 	{
 		@Override
-		public void onComplete(addActionToPerform_call aatp) {
+		public void onComplete(sendMoveCommand_call aatp) {
 			Response r;
 			try {
 				r = aatp.getResult();

@@ -32,25 +32,25 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, java.io.Serializable, Cloneable, Comparable<Coord> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Coord");
+public class PlaneCommandData implements org.apache.thrift.TBase<PlaneCommandData, PlaneCommandData._Fields>, java.io.Serializable, Cloneable, Comparable<PlaneCommandData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("PlaneCommandData");
 
-  private static final org.apache.thrift.protocol.TField LATID_FIELD_DESC = new org.apache.thrift.protocol.TField("latid", org.apache.thrift.protocol.TType.DOUBLE, (short)1);
-  private static final org.apache.thrift.protocol.TField LONGIT_FIELD_DESC = new org.apache.thrift.protocol.TField("longit", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
+  private static final org.apache.thrift.protocol.TField C_FIELD_DESC = new org.apache.thrift.protocol.TField("c", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+  private static final org.apache.thrift.protocol.TField ID_PLANE_FIELD_DESC = new org.apache.thrift.protocol.TField("idPlane", org.apache.thrift.protocol.TType.I32, (short)2);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new CoordStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new CoordTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new PlaneCommandDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new PlaneCommandDataTupleSchemeFactory());
   }
 
-  public double latid; // required
-  public double longit; // required
+  public CommandData c; // required
+  public int idPlane; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    LATID((short)1, "latid"),
-    LONGIT((short)2, "longit");
+    C((short)1, "c"),
+    ID_PLANE((short)2, "idPlane");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -65,10 +65,10 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // LATID
-          return LATID;
-        case 2: // LONGIT
-          return LONGIT;
+        case 1: // C
+          return C;
+        case 2: // ID_PLANE
+          return ID_PLANE;
         default:
           return null;
       }
@@ -109,116 +109,116 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
   }
 
   // isset id assignments
-  private static final int __LATID_ISSET_ID = 0;
-  private static final int __LONGIT_ISSET_ID = 1;
+  private static final int __IDPLANE_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.LATID, new org.apache.thrift.meta_data.FieldMetaData("latid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
-    tmpMap.put(_Fields.LONGIT, new org.apache.thrift.meta_data.FieldMetaData("longit", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.C, new org.apache.thrift.meta_data.FieldMetaData("c", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CommandData.class)));
+    tmpMap.put(_Fields.ID_PLANE, new org.apache.thrift.meta_data.FieldMetaData("idPlane", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Coord.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneCommandData.class, metaDataMap);
   }
 
-  public Coord() {
+  public PlaneCommandData() {
   }
 
-  public Coord(
-    double latid,
-    double longit)
+  public PlaneCommandData(
+    CommandData c,
+    int idPlane)
   {
     this();
-    this.latid = latid;
-    setLatidIsSet(true);
-    this.longit = longit;
-    setLongitIsSet(true);
+    this.c = c;
+    this.idPlane = idPlane;
+    setIdPlaneIsSet(true);
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public Coord(Coord other) {
+  public PlaneCommandData(PlaneCommandData other) {
     __isset_bitfield = other.__isset_bitfield;
-    this.latid = other.latid;
-    this.longit = other.longit;
+    if (other.isSetC()) {
+      this.c = new CommandData(other.c);
+    }
+    this.idPlane = other.idPlane;
   }
 
-  public Coord deepCopy() {
-    return new Coord(this);
+  public PlaneCommandData deepCopy() {
+    return new PlaneCommandData(this);
   }
 
   @Override
   public void clear() {
-    setLatidIsSet(false);
-    this.latid = 0.0;
-    setLongitIsSet(false);
-    this.longit = 0.0;
+    this.c = null;
+    setIdPlaneIsSet(false);
+    this.idPlane = 0;
   }
 
-  public double getLatid() {
-    return this.latid;
+  public CommandData getC() {
+    return this.c;
   }
 
-  public Coord setLatid(double latid) {
-    this.latid = latid;
-    setLatidIsSet(true);
+  public PlaneCommandData setC(CommandData c) {
+    this.c = c;
     return this;
   }
 
-  public void unsetLatid() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __LATID_ISSET_ID);
+  public void unsetC() {
+    this.c = null;
   }
 
-  /** Returns true if field latid is set (has been assigned a value) and false otherwise */
-  public boolean isSetLatid() {
-    return EncodingUtils.testBit(__isset_bitfield, __LATID_ISSET_ID);
+  /** Returns true if field c is set (has been assigned a value) and false otherwise */
+  public boolean isSetC() {
+    return this.c != null;
   }
 
-  public void setLatidIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __LATID_ISSET_ID, value);
+  public void setCIsSet(boolean value) {
+    if (!value) {
+      this.c = null;
+    }
   }
 
-  public double getLongit() {
-    return this.longit;
+  public int getIdPlane() {
+    return this.idPlane;
   }
 
-  public Coord setLongit(double longit) {
-    this.longit = longit;
-    setLongitIsSet(true);
+  public PlaneCommandData setIdPlane(int idPlane) {
+    this.idPlane = idPlane;
+    setIdPlaneIsSet(true);
     return this;
   }
 
-  public void unsetLongit() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __LONGIT_ISSET_ID);
+  public void unsetIdPlane() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IDPLANE_ISSET_ID);
   }
 
-  /** Returns true if field longit is set (has been assigned a value) and false otherwise */
-  public boolean isSetLongit() {
-    return EncodingUtils.testBit(__isset_bitfield, __LONGIT_ISSET_ID);
+  /** Returns true if field idPlane is set (has been assigned a value) and false otherwise */
+  public boolean isSetIdPlane() {
+    return EncodingUtils.testBit(__isset_bitfield, __IDPLANE_ISSET_ID);
   }
 
-  public void setLongitIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __LONGIT_ISSET_ID, value);
+  public void setIdPlaneIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IDPLANE_ISSET_ID, value);
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case LATID:
+    case C:
       if (value == null) {
-        unsetLatid();
+        unsetC();
       } else {
-        setLatid((Double)value);
+        setC((CommandData)value);
       }
       break;
 
-    case LONGIT:
+    case ID_PLANE:
       if (value == null) {
-        unsetLongit();
+        unsetIdPlane();
       } else {
-        setLongit((Double)value);
+        setIdPlane((Integer)value);
       }
       break;
 
@@ -227,11 +227,11 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case LATID:
-      return Double.valueOf(getLatid());
+    case C:
+      return getC();
 
-    case LONGIT:
-      return Double.valueOf(getLongit());
+    case ID_PLANE:
+      return Integer.valueOf(getIdPlane());
 
     }
     throw new IllegalStateException();
@@ -244,10 +244,10 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
     }
 
     switch (field) {
-    case LATID:
-      return isSetLatid();
-    case LONGIT:
-      return isSetLongit();
+    case C:
+      return isSetC();
+    case ID_PLANE:
+      return isSetIdPlane();
     }
     throw new IllegalStateException();
   }
@@ -256,30 +256,30 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof Coord)
-      return this.equals((Coord)that);
+    if (that instanceof PlaneCommandData)
+      return this.equals((PlaneCommandData)that);
     return false;
   }
 
-  public boolean equals(Coord that) {
+  public boolean equals(PlaneCommandData that) {
     if (that == null)
       return false;
 
-    boolean this_present_latid = true;
-    boolean that_present_latid = true;
-    if (this_present_latid || that_present_latid) {
-      if (!(this_present_latid && that_present_latid))
+    boolean this_present_c = true && this.isSetC();
+    boolean that_present_c = true && that.isSetC();
+    if (this_present_c || that_present_c) {
+      if (!(this_present_c && that_present_c))
         return false;
-      if (this.latid != that.latid)
+      if (!this.c.equals(that.c))
         return false;
     }
 
-    boolean this_present_longit = true;
-    boolean that_present_longit = true;
-    if (this_present_longit || that_present_longit) {
-      if (!(this_present_longit && that_present_longit))
+    boolean this_present_idPlane = true;
+    boolean that_present_idPlane = true;
+    if (this_present_idPlane || that_present_idPlane) {
+      if (!(this_present_idPlane && that_present_idPlane))
         return false;
-      if (this.longit != that.longit)
+      if (this.idPlane != that.idPlane)
         return false;
     }
 
@@ -292,29 +292,29 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
   }
 
   @Override
-  public int compareTo(Coord other) {
+  public int compareTo(PlaneCommandData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetLatid()).compareTo(other.isSetLatid());
+    lastComparison = Boolean.valueOf(isSetC()).compareTo(other.isSetC());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetLatid()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.latid, other.latid);
+    if (isSetC()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.c, other.c);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetLongit()).compareTo(other.isSetLongit());
+    lastComparison = Boolean.valueOf(isSetIdPlane()).compareTo(other.isSetIdPlane());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetLongit()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.longit, other.longit);
+    if (isSetIdPlane()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.idPlane, other.idPlane);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -336,15 +336,19 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Coord(");
+    StringBuilder sb = new StringBuilder("PlaneCommandData(");
     boolean first = true;
 
-    sb.append("latid:");
-    sb.append(this.latid);
+    sb.append("c:");
+    if (this.c == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.c);
+    }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("longit:");
-    sb.append(this.longit);
+    sb.append("idPlane:");
+    sb.append(this.idPlane);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -353,6 +357,9 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
     // check for sub-struct validity
+    if (c != null) {
+      c.validate();
+    }
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -373,15 +380,15 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
     }
   }
 
-  private static class CoordStandardSchemeFactory implements SchemeFactory {
-    public CoordStandardScheme getScheme() {
-      return new CoordStandardScheme();
+  private static class PlaneCommandDataStandardSchemeFactory implements SchemeFactory {
+    public PlaneCommandDataStandardScheme getScheme() {
+      return new PlaneCommandDataStandardScheme();
     }
   }
 
-  private static class CoordStandardScheme extends StandardScheme<Coord> {
+  private static class PlaneCommandDataStandardScheme extends StandardScheme<PlaneCommandData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, Coord struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, PlaneCommandData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -391,18 +398,19 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
           break;
         }
         switch (schemeField.id) {
-          case 1: // LATID
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.latid = iprot.readDouble();
-              struct.setLatidIsSet(true);
+          case 1: // C
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+              struct.c = new CommandData();
+              struct.c.read(iprot);
+              struct.setCIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // LONGIT
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.longit = iprot.readDouble();
-              struct.setLongitIsSet(true);
+          case 2: // ID_PLANE
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.idPlane = iprot.readI32();
+              struct.setIdPlaneIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -418,15 +426,17 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, Coord struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, PlaneCommandData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(LATID_FIELD_DESC);
-      oprot.writeDouble(struct.latid);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(LONGIT_FIELD_DESC);
-      oprot.writeDouble(struct.longit);
+      if (struct.c != null) {
+        oprot.writeFieldBegin(C_FIELD_DESC);
+        struct.c.write(oprot);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldBegin(ID_PLANE_FIELD_DESC);
+      oprot.writeI32(struct.idPlane);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -434,44 +444,45 @@ public class Coord implements org.apache.thrift.TBase<Coord, Coord._Fields>, jav
 
   }
 
-  private static class CoordTupleSchemeFactory implements SchemeFactory {
-    public CoordTupleScheme getScheme() {
-      return new CoordTupleScheme();
+  private static class PlaneCommandDataTupleSchemeFactory implements SchemeFactory {
+    public PlaneCommandDataTupleScheme getScheme() {
+      return new PlaneCommandDataTupleScheme();
     }
   }
 
-  private static class CoordTupleScheme extends TupleScheme<Coord> {
+  private static class PlaneCommandDataTupleScheme extends TupleScheme<PlaneCommandData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, Coord struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, PlaneCommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetLatid()) {
+      if (struct.isSetC()) {
         optionals.set(0);
       }
-      if (struct.isSetLongit()) {
+      if (struct.isSetIdPlane()) {
         optionals.set(1);
       }
       oprot.writeBitSet(optionals, 2);
-      if (struct.isSetLatid()) {
-        oprot.writeDouble(struct.latid);
+      if (struct.isSetC()) {
+        struct.c.write(oprot);
       }
-      if (struct.isSetLongit()) {
-        oprot.writeDouble(struct.longit);
+      if (struct.isSetIdPlane()) {
+        oprot.writeI32(struct.idPlane);
       }
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, Coord struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, PlaneCommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(2);
       if (incoming.get(0)) {
-        struct.latid = iprot.readDouble();
-        struct.setLatidIsSet(true);
+        struct.c = new CommandData();
+        struct.c.read(iprot);
+        struct.setCIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.longit = iprot.readDouble();
-        struct.setLongitIsSet(true);
+        struct.idPlane = iprot.readI32();
+        struct.setIdPlaneIsSet(true);
       }
     }
   }

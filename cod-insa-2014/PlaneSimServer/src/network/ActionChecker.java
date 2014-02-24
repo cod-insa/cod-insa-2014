@@ -1,7 +1,8 @@
 package network;
 
 import game.Sim;
-import genbridge.Action;
+
+import command.Command;
 
 public class ActionChecker {
 
@@ -12,7 +13,7 @@ public class ActionChecker {
 		this.ps = planeSim;
 	}
 	
-	public boolean isValid(Action a)
+	public boolean isValid(Command a)
 	{
 		//TODO is an action valid?
 		//return true;
