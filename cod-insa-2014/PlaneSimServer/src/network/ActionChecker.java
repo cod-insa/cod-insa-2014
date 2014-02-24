@@ -15,7 +15,8 @@ public class ActionChecker {
 	
 	public boolean isValid(Command a)
 	{
-		//TODO is an action valid?
+		//FIXME This is maybe not a good idea, we should certainly do a "isValid" function for each different command (because the treatment is different)
+		
 		//return true;
 		return true; // Let's say yes.
 	}
