@@ -1,0 +1,95 @@
+<!DOCTYPE html>	
+<html lang="en">
+<head>
+
+	<meta charset="utf-8" />
+	
+		<!-- Set the viewport width to device width for mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<title>Cod'INSA - Plane simulation interface</title>	
+		
+		<!-- Included CSS Files -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+    	<link rel="stylesheet" href="css/bootstrap-responsive.css"> 
+    
+		<link rel="stylesheet" href="css/dark-hive/jquery-ui-1.10.4.custom.min.css">
+		<link rel="stylesheet" href="css/custom.css">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+		<link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+		
+		<!--JS-->
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+		
+		<!-- JS maps -->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4fwla7hbGlT5Iqe4d-XMAdyOI0BnjguA&sensor=false"></script>
+		<script src="js/map.js"></script>
+
+</head>
+
+<body>
+	
+	<!-- Map container -->
+	<div id="mapcontain"></div>
+	
+	<!-- Top container -->
+	<div class="row-fluid">
+		<div class="span2"></div>
+
+		<div id="topcontain" class="span8">
+			<div class="row">
+				<div class="span1"><img src="img/logo.png"/></div>
+				<div class="span7"><h2>Finale Cod'INSA 2014</h2></div>
+				<div class="span4"></div>
+			</div>
+		</div>
+	
+		<div class="span2"></div>
+	</div>
+	
+	<!-- Left center and right columns -->
+	<div class="container-fluid">
+	    
+	    <div class="row-fluid">
+	    
+		    <div id="leftcontain" class="span1">
+		    	<!--Sidebar content-->
+		    </div>
+		    
+		    <div class="span10">
+		    	<!--Body content-->
+		    	<img style="position:relative;left:10%;top:30%;" src="img/xwing.png"/>
+		    </div>
+		    
+		    <div id="rightcontain" class="span1">
+		    	<!--Sidebar content-->
+		    </div>
+		    
+	    </div>
+    </div>
+    
+	
+	<!-- Bottom container -->
+	<div class="row-fluid bottomdiv">
+		<div class="span2"></div>
+
+		<div id="bottomcontain" class="span8">
+			<div class="row">
+				<div class="span12"><h6>&copy Cod'INSA April 2014 - Plane Simulation - by INSA students : TV, LP, HH, NV</h6></div>
+			</div>
+		</div>
+	
+		<div class="span2"></div>
+	</div>
+
+
+</body>
+
+<script type="text/javascript">
+	google.maps.event.addDomListener(window, 'load', initialisationMaps);
+	//initialisationMaps();
+</script>
+
+
+</html>
