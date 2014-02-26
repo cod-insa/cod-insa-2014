@@ -57,31 +57,6 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 			System.out.println("Player "+p.getTeamName()+" action refused. Cause: illegal action");
 			return new Response(ERROR_COMMAND, "This command is not legal");	//FIXME message more explicit?
 		}
-/*
-		// 1) Create a Common.command.Command with information from Action
-		command.Command com;
-
-		switch (act.cmd) {
-		case MOVE_PLANE:
-			com = new MoveCommand(idConnection, new Coord(0,0).view);  //FIXME coordinate
-			break;
-
-		case BUILD_PLANE:
-			//TODO
-			throw new NotSupportedException();
-			//break;
-
-		case WAIT_PLANE:
-			//TODO
-			throw new NotSupportedException();
-			//break;
-
-		default:
-			System.err.println("Error: Unknown action, cannot be processed");
-			return new Response(ERROR_UNKNOWN, "");
-		}*/
-		
-		//if (com != null)
 
 		p.addCommand(cmd); 
 		System.out.println("Player "+p.getTeamName()+" action has been accepted");

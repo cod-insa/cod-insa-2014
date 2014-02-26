@@ -10,7 +10,6 @@ import model.Coord;
 import model.Plane;
 
 import command.Command;
-import common.NotSupportedException;
 
 
 public class Proxy 
@@ -22,7 +21,7 @@ public class Proxy
 	// Datas
 	private Map<Integer,Base> bases;
 	private Map<Integer,Plane> ai_planes;
-	//private Map<Integer,Plane> killed_planes; // There is nothing in there
+	private Map<Integer,Plane> killed_planes;
 	
 	private int numFrame;
 	
@@ -30,7 +29,7 @@ public class Proxy
 	{
 		idm = new IncomingData(ip,port,this);
 		ai_planes = new HashMap<Integer,Plane>();
-		//killed_planes = new HashMap<Integer,Plane>();
+		killed_planes = new HashMap<Integer,Plane>();
 		bases = new HashMap<Integer,Base>();
 		idm.retrieveInitialDatas();
 		cm = new CommandSender(ip,port,idm.getIdConnection(), this);
@@ -44,7 +43,6 @@ public class Proxy
 		numFrame = d.numFrame;
 		
 		// Update bases 
-		System.out.println("Looking for "+d.bases.size()+" bases");
 		for (genbridge.BaseData b : d.bases)
 		{
 			if (bases.containsKey(b.base_id)) // update informations
@@ -64,42 +62,44 @@ public class Proxy
 		
 		// Update avions
 		System.out.println("Looking for "+d.planes.size()+" planes");
+		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
+		ai_planes.clear();
+		
+		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
 		for (genbridge.PlaneData p : d.planes)
 		{
-			System.out.print(p.plane_id + " ");
-		}
-		System.out.println();
-		for (genbridge.PlaneData p : d.planes)
-		{
-			
-			if (ai_planes.containsKey(p.plane_id))
+			if (killed_planes.containsKey(p.plane_id)) // So this plane is still alive finally
 			{
-				model.Plane plane = ai_planes.get(p.plane_id);
-				// For now, we update the coords and set every properties a plane have
+				Plane plane = killed_planes.remove(p.plane_id);
+				ai_planes.put(p.plane_id, plane); // We move it from killed plane to ai_planes
+				
+				// Then we update the plane with the information given by the server :
+
 				plane._pos.x = p.posit.longit;
 				plane._pos.y = p.posit.latid;
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
 			}
-			else
+			else // The plane wasn't existing so we add it to the ai_planes list
 			{
-				model.Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
+				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
 				ai_planes.put(plane.id, plane);
-				//FIXME Check if it's good
 			}
 		}
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
-	
-	public ArrayList<Plane.View> getKilledPlanes()
-	{
-		//return killed_planes; // Not used pour le moment
-		throw new NotSupportedException();
-		//return null;
-	}
+
 	public int getNumFrame() 
 	{
 		return numFrame;
+	}
+	
+	public ArrayList<Plane.View> getKilledPlanes()
+	{
+		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		for (model.Plane p : killed_planes.values())
+			planesToReturn.add(p.view);
+		return planesToReturn;
 	}
 
 	public ArrayList<Plane.View> getMyPlanes()
