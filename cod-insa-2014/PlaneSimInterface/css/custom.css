@@ -5,6 +5,23 @@ body{
     padding:0;
 }
 
+a
+{
+color:white;
+}
+
+.ui-icon{
+zoom:1.5;
+-moz-transform:scale(1.5);
+-moz-transform-origin: 0 0;
+cursor:pointer;
+}
+
+#logobutton
+{
+cursor:pointer;
+}
+
 .container-fluid{
 	margin:0px;
 }
@@ -26,7 +43,7 @@ body{
 #leftcontain{
 	background-color: #007FFF;
     margin:0px;
-    padding:0px;
+    padding:10px;
     border-radius:0 25px 25px 0;
     position:fixed;
 	left:0;
@@ -36,7 +53,7 @@ body{
 #rightcontain{
 	background-color: #007FFF;
     margin:0px;
-    padding:0px;
+    padding:10px;
     border-radius: 25px 0 0 25px;
     position:fixed;
 	right:0;
