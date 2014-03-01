@@ -33,15 +33,13 @@ import org.apache.thrift.transport.TNonblockingServerTransport;
 public class CommandRJavaServer extends Thread{
 
 	private static CommandRJavaServer instance = null;
-	private CommandReceiverHandler CommandHandler;
-	private CommandReceiver.Processor commandProcessor;
+	private CommandReceiver.Processor<CommandReceiverHandler> commandProcessor;
 	private TServer server;
 	private int port = NetworkSettings.port+1;
 
 	private CommandRJavaServer(CommandReceiverHandler crh)
 	{
-		this.CommandHandler = crh;
-		commandProcessor = new CommandReceiver.Processor(crh);
+		commandProcessor = new CommandReceiver.Processor<CommandReceiverHandler>(crh);
 	}
 
 	/**

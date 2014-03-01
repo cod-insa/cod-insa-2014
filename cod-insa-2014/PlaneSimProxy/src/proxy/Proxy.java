@@ -56,7 +56,6 @@ public class Proxy
 			{
 				model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.latid,b.posit.longit));
 				bases.put(base.id, base);
-				//FIXME Check if it's good
 			}
 		}
 		
@@ -80,7 +79,7 @@ public class Proxy
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
 			}
-			else // The plane wasn't existing so we add it to the ai_planes list
+			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
 				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
 				ai_planes.put(plane.id, plane);

@@ -18,10 +18,7 @@ package network;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import genbridge.*;
+import genbridge.Bridge;
 
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
@@ -36,15 +33,13 @@ import org.apache.thrift.transport.TServerTransport;
 public class BridgeJavaServer extends Thread{
 
 	private static BridgeJavaServer instance = null;
-	private BridgeHandler dataHandler;
-	private Bridge.Processor dataProcessor;
+	private Bridge.Processor<BridgeHandler> dataProcessor;
 	private TServer server;
 	private int port = NetworkSettings.port;
 	
 	private BridgeJavaServer(BridgeHandler handler)
 	{
-		this.dataHandler = handler;
-		dataProcessor = new Bridge.Processor(handler);
+		dataProcessor = new Bridge.Processor<BridgeHandler>(handler);
 	}
 
 	/**
