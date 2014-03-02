@@ -50,16 +50,6 @@ cursor:pointer;
 	height:700px;
 }
 
-#rightcontain{
-	background-color: #007FFF;
-    margin:0px;
-    padding:10px;
-    border-radius: 25px 0 0 25px;
-    position:fixed;
-	right:0;
-	height:700px;
-}
-
 #bottomcontain{
 	background-color: #007FFF;
     margin:0px;

@@ -1,4 +1,4 @@
-$(function () {
+var initServerConnection = function () {
 
  	var input = $('#input');
  
@@ -39,7 +39,9 @@ $(function () {
 		connection.send(e.keyCode);
 	});
     
-});
+};
+
+//initServerConnection();
 
 
 
