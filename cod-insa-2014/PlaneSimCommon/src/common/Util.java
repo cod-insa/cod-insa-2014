@@ -190,24 +190,7 @@ public class Util {
 	
 	@SuppressWarnings("unchecked")
 	public static<T, CT extends Collection<T>>
-	//CT copy (CT src) {
 	CT copy (CT src, Copier<T> elemeCopier) {
-		
-		// FIXME maintain other version
-		
-//		while (src instanceof CollectionWrapper)
-//			src = ((CollectionWrapper)src).delegate();
-//		if (src instanceof CollectionWrapper)
-//			return (CT) copy(((CollectionWrapper)src).delegate(), elemeCopier);
-		/*
-		if (src instanceof CollectionWrapper) {
-			CollectionWrapper<T> w = (CollectionWrapper<T>)src;
-			//return (CT) w.newInstance(copy(w.delegate(), elemeCopier));
-			return (CT) w.newWrapperInstance(copy(w.delegate(), elemeCopier));
-		}
-		*/
-		
-		//Class<?> c = src.getClass();
 		
 		Collection<?> realCollectionSrc = src;
 		
@@ -217,23 +200,17 @@ public class Util {
 		Class<?> c = realCollectionSrc.getClass();
 		
 		try {
-			//Constructor<?> ctor = c.getConstructor();
 			CT ret = (CT) c.newInstance();
-			//ret.addAll(src);
 			for (T elt: src)
-				//ret.add(copy(elt));
 				ret.add(elemeCopier.copy(elt));
 			return ret;
 		} catch (
-			//  NoSuchMethodException
 			  SecurityException
 			| InstantiationException
 			| IllegalAccessException
 			| IllegalArgumentException
-			//| InvocationTargetException
 			e
 		) {
-			//throw new Error("Cannot deeply copy this collection: the class is impossible to construct with 0 argument ("+c.getCanonicalName()+")");
 			throw new IllegalArgumentException("Cannot deeply copy this collection:" +
 					"the class is impossible to construct with 0 argument" +
 					"and is not an instance of CollectionWrapper ("+c+")");
@@ -250,26 +227,24 @@ public class Util {
 		});
 	}
 	
-	
-	
-	
-	
-	
-	
 	@SuppressWarnings("unchecked")
 	public static<T, CT extends Collection<T>>
 	CT shallowCopy (CT src) {
 		
 		try {
-			/*Method cloneMethod = src.getClass().getDeclaredMethod("clone");
-				if (cloneMethod.isAccessible())
-					return (CT) cloneMethod.invoke(src);*/
 			return (CT) src.getClass().getDeclaredMethod("clone").invoke(src);
 		} catch (
 			NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e
 		) {
+			Collection<?> realCollectionSrc = src;
+			
+			while (realCollectionSrc instanceof CollectionWrapper)
+				realCollectionSrc = ((CollectionWrapper)src).delegate();
+			
+			Class<?> c = realCollectionSrc.getClass();
+			
 			try {
-				CT ret = (CT) src.getClass().newInstance();
+				CT ret = (CT) c.newInstance();
 				ret.addAll(src);
 				return ret;
 			} catch (
@@ -286,52 +261,7 @@ public class Util {
 			}
 		}
 		
-		//if (src instanceof Cloneable)
-		//	return ((Cloneable)src).clone();
 	}
-	
-	
-	/*
-	@SuppressWarnings("unchecked")
-	public static<T> Collection<T> makeCopy(Collection<T> src) {
-		
-		Collection<T> ret;
-		
-		//Class<? extends Collection<T>> c = getModel().getClass();
-		Class<?> c = src.getClass();
-		try {
-			Constructor<?> ctor = c.getConstructor();
-			ret = (Collection<T>) ctor.newInstance();
-			ret.addAll(src);
-			return ret;
-		} catch (
-			  NoSuchMethodException
-			| SecurityException
-			| InstantiationException
-			| IllegalAccessException
-			| IllegalArgumentException
-			| InvocationTargetException
-			e
-		) {
-			try {
-				Constructor<?> ctor = c.getConstructor(Collection.class);
-				return (Collection<T>) ctor.newInstance(src);
-			} catch (
-			  NoSuchMethodException
-				| SecurityException
-				| InstantiationException
-				| IllegalAccessException
-				| IllegalArgumentException
-				| InvocationTargetException
-				f
-			) {
-				throw new Error("Cannot copy this collection: the class is impossible to construct with 0 argument or 1 collection argument");
-			}
-		}
-		
-	}
-	*/
-	
 	
 	
 }
