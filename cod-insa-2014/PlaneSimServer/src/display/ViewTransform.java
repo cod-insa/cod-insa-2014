@@ -3,8 +3,6 @@ package display;
 
 import model.Coord;
 
-import common.Util;
-
 public class ViewTransform {
 	
 	/*
@@ -32,7 +30,7 @@ public class ViewTransform {
 	}
 
 	public void zoomReset () {
-		_scale.set(Util.unit);
+		_scale.set(Coord.unit);
 	}
 	
 	public void zoomIn (double scaleIncreaseRatio) {

@@ -32,6 +32,16 @@ object that no one else has direct access on.
 
 //public final class Coord implements Copyable<Coord>, Viewable {
 public final class Coord implements Viewable<Coord.View>, Copyable {
+	
+
+	/*
+	 * Immutable common Coord objects:
+	 */
+	public static final Coord.View
+		origin = new Coord(0,0).view,
+		unit   = new Coord(1,1).view
+	;
+	
 
 	public final class View implements Viewable.View { //implements Copyable<Coord> {
 		
