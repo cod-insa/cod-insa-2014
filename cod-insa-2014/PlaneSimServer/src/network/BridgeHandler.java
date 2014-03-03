@@ -64,7 +64,8 @@ public class BridgeHandler implements Bridge.Iface{
 		//it updates data every second and notify the handling thread to send data when ready
 
 		System.out.println("Player "+p.getTeamName()+" has been served");
-		return p.getDataUpdater().getTobeSent();
+		// return something.DataUpdater.getData();
+		return null;
 	}
 
 

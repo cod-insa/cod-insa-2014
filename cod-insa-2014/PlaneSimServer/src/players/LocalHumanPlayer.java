@@ -61,18 +61,6 @@ public class LocalHumanPlayer implements Player {
 	}
 
 	@Override
-	public DataUpdater getDataUpdater() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setDataUpdater(DataUpdater dataUp) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean addCommand(Command c) {
 		// TODO Auto-generated method stub
 		return false;

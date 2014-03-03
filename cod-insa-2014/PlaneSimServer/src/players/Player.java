@@ -23,6 +23,4 @@ public interface Player {
 	boolean isWaitingDataUpdate();
 	void setWaitingDataUpdate(boolean isWaitingDataUpdate);
 	Object getWaitData();
-	DataUpdater getDataUpdater();
-	void setDataUpdater(DataUpdater dataUp);
 }

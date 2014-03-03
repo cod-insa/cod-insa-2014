@@ -38,8 +38,6 @@ public class NetworkPlayer implements Player {
 	private boolean isWaitingDataUpdate;
 	private Object waitData;
 	
-	private DataUpdater dataUpdater;
-	
 	public NetworkPlayer(String name) {
 		this.teamName = name;
 		this.playerID = name.hashCode();
@@ -48,7 +46,6 @@ public class NetworkPlayer implements Player {
 		this.planes = new ArrayList<PlaneModel>();
 		this.isWaitingDataUpdate = false;
 		this.waitData = new Object();
-		this.dataUpdater = null;			//FIXME is set by PlayerManager
 	}
 	
 	public int getPlayerID() {
@@ -86,15 +83,6 @@ public class NetworkPlayer implements Player {
 		return planes;
 	}
 	
-	@Override
-	public DataUpdater getDataUpdater() {
-		return dataUpdater;
-	}
-	
-	public void setDataUpdater(DataUpdater dataUpdater) {
-		this.dataUpdater = dataUpdater;
-	}
-	
 	/**
 	 * Add a command to the FIFO
 	 */
@@ -129,7 +117,6 @@ public class NetworkPlayer implements Player {
 		}
 		return coms;
 	}
-	
 }
 
 

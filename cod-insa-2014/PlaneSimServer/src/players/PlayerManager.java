@@ -15,9 +15,9 @@ import control.DataUpdater;
  */
 public class PlayerManager {
 
-	List<Player> players;
-	List<String> usedNames;
-	Sim planeSimul;
+	private List<Player> players;
+	private List<String> usedNames;
+	private Sim planeSimul;
 	private ArrayList<String> authorizedNames;
 	private ArrayList<Integer> authorizedIds;
 
@@ -55,7 +55,6 @@ public class PlayerManager {
 			return -1;
 
 		Player p = new NetworkPlayer(name);
-		p.setDataUpdater(new DataUpdater(planeSimul, p));
 		players.add(p);
 		usedNames.add(name);
 		authorizedIds.add(p.getPlayerID());
@@ -76,7 +75,6 @@ public class PlayerManager {
 			for (Player pp : players) {
 				synchronized (pp) {
 					pp.notify();
-					pp.getDataUpdater().start();
 				}
 			}
 		}
@@ -106,5 +104,9 @@ public class PlayerManager {
 	public boolean isAuthorized(int id)
 	{
 		return this.authorizedIds.contains(id);
+	}
+
+	public void dataReady() {
+		// TODO Auto-generated method stub
 	}
 }

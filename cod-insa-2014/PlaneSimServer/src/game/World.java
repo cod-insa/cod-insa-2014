@@ -48,7 +48,7 @@ public class World {
 		
 	}
 
-	static class Snapshot {
+	public static class Snapshot {
 		
 		public final int id;
 		
