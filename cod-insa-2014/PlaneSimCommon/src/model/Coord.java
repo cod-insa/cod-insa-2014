@@ -30,7 +30,7 @@ object that no one else has direct access on.
 */
 
 //public final class Coord implements Copyable<Coord>, Viewable {
-public final class Coord implements Viewable<Coord.View>, Copyable<Coord> {
+public final class Coord implements Viewable<Coord.View>, Copyable {
 
 	public final class View implements Viewable.View { //implements Copyable<Coord> {
 		
@@ -48,8 +48,26 @@ public final class Coord implements Viewable<Coord.View>, Copyable<Coord> {
 		
 		//@Override
 		public Coord copy() { return Coord.this.copy(); }
+
+		@Override
+		public boolean equals (Object e) {
+			if (e == null)
+				return false;
+			if (e instanceof Coord.View)
+				return x == ((Coord.View)e).x() && y == ((Coord.View)e).y();
+			if (e instanceof Coord)
+				return x == ((Coord)e).x && y == ((Coord)e).y;
+			return false;
+		}
+		
+		@Override
+		public int hashCode () {
+			//return Doubles.hashCode(x) * 31 + Doubles.hashCode(y);
+			return Double.valueOf(x).hashCode() * 31 + Double.valueOf(y).hashCode();
+		}
 		
 	}
+	
 	static public final class Unique extends common.Unique<Coord> {
 		/*public Unique(Coord c) {
 			super(c);

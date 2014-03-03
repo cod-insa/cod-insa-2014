@@ -1,10 +1,10 @@
 package common;
 
+import java.util.AbstractCollection;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
-public interface CollectionView<T> extends Viewable.View { // extends ShallowCopyable<Collection<T>> {
+public interface CollectionView<T> extends Viewable.View, Iterable<T> { // extends ShallowCopyable<Collection<T>> {
 	
 	public Collection<T> asUnmodifiableCollection();
 	
@@ -20,30 +20,41 @@ public interface CollectionView<T> extends Viewable.View { // extends ShallowCop
 	
 	
 	//public static CollectionView of(){return null;}
-	public static class Of<T> implements CollectionView<T>, Collection<T> {
+	public static class Of<T> extends AbstractCollection<T> implements CollectionView<T> {//, Collection<T> {
 		
-		protected Collection<T> model;
+		final Collection<T> delegate;
 		
 		public Of(Collection<T> src){
 			//new CollectionView.Of<>(new ArrayList<String>());
-			model = src;
+			delegate = src;
 		}
+		
+		protected Collection<T> delegate() {
+			return delegate;
+		}
+
+		@Override public int size() { return delegate.size(); }
 		
 		@Override
 		public Collection<T> asUnmodifiableCollection() {
-			return Collections.unmodifiableCollection(this);
+			//return Collections.unmodifiableCollection(delegate);
+			return this;
 		}
 		
-		@Override public boolean add(T arg0) { throw new UnsupportedOperationException(); }
-		@Override public boolean addAll(Collection<? extends T> arg0) { throw new UnsupportedOperationException(); }
-		@Override public void clear() { throw new UnsupportedOperationException(); }
+		/*
+//		@Override public boolean add(T arg0) { throw new UnsupportedOperationException(); }
+//		@Override public boolean addAll(Collection<? extends T> arg0) { throw new UnsupportedOperationException(); }
+//		@Override public void clear() { throw new UnsupportedOperationException(); }
 		
-		@Override public boolean contains(Object arg0) { return model.contains(arg0); }
-		@Override public boolean containsAll(Collection<?> arg0) { return model.containsAll(arg0); }
-		@Override public boolean isEmpty() { return model.isEmpty(); }
-
+		@Override public boolean contains(Object arg0) { return delegate.contains(arg0); }
+		@Override public boolean containsAll(Collection<?> arg0) { return delegate.containsAll(arg0); }
+		@Override public boolean isEmpty() { return delegate.isEmpty(); }
+		*/
+		
 		@Override public Iterator<T> iterator() {
-			final Iterator<T> ite = model.iterator();
+			return asUnmodifiableCollection().iterator(); // FIXME test
+			/*
+			final Iterator<T> ite = delegate.iterator();
 			return new Iterator<T>(){
 				@Override public boolean hasNext() {
 					return ite.hasNext();
@@ -54,23 +65,141 @@ public interface CollectionView<T> extends Viewable.View { // extends ShallowCop
 				@Override public void remove() {
 					throw new UnsupportedOperationException();
 				}};
+			*/
 		}
 		
-		@Override public boolean remove(Object arg) { throw new UnsupportedOperationException(); }
-		@Override public boolean removeAll(Collection<?> arg) { throw new UnsupportedOperationException(); }
-		@Override public boolean retainAll(Collection<?> arg) { throw new UnsupportedOperationException(); }
+		/*
+//		@Override public boolean remove(Object arg) { throw new UnsupportedOperationException(); }
+//		@Override public boolean removeAll(Collection<?> arg) { throw new UnsupportedOperationException(); }
+//		@Override public boolean retainAll(Collection<?> arg) { throw new UnsupportedOperationException(); }
 		
-		@Override public int size() { return model.size(); }
+		@Override public int size() { return delegate.size(); }
 		
 		@Override public Object[] toArray() {
-			return model.toArray();
+			return delegate.toArray();
 		}
 		
 		@Override
 		public <U> U[] toArray(U[] arg) {
-			return model.toArray(arg);
+			return delegate.toArray(arg);
 		}
+		*/
+	}
+	
+	/*
+	 * "contains" and "containsAll" use the underlying View's equality,
+	 * so it is up to the View object to decide how to handle equality
+	 * with their model type
+	 * 
+	 */
+	public static class OfViews <V extends Viewable.View> extends AbstractCollection<V>
+	/*extends CollectionView.Of<V>*/ implements CollectionView<V>
+	{
+		
+		final Collection<Viewable<V>> delegate;
+		
+		@SuppressWarnings("unchecked")
+		public <T extends Viewable<V>> OfViews (Collection<T> src) {
+			// This is a safe cast because we're never inserting elements in src:
+			this.delegate = (Collection<Viewable<V>>) src;
+		}
+		/*
+		protected Collection<Viewable<V>> delegate() {
+			return delegate;
+		}
+		*/
+		@Override public int size() { return delegate.size(); }
+		
+		@Override
+		public Collection<V> asUnmodifiableCollection() {
+			return this;
+		}
+		
+		
+		/*
+		
+		@Override public boolean contains(Object arg0) {
+			for (Iterator<V> ite = iterator(); ite.hasNext();) {
+				if (arg0.equals(ite.next()))
+					return true;
+			}
+			return false;
+		}
+		
+		@Override public boolean containsAll(Collection<?> arg0) {
+			for (Object arg: arg0)
+				if (!contains(arg))
+					return false;
+			return true;
+		}
+		
+		@Override public boolean isEmpty() { return delegate.isEmpty(); }
+		*/
+		
+		@Override public Iterator<V> iterator() {
+			final Iterator<Viewable<V>> ite = delegate.iterator();
+			return new Iterator<V>(){
+				@Override public boolean hasNext() {
+					return ite.hasNext();
+				}
+				@Override public V next() {
+					return ite.next().getView();
+				}
+				@Override public void remove() {
+					throw new UnsupportedOperationException();
+				}};
+		}
+		
+		/*
+		@Override public int size() { return delegate.size(); }
+		
+
+		@Override public Object[] toArray() {
+			Object[] ret = new Object[size()];
+			int i = 0;
+			for (V v: this)
+				ret[i++] = v;
+			return ret;
+		}
+		
+		@Override
+		public <U> U[] toArray(U[] arg) {
+			if (arg.length < size()) {
+				U[] ret = new U[size()];
+			} else {
+				int i = 0;
+				for (V v: this)
+					arg[i++] = v;
+				return arg;
+			}
+		}
+		*/
+		
 		
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

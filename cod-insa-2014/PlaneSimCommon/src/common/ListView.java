@@ -1,5 +1,7 @@
 package common;
 
+import java.util.AbstractList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -19,17 +21,26 @@ public interface ListView<T>
 	public List<T> subList(int arg0, int arg1);
 	
 	//public class Of<T, LT extends List<T>> extends CollectionView.Of<T> /*implements ListView<T>*/ {
-	public static class Of<T> extends CollectionView.Of<T> implements ListView<T> {
+	//public static class Of<T> extends CollectionView.Of<T> implements ListView<T> {
+	//public static class Of<T> extends ForwardingList<T> implements ListView<T> {
+	public static class Of<T> extends AbstractList<T> implements ListView<T> {
 		// LT extends List<T>
 		
-		public Of(List<T> src) {
-			super(src);
-			// TODO Auto-generated constructor stub
-		}
+		final List<T> delegate;
 		
-		protected List<T> getModel() {
-			return (List<T>) model;
+		//final List<T> model;
+		
+		public Of(List<T> src) {
+			//super(src);
+			//this.model = src;
+			this.delegate = src;
 		}
+		/*
+		@Override
+		protected List<T> delegate() {
+			return (List<T>)delegate;
+		}
+		*/
 		/*
 		@Override
 		public List<T> shallowCopy() {
@@ -39,67 +50,112 @@ public interface ListView<T>
 		*/
 		@Override
 		public List<T> asUnmodifiableList() {
-			// TODO Auto-generated method stub
-			return null;
+			//return Collections.unmodifiableList(delegate());
+			return this;
 		}
-
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		@Override
-		public T get(int arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		public Collection<T> asUnmodifiableCollection() {
+			//return Collections.unmodifiableCollection(delegate);
+			return this;
 		}
-
-		@Override
-		public int indexOf(Object arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public int lastIndexOf(Object arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public ListIterator<T> listIterator() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public ListIterator<T> listIterator(int arg) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<T> subList(int arg0, int arg1) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		
+		
+		@Override public T get(int arg0) { return delegate.get(arg0); }
+		
+		@Override public int size() { return delegate.size(); }
+		
+//		@Override public int indexOf(Object arg0) { return delegate().indexOf(arg0); }
+//		
+//		@Override public int lastIndexOf(Object arg0) { return delegate().lastIndexOf(arg0); }
+//		
+//		@Override
+//		public ListIterator<T> listIterator() {
+//			return listIterator(0);
+//		}
+//		
+//		@Override public ListIterator<T> listIterator(int arg) {
+//			return asUnmodifiableList().listIterator(arg); // crashes?
+//		}
+//
+//		@Override public List<T> subList(int arg0, int arg1) {
+//			//return new ListViewWrapper<>(delegate().subList(arg0, arg1));
+//			return asUnmodifiableList().subList(arg0, arg1);
+//		}
+		
+		
 		
 		
 		
 	}
 	
-	public static class OfViews <V extends Viewable.View, T extends Viewable<V>>
-		extends ListView.Of<V> implements ListView<V>
+	//public static class OfViews <V extends Viewable.View, T extends Viewable<V>> extends ListView.Of<V> implements ListView<V>
+	public static class OfViews <V extends Viewable.View> extends AbstractList<V> implements ListView<V>
 	{
+
+		final List<Viewable<V>> delegate;
 		
-		public OfViews(List<T> src) {
-			super(new CollectionView.OfViews(src));
-			// TODO Auto-generated constructor stub
+		@SuppressWarnings("unchecked")
+		public <T extends Viewable<V>> OfViews(List<T> src) {
+			//super(new CollectionView.OfViews(src));
+			
+			// This is a safe cast because we're never inserting elements in src:
+			this.delegate = (List<Viewable<V>>) src;
 		}
+		
+		@Override public V get(int arg0) { return delegate.get(arg0).getView(); }
+
+		@Override public int size() { return delegate.size(); }
+
+		@Override public Collection<V> asUnmodifiableCollection() { return this; }
+
+		@Override public List<V> asUnmodifiableList() { return this; }
+		
+		
+//		
+//		@Override
+//		public ListIterator<T> listIterator() {
+//			return listIterator(0);
+//		}
+//		
+//		@Override public ListIterator<T> listIterator(int arg) {
+//			//return Collections.unmodifiableList(this).listIterator(arg); // would probably crash
+//			final ListIterator<VT> ite = delegate().listIterator();
+//			return new ListIterator<T>(){
+//				@Override public void add(T e) {
+//					throw new UnsupportedOperationException();
+//				}
+//				@Override public boolean hasNext() {
+//					return ite.hasNext();
+//				}
+//				@Override public boolean hasPrevious() {
+//					return ite.hasPrevious();
+//				}
+//				@Override public T next() {
+//					return ite.next().getView();
+//				}
+//				@Override public int nextIndex() {
+//					return ite.nextIndex();
+//				}
+//				@Override public T previous() {
+//					return ite.previous().getView();
+//				}
+//				@Override public int previousIndex() {
+//					return ite.previousIndex();
+//				}
+//				@Override public void remove() {
+//					throw new UnsupportedOperationException();
+//				}
+//				@Override public void set(T e) {
+//					throw new UnsupportedOperationException();
+//				}};
+//		}
+//
+//		@Override public List<T> subList(int arg0, int arg1) {
+//			return new ListViewWrapper<>(delegate().subList(arg0, arg1));
+//		}
+//		
+		
 		
 	}
 	
