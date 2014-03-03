@@ -22,11 +22,11 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 	
 	
 	//public static CollectionView of(){return null;}
-	public static class Of<T> extends AbstractCollection<T> implements CollectionView<T> {//, Collection<T> {
+	public static class ShallowOf<T> extends AbstractCollection<T> implements CollectionView<T> {//, Collection<T> {
 		
 		final Collection<T> delegate;
 		
-		public Of(Collection<T> src){
+		public ShallowOf(Collection<T> src){
 			//new CollectionView.Of<>(new ArrayList<String>());
 			delegate = src;
 		}
@@ -137,14 +137,14 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 	 * with their model type
 	 * 
 	 */
-	public static class OfViews <V extends Viewable.View> extends AbstractCollection<V>
+	public static class Of <V extends Viewable.View> extends AbstractCollection<V>
 	/*extends CollectionView.Of<V>*/ implements CollectionView<V>
 	{
 		
 		final Collection<Viewable<V>> delegate;
 		
 		@SuppressWarnings("unchecked")
-		public <T extends Viewable<V>> OfViews (Collection<T> src) {
+		public <T extends Viewable<V>> Of (Collection<T> src) {
 			// This is a safe cast because we're never inserting elements in src:
 			this.delegate = (Collection<Viewable<V>>) src;
 		}

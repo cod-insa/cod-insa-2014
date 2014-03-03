@@ -25,14 +25,14 @@ public interface ListView<T>
 	//public class Of<T, LT extends List<T>> extends CollectionView.Of<T> /*implements ListView<T>*/ {
 	//public static class Of<T> extends CollectionView.Of<T> implements ListView<T> {
 	//public static class Of<T> extends ForwardingList<T> implements ListView<T> {
-	public static class Of<T> extends AbstractList<T> implements ListView<T> {
+	public static class ShallowOf<T> extends AbstractList<T> implements ListView<T> {
 		// LT extends List<T>
 		
 		final List<T> delegate;
 		
 		//final List<T> model;
 		
-		public Of(List<T> src) {
+		public ShallowOf(List<T> src) {
 			//super(src);
 			//this.model = src;
 			this.delegate = src;
@@ -134,13 +134,13 @@ public interface ListView<T>
 	
 	
 	//public static class OfViews <V extends Viewable.View, T extends Viewable<V>> extends ListView.Of<V> implements ListView<V>
-	public static class OfViews <V extends Viewable.View> extends AbstractList<V> implements ListView<V>
+	public static class Of <V extends Viewable.View> extends AbstractList<V> implements ListView<V>
 	{
 
 		final List<Viewable<V>> delegate;
 		
 		@SuppressWarnings("unchecked")
-		public <T extends Viewable<V>> OfViews(List<T> src) {
+		public <T extends Viewable<V>> Of(List<T> src) {
 			//super(new CollectionView.OfViews(src));
 			
 			// This is a safe cast because we're never inserting elements in src:
