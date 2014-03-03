@@ -4,6 +4,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
+import common.Util.Converter;
+
 public interface CollectionView<T> extends Viewable.View, Iterable<T> { // extends ShallowCopyable<Collection<T>> {
 	
 	public Collection<T> asUnmodifiableCollection();
@@ -85,6 +87,49 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 		}
 		*/
 	}
+	
+	
+	
+
+	public static class Transform<U> extends AbstractCollection<U> implements CollectionView<U>
+	{
+		final Collection<Object> delegate;
+		final Converter<Object,U> transformer;
+		
+		@SuppressWarnings("unchecked")
+		public <T> Transform (Collection<T> src, Converter<T,U> transformer) {
+			// This is a safe cast because we're never inserting elements in src:
+			this.delegate = (Collection<Object>) src;
+			this.transformer = (Converter<Object, U>) transformer;
+		}
+		
+		@Override public int size() { return delegate.size(); }
+		
+		@Override
+		public Collection<U> asUnmodifiableCollection() {
+			return this;
+		}
+
+		@Override public Iterator<U> iterator() {
+			final Iterator<Object> ite = delegate.iterator();
+			return new Iterator<U>(){
+				@Override public boolean hasNext() {
+					return ite.hasNext();
+				}
+				@Override public U next() {
+					//return transformer.convert((T)ite.next());
+					return transformer.convert(ite.next());
+				}
+				@Override public void remove() {
+					throw new UnsupportedOperationException();
+				}
+			};
+		}
+		
+	}
+	
+	
+	
 	
 	/*
 	 * "contains" and "containsAll" use the underlying View's equality,

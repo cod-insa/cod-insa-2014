@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
+import common.Util.Converter;
+
 public interface ListView<T>
 	extends CollectionView<T> //, ShallowCopyable<List<T>>
 {
@@ -88,6 +90,48 @@ public interface ListView<T>
 		
 		
 	}
+	
+	
+	
+	
+	
+
+	public static class Transform<U> extends AbstractList<U> implements ListView<U>, CollectionWrapper
+	{
+		final List<?> delegate;
+		final Converter<Object,U> transformer;
+		
+		@SuppressWarnings("unchecked")
+		public <T> Transform (List<T> src, Converter<T,U> transformer) {
+			// This is a safe cast because we're never inserting elements in src:
+			this.delegate = (List<?>) src;
+			this.transformer = (Converter<Object, U>) transformer;
+		}
+
+		@Override public U get(int arg0) { return transformer.convert(delegate.get(arg0)); }
+
+		@Override public int size() { return delegate.size(); }
+
+		@Override public Collection<U> asUnmodifiableCollection() { return this; }
+
+		@Override public List<U> asUnmodifiableList() { return this; }
+
+		@Override public List<?> delegate() {
+			return delegate;
+		}
+		/*
+		@SuppressWarnings("unchecked")
+		@Override public List<U> newWrapperInstance(Collection<?> src) {
+			return new Transform<U>((List<Object>)src, transformer);
+		}
+		*/
+	}
+	
+	
+	
+	
+	
+	
 	
 	//public static class OfViews <V extends Viewable.View, T extends Viewable<V>> extends ListView.Of<V> implements ListView<V>
 	public static class OfViews <V extends Viewable.View> extends AbstractList<V> implements ListView<V>

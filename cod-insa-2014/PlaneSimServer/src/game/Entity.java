@@ -5,7 +5,7 @@ import display.EntityDisplay;
 
 
 
-public abstract class Entity<Model extends model.Entity> {
+public abstract class Entity<Model extends model.EntityModel> {
 	
 	public static enum Altitude {
 		GROUND,

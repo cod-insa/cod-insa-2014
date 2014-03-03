@@ -5,10 +5,10 @@ import display.BaseDisplay;
 import display.EntityDisplay;
 
 
-public class Base extends Entity<model.Base> {
+public class Base extends Entity<model.BaseModel> {
 	
 	public Base(Sim sim, Coord.Unique pos) {
-		super(new model.Base(getNextId(), pos), sim, pos, Altitude.GROUND);
+		super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
 	}
 	
 	@Override

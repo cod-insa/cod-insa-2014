@@ -3,8 +3,8 @@ package players;
 import java.util.List;
 import java.util.Queue;
 
-import model.Base;
-import model.Plane;
+import model.BaseModel;
+import model.PlaneModel;
 
 import command.Command;
 
@@ -31,13 +31,13 @@ public class LocalHumanPlayer implements Player {
 	}
 
 	@Override
-	public List<Base> getBases() {
+	public List<BaseModel> getBases() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Plane> getPlanes() {
+	public List<PlaneModel> getPlanes() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,9 +1,13 @@
 package model;
 
+import common.Copyable;
+import common.Unique;
+import common.Viewable;
 
-public class Entity {
+
+public class EntityModel implements Copyable {
 	
-	public class View {
+	public class View implements Viewable.View {
 		public final Coord.View position = _pos.view;
 		public int id() { return id; }
 		public double rotation() { return _rot; }
@@ -34,8 +38,9 @@ public class Entity {
 		_rot += angle;
 		_rot %= Math.PI*2;
 	}
-	
-	public Entity(int id, Coord.Unique pos) {
+
+	//public Entity(int id, Coord.Unique pos) {
+	public EntityModel(int id, Unique<Coord> pos) {
 		this.id = id;
 		_pos = pos.take();
 		position = _pos.view;
@@ -43,4 +48,21 @@ public class Entity {
 		//this.view = view;
 	}
 	
+	public EntityModel (EntityModel src) {
+		//this(src.id, Unique.Copy.make(src.position)));
+		this(src.id, Unique.Copy.make(src._pos));
+	}
+	
+	@Override
+	public Object copy() {
+		return new EntityModel(this);
+	}
+	
 }
+
+
+
+
+
+
+

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.Base;
+import model.BaseModel;
 import model.Coord;
-import model.Plane;
+import model.PlaneModel;
 
 import command.Command;
 import common.NotSupportedException;
@@ -20,8 +20,8 @@ public class Proxy
 	private CommandSender cm; 
 	
 	// Datas
-	private Map<Integer,Base> bases;
-	private Map<Integer,Plane> ai_planes;
+	private Map<Integer,BaseModel> bases;
+	private Map<Integer,PlaneModel> ai_planes;
 	//private Map<Integer,Plane> killed_planes; // There is nothing in there
 	
 	private int numFrame;
@@ -29,9 +29,9 @@ public class Proxy
 	public Proxy(String ip, int port)
 	{
 		idm = new IncomingData(ip,port,this);
-		ai_planes = new HashMap<Integer,Plane>();
+		ai_planes = new HashMap<Integer,PlaneModel>();
 		//killed_planes = new HashMap<Integer,Plane>();
-		bases = new HashMap<Integer,Base>();
+		bases = new HashMap<Integer,BaseModel>();
 		idm.retrieveInitialDatas();
 		cm = new CommandSender(ip,port,idm.getIdConnection(), this);
 	}
@@ -49,14 +49,14 @@ public class Proxy
 		{
 			if (bases.containsKey(b.base_id)) // update informations
 			{
-				model.Base base = bases.get(b.base_id); // base in the list
+				model.BaseModel base = bases.get(b.base_id); // base in the list
 				// For now, just updating coords (doing nothing lol)
 				base._pos.x = b.posit.longit;
 				base._pos.y = b.posit.latid;
 			}
 			else
 			{
-				model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.latid,b.posit.longit));
+				model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.latid,b.posit.longit));
 				bases.put(base.id, base);
 				//FIXME Check if it's good
 			}
@@ -74,7 +74,7 @@ public class Proxy
 			
 			if (ai_planes.containsKey(p.plane_id))
 			{
-				model.Plane plane = ai_planes.get(p.plane_id);
+				model.PlaneModel plane = ai_planes.get(p.plane_id);
 				// For now, we update the coords and set every properties a plane have
 				plane._pos.x = p.posit.longit;
 				plane._pos.y = p.posit.latid;
@@ -83,7 +83,7 @@ public class Proxy
 			}
 			else
 			{
-				model.Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
+				model.PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
 				ai_planes.put(plane.id, plane);
 				//FIXME Check if it's good
 			}
@@ -91,7 +91,7 @@ public class Proxy
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
 	
-	public ArrayList<Plane.View> getKilledPlanes()
+	public ArrayList<PlaneModel.View> getKilledPlanes()
 	{
 		//return killed_planes; // Not used pour le moment
 		throw new NotSupportedException();
@@ -102,18 +102,18 @@ public class Proxy
 		return numFrame;
 	}
 
-	public ArrayList<Plane.View> getMyPlanes()
+	public ArrayList<PlaneModel.View> getMyPlanes()
 	{
-		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
-		for (model.Plane p : ai_planes.values())
+		ArrayList<PlaneModel.View> planesToReturn = new ArrayList<PlaneModel.View>();
+		for (model.PlaneModel p : ai_planes.values())
 			planesToReturn.add(p.view);
 		return planesToReturn;
 	}
 	
-	public ArrayList<Base.View> getBases()
+	public ArrayList<BaseModel.View> getBases()
 	{
-		ArrayList<Base.View> basesToReturn = new ArrayList<Base.View>();
-		for (model.Base b : bases.values())
+		ArrayList<BaseModel.View> basesToReturn = new ArrayList<BaseModel.View>();
+		for (model.BaseModel b : bases.values())
 			basesToReturn.add(b.view);
 		return basesToReturn;
 	}

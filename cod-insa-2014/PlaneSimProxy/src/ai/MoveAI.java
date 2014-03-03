@@ -3,8 +3,8 @@ package ai;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.Base;
-import model.Plane;
+import model.BaseModel;
+import model.PlaneModel;
 import proxy.Proxy;
 
 import command.MoveCommand;
@@ -24,13 +24,13 @@ public class MoveAI extends AbstractAI
 		
 		while (true) {
 			proxy.updateSimFrame();
-			ArrayList<Base.View> bases = proxy.getBases();
-			for (Plane.View p : proxy.getMyPlanes())
+			ArrayList<BaseModel.View> bases = proxy.getBases();
+			for (PlaneModel.View p : proxy.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size()>0) {
 					int i = r.nextInt(bases.size());
-					Base.View b = bases.get(i);
+					BaseModel.View b = bases.get(i);
 					
 					// Make and send a MoveCommand with the plane to the random base
 					MoveCommand mc = new MoveCommand(p.id(),b.position);

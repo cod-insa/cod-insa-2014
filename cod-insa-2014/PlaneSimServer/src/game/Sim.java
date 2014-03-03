@@ -11,8 +11,9 @@ import control.SimStepUpdater;
 import display.Displayer;
 
 public class Sim {
-	
+
 	public final long update_period = 30;
+	public final long world_snapshot_frame_period = 50;
 	
 	private SimStepUpdater stepUpdate;
 	
@@ -48,6 +49,10 @@ public class Sim {
             public void run() {
             	update();
             	SimStepUpdater.get().update(Sim.this);	//FIXME don't do that here, at each frame!
+            	
+            	if (current_frame%world_snapshot_frame_period == 0)
+            		w.takeSnapshot();
+            	
             	current_frame++;
             }
         }, update_period, update_period);

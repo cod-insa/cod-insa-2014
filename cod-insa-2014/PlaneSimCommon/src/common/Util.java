@@ -31,9 +31,12 @@ public class Util {
 		unit   = new Coord(1,1).view
 	;
 	
-	
+
 	public static interface Converter<T,U> {
 		public U convert(T src);
+	}
+	public static interface ConditionalConverter<T,U> extends Converter<T,U> {
+		public boolean canConvert(T src);
 	}
 	
 	
@@ -93,6 +96,13 @@ public class Util {
 		}
 	};
 	*/
+	
+	
+	
+	
+	
+	
+	
 
 	public static <T extends Copyable>
 	Copyable.Copier<List<T>> getListCopier() {
@@ -112,6 +122,20 @@ public class Util {
 			}
 		};
 	}
+	
+
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<List<T>, ListView<V>> getListViewer() {
+		return new Converter<List<T>, ListView<V>>(){
+			@Override
+			public ListView<V> convert(List<T> src) {
+				return view(src);
+			}
+		};
+	}
+	
+	
+	
 	
 	
 	
@@ -168,9 +192,15 @@ public class Util {
 	
 	
 	
-	
-	
-	
+
+	public static <T, U>
+	CollectionView<U> transform (Collection<T> src, Converter<T,U> eltTransformer) {
+		return new CollectionView.Transform<U>(src, eltTransformer);
+	}
+	public static <T, U>
+	ListView<U> transform (List<T> src, Converter<T,U> eltTransformer) {
+		return new ListView.Transform<U>(src, eltTransformer);
+	}
 	
 	
 	
@@ -180,7 +210,30 @@ public class Util {
 	public static<T, CT extends Collection<T>>
 	//CT copy (CT src) {
 	CT copy (CT src, Copier<T> elemeCopier) {
-		Class<?> c = src.getClass();
+		
+		// FIXME maintain other version
+		
+//		while (src instanceof CollectionWrapper)
+//			src = ((CollectionWrapper)src).delegate();
+//		if (src instanceof CollectionWrapper)
+//			return (CT) copy(((CollectionWrapper)src).delegate(), elemeCopier);
+		/*
+		if (src instanceof CollectionWrapper) {
+			CollectionWrapper<T> w = (CollectionWrapper<T>)src;
+			//return (CT) w.newInstance(copy(w.delegate(), elemeCopier));
+			return (CT) w.newWrapperInstance(copy(w.delegate(), elemeCopier));
+		}
+		*/
+		
+		//Class<?> c = src.getClass();
+		
+		Collection<?> realCollectionSrc = src;
+		
+		while (realCollectionSrc instanceof CollectionWrapper)
+			realCollectionSrc = ((CollectionWrapper)src).delegate();
+		
+		Class<?> c = realCollectionSrc.getClass();
+		
 		try {
 			//Constructor<?> ctor = c.getConstructor();
 			CT ret = (CT) c.newInstance();
@@ -198,16 +251,19 @@ public class Util {
 			//| InvocationTargetException
 			e
 		) {
-			throw new Error("Cannot deeply copy this collection: the class is impossible to construct with 0 argument");
+			//throw new Error("Cannot deeply copy this collection: the class is impossible to construct with 0 argument ("+c.getCanonicalName()+")");
+			throw new IllegalArgumentException("Cannot deeply copy this collection:" +
+					"the class is impossible to construct with 0 argument" +
+					"and is not an instance of CollectionWrapper ("+c+")");
 		}
 	}
 
 	public static<T extends Copyable, CT extends Collection<T>>
 	CT copy (CT src) {
-		return copy(src, new Copier<T>(){
+		return copy(src, new Copier<T>() {
 			@Override
 			public T copy(T src) {
-				return copy(src);
+				return Util.copy(src);
 			}
 		});
 	}

@@ -3,6 +3,7 @@ package model;
 import java.awt.geom.Point2D;
 
 import common.Copyable;
+import common.Util;
 import common.Viewable;
 
 /*
@@ -68,6 +69,11 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 		
 	}
 	
+	/*
+	 * By implementing Unique<Coord>, Coord.Unique tells us it contains a Coord that no
+	 * one can have modifiable references to until it is taken.
+	 * 
+	 */
 	static public final class Unique extends common.Unique<Coord> {
 		/*public Unique(Coord c) {
 			super(c);
@@ -82,6 +88,11 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 		}
 		public Unique(double x, double y) {
 			super(new Coord(x,y));
+		}
+		
+		// The follwoing is possible because Coord is a Viewable<Coord.View> type
+		public View view() {
+			return Util.view(this);
 		}
 	}
 	

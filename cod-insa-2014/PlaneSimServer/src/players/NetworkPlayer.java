@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import model.Base;
-import model.Plane;
+import model.BaseModel;
+import model.PlaneModel;
 
 import command.Command;
 
@@ -32,8 +32,8 @@ public class NetworkPlayer implements Player {
 	private String teamName;
 	private int frameNumber;
 	
-	private List<Base> bases;
-	private List<Plane> planes;
+	private List<BaseModel> bases;
+	private List<PlaneModel> planes;
 	
 	private boolean isWaitingDataUpdate;
 	private Object waitData;
@@ -44,8 +44,8 @@ public class NetworkPlayer implements Player {
 		this.teamName = name;
 		this.playerID = name.hashCode();
 		this.frameNumber = 0;
-		this.bases = new ArrayList<Base>();
-		this.planes = new ArrayList<Plane>();
+		this.bases = new ArrayList<BaseModel>();
+		this.planes = new ArrayList<PlaneModel>();
 		this.isWaitingDataUpdate = false;
 		this.waitData = new Object();
 		this.dataUpdater = null;			//FIXME is set by PlayerManager
@@ -77,12 +77,12 @@ public class NetworkPlayer implements Player {
 	}
 
 	@Override
-	public List<Base> getBases() {
+	public List<BaseModel> getBases() {
 		return bases;
 	}
 
 	@Override
-	public List<Plane> getPlanes() {
+	public List<PlaneModel> getPlanes() {
 		return planes;
 	}
 	

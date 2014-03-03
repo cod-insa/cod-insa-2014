@@ -3,8 +3,8 @@ package players;
 import java.util.List;
 import java.util.Queue;
 
-import model.Base;
-import model.Plane;
+import model.BaseModel;
+import model.PlaneModel;
 
 import command.Command;
 
@@ -18,8 +18,8 @@ public interface Player {
     int getPlayerID();
     String getTeamName();
     int getFrameNumber();
-    List<Base> getBases();
-    List<Plane> getPlanes();
+    List<BaseModel> getBases();
+    List<PlaneModel> getPlanes();
 	boolean isWaitingDataUpdate();
 	void setWaitingDataUpdate(boolean isWaitingDataUpdate);
 	Object getWaitData();
