@@ -5,7 +5,7 @@ import common.Unique;
 import common.Viewable;
 
 
-public class EntityModel implements Copyable {
+public class EntityModel implements Copyable { //, Viewable<EntityModel.View> {
 	
 	public class View implements Viewable.View {
 		public final Coord.View position = _pos.view;
@@ -17,7 +17,7 @@ public class EntityModel implements Copyable {
 	
 	public final int id;
 	
-	public final View view;
+	//public final View view;
 	
 	public final Coord _pos;// = new Coord(0,0);
 	//public final EntityView<?> view;
@@ -44,7 +44,7 @@ public class EntityModel implements Copyable {
 		this.id = id;
 		_pos = pos.take();
 		position = _pos.view;
-		view = new View();
+		//view = new View();
 		//this.view = view;
 	}
 	
@@ -53,9 +53,12 @@ public class EntityModel implements Copyable {
 		this(src.id, Unique.Copy.make(src._pos));
 	}
 	
-	@Override
-	public Object copy() {
+	@Override public Object copy() {
 		return new EntityModel(this);
+	}
+	
+	public View getView() {
+		return new View();
 	}
 	
 }

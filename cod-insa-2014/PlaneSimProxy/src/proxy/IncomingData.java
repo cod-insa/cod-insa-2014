@@ -42,7 +42,7 @@ public class IncomingData {
 		return id;
 	}
 	
-	public void retrieveInitialDatas()
+	public void retrieveInitialData()
 	{
 		System.out.println("Trying to connect to the server...");
 		try {
@@ -71,7 +71,7 @@ public class IncomingData {
 			proxy.updateProxyData(d);
 			System.out.println("Data updated");
 		} catch (TException e) {
-			System.err.println("Error while retrieving datas from server");
+			System.err.println("Error while retrieving data from server");
 			e.printStackTrace();
 			System.exit(1);
 		}

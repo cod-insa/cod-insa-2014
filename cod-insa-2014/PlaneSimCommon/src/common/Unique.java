@@ -1,29 +1,23 @@
 package common;
 
-
+/*
+ * A class implementing the Unique concept, which is a "deep" concept (sub-objects of Unique object are also Unique).
+ * This is basically a wrapper to hide the unique mutable reference to an object (and its sub-objects).
+ * The only way to get the object is to take() it, and this can only be done once.
+ * It is possible to view the object without taking it if it is Viewable, using Util.view(u) or Unique.view(u).
+ * The fact that an object that has been taken can no more be viewed can avoid memory leak problems
+ * (keeping an empty Unique object that still has a view to the object would prevent the object to be reclaimed).
+ * 
+ */
 public class Unique<T> {
 	
-//	public static class Copy<T extends Copyable<T>> extends Unique<T> {
-//		
-//		public Copy(T original) {
-//			//this.object = original.copy();
-//			super(original.copy());
-//		}
-//		/*
-//		//protected Copy() { }
-//		protected Copy(T original, boolean makeCopy) {
-//			super(makeCopy? original.copy(): original);
-//		}
-//		*/
-//	}
-	
-	
-	
-	//protected T object = null;
-	//private T object;
 	T object;
 	
-	//private Unique() { }
+	/*
+	 * Caution: for the whole invariant to hold, this constructor must only be called with an argument
+	 * to which no one else has a reference. Eg: super(new X(...))
+	 * 
+	 */
 	protected Unique(T object) { this.object = object; }
 	
 	public final T take() {
@@ -34,11 +28,13 @@ public class Unique<T> {
 		}
 		throw new ExpiredCopyException();
 	}
+	
+	public final boolean taken() { return object == null; }
+	
 	/*
-	final T peek() {
-		return object;
-	}
-	*/
+	 * Permits viewing the unique element if it is viewable
+	 * 
+	 */
 	public static <V extends Viewable.View, T extends Viewable<V>>
 	V view(Unique<T> src) {
 		if (src.object == null)
@@ -46,55 +42,53 @@ public class Unique<T> {
 		return src.object.getView();
 	}
 	
-	public final boolean taken() { return object == null; }
 	
-	
-
 	public static class ExpiredCopyException extends RuntimeException {
 		private static final long serialVersionUID = 1L;
-		//public ExpiredCopyException() { super("Cannot take a unique object twice."); }
 		public ExpiredCopyException() { super("Cannot take or view a unique object after it has been taken."); }
 	}
 	
-	//public static class Copy<T extends Copyable> extends Unique<T> {
+	
 	public static class Copy<T> extends Unique<T> {
+		
 		/*
-		public<U extends Copyable> Copy(U original) {
-			super(original.copy());
-		}
-		*/
-		
-		private Copy(T copy) {
-			super(copy);
-		}
-		public static<T extends Copyable> Copy<T> make (T src) {
-			return new Copy<>(src);
-		}
-
-//		public Copy(T original) {
-//			super(Util.copy(original));
-//		}
-		
+		 * Provide any object and a deep Copier to copy it and we'll make a unique copy of it
+		 * 
+		 */
 		public Copy (T original, Copyable.Copier<T> copier) {
 			super(copier.copy(original));
 		}
 		
 		/*
-		public<U> Copy(U original, Converter<U,Copyable<T>> copier) {
-			//this.object = original.copy();
-			super(copier.convert(original).copy());
+		 * Java doesn't allow this parameter to be declared: <U extends T & Copyable>
+		 * 
+		 *	public<U extends T & Copyable> Copy(U original) {
+		 *		super(original.copy());
+		 *	}
+		 * 
+		 * So we resort to a static factory method Unique.Copy.make,
+		 * for when your type T is Copyable so you don't need to provide a Copier for it
+		 * 
+		 */
+		public static<T extends Copyable> Copy<T> make (T src) {
+			return new Copy<>(src);
 		}
-		public<U> Copy(T src, Converter<T,Copyable> copier) {
-			super((T)Util.copy(copier.convert(src)));
+		
+		private Copy(T copy) {
+			super(copy);
 		}
-		*/
 		
 	}
 	
+	/*
+	 * A class allowing to define, fill and view a collection without actually having a mutating
+	 * reference to it or to its elements, so it is (deeply) Unique.
+	 * 
+	 */
 	public static class Collection<T, CT extends java.util.Collection<T>> extends Unique<CT> {
 		
 		/*
-		 * Must be provided with a collection class that can be instantiated using no argument.
+		 * This constructor must be provided with a collection class that can be instantiated using no argument.
 		 * This new instance must be empty for the uniqueness invariant to hold.
 		 * 
 		 * This takes a Class<?> instead of the expected Class<CT>, because due to a weird quirk,
@@ -102,12 +96,9 @@ public class Unique<T> {
 		 * With this ?, it is even psosible to write: new Collection<X, List<X>> (ArrayList.class)
 		 * 
 		 */
-		//protected Collection(Class<CT> c) {
+		// public Collection(Class<CT> c) {
 		@SuppressWarnings("unchecked")
 		public Collection(Class<?> c) {
-//			try {
-//			super(c.newInstance());
-//			} catch(Exception e){}
 			super((CT) helper(c));
 		}
 		
@@ -125,7 +116,6 @@ public class Unique<T> {
 		}
 		
 	}
-	
 	
 }
 

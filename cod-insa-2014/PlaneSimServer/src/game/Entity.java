@@ -25,7 +25,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 	final Model model;
 	public final Model.View vModel;
 	// FIXME: in fact, maybe it'd be better to write it as a getter (even though we loose some invariants)
-	Model.View model() { return model.view; }
+	Model.View model() { return model.getView(); }
 	// Then "model" refers to the entity, and model() to its view.
 	
 	public final Altitude altitude;
@@ -62,7 +62,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 		//this.view = view;
 		//model = new model.Entity(pos);
 		this.model = model;
-		vModel = model.view;
+		vModel = model.getView();
 		
 		this.altitude = alt;
 		sim.addEntity(this);
