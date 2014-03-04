@@ -23,7 +23,7 @@ import command.Command;
 import command.MoveCommand;
 import command.WaitCommand;
 
-public class CommandSender {
+public class CommandSender extends Thread {
 
 	private CommandReceiver.AsyncClient client;
 	private ArrayList<String> errors;
@@ -47,7 +47,6 @@ public class CommandSender {
 	}
 
 	@SuppressWarnings("unchecked")
-	// lol
 	public synchronized ArrayList<String> getErrors() {
 		return (ArrayList<String>) errors.clone();
 	}
