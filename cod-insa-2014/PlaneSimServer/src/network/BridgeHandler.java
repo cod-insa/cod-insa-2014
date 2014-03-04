@@ -16,6 +16,7 @@ public class BridgeHandler implements Bridge.Iface{
 
 
 	private PlayerManager playerManager;
+	// private int lastNumFrame = -1;
 
 	public BridgeHandler(Sim sim, PlayerManager pmanager) {
 		this.playerManager = pmanager;
@@ -58,18 +59,19 @@ public class BridgeHandler implements Bridge.Iface{
 				e.printStackTrace();
 			}			
 		}
-
-		//When we create a new player we create a DataUpdater object
-		//it's a thread that starts when all players are connected
-		//it updates data every second and notify the handling thread to send data when ready
-
-		System.out.println("Player "+p.getTeamName()+" has been served");
-		// return something.DataUpdater.getData();
+		
+		/* 
+		 if (lastNumFrame == something.numFrame)
+		 {
+	 		synchronized(somethingElse) { // Something different for each server, maybe in parameter
+	 			wait();
+	 		}
+				
+		  }
+		  System.out.println("Player "+p.getTeamName()+" has been served");
+		 	return somethingLikeDataUpdater.getData();
+		*/
 		return null;
 	}
-
-
-	
-
 }
 

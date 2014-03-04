@@ -20,7 +20,7 @@ import players.PlayerManager;
  */
 public class DataUpdater{
 
-	private PlayerManager pManager;
+	private PlayerManager pManager; 
 	private Data tobeSent;
 
 	public DataUpdater(PlayerManager pm)
@@ -44,7 +44,7 @@ public class DataUpdater{
 					new CoordData(p.position.x(),p.position.y()), 
 					-1, -1, -1, false)); // default values to make it work
 		
-		pManager.dataReady(); // Notify Player
+		pManager.dataReady(); // Notify Player (Not sure usefull, players could be notified outside of DataUpdater
 	}
 	
 	public Data getData() {
