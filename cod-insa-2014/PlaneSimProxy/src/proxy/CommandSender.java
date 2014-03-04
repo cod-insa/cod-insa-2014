@@ -112,10 +112,10 @@ public class CommandSender {
 
 		switch (r.code) 
 		{
-		case 0:
+		case Command.SUCCESS:
 			System.out.println("Command sent successfully !");
 			break;
-		case -2:
+		case Command.ERROR_TIME_OUT:
 			isTimeOut = true;
 			System.out.println("command is time out !");
 			break;
