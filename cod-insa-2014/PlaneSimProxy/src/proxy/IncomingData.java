@@ -54,8 +54,7 @@ public class IncomingData {
 				System.exit(1);
 			}
 			
-			System.out.println("Id :" + id);
-			System.out.println("Connected!");
+			System.out.println("Connected with id :" + id);
 		} catch (TException e) {
 			System.err.println("Error while connecting to the server");
 			e.printStackTrace();

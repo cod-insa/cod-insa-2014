@@ -11,8 +11,8 @@ namespace py genbridge
 typedef i32 int
 
 struct CoordData {
-1: double latid, // = y
-2: double longit // = x
+1: double x,
+2: double y
 }
 
 # Data used for the server to retrieve the Data from the server

@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._Fields>, java.io.Serializable, Cloneable, Comparable<CoordData> {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CoordData");
 
-  private static final org.apache.thrift.protocol.TField LATID_FIELD_DESC = new org.apache.thrift.protocol.TField("latid", org.apache.thrift.protocol.TType.DOUBLE, (short)1);
-  private static final org.apache.thrift.protocol.TField LONGIT_FIELD_DESC = new org.apache.thrift.protocol.TField("longit", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
+  private static final org.apache.thrift.protocol.TField X_FIELD_DESC = new org.apache.thrift.protocol.TField("x", org.apache.thrift.protocol.TType.DOUBLE, (short)1);
+  private static final org.apache.thrift.protocol.TField Y_FIELD_DESC = new org.apache.thrift.protocol.TField("y", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -44,13 +44,13 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
     schemes.put(TupleScheme.class, new CoordDataTupleSchemeFactory());
   }
 
-  public double latid; // required
-  public double longit; // required
+  public double x; // required
+  public double y; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    LATID((short)1, "latid"),
-    LONGIT((short)2, "longit");
+    X((short)1, "x"),
+    Y((short)2, "y");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -65,10 +65,10 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // LATID
-          return LATID;
-        case 2: // LONGIT
-          return LONGIT;
+        case 1: // X
+          return X;
+        case 2: // Y
+          return Y;
         default:
           return null;
       }
@@ -109,15 +109,15 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
   }
 
   // isset id assignments
-  private static final int __LATID_ISSET_ID = 0;
-  private static final int __LONGIT_ISSET_ID = 1;
+  private static final int __X_ISSET_ID = 0;
+  private static final int __Y_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.LATID, new org.apache.thrift.meta_data.FieldMetaData("latid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.X, new org.apache.thrift.meta_data.FieldMetaData("x", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
-    tmpMap.put(_Fields.LONGIT, new org.apache.thrift.meta_data.FieldMetaData("longit", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.Y, new org.apache.thrift.meta_data.FieldMetaData("y", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CoordData.class, metaDataMap);
@@ -127,14 +127,14 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
   }
 
   public CoordData(
-    double latid,
-    double longit)
+    double x,
+    double y)
   {
     this();
-    this.latid = latid;
-    setLatidIsSet(true);
-    this.longit = longit;
-    setLongitIsSet(true);
+    this.x = x;
+    setXIsSet(true);
+    this.y = y;
+    setYIsSet(true);
   }
 
   /**
@@ -142,8 +142,8 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
    */
   public CoordData(CoordData other) {
     __isset_bitfield = other.__isset_bitfield;
-    this.latid = other.latid;
-    this.longit = other.longit;
+    this.x = other.x;
+    this.y = other.y;
   }
 
   public CoordData deepCopy() {
@@ -152,73 +152,73 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
 
   @Override
   public void clear() {
-    setLatidIsSet(false);
-    this.latid = 0.0;
-    setLongitIsSet(false);
-    this.longit = 0.0;
+    setXIsSet(false);
+    this.x = 0.0;
+    setYIsSet(false);
+    this.y = 0.0;
   }
 
-  public double getLatid() {
-    return this.latid;
+  public double getX() {
+    return this.x;
   }
 
-  public CoordData setLatid(double latid) {
-    this.latid = latid;
-    setLatidIsSet(true);
+  public CoordData setX(double x) {
+    this.x = x;
+    setXIsSet(true);
     return this;
   }
 
-  public void unsetLatid() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __LATID_ISSET_ID);
+  public void unsetX() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __X_ISSET_ID);
   }
 
-  /** Returns true if field latid is set (has been assigned a value) and false otherwise */
-  public boolean isSetLatid() {
-    return EncodingUtils.testBit(__isset_bitfield, __LATID_ISSET_ID);
+  /** Returns true if field x is set (has been assigned a value) and false otherwise */
+  public boolean isSetX() {
+    return EncodingUtils.testBit(__isset_bitfield, __X_ISSET_ID);
   }
 
-  public void setLatidIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __LATID_ISSET_ID, value);
+  public void setXIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __X_ISSET_ID, value);
   }
 
-  public double getLongit() {
-    return this.longit;
+  public double getY() {
+    return this.y;
   }
 
-  public CoordData setLongit(double longit) {
-    this.longit = longit;
-    setLongitIsSet(true);
+  public CoordData setY(double y) {
+    this.y = y;
+    setYIsSet(true);
     return this;
   }
 
-  public void unsetLongit() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __LONGIT_ISSET_ID);
+  public void unsetY() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __Y_ISSET_ID);
   }
 
-  /** Returns true if field longit is set (has been assigned a value) and false otherwise */
-  public boolean isSetLongit() {
-    return EncodingUtils.testBit(__isset_bitfield, __LONGIT_ISSET_ID);
+  /** Returns true if field y is set (has been assigned a value) and false otherwise */
+  public boolean isSetY() {
+    return EncodingUtils.testBit(__isset_bitfield, __Y_ISSET_ID);
   }
 
-  public void setLongitIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __LONGIT_ISSET_ID, value);
+  public void setYIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __Y_ISSET_ID, value);
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case LATID:
+    case X:
       if (value == null) {
-        unsetLatid();
+        unsetX();
       } else {
-        setLatid((Double)value);
+        setX((Double)value);
       }
       break;
 
-    case LONGIT:
+    case Y:
       if (value == null) {
-        unsetLongit();
+        unsetY();
       } else {
-        setLongit((Double)value);
+        setY((Double)value);
       }
       break;
 
@@ -227,11 +227,11 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case LATID:
-      return Double.valueOf(getLatid());
+    case X:
+      return Double.valueOf(getX());
 
-    case LONGIT:
-      return Double.valueOf(getLongit());
+    case Y:
+      return Double.valueOf(getY());
 
     }
     throw new IllegalStateException();
@@ -244,10 +244,10 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
     }
 
     switch (field) {
-    case LATID:
-      return isSetLatid();
-    case LONGIT:
-      return isSetLongit();
+    case X:
+      return isSetX();
+    case Y:
+      return isSetY();
     }
     throw new IllegalStateException();
   }
@@ -265,21 +265,21 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
     if (that == null)
       return false;
 
-    boolean this_present_latid = true;
-    boolean that_present_latid = true;
-    if (this_present_latid || that_present_latid) {
-      if (!(this_present_latid && that_present_latid))
+    boolean this_present_x = true;
+    boolean that_present_x = true;
+    if (this_present_x || that_present_x) {
+      if (!(this_present_x && that_present_x))
         return false;
-      if (this.latid != that.latid)
+      if (this.x != that.x)
         return false;
     }
 
-    boolean this_present_longit = true;
-    boolean that_present_longit = true;
-    if (this_present_longit || that_present_longit) {
-      if (!(this_present_longit && that_present_longit))
+    boolean this_present_y = true;
+    boolean that_present_y = true;
+    if (this_present_y || that_present_y) {
+      if (!(this_present_y && that_present_y))
         return false;
-      if (this.longit != that.longit)
+      if (this.y != that.y)
         return false;
     }
 
@@ -299,22 +299,22 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetLatid()).compareTo(other.isSetLatid());
+    lastComparison = Boolean.valueOf(isSetX()).compareTo(other.isSetX());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetLatid()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.latid, other.latid);
+    if (isSetX()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.x, other.x);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetLongit()).compareTo(other.isSetLongit());
+    lastComparison = Boolean.valueOf(isSetY()).compareTo(other.isSetY());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetLongit()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.longit, other.longit);
+    if (isSetY()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.y, other.y);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -339,12 +339,12 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
     StringBuilder sb = new StringBuilder("CoordData(");
     boolean first = true;
 
-    sb.append("latid:");
-    sb.append(this.latid);
+    sb.append("x:");
+    sb.append(this.x);
     first = false;
     if (!first) sb.append(", ");
-    sb.append("longit:");
-    sb.append(this.longit);
+    sb.append("y:");
+    sb.append(this.y);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -391,18 +391,18 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
           break;
         }
         switch (schemeField.id) {
-          case 1: // LATID
+          case 1: // X
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.latid = iprot.readDouble();
-              struct.setLatidIsSet(true);
+              struct.x = iprot.readDouble();
+              struct.setXIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // LONGIT
+          case 2: // Y
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.longit = iprot.readDouble();
-              struct.setLongitIsSet(true);
+              struct.y = iprot.readDouble();
+              struct.setYIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -422,11 +422,11 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(LATID_FIELD_DESC);
-      oprot.writeDouble(struct.latid);
+      oprot.writeFieldBegin(X_FIELD_DESC);
+      oprot.writeDouble(struct.x);
       oprot.writeFieldEnd();
-      oprot.writeFieldBegin(LONGIT_FIELD_DESC);
-      oprot.writeDouble(struct.longit);
+      oprot.writeFieldBegin(Y_FIELD_DESC);
+      oprot.writeDouble(struct.y);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -446,18 +446,18 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
     public void write(org.apache.thrift.protocol.TProtocol prot, CoordData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetLatid()) {
+      if (struct.isSetX()) {
         optionals.set(0);
       }
-      if (struct.isSetLongit()) {
+      if (struct.isSetY()) {
         optionals.set(1);
       }
       oprot.writeBitSet(optionals, 2);
-      if (struct.isSetLatid()) {
-        oprot.writeDouble(struct.latid);
+      if (struct.isSetX()) {
+        oprot.writeDouble(struct.x);
       }
-      if (struct.isSetLongit()) {
-        oprot.writeDouble(struct.longit);
+      if (struct.isSetY()) {
+        oprot.writeDouble(struct.y);
       }
     }
 
@@ -466,12 +466,12 @@ public class CoordData implements org.apache.thrift.TBase<CoordData, CoordData._
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(2);
       if (incoming.get(0)) {
-        struct.latid = iprot.readDouble();
-        struct.setLatidIsSet(true);
+        struct.x = iprot.readDouble();
+        struct.setXIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.longit = iprot.readDouble();
-        struct.setLongitIsSet(true);
+        struct.y = iprot.readDouble();
+        struct.setYIsSet(true);
       }
     }
   }

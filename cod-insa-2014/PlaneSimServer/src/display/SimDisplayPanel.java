@@ -60,6 +60,7 @@ public class SimDisplayPanel extends JPanel {
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view);
     	}
+    	System.out.println(pls);
     	pls.get(0).autoPilot.goTo(pls.get(1));
     	pls.get(1).autoPilot.goTo(pls.get(0));
     	

@@ -49,7 +49,7 @@ public class MoveAI extends AbstractAI
 				// le client ne doit pas s'arr�ter pas (et ne ferme pas la socket)
 				// wait marche pas, faudra changer �a lorsqu'il sera temps.
 				//Thread.sleep(Integer.MAX_VALUE);
-				Thread.sleep(2);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				//e.printStackTrace();
 				throw new Error(e);

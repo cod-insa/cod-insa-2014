@@ -69,7 +69,7 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 			throws TException {
 
 		// 1) Create a Common.command.Command with information from MoveCommandData
-		Command com = new MoveCommand(cmd.pc.idPlane, new Coord(cmd.posDest.latid,cmd.posDest.longit).view);
+		Command com = new MoveCommand(cmd.pc.idPlane, new Coord(cmd.posDest.x,cmd.posDest.y).view);
 		
 		// 2) Verify and send the command to the NetworkPlayer
 		return acceptCommand(com, idConnection); // then send the result back to the client

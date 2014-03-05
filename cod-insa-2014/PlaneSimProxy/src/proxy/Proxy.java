@@ -55,14 +55,14 @@ public class Proxy
 				// For now, just updating coords (doing nothing lol)
 				
 				//System.out.println(base.id==b.base_id);
-				System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.longit);
+				System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.y);
 				
-				base._pos.x = b.posit.longit;
-				base._pos.y = b.posit.latid;
+				base._pos.x = b.posit.x;
+				base._pos.y = b.posit.y;
 			}
 			else
 			{
-				model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.latid,b.posit.longit));
+				model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
 				bases.put(base.id, base);
 				//System.out.println("Created base "+base.id);
 			}
@@ -70,7 +70,7 @@ public class Proxy
 		
 		// Update avions
 		
-		System.out.println("Looking for "+d.planes.size()+" planes");
+		System.out.println("Looking for "+d.planes.size()+" planes and the list : " + d.planes);
 		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
@@ -85,14 +85,14 @@ public class Proxy
 				
 				// Then we update the plane with the information given by the server :
 				
-				plane._pos.x = p.posit.longit;
-				plane._pos.y = p.posit.latid;
+				plane._pos.x = p.posit.x;
+				plane._pos.y = p.posit.y;
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
-				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.latid,p.posit.longit));
+				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y));
 				ai_planes.put(plane.id, plane);
 			}
 		}

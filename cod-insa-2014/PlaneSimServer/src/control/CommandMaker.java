@@ -12,7 +12,7 @@ import command.WaitCommand;
 public class CommandMaker {
 	
 	static public Coord make(CoordData data) {
-		return new Coord(data.latid, data.longit);
+		return new Coord(data.x, data.y);
 	}
 	
 	static public Command make(MoveCommandData data) {
