@@ -15,11 +15,10 @@ public abstract class Entity<Model extends model.EntityModel> {
 	}
 	
 	private static int _nb = 0;
-
-	protected static int getNextId() { return _nb+1; }
+	//protected static int getNextId() { return _nb+1; }
 	protected static int makeNextId() { return _nb++; }
 	
-	public final int id = makeNextId();
+//	public final int id = makeNextId();
 	
 	
 	final Model model;
@@ -75,6 +74,10 @@ public abstract class Entity<Model extends model.EntityModel> {
 		_pos.y += Math.sin(_rot)*_spe;
 		updateSpecialized(period);
 	}*/
+
+	public final int id() {
+		return model.id;
+	}
 	
 	public final void update(double period) {
 		model._pos.x += Math.cos(model._rot)*model._spe;

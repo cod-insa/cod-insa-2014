@@ -11,7 +11,7 @@ public final class Plane extends Entity<model.PlaneModel> {
 	//model.Plane.View model() { return null; }
 	
 	public Plane (Sim sim, Coord.Unique pos) {
-		super(new model.PlaneModel(getNextId(), pos), sim, pos, Altitude.SKY);
+		super(new model.PlaneModel(makeNextId(), pos), sim, pos, Altitude.SKY);
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
 		model._spe = 1E-2;

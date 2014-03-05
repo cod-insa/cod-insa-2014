@@ -145,7 +145,7 @@ public class Sim {
 	public Plane getPlane(int planeId) {
 		// FIXME use a hashmap instead
 		for (Entity<?> e: entities.get())
-			if (e instanceof Plane && ((Plane)e).id == planeId)
+			if (e instanceof Plane && ((Plane)e).id() == planeId)
 				return (Plane)e;
 		//throw new Error("Not found"); // FIXME better exception
 		return null;

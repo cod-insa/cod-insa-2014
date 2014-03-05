@@ -48,7 +48,7 @@ public class Controller {
 			//s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
 			Plane p = s.getPlane(mc.planeId);
 			if (p == null)
-				System.err.println("Error: cannot find the plane of id "+mc.planeId);
+				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
 			else p.autoPilot.goTo(mc.destination);
 		} else {
 			throw new Error("Unrecognized command!");

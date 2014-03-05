@@ -8,7 +8,8 @@ import display.EntityDisplay;
 public class Base extends Entity<model.BaseModel> {
 	
 	public Base(Sim sim, Coord.Unique pos) {
-		super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
+		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
+		super(new model.BaseModel(makeNextId(), pos), sim, pos, Altitude.GROUND);
 	}
 	
 	@Override
