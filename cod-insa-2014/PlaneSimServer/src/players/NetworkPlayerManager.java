@@ -119,10 +119,12 @@ public class NetworkPlayerManager {
 		
 		for (NetworkPlayer p: players)
 			p.disconnect();
+
+		System.out.println("Players disconnected.");
 		
 	}
 	
-	synchronized void setConnected(NetworkPlayer p) {
+	synchronized void connect (NetworkPlayer p) {
 		
 		System.out.println("Player "+p.name+" (id "+p.id+") connected.");
 		
@@ -130,6 +132,8 @@ public class NetworkPlayerManager {
 			System.err.println("Warning: player of id "+p.id+" tried to connect more than once.");
 		
 		connectedPlayersById.put(p.id, p);
+		
+		notify();
 		
 	}
 

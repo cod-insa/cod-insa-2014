@@ -70,7 +70,7 @@ public class NetworkPlayer implements Player {
 //			{
 //				manager.setConnected(this);
 //			}
-			manager.setConnected(NetworkPlayer.this);
+			manager.connect(NetworkPlayer.this);
 			
 			return id;
 		}
@@ -139,23 +139,25 @@ public class NetworkPlayer implements Player {
 			);
 		//System.out.println("A");
 		
-		new Thread() {
-			public void run() { dataSender.serve(); };
-		}.start();
-		
 		commandsReceiver = new TSimpleServer(
 				new TServer.Args(new TNonblockingServerSocket(commandsReceiverPort)).processor(
 						new CommandReceiver.Processor<>(new CommandsHandler())
 					)
 			);
 		
-		new Thread() {
-			public void run() { commandsReceiver.serve(); }
-		}.start();
+		serve();
 		
 	}
 	
 	void serve() {
+		
+		new Thread() {
+			public void run() { dataSender.serve(); };
+		}.start();
+		
+		new Thread() {
+			public void run() { commandsReceiver.serve(); }
+		}.start();
 		
 	}
 	

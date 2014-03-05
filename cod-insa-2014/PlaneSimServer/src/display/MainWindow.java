@@ -80,6 +80,10 @@ public class MainWindow {
                 frmPlaneSim.setVisible(true);
             }
         });
+        
+//		initialize();
+//		frmPlaneSim.setVisible(true);
+		
     }
 
 	public void initialize() {
