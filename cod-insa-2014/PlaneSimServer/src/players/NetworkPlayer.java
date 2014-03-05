@@ -1,5 +1,7 @@
 package players;
 
+import game.World;
+import game.World.Snapshot;
 import genbridge.Bridge;
 import genbridge.CommandReceiver;
 import genbridge.Data;
@@ -19,8 +21,8 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
-
 import control.CommandMaker;
+import control.DataUpdater;
 
 /**
  * @author LP
@@ -40,7 +42,7 @@ public class NetworkPlayer implements Player {
 	
 //	private int playerID;
 //	private String teamName;
-//	private int frameNumber;
+	private int lastNumFrame;
 //	
 //	private List<BaseModel> bases;
 //	private List<PlaneModel> planes;
@@ -54,6 +56,8 @@ public class NetworkPlayer implements Player {
 	TServer dataSender, commandsReceiver;
 	
 	NetworkPlayerManager manager;
+	
+	World world;
 	
 	//boolean connected = false;
 	
@@ -77,22 +81,23 @@ public class NetworkPlayer implements Player {
 		
 		@Override
 		public Data retrieveData(int idConnection) throws TException {
-			// TODO Auto-generated method stub
 			
-			/*
-			if (lastNumFrame == something.numFrame)
+			Snapshot s = world.getCurrentSnapshot();
+			
+			while (lastNumFrame >= s.id)
 			{
-				synchronized(somethingElse) { // Something different for each server, maybe in parameter
-				wait();
+				synchronized(world) { // Something different for each server, maybe in parameter
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				s = world.getCurrentSnapshot();
 			}
+			System.out.println("Player "+ name+" has been served");
+			return DataUpdater.prepareData(s);
 			
-			}
-			System.out.println("Player "+p.getTeamName()+" has been served");
-			
-			return somethingLikeDataUpdater.getData();
-			*/
-			
-			return null;
 		}
 		
 	}
