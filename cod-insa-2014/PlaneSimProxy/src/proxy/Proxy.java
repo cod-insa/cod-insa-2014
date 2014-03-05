@@ -33,7 +33,8 @@ public class Proxy
 		bases = new HashMap<Integer,BaseModel>();
 		
 		idm.retrieveInitialData();
-		cm = new CommandSender(ip,port,idm.getIdConnection(), this);
+		cm = new CommandSender(ip, port+1, idm.getIdConnection(), this);
+		cm.start();
 	}
 	
 	public void updateProxyData(Data d)
@@ -43,6 +44,8 @@ public class Proxy
 		// Update numFrame
 		numFrame = d.numFrame;
 		
+		//System.out.println("<< "+d.bases.get(0).posit.latid);
+		
 		// Update bases 
 		for (genbridge.BaseData b : d.bases)
 		{
@@ -50,6 +53,10 @@ public class Proxy
 			{
 				model.BaseModel base = bases.get(b.base_id); // base in the list
 				// For now, just updating coords (doing nothing lol)
+				
+				//System.out.println(base.id==b.base_id);
+				System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.longit);
+				
 				base._pos.x = b.posit.longit;
 				base._pos.y = b.posit.latid;
 			}
@@ -57,6 +64,7 @@ public class Proxy
 			{
 				model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.latid,b.posit.longit));
 				bases.put(base.id, base);
+				//System.out.println("Created base "+base.id);
 			}
 		}
 		

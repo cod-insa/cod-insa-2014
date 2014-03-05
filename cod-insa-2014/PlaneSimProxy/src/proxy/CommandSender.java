@@ -47,10 +47,12 @@ public class CommandSender extends Thread {
 			TTransport transport;
 			transport = new TSocket(ip, port);
 			transport.open();
-
+			
 			TProtocol protocol = new TBinaryProtocol(transport);
+			//TProtocol protocol = new TSimpleJSONProtocol(transport);
+			
 			client = new CommandReceiver.Client(protocol);
-
+			
 		} catch (Exception e) {
 			System.err.println("Error while initializing data retriever : ");
 			e.printStackTrace();
@@ -84,14 +86,19 @@ public class CommandSender extends Thread {
 			synchronized (this) {
 				while (waitingList.isEmpty()) {
 					try {
+						System.out.println(">> waiting");
 						wait();
+						System.out.println(">> notified");
 					} catch (InterruptedException ie) {
 						ie.printStackTrace();
 					}
 				}
-				currentCmd = waitingList.remove();
 			}
-			sendThriftCommand(currentCmd);
+			while (!waitingList.isEmpty()) {
+				currentCmd = waitingList.remove();
+				sendThriftCommand(currentCmd);
+				System.out.println(">> sent");
+			}
 		}
 	}
 

@@ -77,6 +77,11 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 			return Double.valueOf(x).hashCode() * 31 + Double.valueOf(y).hashCode();
 		}
 		
+		@Override
+		public String toString() {
+			return Coord.this.toString();
+		}
+		
 	}
 	
 	/*
@@ -160,8 +165,18 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 		// TODO
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
+
+	@Override
+	public String toString() {
+		return "Coord("+x+", "+y+")";
+	}
 	
 }
+
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 package control;
 
+import game.Plane;
 import game.Sim;
 
 import java.util.ArrayList;
@@ -44,7 +45,11 @@ public class Controller {
 	public void apply (Command c, Sim s) {
 		if (c instanceof MoveCommand) {
 			MoveCommand mc = (MoveCommand) c;
-			s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
+			//s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
+			Plane p = s.getPlane(mc.planeId);
+			if (p == null)
+				System.err.println("Error: cannot find the plane of id "+mc.planeId);
+			else p.autoPilot.goTo(mc.destination);
 		} else {
 			throw new Error("Unrecognized command!");
 		}

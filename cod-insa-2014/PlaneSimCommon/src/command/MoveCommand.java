@@ -18,4 +18,9 @@ public class MoveCommand implements Command {
 		destination = d.copy().getView(); // FIXME request Immutable to avoid copies
 	}
 	
+	@Override
+	public String toString() {
+		return "mv "+planeId+" -> "+destination;
+	}
+	
 }

@@ -18,7 +18,6 @@ import network.DataUpdater;
 import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
-import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 
@@ -122,14 +121,17 @@ public class NetworkPlayer implements Player {
 	//<C extends CommandData> treat(C cmd)
 	
 	class CommandsHandler implements CommandReceiver.Iface {
-
+		
 		@Override
 		public Response sendMoveCommand(MoveCommandData cmd, int idConnection) throws TException {
+			
+			//System.out.println("MC to "+CommandMaker.make(cmd.posDest).toString());
+			
 			addCommand(CommandMaker.make(cmd));
 			// TODO verify command
 			return new Response(Command.SUCCESS, null);
 		}
-
+		
 		@Override
 		public Response sendWaitCommand(WaitCommandData cmd, int idConnection) throws TException {
 			addCommand(CommandMaker.make(cmd));
@@ -164,7 +166,7 @@ public class NetworkPlayer implements Player {
 		//System.out.println("A");
 		
 		commandsReceiver = new TSimpleServer(
-				new TServer.Args(new TNonblockingServerSocket(commandsReceiverPort)).processor(
+				new TServer.Args(new TServerSocket(commandsReceiverPort)).processor(
 						new CommandReceiver.Processor<>(new CommandsHandler())
 					)
 			);
@@ -239,6 +241,9 @@ public class NetworkPlayer implements Player {
 	void addCommand (Command c) {
 		synchronized (commands)
 		{
+			
+			System.out.println("receiving cmd: "+c);
+			
 			commands.add(c);
 		}
 	}

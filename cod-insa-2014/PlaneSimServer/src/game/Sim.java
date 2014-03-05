@@ -147,7 +147,8 @@ public class Sim {
 		for (Entity<?> e: entities.get())
 			if (e instanceof Plane && ((Plane)e).id == planeId)
 				return (Plane)e;
-		throw new Error("Not found"); // FIXME better exception
+		//throw new Error("Not found"); // FIXME better exception
+		return null;
 	}
 
 	/*
