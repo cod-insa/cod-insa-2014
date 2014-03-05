@@ -1,16 +1,9 @@
 package players;
 
-import java.util.List;
-import java.util.Queue;
 
-import model.BaseModel;
-import model.PlaneModel;
-
-import command.Command;
-
-import control.DataUpdater;
-
-public class LocalHumanPlayer implements Player {
+public class LocalHumanPlayer
+{}
+/*implements Player {
 
 	@Override
 	public int getPlayerID() {
@@ -78,4 +71,9 @@ public class LocalHumanPlayer implements Player {
 		return null;
 	}
 
-}
+}*/
+
+
+
+
+

@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 import common.Accessors.RAccess;
 
-import control.SimStepUpdater;
+import control.Controller;
 import display.Displayer;
 
 public class Sim {
@@ -15,7 +15,7 @@ public class Sim {
 	public final long update_period = 30;
 	public final long world_snapshot_frame_period = 50;
 	
-	private SimStepUpdater stepUpdate;
+	//private Controller stepUpdate;
 	
 	Displayer disp;
 	private int nbPlayers;
@@ -23,6 +23,7 @@ public class Sim {
 	public int getCurrentFrame() { return current_frame; }
 	boolean running = false;
 	World w;
+	final Timer updateTimer = new Timer();
 	
 	//public final Access<List<Entity>> entities = new BasicAccess(w.entities);
 	public final RAccess<List<Entity<?>>> entities = new RAccess<List<Entity<?>>> () {
@@ -34,39 +35,55 @@ public class Sim {
 	public final List<Entity> getEntities() {
 		return Collections.unmodifiableList(w.entities);
 	}
-	*/
+	*/ 
 	
 	public Sim (Displayer disp, int nbplay) {
 		this.disp = disp;
 		
 		this.nbPlayers = nbplay;
-		this.stepUpdate = new SimStepUpdater(update_period);
+		//this.stepUpdate = new Controller(update_period);
 		
 		new World(this); // sets this.w
 		
-		new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-            	update();
-            	SimStepUpdater.get().update(Sim.this);	//FIXME don't do that here, at each frame!
-            	
-            	if (current_frame%world_snapshot_frame_period == 0)
-            		w.takeSnapshot();
-            	
-            	current_frame++;
-            }
-        }, update_period, update_period);
+//		(updateTimer = new Timer()).schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//            	update();
+//            	Controller.get().update(Sim.this);
+//            	
+//            	if (current_frame%world_snapshot_frame_period == 0)
+//            		w.takeSnapshot();
+//            	
+//            	current_frame++;
+//            }
+//        }, update_period, update_period);
 		
 	}
 	
 	public void start()
 	{
 		//TODO (called when all players have joined the game)
+		
+		if (!running)
+			updateTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					update();
+					Controller.get().update(Sim.this);
+					
+					if (current_frame%world_snapshot_frame_period == 0)
+						w.takeSnapshot();
+						
+					current_frame++;
+				}
+			}, update_period, update_period);
+		
 		running = true;
 	}
 	
 	public void stop() {
 		running = false;
+		updateTimer.cancel();
 	}
 	
 	void addEntity (Entity<?> e) {
@@ -103,11 +120,12 @@ public class Sim {
 		throw new Error("Not found"); // FIXME better exception
 	}
 
-	
-	public SimStepUpdater getSetpUpdater() {
+	/*
+	public Controller getSetpUpdater() {
 		return stepUpdate;
 	}
-
+	*/
+	
 	public int getNbPlayers() {
 		return nbPlayers;
 	}

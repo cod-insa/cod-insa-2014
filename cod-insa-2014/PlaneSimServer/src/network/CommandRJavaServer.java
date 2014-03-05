@@ -18,7 +18,7 @@ package network;
  * under the License.
  */
 
-import genbridge.*;
+import genbridge.CommandReceiver;
 
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
@@ -30,7 +30,7 @@ import org.apache.thrift.transport.TNonblockingServerTransport;
  * with all clients. Single and thread.
  * @author Nicolas Vailliet
  */
-public class CommandRJavaServer extends Thread{
+public class CommandRJavaServer extends Thread { // FIXME rm
 
 	private static CommandRJavaServer instance = null;
 	private CommandReceiver.Processor<CommandReceiverHandler> commandProcessor;
@@ -40,6 +40,8 @@ public class CommandRJavaServer extends Thread{
 	private CommandRJavaServer(CommandReceiverHandler crh)
 	{
 		commandProcessor = new CommandReceiver.Processor<CommandReceiverHandler>(crh);
+		
+		throw new Error("don't use");
 	}
 
 	/**

@@ -1,9 +1,10 @@
-package control;
-import game.Map;
-
+package game;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
+
+import model.Coord;
 
 public class MapLoader {
 
@@ -28,8 +29,16 @@ public class MapLoader {
 	private static String mapEurope = location+"france.map";
 	
 	//The new loaded map to use in the game
-	private Map newmap;
-
+	//private Map newmap;
+	
+	public static class Map {
+		
+		// What we load from a file is a list of base coordinates
+		private List<Coord> newmap;
+		
+		
+	}
+	
 	/**
 	 * Available maps
 	 * @author NVA
@@ -55,7 +64,7 @@ public class MapLoader {
 	 * Specify here the map you want to load
 	 * @param mapname, from enum AvailableMaps
 	 */
-	public /*Map*/void loadMap(AvailableMaps mapname) 
+	public Map loadMap(AvailableMaps mapname) 
 	{
 		switch (mapname) {
 		case FRANCE:
@@ -80,22 +89,26 @@ public class MapLoader {
 		try {
 			scanner = new Scanner(new File(path_file));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			throw new Error(e);
 		}
 		
-		readFile();
+		//readFile();
 		//return newmap;
+		return readFile();
 	}
 
 	/**
 	 * Reads the .map file and creates a map and its bases
 	 */
-	private void readFile()
+	private Map readFile()
 	{
 		String init_line = scanner.nextLine();
 		String[] init_line_sep = init_line.split(",");
 		String name;
-
+		
+		Map map = new Map();
+		
 		if(init_line_sep.length == 5)
 		{
 			name = init_line_sep[0];
@@ -121,15 +134,23 @@ public class MapLoader {
 				longit = Double.parseDouble(coord[2]);
 
 				System.out.println("New Base : "+name+" at "+latid+" "+longit);
-				//new Base(name,latid,longit);			
+				//new Base(name,latid,longit);		
+				
+				
 			}
 			
 			//newmap = m;
+			return null;
 
 		}
 		else
 		{
-			System.err.println("Oops, map cannot be loaded! Check your file's header");
+			//System.err.println("Oops, map cannot be loaded! Check your file's header");
+			throw new Error("Oops, map cannot be loaded! Check your file's header");
 		}
 	}
 }
+
+
+
+

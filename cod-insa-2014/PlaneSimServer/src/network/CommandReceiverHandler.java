@@ -9,12 +9,11 @@ import model.Coord;
 
 import org.apache.thrift.TException;
 
-import players.Player;
-import players.PlayerManager;
+import players.NetworkPlayerManager;
+
 import command.Command;
 import command.MoveCommand;
 import command.WaitCommand;
-import common.NotSupportedException;
 
 /**
  * CommandReveiverHandler
@@ -30,10 +29,10 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 	private static int ERROR_FORBIDDEN = -3;
 	private static int ERROR_UNKNOWN = -4;
 	
-	private PlayerManager playerManager;
+	private NetworkPlayerManager playerManager;
 	private ActionChecker actChecker;
 	
-	public CommandReceiverHandler(Sim sim, PlayerManager pmanager) {
+	public CommandReceiverHandler(Sim sim, NetworkPlayerManager pmanager) {
 		this.playerManager = pmanager;
 		this.actChecker = new ActionChecker(sim);
 	}
@@ -42,24 +41,25 @@ public class CommandReceiverHandler implements CommandReceiver.Iface {
 			throws TException {
 
 		//ID verification
-		if(!playerManager.isAuthorized(idConnection))
-		{
-			System.out.println("ID Player "+idConnection+" action refused. Cause: Client not connected");
-			return new Response(ERROR_FORBIDDEN, "The server does not know you. Please use connect method");
-		}
-
-		Player p = playerManager.getPlayerById(idConnection);
-		System.out.println("Player "+p.getTeamName()+" wants to perform action");
-
-		//Action verification
-		if(!actChecker.isValid(cmd))
-		{
-			System.out.println("Player "+p.getTeamName()+" action refused. Cause: illegal action");
-			return new Response(ERROR_COMMAND, "This command is not legal");	//FIXME message more explicit?
-		}
-
-		p.addCommand(cmd); 
-		System.out.println("Player "+p.getTeamName()+" action has been accepted");
+//		if(!playerManager.isAuthorized(idConnection))
+//		{
+//			System.out.println("ID Player "+idConnection+" action refused. Cause: Client not connected");
+//			return new Response(ERROR_FORBIDDEN, "The server does not know you. Please use connect method");
+//		}
+//
+//		Player p = playerManager.getPlayerById(idConnection);
+//		System.out.println("Player "+p.getTeamName()+" wants to perform action");
+//
+//		//Action verification
+//		if(!actChecker.isValid(cmd))
+//		{
+//			System.out.println("Player "+p.getTeamName()+" action refused. Cause: illegal action");
+//			return new Response(ERROR_COMMAND, "This command is not legal");	//FIXME message more explicit?
+//		}
+//
+//		p.addCommand(cmd); 
+//		System.out.println("Player "+p.getTeamName()+" action has been accepted");
+		
 		return new Response(SUCCESS,"");
 	}
 	

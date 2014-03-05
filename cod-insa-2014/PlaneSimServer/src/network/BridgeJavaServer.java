@@ -30,7 +30,7 @@ import org.apache.thrift.transport.TServerTransport;
  * with all clients. Single and thread.
  * @author Nicolas Vailliet
  */
-public class BridgeJavaServer extends Thread{
+public class BridgeJavaServer extends Thread { // FIXME unused
 
 	private static BridgeJavaServer instance = null;
 	private Bridge.Processor<BridgeHandler> dataProcessor;
@@ -40,6 +40,8 @@ public class BridgeJavaServer extends Thread{
 	private BridgeJavaServer(BridgeHandler handler)
 	{
 		dataProcessor = new Bridge.Processor<BridgeHandler>(handler);
+		
+		throw new Error("don't use that");
 	}
 
 	/**
