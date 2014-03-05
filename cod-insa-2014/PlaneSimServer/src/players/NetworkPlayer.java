@@ -82,7 +82,7 @@ public class NetworkPlayer implements Player {
 //			}
 			NetworkPlayer.this.nickname = nickname;
 			
-			manager.connect(NetworkPlayer.this);
+			manager.notifyConnect(NetworkPlayer.this);
 			
 			return id;
 		}
@@ -94,6 +94,8 @@ public class NetworkPlayer implements Player {
 			
 			while (s == null || lastNumFrame >= s.id)
 			{
+//				System.out.println("Player "+ name+" is waiting");
+				
 				synchronized(world) { // [not true:] Something different for each server, maybe in parameter
 					try {
 						world.wait();
@@ -101,6 +103,9 @@ public class NetworkPlayer implements Player {
 						e.printStackTrace();
 					}
 				}
+				
+//				System.out.println("Player "+ name+" is unblocked");
+				
 				
 				if (disconnected)
 					return DataUpdater.prepareEndofGame();
@@ -110,7 +115,7 @@ public class NetworkPlayer implements Player {
 			
 			lastNumFrame = s.id;
 			
-			System.out.println("Player "+ name+" is being served");
+//			System.out.println("Player "+ name+" is being served");
 			
 			return DataUpdater.prepareData(s);
 			
@@ -181,6 +186,7 @@ public class NetworkPlayer implements Player {
 			public void run() {
 				dataSender.serve();
 				System.out.println("Player "+name+" data sender terminated");
+				disconnect();
 			};
 		};
 		dataSenderThead.start();
@@ -189,6 +195,7 @@ public class NetworkPlayer implements Player {
 			public void run() {
 				commandsReceiver.serve();
 				System.out.println("Player "+name+" com receiver terminated");
+				disconnect();
 			}
 		};
 		commandsReceiverThread.start();
@@ -197,10 +204,17 @@ public class NetworkPlayer implements Player {
 	
 	void disconnect() {
 		
+		//System.out.println(">>> DISCO");
+		
 		disconnected = true;
 		
-		dataSender.stop();
-		commandsReceiver.stop();
+		if (dataSender.isServing())
+			dataSender.stop();
+		
+		if (commandsReceiver.isServing())
+			commandsReceiver.stop();
+		
+		manager.notifyDisconnect(this);
 		
 	}
 	void join() {
@@ -242,7 +256,7 @@ public class NetworkPlayer implements Player {
 		synchronized (commands)
 		{
 			
-			System.out.println("receiving cmd: "+c);
+			//System.out.println("receiving cmd: "+c);
 			
 			commands.add(c);
 		}

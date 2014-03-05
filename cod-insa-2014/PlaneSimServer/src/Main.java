@@ -2,9 +2,11 @@ import game.Sim;
 
 import org.apache.thrift.transport.TTransportException;
 
+import players.NetworkPlayer;
 import players.NetworkPlayerManager;
 
 import common.Event;
+import common.Function;
 
 import control.Controller;
 import display.ConnectionWindow;
@@ -74,22 +76,34 @@ public class Main {
 			
 			//if(0==0) return;
 			
+			final MainWindow[] mainWindow = new MainWindow[]{null}; // one single mainWindow
+			
 			final ConnectionWindow cw = new ConnectionWindow(npm, new Event() {
 				public void call() {
-					npm.cancelWaitForConnections();  // call npm.cancelWaitForConnections
-					npm.diconnect();
-					//planeSim.stop();
-					shutOff();
+					if (mainWindow[0] == null) {
+						npm.cancelWaitForConnections();  // call npm.cancelWaitForConnections
+						npm.diconnect();
+						//planeSim.stop();
+						shutOff();
+					}
 				}
 			});
 			
 			//if(0==0) return;
 			
+			npm.registerListeners(new Function.Void<NetworkPlayer>() {
+				public void exec (NetworkPlayer p) { cw.notifyConnect(p); }
+			}, new Function.Void<NetworkPlayer>() {
+				public void exec (NetworkPlayer p) { cw.notifyDisconnect(p); }
+			});
+			
 			npm.waitForConnections(new Event() {
 				
 				public void call() {
 					
-					cw.close();
+					////////////////////////
+					//cw.close();
+					////////////////////////
 					
 			//		//TODO passing port and number of players by argument
 			//		int nbplay = 1;
@@ -117,7 +131,7 @@ public class Main {
 					//FIXME
 					Displayer disp = new Displayer();
 					*/
-					new MainWindow(disp, planeSim, new Event() {
+					mainWindow[0] = new MainWindow(disp, planeSim, new Event() {
 						public void call() {
 							planeSim.stop();
 							npm.diconnect();
@@ -142,6 +156,8 @@ public class Main {
 			
 			while (!offline)
 				synchronized(Main.class) { Main.class.wait(); };
+			
+			cw.close();
 			
 			//System.out.println(Thread.getAllStackTraces().size());
 			

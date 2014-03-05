@@ -86,6 +86,17 @@ public class SimDisplayPanel extends JPanel {
 
             }
         });
+        
+//        
+//        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+//        		KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "Undo");
+//        getActionMap().put("Undo", new AbstractAction("Undo") {
+//            private static final long serialVersionUID = 1L;
+//
+//            public void actionPerformed(ActionEvent evt) {
+//            	System.err.println("LOL!!");
+//            }
+//        });
     	
 
         addMouseListener(new MouseAdapter() {

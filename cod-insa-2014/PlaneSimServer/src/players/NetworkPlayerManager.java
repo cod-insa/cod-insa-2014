@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.thrift.transport.TTransportException;
 
 import common.Event;
+import common.Function;
 import common.ListView;
 import common.Util;
 
@@ -38,6 +39,7 @@ public class NetworkPlayerManager {
 	private Map<Integer, NetworkPlayer> connectedPlayersById = new HashMap<>();
 	private Set<Integer> usedIds = new HashSet<>();
 	private final World world;
+	private Function<NetworkPlayer, Void> onConnect = null, onDisconnect = null;
 	
 	public NetworkPlayerManager (World world)
 	{
@@ -92,8 +94,15 @@ public class NetworkPlayerManager {
 		
 	}
 	
-	public void waitForConnections(/*Event onConnexion,*/ Event onDone) {
+	public void registerListeners(Function<NetworkPlayer, Void> onConnect, Function<NetworkPlayer, Void> onDisconnect) {
+		this.onConnect = onConnect;
+		this.onDisconnect = onDisconnect;
+	}
+	
+	public void waitForConnections(Event onDone) {
 		System.out.println("Waiting for "+players.size()+" player(s) to connect...");
+		
+		this.onConnect = onConnect;
 		
 		waiting_for_cons = true;
 		
@@ -134,9 +143,17 @@ public class NetworkPlayerManager {
 		
 		System.out.println("Players disconnected.");
 		
+		
 	}
 	
-	synchronized void connect (NetworkPlayer p) {
+	synchronized void notifyDisconnect (NetworkPlayer p) {
+		System.out.println("Player "+p.name+" (id "+p.id+") disconnected.");
+		
+		if (onDisconnect != null)
+			onDisconnect.apply(p);
+	}
+	
+	synchronized void notifyConnect (NetworkPlayer p) {
 		
 		System.out.println("Player "+p.name+" (id "+p.id+") connected.");
 		
@@ -146,6 +163,9 @@ public class NetworkPlayerManager {
 		connectedPlayersById.put(p.id, p);
 		
 		notify();
+		
+		if (onConnect != null)
+			onConnect.apply(p);
 		
 	}
 

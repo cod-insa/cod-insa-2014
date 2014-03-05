@@ -29,7 +29,7 @@ public class ConsoleAI extends AbstractAI
 			System.out.print("Next base: ");
 			i = in.nextInt();
 			
-			if (i == -1) {
+			if (i < 0) {
 				in.close();
 				/* I want to */ break /* free! */;
 			}
@@ -46,6 +46,8 @@ public class ConsoleAI extends AbstractAI
 			}
 			
 		}
+		
+		System.exit(0);
 	}
 	
 	public static void main(String[] args) 

@@ -118,7 +118,7 @@ public class MainWindow {
         
 
         // Catching keyboard: Ctrl-Z / Ctrl-Y for undo/redo
-
+        
         main_panel.getActionMap().put("Undo", new AbstractAction("Undo") {
             private static final long serialVersionUID = 1L;
             
@@ -127,18 +127,35 @@ public class MainWindow {
             }
         });
         main_panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
-
+        
         main_panel.getActionMap().put("Redo", new AbstractAction("Redo") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent evt) {
             	//TODO
+            	System.err.println("RE!!");
             }
         });
         main_panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
+        
+        
+        main_panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+        		KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "XX");
+        main_panel.getActionMap().put("XX", new AbstractAction("XX") {
+            private static final long serialVersionUID = 1L;
 
+            public void actionPerformed(ActionEvent evt) {
+            	System.err.println("LOL!!");
+            }
+        });
+        
+        
+        
+        
+        
+        
         JScrollPane scrollPane = new JScrollPane();
-
+        
         //TODO
         
         some_list = new JList();

@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -31,6 +33,19 @@ import common.Event;
 public class ConnectionWindow {
 	
 	JFrame frmPlayersCon;
+	private Map<Integer,JLabel> labels = new HashMap<>();
+	
+	static final int imgSize = 30;
+	
+	static Image pendingImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(Resources.WAITING_ICON));
+	static Image connectedImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(Resources.CONNECTED_ICON));
+	static Image disconnectedImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(Resources.DISCONNECTED_ICON));
+	
+	static {
+		pendingImage = pendingImage.getScaledInstance(imgSize, imgSize, Image.SCALE_SMOOTH);
+		connectedImage = connectedImage.getScaledInstance(imgSize, imgSize, Image.SCALE_SMOOTH);
+		disconnectedImage = disconnectedImage.getScaledInstance(imgSize, imgSize, Image.SCALE_SMOOTH);
+	}
 	
 	public ConnectionWindow(final NetworkPlayerManager npm, final Event onClose) {
 		
@@ -93,12 +108,12 @@ public class ConnectionWindow {
         frmPlayersCon.getContentPane().add(new JScrollPane(iconListPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		 */
 		
-		int imgSize = 40;
+//		int imgSize = 40;
 		
 		//frmPlayersCon.add(new JLabel(s, new ImageIcon(, SwingConstants.LEFT));
 		//Image pendingImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/motif/icons/DesktopIcon.gif"));
-		Image pendingImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(Resources.WAITING_ICON));
-		pendingImage = pendingImage.getScaledInstance(imgSize, imgSize, Image.SCALE_SMOOTH);
+//		Image pendingImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(Resources.WAITING_ICON));
+//		pendingImage = pendingImage.getScaledInstance(imgSize, imgSize, Image.SCALE_SMOOTH);
 		
 //		Box verticalBox = Box.createVerticalBox();
 		
@@ -147,19 +162,20 @@ public class ConnectionWindow {
 		
 		for (NetworkPlayer p: npm.getPlayers()) {
 			//frmPlayersCon.add(new JLabel("[pending] " + p.name+" ("+p.getNickname()+")", new ImageIcon(i), SwingConstants.LEFT));
-			panel.add(new JLabel("[pending] " + p.name, new ImageIcon(pendingImage), SwingConstants.LEFT)); // , gbc
-			
+			JLabel lbl = new JLabel("" + p.name+ "...", new ImageIcon(pendingImage), SwingConstants.LEFT);
+			panel.add(lbl); // , gbc
+			labels .put(p.id, lbl);
 			panel.add(Box.createRigidArea(new Dimension(0,margin)));
 			
 		}
 		
-
+		
 		panel.add(Box.createRigidArea(new Dimension(0,margin*2)));
 		panel.add(new JSeparator(JSeparator.HORIZONTAL),
 		          BorderLayout.LINE_START);
 		panel.add(Box.createRigidArea(new Dimension(0,margin)));
 		
-		JButton cancelBtn = new JButton("Cancel", UIManager.getIcon("OptionPane.errorIcon"));
+		JButton cancelBtn = new JButton("Close this connection window", UIManager.getIcon("OptionPane.errorIcon"));
 		
 		panel.add(cancelBtn);
 		cancelBtn.addActionListener(new ActionListener() {
@@ -170,8 +186,17 @@ public class ConnectionWindow {
 		frmPlayersCon.pack();
 		//frmPlayersCon.setSize(-1,100);
 		
-		frmPlayersCon.setLocationRelativeTo( null );
+		//frmPlayersCon.setLocationRelativeTo( null );
 		
+	}
+	
+	
+	public void notifyConnect(NetworkPlayer p) {
+		labels.get(p.id).setIcon(new ImageIcon(connectedImage)); //
+		labels.get(p.id).setText(p.name+" ("+p.getNickname()+")");
+	}
+	public void notifyDisconnect(NetworkPlayer p) {
+		labels.get(p.id).setIcon(new ImageIcon(disconnectedImage)); // throw new Error();
 	}
 	
 	public void close() {
