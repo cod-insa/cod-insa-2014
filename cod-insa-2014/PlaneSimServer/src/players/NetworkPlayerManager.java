@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.thrift.transport.TTransportException;
 
 import common.Event;
+import common.ListView;
 import common.Util;
 
 import control.Controller;
@@ -36,7 +37,7 @@ public class NetworkPlayerManager {
 	
 	private Map<Integer, NetworkPlayer> connectedPlayersById = new HashMap<>();
 	private Set<Integer> usedIds = new HashSet<>();
-	private World world;
+	private final World world;
 	
 	public NetworkPlayerManager (World world)
 	{
@@ -73,7 +74,7 @@ public class NetworkPlayerManager {
 		
 		
 		int id;
-		do id = Util.rand.nextInt();
+		do id = Math.abs(Util.rand.nextInt());
 		while (usedIds.contains(id));
 		
 		usedIds.add(id);
@@ -91,7 +92,7 @@ public class NetworkPlayerManager {
 		
 	}
 	
-	public void waitForConnections(Event onDone) {
+	public void waitForConnections(/*Event onConnexion,*/ Event onDone) {
 		System.out.println("Waiting for "+players.size()+" player(s) to connect...");
 		
 		waiting_for_cons = true;
@@ -100,11 +101,12 @@ public class NetworkPlayerManager {
 			//if (connectedPlayersById.size() > players.size()) throw new Error("Unexpected");
 			assert connectedPlayersById.size() < players.size();
 			try {
-				synchronized(this){wait();}
+				synchronized(this){ wait(); }
 			} catch (InterruptedException e) {
 				System.err.println("Interrupted while waiting for player connections, resuming waiting. Exception was:");
-				e.printStackTrace();
+				e.printStackTrace(System.err);
 			}
+			if (!waiting_for_cons) System.out.println("NetworkManager exiting");
 			if (!waiting_for_cons)
 				return;
 		}
@@ -112,8 +114,9 @@ public class NetworkPlayerManager {
 		onDone.call();
 	}
 	
-	public void cancelWaitForConnections() {
+	public synchronized void cancelWaitForConnections() {
 		waiting_for_cons = false;
+		System.out.println("HEY!!");
 		notify(); // FIXME working?
 	}
 	
@@ -123,7 +126,12 @@ public class NetworkPlayerManager {
 		
 		for (NetworkPlayer p: players)
 			p.disconnect();
+		
+		synchronized(world) { world.notifyAll(); } // unblock network players still waiting for a frame
 
+		for (NetworkPlayer p: players)
+			p.join();
+		
 		System.out.println("Players disconnected.");
 		
 	}
@@ -143,6 +151,10 @@ public class NetworkPlayerManager {
 
 	public int getNbPlayers() {
 		return players.size();
+	}
+
+	public ListView<NetworkPlayer> getPlayers() {
+		return Util.shallowView(players);
 	}
 	
 	

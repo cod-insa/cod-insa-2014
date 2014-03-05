@@ -100,8 +100,11 @@ public class MainWindow {
         
         frmPlaneSim.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/motif/icons/DesktopIcon.gif")));
         frmPlaneSim.setBounds(100, 100, 728, 599);
-        frmPlaneSim.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+        
+        frmPlaneSim.setLocationRelativeTo( null );
+        
+        //frmPlaneSim.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
         JScrollPane scrollPane_1 = new JScrollPane();
 
         final JPanel main_panel = new JPanel();
@@ -294,8 +297,10 @@ public class MainWindow {
      * Exit the application.
      */
     void quit() {
-    	this.frmPlaneSim.dispose();
-    	sim.stop();
+    	frmPlaneSim.dispose();
+    	sim_panel.dispose();
+    	
+    	//sim.stop();
         //System.exit(0);
     	//System.out.println("HMI has been closed. Server still be running!"); // FIXME try exiting the server
     	onExit.call();

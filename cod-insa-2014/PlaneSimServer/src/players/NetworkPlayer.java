@@ -13,6 +13,8 @@ import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import network.DataUpdater;
+
 import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
@@ -21,8 +23,8 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
+
 import control.CommandMaker;
-import control.DataUpdater;
 
 /**
  * @author LP
@@ -42,22 +44,27 @@ public class NetworkPlayer implements Player {
 	
 //	private int playerID;
 //	private String teamName;
-	private int lastNumFrame;
+	private int lastNumFrame = 0;
 //	
 //	private List<BaseModel> bases;
 //	private List<PlaneModel> planes;
 //	
 //	private boolean isWaitingDataUpdate;
 //	private Object waitData;
-	
+
 	public final String name;
+	String nickname = null;
+	
 	public final int id;
 	
 	TServer dataSender, commandsReceiver;
+	Thread dataSenderThead, commandsReceiverThread;
 	
 	NetworkPlayerManager manager;
 	
 	World world;
+	
+	volatile boolean disconnected = false;
 	
 	//boolean connected = false;
 	
@@ -65,7 +72,7 @@ public class NetworkPlayer implements Player {
 	class DataHandler implements Bridge.Iface {
 		
 		@Override
-		public int connect(String nom) throws TException {
+		public int connect(String nickname) throws TException {
 			
 //			if (connected)
 //				System.err.println("");
@@ -74,6 +81,8 @@ public class NetworkPlayer implements Player {
 //			{
 //				manager.setConnected(this);
 //			}
+			NetworkPlayer.this.nickname = nickname;
+			
 			manager.connect(NetworkPlayer.this);
 			
 			return id;
@@ -84,18 +93,26 @@ public class NetworkPlayer implements Player {
 			
 			Snapshot s = world.getCurrentSnapshot();
 			
-			while (lastNumFrame >= s.id)
+			while (s == null || lastNumFrame >= s.id)
 			{
-				synchronized(world) { // Something different for each server, maybe in parameter
+				synchronized(world) { // [not true:] Something different for each server, maybe in parameter
 					try {
-						wait();
+						world.wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
+				
+				if (disconnected)
+					return DataUpdater.prepareEndofGame();
+				
 				s = world.getCurrentSnapshot();
 			}
-			System.out.println("Player "+ name+" has been served");
+			
+			lastNumFrame = s.id;
+			
+			System.out.println("Player "+ name+" is being served");
+			
 			return DataUpdater.prepareData(s);
 			
 		}
@@ -158,23 +175,43 @@ public class NetworkPlayer implements Player {
 	
 	void serve() {
 		
-		new Thread() {
-			public void run() { dataSender.serve(); };
-		}.start();
+		dataSenderThead = new Thread() {
+			public void run() {
+				dataSender.serve();
+				System.out.println("Player "+name+" data sender terminated");
+			};
+		};
+		dataSenderThead.start();
 		
-		new Thread() {
-			public void run() { commandsReceiver.serve(); }
-		}.start();
+		commandsReceiverThread = new Thread() {
+			public void run() {
+				commandsReceiver.serve();
+				System.out.println("Player "+name+" com receiver terminated");
+			}
+		};
+		commandsReceiverThread.start();
 		
 	}
 	
 	void disconnect() {
 		
+		disconnected = true;
+		
 		dataSender.stop();
 		commandsReceiver.stop();
 		
 	}
-	
+	void join() {
+		
+		while(dataSenderThead.isAlive() || commandsReceiverThread.isAlive())
+			try {
+				dataSenderThead.join();
+				commandsReceiverThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		
+	}
 	
 	
 	
@@ -219,6 +256,10 @@ public class NetworkPlayer implements Player {
 			commands = new ArrayDeque<>();
 		}
 		return coms;
+	}
+
+	public String getNickname() {
+		return nickname;
 	}
 	 
 }

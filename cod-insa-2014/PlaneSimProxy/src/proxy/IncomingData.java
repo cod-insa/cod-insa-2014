@@ -48,9 +48,9 @@ public class IncomingData {
 		try {
 			id = client.connect("Banane2");
 			
-			if (id == -1)
+			if (id < 0)
 			{
-				System.err.print("Error while connecting to the server, id sent by servor is not valid.");
+				System.err.println("Error while connecting to the server: id sent by the server is not valid ("+id+").");
 				System.exit(1);
 			}
 			
@@ -65,11 +65,18 @@ public class IncomingData {
 	
 	public void updateData()
 	{
-		System.out.println("Trying to update data...");
+		//System.out.println("Trying to update data...");
 		try {
 			Data d = client.retrieveData(id); // Will be blocked during call
+			if (d.numFrame < 0)
+			{
+				if (d.numFrame == -1)
+					 System.out.println("Received an end-of-game frame id (-1), stopping.");
+				else System.err.println("Error: frame sent by the server is not valid ("+d.numFrame+").");
+				System.exit(1); // TODO FIXME clean exit
+			}
 			proxy.updateProxyData(d);
-			System.out.println("Data updated");
+			//System.out.println("Data updated");
 		} catch (TException e) {
 			System.err.println("Error while retrieving data from server");
 			e.printStackTrace();

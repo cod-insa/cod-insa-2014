@@ -61,7 +61,9 @@ public class Proxy
 		}
 		
 		// Update avions
+		
 		System.out.println("Looking for "+d.planes.size()+" planes");
+		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
 		

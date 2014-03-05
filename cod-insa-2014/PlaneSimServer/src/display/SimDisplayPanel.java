@@ -37,6 +37,8 @@ public class SimDisplayPanel extends JPanel {
 	
 	ArrayList<Plane> pls = new ArrayList<Plane>();// FIXME debug
 	
+	final Timer repaint_timer = new Timer();
+	
     public SimDisplayPanel(Displayer disp, Sim s) {
     	
         super();
@@ -65,14 +67,14 @@ public class SimDisplayPanel extends JPanel {
     	
     	/*************************************/
     	
-
-		new Timer().schedule(new TimerTask() {
+    	
+    	repaint_timer.schedule(new TimerTask() {
             @Override
             public void run() {
             	repaint();
             }
         }, refresh_period, refresh_period);
-
+		
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -142,6 +144,10 @@ public class SimDisplayPanel extends JPanel {
         });
     	
 	}
+    
+    public void dispose() {
+    	repaint_timer.cancel();
+    }
 
 
 	@Override

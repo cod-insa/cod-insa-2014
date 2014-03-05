@@ -63,3 +63,11 @@ public class MoveAI extends AbstractAI
 		ai.think();
 	}
 }
+
+
+
+
+
+
+
+

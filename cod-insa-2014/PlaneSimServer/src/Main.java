@@ -7,18 +7,27 @@ import players.NetworkPlayerManager;
 import common.Event;
 
 import control.Controller;
+import display.ConnectionWindow;
 import display.Displayer;
 import display.MainWindow;
 
 public class Main {
 	
+	static volatile boolean offline = false;
+	
+	static void shutOff() {
+		offline = true;
+		synchronized(Main.class) { Main.class.notify(); };
+	}
+	
 	/**
 	 * @param args
 	 * @throws TTransportException 
+	 * @throws InterruptedException 
 	 * 
 	 * 
 	 */
-	public static void main(String[] args) throws TTransportException {
+	public static void main(String[] args) throws TTransportException, InterruptedException {
 		
 		if (args.length < 1 || args.length%2 != 0)
 			printUsageAndExit(-1);
@@ -30,7 +39,12 @@ public class Main {
 		
 		new Controller(50);
 		
-		final NetworkPlayerManager npm = new NetworkPlayerManager();
+		int nbplay = args.length/2;
+		
+		final Displayer disp = new Displayer();
+		final Sim planeSim = new Sim(disp, nbplay);
+		
+		final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.world);
 		
 		for (int i = 0; i < args.length; i+= 2) {
 //			String[] ip_port = args[i+1].split(":");
@@ -43,18 +57,48 @@ public class Main {
 			{ printUsageAndExit(-1); }
 		}
 		
+//		npm.waitForConnections(new Event() {
+//			
+//			public void call() {
+//				System.out.println("++");
+//			}
+//			
+//		},
+		
+		//planeSim.start();
+		
+//		npm.cancelWaitForConnections();
+//		npm.diconnect();
+		
+		//if(0==0) return;
+		
+		final ConnectionWindow cw = new ConnectionWindow(npm, new Event() {
+			public void call() {
+				npm.cancelWaitForConnections();  // call npm.cancelWaitForConnections
+				npm.diconnect();
+				//planeSim.stop();
+				shutOff();
+			}
+		});
+		
+		//if(0==0) return;
+		
 		npm.waitForConnections(new Event() {
 			
 			public void call() {
-		
+				
+				cw.close();
+				
 		//		//TODO passing port and number of players by argument
 		//		int nbplay = 1;
 				
-				
+				/*
 				Displayer disp = new Displayer();
 				
 				//Prepares plane simulation
 				final Sim planeSim = new Sim(disp, npm.getNbPlayers());
+				*/
+				
 				
 		//		//Is ready to manage new players
 		//		NetworkPlayerManager pmanager = new NetworkPlayerManager(planeSim);
@@ -74,7 +118,9 @@ public class Main {
 				new MainWindow(disp, planeSim, new Event() {
 					public void call() {
 						planeSim.stop();
-						npm.diconnect(); }
+						npm.diconnect();
+						shutOff();
+					}
 				}); // TODONE: and the server to stop when clicking on cross?
 				
 				//System.out.println("Waiting for players to connect...");
@@ -92,9 +138,66 @@ public class Main {
 			
 		});
 		
+		while (!offline)
+			synchronized(Main.class) { Main.class.wait(); };
+		
+		//System.out.println(Thread.getAllStackTraces().size());
+		
+		//System.out.println(Frame.getFrames().length);
+//		Frame[] frames = Frame.getFrames();
+//		if (frames.length > 0) {
+//			//Window window = SwingUtilities.windowForComponent(
+//			System.err.println("Warning: not all frames were disposed ("+frames.length+"). Disposing them now.");
+//			//System.out.println(frames[0].getState());
+//			//System.out.println(frames[0].isActive());
+//			for (Frame f: frames) {
+//				System.out.println(f.isActive());
+//				f.dispose();
+//				System.out.println(f.isActive());
+//			}
+//			//System.out.println(frames[0].isActive());
+//			//frames = Frame.getFrames();
+//		}
+		
+//		for (Frame f: Frame.getFrames()) {
+//			if (f.isActive()) {
+//				System.err.println("Warning: a frame was not disposed: \""+f.getTitle()+"\". Disposing it now.");
+//				System.out.println("Warning: a frame was not disposed: \""+f.getTitle()+"\". Disposing it now.");
+//				f.dispose();
+//				if (f.isActive()) {
+//					System.err.println("Failed to dispose it");
+//					System.out.println("Failed to dispose it");
+//				}
+//			}
+//		}
+		
 		/////////////////////////////////
 		//npm.diconnect();
 		/////////////////////////////////
+		
+//		System.out.println(Thread.activeCount());
+//		//Thread.dumpStack();
+//		System.out.println(Thread.getAllStackTraces().size());
+//		
+//		for (Thread t: Thread.getAllStackTraces().keySet()) {
+//			
+//			System.out.println(">> "+t.getName());
+//			
+//			if (t.equals(Thread.currentThread()))
+//				continue;
+//			
+//			System.out.println(t.isAlive());
+//			
+//			t.interrupt();
+//			
+////			try {
+////				t.join();
+////			} catch (InterruptedException e) {
+////				e.printStackTrace();
+////			}
+//		}
+		
+		System.out.println("Gracefully exitting the program...");
 		
 	}
 	

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.BaseModel;
-import model.Coord;
 import model.PlaneModel;
 
 import common.Immutable;
@@ -24,7 +23,7 @@ public class World {
 	List<Entity<?>> entities = new ArrayList<Entity<?>>();
 	
 	public World (Sim sim) {
-		sim.w = this;
+		//sim.world = this;
 		
 		
     	/********** FIXME DEV TEST: **********/
@@ -40,9 +39,9 @@ public class World {
 		entities.add(new Plane(sim, new Coord(.6,.6)));
 		*/
 		
-		bases.add(new Base(sim, new Coord.Unique(.1,.2)));
-		bases.add(new Base(sim, new Coord.Unique(.2,.5)));
-		bases.add(new Base(sim, new Coord.Unique(.7,.6)));
+//		bases.add(new Base(sim, new Coord.Unique(.1,.2)));
+//		bases.add(new Base(sim, new Coord.Unique(.2,.5)));
+//		bases.add(new Base(sim, new Coord.Unique(.7,.6)));
 		
     	/*************************************/
 		
@@ -102,11 +101,14 @@ public class World {
 		currentSnapshot = new Snapshot(this);
 		++currentSnapshotId;
 		
+		synchronized (this) { notifyAll(); }
+		
 		System.out.println("Made a new snapshot. Number of planes: "+currentSnapshot.planes.view.size());
 		
 	}
 	
 	public Snapshot getCurrentSnapshot() {
+		//if (currentSnapshot == null)
 		return currentSnapshot;
 	}
 	
