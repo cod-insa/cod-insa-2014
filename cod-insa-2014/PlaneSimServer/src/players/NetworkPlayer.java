@@ -16,9 +16,13 @@ import java.util.Queue;
 import network.DataUpdater;
 
 import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.server.ServerContext;
 import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TServerEventHandler;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
@@ -56,7 +60,7 @@ public class NetworkPlayer implements Player {
 	
 	public final int id;
 	
-	TServer dataSender, commandsReceiver;
+	TSimpleServer dataSender, commandsReceiver;
 	Thread dataSenderThead, commandsReceiverThread;
 	
 	NetworkPlayerManager manager;
@@ -176,6 +180,34 @@ public class NetworkPlayer implements Player {
 					)
 			);
 		
+		
+		dataSender.setServerEventHandler(new TServerEventHandler() {
+			@Override
+			public ServerContext createContext(TProtocol arg0, TProtocol arg1) {
+				//System.err.println("A");
+				return null;
+			}
+			@Override
+			public void deleteContext(ServerContext arg0, TProtocol arg1, TProtocol arg2) {
+				//System.err.println("B");
+				
+				disconnect();
+				
+			}
+			@Override
+			public void preServe() {
+				//System.err.println("C");
+				
+			}
+			@Override
+			public void processContext(ServerContext arg0, TTransport arg1, TTransport arg2) {
+				//System.err.println("D");
+			}
+		});
+		
+		// Note: use the same handler for commandsReceiver? (useful?)
+		
+		
 		serve();
 		
 	}
@@ -204,17 +236,34 @@ public class NetworkPlayer implements Player {
 	
 	void disconnect() {
 		
-		//System.out.println(">>> DISCO");
+//		boolean wasDisconnected = disconnected;
+//		
+//		//System.out.println(">>> DISCO");
+//		
+//		disconnected = true;
+//		
+//		if (dataSender.isServing())
+//			dataSender.stop();
+//		
+//		if (commandsReceiver.isServing())
+//			commandsReceiver.stop();
+//		
+//		if (!wasDisconnected)
+//			manager.notifyDisconnect(this);
 		
-		disconnected = true;
-		
-		if (dataSender.isServing())
-			dataSender.stop();
-		
-		if (commandsReceiver.isServing())
-			commandsReceiver.stop();
-		
-		manager.notifyDisconnect(this);
+		if (!disconnected) {
+			
+			disconnected = true;
+			
+			if (dataSender.isServing())
+				dataSender.stop();
+			
+			if (commandsReceiver.isServing())
+				commandsReceiver.stop();
+			
+			manager.notifyDisconnect(this);
+			
+		}
 		
 	}
 	void join() {

@@ -64,7 +64,7 @@ public class ConnectionWindow {
 	public void initialize(final NetworkPlayerManager npm, final Event onCancel) {
 		
 		frmPlayersCon = new JFrame();
-		frmPlayersCon.setTitle("Waiting for players...");
+		frmPlayersCon.setTitle("Player connections overview");
 		frmPlayersCon.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
