@@ -88,7 +88,7 @@ public class NetworkPlayerManager {
 	}
 	
 	public void waitForConnections(Event onDone) {
-		System.out.println("Waiting for "+players.size()+" players to connect...");
+		System.out.println("Waiting for "+players.size()+" player(s) to connect...");
 		
 		waiting_for_cons = true;
 		
@@ -124,7 +124,7 @@ public class NetworkPlayerManager {
 	
 	synchronized void setConnected(NetworkPlayer p) {
 		
-		System.out.println("Player "+p.name+"(id "+p.id+") connected.");
+		System.out.println("Player "+p.name+" (id "+p.id+") connected.");
 		
 		if (connectedPlayersById.containsKey(p.id))
 			System.err.println("Warning: player of id "+p.id+" tried to connect more than once.");

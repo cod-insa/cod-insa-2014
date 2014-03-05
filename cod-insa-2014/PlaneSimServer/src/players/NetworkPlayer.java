@@ -59,7 +59,7 @@ public class NetworkPlayer implements Player {
 	
 	
 	class DataHandler implements Bridge.Iface {
-
+		
 		@Override
 		public int connect(String nom) throws TException {
 			
@@ -74,21 +74,22 @@ public class NetworkPlayer implements Player {
 			
 			return id;
 		}
-
+		
 		@Override
 		public Data retrieveData(int idConnection) throws TException {
 			// TODO Auto-generated method stub
 			
-			/* 
-			 if (lastNumFrame == something.numFrame)
-			 {
-		 		synchronized(somethingElse) { // Something different for each server, maybe in parameter
-		 			wait();
-		 		}
-					
-			  }
-			  System.out.println("Player "+p.getTeamName()+" has been served");
-			 	return somethingLikeDataUpdater.getData();
+			/*
+			if (lastNumFrame == something.numFrame)
+			{
+				synchronized(somethingElse) { // Something different for each server, maybe in parameter
+				wait();
+			}
+			
+			}
+			System.out.println("Player "+p.getTeamName()+" has been served");
+			
+			return somethingLikeDataUpdater.getData();
 			*/
 			
 			return null;
