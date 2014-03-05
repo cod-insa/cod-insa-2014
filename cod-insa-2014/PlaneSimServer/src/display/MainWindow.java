@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -98,7 +99,12 @@ public class MainWindow {
             }
         });
         
-        frmPlaneSim.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/motif/icons/DesktopIcon.gif")));
+        //frmPlaneSim.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/sun/java/swing/plaf/motif/icons/DesktopIcon.gif")));
+
+		ImageIcon image = new ImageIcon(getClass().getResource(Resources.PLANE_ICON));
+		frmPlaneSim.setIconImage(image.getImage());
+        
+        
         frmPlaneSim.setBounds(100, 100, 728, 599);
         
         frmPlaneSim.setLocationRelativeTo( null );
