@@ -103,7 +103,7 @@ public class World {
 		
 		synchronized (this) { notifyAll(); }
 		
-		System.out.println("Made a new snapshot. Number of planes: "+currentSnapshot.planes.view.size());
+		//System.out.println("Made a new snapshot. Number of planes: "+currentSnapshot.planes.view.size());
 		
 	}
 	
