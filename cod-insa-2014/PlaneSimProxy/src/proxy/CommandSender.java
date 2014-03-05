@@ -2,44 +2,60 @@ package proxy;
 
 import genbridge.CommandData;
 import genbridge.CommandReceiver;
-import genbridge.CommandReceiver.AsyncClient.sendMoveCommand_call;
-import genbridge.CommandReceiver.AsyncClient.sendWaitCommand_call;
 import genbridge.CoordData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
 import genbridge.Response;
 import genbridge.WaitCommandData;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import model.Coord;
 
 import org.apache.thrift.TException;
-import org.apache.thrift.async.AsyncMethodCallback;
-import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.transport.TNonblockingSocket;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
 
 import command.Command;
 import command.MoveCommand;
 import command.WaitCommand;
 
-public class CommandSender {
+public class CommandSender extends Thread {
 
-	private CommandReceiver.AsyncClient client;
+	private CommandReceiver.Client client;
 	private ArrayList<String> errors;
 	private boolean isTimeOut;
 	private int idConnection;
 	private Proxy proxy;
-	private String ip_client;
-	private int port_client;
+
+	private Queue<Command> waitingList;
 
 	public CommandSender(String ip, int port, int idC, Proxy p) {
-		ip_client = ip;
-		port_client = port + 1;
 		errors = new ArrayList<String>();
+		waitingList = new LinkedList<Command>();
 		isTimeOut = false;
 		idConnection = idC;
 		proxy = p;
+
+		// Initialize client
+		try {
+			// Initialize Socket of client
+			TTransport transport;
+			transport = new TSocket(ip, port);
+			transport.open();
+
+			TProtocol protocol = new TBinaryProtocol(transport);
+			client = new CommandReceiver.Client(protocol);
+
+		} catch (Exception e) {
+			System.err.println("Error while initializing data retriever : ");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 
 	public synchronized void addError(String errorMessage) {
@@ -47,71 +63,71 @@ public class CommandSender {
 	}
 
 	@SuppressWarnings("unchecked")
-	// lol
 	public synchronized ArrayList<String> getErrors() {
 		return (ArrayList<String>) errors.clone();
 	}
 
-	public boolean isTimeOut() {
+	public boolean isTimeOut()
+	{
 		return isTimeOut;
 	}
-
+	
 	public void newFrame() {
 		isTimeOut = false;
 	}
 
-	public void sendCommand(Command cmd) {
-		System.out.println("Trying to send command...");
-		try {
-
-			// Initialize client (exception if we reuse the same instance of the
-			// client everytime)
-			client = new CommandReceiver.AsyncClient(
-					new TBinaryProtocol.Factory(), new TAsyncClientManager(),
-					new TNonblockingSocket(ip_client, port_client));
-			
-			if (cmd instanceof MoveCommand) {
-				// Convert the command
-				MoveCommand mc = (MoveCommand) cmd;
-
-				// Call async method
-				client.sendMoveCommand(
-						new MoveCommandData(
-								new PlaneCommandData(
-										new CommandData(proxy.getNumFrame()), mc.planeId),
-								new CoordData(mc.destination.x(), mc.destination.y())), 
-						idConnection,
-						new MoveCommandSenderCallback());
-			} 
-			else if (cmd instanceof WaitCommand)
-			{
-				// Convert the command
-				WaitCommand wc = (WaitCommand) cmd;
-				// Call async method
-				client.sendWaitCommand(
-						new WaitCommandData(
-								new PlaneCommandData(
-										new CommandData(proxy.getNumFrame()), wc.planeId)), 
-						idConnection,
-						new MoveCommandSenderCallback());
+	@Override
+	public void run() {
+		Command currentCmd;
+		while (true) // FIXME ugly
+		{
+			synchronized (this) {
+				while (waitingList.isEmpty()) {
+					try {
+						wait();
+					} catch (InterruptedException ie) {
+						ie.printStackTrace();
+					}
+				}
+				currentCmd = waitingList.remove();
 			}
-			else
-				System.err.println("Command not recognized !");
+			sendThriftCommand(currentCmd);
+		}
+	}
 
-		} catch (IOException e) {
-			System.err.println("Error while initializing async client.");
-			e.printStackTrace();
+	public synchronized void sendCommand(Command cmd) {
+		waitingList.add(cmd);
+		notify();
+	}
+
+	private void sendThriftCommand(Command cmd) {
+		System.out.println("Sending command...");
+		Response r;
+		try {
+			if (cmd instanceof MoveCommand) {
+				// Call server method
+				r = client.sendMoveCommand(
+						DataMaker.make((MoveCommand) cmd, proxy.getNumFrame()),
+						idConnection);
+			} else if (cmd instanceof WaitCommand) {
+				// Call server method
+				r = client.sendWaitCommand(
+						DataMaker.make((WaitCommand) cmd, proxy.getNumFrame()),
+						idConnection);
+			} else {
+				System.err.println("Command not recognized !");
+				r = new Response(Command.ERROR_UNKNOWN, "Commande inconnue");
+			}
+			treatResult(r);
 		} catch (TException e) {
 			System.err.println("Error while sending the command");
 			e.printStackTrace();
 		}
 	}
-	
-	private void treatResult(Response r)
-	{
 
-		switch (r.code) 
-		{
+	private void treatResult(Response r) {
+
+		switch (r.code) {
 		case Command.SUCCESS:
 			System.out.println("Command sent successfully !");
 			break;
@@ -121,60 +137,26 @@ public class CommandSender {
 			break;
 		default:
 			addError(r.message);
-			System.out.println("Error on command ! " + r.code
-					+ ", message: " + r.message);
+			System.out.println("Error on command ! " + r.code + ", message: "
+					+ r.message);
 		}
 	}
-	
-	class MoveCommandSenderCallback
-			implements
-			AsyncMethodCallback<CommandReceiver.AsyncClient.sendMoveCommand_call> {
-		@Override
-		public void onComplete(sendMoveCommand_call aatp) 
-		{
-			Response r;
-			try {
-				r = aatp.getResult();
-				treatResult(r);
-				
 
-			} catch (TException e) {
-				System.err.println("Unexpected error occured while reading result data from command");
-				e.printStackTrace();
-			}
-		}
-		
+	public static class DataMaker {
 
-		@Override
-		public void onError(Exception arg0) {
-			System.err.println("Unexpected error occured on callback");
-			arg0.printStackTrace();
+		static CoordData make(Coord.View c) {
+			return new CoordData(c.x(), c.y());
 		}
-		
+
+		static MoveCommandData make(MoveCommand cmd, int numFrame) {
+			return new MoveCommandData(new PlaneCommandData(new CommandData(
+					numFrame), cmd.planeId), make(cmd.destination));
+		}
+
+		static WaitCommandData make(WaitCommand cmd, int numFrame) {
+			return new WaitCommandData(new PlaneCommandData(new CommandData(
+					numFrame), cmd.planeId));
+		}
+
 	}
-	class WaitCommandSenderCallback
-	implements
-	AsyncMethodCallback<CommandReceiver.AsyncClient.sendWaitCommand_call> {
-
-		@Override
-		public void onComplete(sendWaitCommand_call aatp) {
-			Response r;
-			try {
-				r = aatp.getResult();
-				treatResult(r);
-				
-
-			} catch (TException e) {
-				System.err.println("Unexpected error occured while reading result data from command");
-				e.printStackTrace();
-			}			
-		}
-
-		@Override
-		public void onError(Exception arg0) {
-			System.err.println("Unexpected error occured on callback");
-			arg0.printStackTrace();
-		}
-	}
-	
 }

@@ -10,47 +10,56 @@ namespace py genbridge
 
 typedef i32 int
 
-struct Coord{
- 1: double latid, // = y
- 2: double longit // = x
+struct CoordData {
+1: double latid, // = y
+2: double longit // = x
 }
 
-struct Plane {
-  1: int plane_id,
-  2: Coord posit,
-  3: int ai_id,
-  4: int energy,
-  5: int gaz
+# Data used for the server to retrieve the Data from the server
+
+struct PlaneData {
+1: int plane_id,
+2: CoordData posit,
+3: int ai_id,
+4: int energy,
+5: int gaz,
+6: bool actionPerformed
 }
 
-struct Base {
-  1: int base_id,
-  2: Coord posit
+struct BaseData {
+1: int base_id,
+2: CoordData posit
 }
 
 struct Data {
 1: int numFrame,
-	2: list<Plane> planes,
-	3: list<Base> bases
+	2: list<PlaneData> planes,
+	3: list<BaseData> bases
 }
 
-enum Command{
-	MOVE_PLANE = 1,
-	BUILD_PLANE = 2,
-	WAIT_PLANE = 3
+# Structs used to send Commands to the server
+
+struct CommandData {
+1: int numFrame
 }
 
-struct Action{
-  1: int numFrame,
-  2: Command cmd,
-  3: int arg1,
-  4: double arg2, # -1 si non utilsé
-  5: double arg3 # -1 is non utilisé
+struct PlaneCommandData {
+	1: CommandData c,
+	2: int idPlane
+}
+
+struct MoveCommandData {
+	1: PlaneCommandData pc,
+	2: CoordData posDest
+}
+
+struct WaitCommandData {
+	1: PlaneCommandData pc
 }
 
 struct Response {
-  1: int code, # 0 : Success, -1 : Error on command, -2 : Error timeout
-  2: string message # empty if success
+1: int code, # 0 : Success, -1 : Error on command, -2 : Error timeout
+2: string message # empty if success
 }
 
 # Bridge is like a bridge on the network, between PlaneSimProxy.proxy.Proxy (Bridge.Client) 
@@ -65,7 +74,8 @@ service Bridge {
 }
 
 service CommandReceiver {
-	Response addActionToPerform(1: Action act, 2: int idConnection)
+	Response sendMoveCommand(1: MoveCommandData cmd, 2: int idConnection),
+	Response sendWaitCommand(1: WaitCommandData cmd, 2: int idConnection)
 }
 
 # Tuto
