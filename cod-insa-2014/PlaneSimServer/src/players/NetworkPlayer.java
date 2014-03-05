@@ -122,7 +122,7 @@ public class NetworkPlayer implements Player {
 		
 	}
 	
-	public NetworkPlayer(NetworkPlayerManager manager, int id, String name, int dataSenderPort, int commandsReceiverPort)
+	public NetworkPlayer(NetworkPlayerManager manager, int id, String name, int dataSenderPort, int commandsReceiverPort, World world)
 			throws TTransportException
 	{
 //		this.teamName = name;
@@ -132,8 +132,10 @@ public class NetworkPlayer implements Player {
 //		this.planes = new ArrayList<PlaneModel>();
 //		this.isWaitingDataUpdate = false;
 //		this.waitData = new Object();
+		
 		this.manager = manager;
 		this.name = name;
+		this.world = world;
 		//this.id = Util.rand.nextInt();
 		this.id = id;
 		

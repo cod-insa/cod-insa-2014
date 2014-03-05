@@ -1,5 +1,7 @@
 package players;
 
+import game.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,8 +36,9 @@ public class NetworkPlayerManager {
 	
 	private Map<Integer, NetworkPlayer> connectedPlayersById = new HashMap<>();
 	private Set<Integer> usedIds = new HashSet<>();
+	private World world;
 	
-	public NetworkPlayerManager ()
+	public NetworkPlayerManager (World world)
 	{
 		/*
 		this.usedNames = new ArrayList<String>();
@@ -52,6 +55,7 @@ public class NetworkPlayerManager {
 		authorizedNames.add("team_admin_729");
 		authorizedNames.add("team_admin_554");
 		*/
+		this.world = world;
 	}
 
 	/**
@@ -74,7 +78,7 @@ public class NetworkPlayerManager {
 		
 		usedIds.add(id);
 		
-		NetworkPlayer p = new NetworkPlayer(this, id, name, port, port+1);
+		NetworkPlayer p = new NetworkPlayer(this, id, name, port, port+1, world);
 //		players.add(p);
 //		usedNames.add(name);
 //		authorizedIds.add(p.getPlayerID());
