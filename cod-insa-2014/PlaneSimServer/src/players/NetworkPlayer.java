@@ -5,8 +5,11 @@ import game.World.Snapshot;
 import genbridge.Bridge;
 import genbridge.CommandReceiver;
 import genbridge.Data;
+import genbridge.InitData;
+import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
 import genbridge.Response;
+import genbridge.TakeOffCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.ArrayDeque;
@@ -26,7 +29,6 @@ import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
-
 import control.CommandMaker;
 
 /**
@@ -124,6 +126,12 @@ public class NetworkPlayer implements Player {
 			return DataUpdater.prepareData(s);
 			
 		}
+
+		@Override
+		public InitData retrieveInitData(int idConnection) throws TException {
+			// TODO TODO
+			return null;
+		}
 		
 	}
 	
@@ -146,6 +154,20 @@ public class NetworkPlayer implements Player {
 			addCommand(CommandMaker.make(cmd));
 			// TODO verify command
 			return new Response(Command.SUCCESS, null);
+		}
+
+		@Override
+		public Response sendTakeOffCommand(TakeOffCommandData cmd,
+				int idConnection) throws TException {
+			// TODO TODO
+			return null;
+		}
+
+		@Override
+		public Response sendLandCommand(LandCommandData cmd, int idConnection)
+				throws TException {
+			// TODO TODO
+			return null;
 		}
 		
 	}

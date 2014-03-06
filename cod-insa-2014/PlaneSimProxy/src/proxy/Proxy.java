@@ -1,5 +1,6 @@
 package proxy;
 import genbridge.Data;
+import genbridge.InitData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import java.util.Map;
 import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
-
 import command.Command;
 
 
@@ -37,9 +37,22 @@ public class Proxy
 		cm.start();
 	}
 	
+
+	public void setInitData(InitData d) {
+		
+		for (genbridge.BaseInitData b : d.bases)
+		{
+			model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
+			bases.put(base.id, base);
+			//System.out.println("Created base "+base.id);
+			//System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.x);
+		}
+		
+	}
+	
 	public void updateProxyData(Data d)
 	{
-		System.out.println("Updating data...");
+		//System.out.println("Updating data...");
 		
 		// Update numFrame
 		numFrame = d.numFrame;
@@ -54,17 +67,12 @@ public class Proxy
 				model.BaseModel base = bases.get(b.base_id); // base in the list
 				// For now, just updating coords (doing nothing lol)
 				
-				//System.out.println(base.id==b.base_id);
-				System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.y);
+				//TODO If there is things that have to be updated for bases, it's here
 				
-				base._pos.x = b.posit.x;
-				base._pos.y = b.posit.y;
 			}
-			else
+			else // There is a base which is not in the bases created at the beginning
 			{
-				model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
-				bases.put(base.id, base);
-				//System.out.println("Created base "+base.id);
+				System.err.println("Base "+b.base_id+" does not exist. You should suicide.");
 			}
 		}
 		
@@ -135,6 +143,7 @@ public class Proxy
 	{
 		cm.sendCommand(c);
 	}
+
 	
 }
 

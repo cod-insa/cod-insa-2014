@@ -40,9 +40,9 @@ public class CommandReceiver {
 
     public Response sendWaitCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
-    public Response sendTakeOffCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException;
+    public Response sendTakeOffCommand(TakeOffCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
-    public Response sendLandCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException;
+    public Response sendLandCommand(LandCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
   }
 
@@ -52,9 +52,9 @@ public class CommandReceiver {
 
     public void sendWaitCommand(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void sendTakeOffCommand(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void sendTakeOffCommand(TakeOffCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void sendLandCommand(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void sendLandCommand(LandCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -126,13 +126,13 @@ public class CommandReceiver {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendWaitCommand failed: unknown result");
     }
 
-    public Response sendTakeOffCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    public Response sendTakeOffCommand(TakeOffCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
       send_sendTakeOffCommand(cmd, idConnection);
       return recv_sendTakeOffCommand();
     }
 
-    public void send_sendTakeOffCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    public void send_sendTakeOffCommand(TakeOffCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
       sendTakeOffCommand_args args = new sendTakeOffCommand_args();
       args.setCmd(cmd);
@@ -150,13 +150,13 @@ public class CommandReceiver {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendTakeOffCommand failed: unknown result");
     }
 
-    public Response sendLandCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    public Response sendLandCommand(LandCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
       send_sendLandCommand(cmd, idConnection);
       return recv_sendLandCommand();
     }
 
-    public void send_sendLandCommand(WaitCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    public void send_sendLandCommand(LandCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
       sendLandCommand_args args = new sendLandCommand_args();
       args.setCmd(cmd);
@@ -262,7 +262,7 @@ public class CommandReceiver {
       }
     }
 
-    public void sendTakeOffCommand(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void sendTakeOffCommand(TakeOffCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
       sendTakeOffCommand_call method_call = new sendTakeOffCommand_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -270,9 +270,9 @@ public class CommandReceiver {
     }
 
     public static class sendTakeOffCommand_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private WaitCommandData cmd;
+      private TakeOffCommandData cmd;
       private int idConnection;
-      public sendTakeOffCommand_call(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public sendTakeOffCommand_call(TakeOffCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.cmd = cmd;
         this.idConnection = idConnection;
@@ -297,7 +297,7 @@ public class CommandReceiver {
       }
     }
 
-    public void sendLandCommand(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void sendLandCommand(LandCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
       sendLandCommand_call method_call = new sendLandCommand_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -305,9 +305,9 @@ public class CommandReceiver {
     }
 
     public static class sendLandCommand_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private WaitCommandData cmd;
+      private LandCommandData cmd;
       private int idConnection;
-      public sendLandCommand_call(WaitCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public sendLandCommand_call(LandCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.cmd = cmd;
         this.idConnection = idConnection;
@@ -2302,7 +2302,7 @@ public class CommandReceiver {
       schemes.put(TupleScheme.class, new sendTakeOffCommand_argsTupleSchemeFactory());
     }
 
-    public WaitCommandData cmd; // required
+    public TakeOffCommandData cmd; // required
     public int idConnection; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -2373,7 +2373,7 @@ public class CommandReceiver {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CMD, new org.apache.thrift.meta_data.FieldMetaData("cmd", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, WaitCommandData.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, TakeOffCommandData.class)));
       tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -2384,7 +2384,7 @@ public class CommandReceiver {
     }
 
     public sendTakeOffCommand_args(
-      WaitCommandData cmd,
+      TakeOffCommandData cmd,
       int idConnection)
     {
       this();
@@ -2399,7 +2399,7 @@ public class CommandReceiver {
     public sendTakeOffCommand_args(sendTakeOffCommand_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetCmd()) {
-        this.cmd = new WaitCommandData(other.cmd);
+        this.cmd = new TakeOffCommandData(other.cmd);
       }
       this.idConnection = other.idConnection;
     }
@@ -2415,11 +2415,11 @@ public class CommandReceiver {
       this.idConnection = 0;
     }
 
-    public WaitCommandData getCmd() {
+    public TakeOffCommandData getCmd() {
       return this.cmd;
     }
 
-    public sendTakeOffCommand_args setCmd(WaitCommandData cmd) {
+    public sendTakeOffCommand_args setCmd(TakeOffCommandData cmd) {
       this.cmd = cmd;
       return this;
     }
@@ -2468,7 +2468,7 @@ public class CommandReceiver {
         if (value == null) {
           unsetCmd();
         } else {
-          setCmd((WaitCommandData)value);
+          setCmd((TakeOffCommandData)value);
         }
         break;
 
@@ -2658,7 +2658,7 @@ public class CommandReceiver {
           switch (schemeField.id) {
             case 1: // CMD
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.cmd = new WaitCommandData();
+                struct.cmd = new TakeOffCommandData();
                 struct.cmd.read(iprot);
                 struct.setCmdIsSet(true);
               } else { 
@@ -2734,7 +2734,7 @@ public class CommandReceiver {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.cmd = new WaitCommandData();
+          struct.cmd = new TakeOffCommandData();
           struct.cmd.read(iprot);
           struct.setCmdIsSet(true);
         }
@@ -3118,7 +3118,7 @@ public class CommandReceiver {
       schemes.put(TupleScheme.class, new sendLandCommand_argsTupleSchemeFactory());
     }
 
-    public WaitCommandData cmd; // required
+    public LandCommandData cmd; // required
     public int idConnection; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -3189,7 +3189,7 @@ public class CommandReceiver {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CMD, new org.apache.thrift.meta_data.FieldMetaData("cmd", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, WaitCommandData.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, LandCommandData.class)));
       tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -3200,7 +3200,7 @@ public class CommandReceiver {
     }
 
     public sendLandCommand_args(
-      WaitCommandData cmd,
+      LandCommandData cmd,
       int idConnection)
     {
       this();
@@ -3215,7 +3215,7 @@ public class CommandReceiver {
     public sendLandCommand_args(sendLandCommand_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetCmd()) {
-        this.cmd = new WaitCommandData(other.cmd);
+        this.cmd = new LandCommandData(other.cmd);
       }
       this.idConnection = other.idConnection;
     }
@@ -3231,11 +3231,11 @@ public class CommandReceiver {
       this.idConnection = 0;
     }
 
-    public WaitCommandData getCmd() {
+    public LandCommandData getCmd() {
       return this.cmd;
     }
 
-    public sendLandCommand_args setCmd(WaitCommandData cmd) {
+    public sendLandCommand_args setCmd(LandCommandData cmd) {
       this.cmd = cmd;
       return this;
     }
@@ -3284,7 +3284,7 @@ public class CommandReceiver {
         if (value == null) {
           unsetCmd();
         } else {
-          setCmd((WaitCommandData)value);
+          setCmd((LandCommandData)value);
         }
         break;
 
@@ -3474,7 +3474,7 @@ public class CommandReceiver {
           switch (schemeField.id) {
             case 1: // CMD
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.cmd = new WaitCommandData();
+                struct.cmd = new LandCommandData();
                 struct.cmd.read(iprot);
                 struct.setCmdIsSet(true);
               } else { 
@@ -3550,7 +3550,7 @@ public class CommandReceiver {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.cmd = new WaitCommandData();
+          struct.cmd = new LandCommandData();
           struct.cmd.read(iprot);
           struct.setCmdIsSet(true);
         }

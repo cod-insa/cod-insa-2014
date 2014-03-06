@@ -106,8 +106,8 @@ struct Response {
 service CommandReceiver {
 	Response sendMoveCommand(1: MoveCommandData cmd, 2: int idConnection),
 	Response sendWaitCommand(1: WaitCommandData cmd, 2: int idConnection),
-	Response sendTakeOffCommand(1: WaitCommandData cmd, 2: int idConnection),
-	Response sendLandCommand(1: WaitCommandData cmd, 2: int idConnection)
+	Response sendTakeOffCommand(1: TakeOffCommandData cmd, 2: int idConnection),
+	Response sendLandCommand(1: LandCommandData cmd, 2: int idConnection)
 }
 
 # Tuto

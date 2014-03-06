@@ -5,6 +5,7 @@ import genbridge.BaseData;
 import genbridge.CoordData;
 import genbridge.Data;
 import genbridge.PlaneData;
+import genbridge.PlaneStateData;
 
 import java.util.ArrayList;
 
@@ -36,13 +37,13 @@ public class DataUpdater { // FIXME rename DataPreparer?
 		tobeSent.planes = new ArrayList<PlaneData>();
 		
 		for (BaseModel.View b : snapshot.bases.view) // Convert game model objects to thrift objects
-			tobeSent.bases.add(new BaseData(b.id(), new CoordData(b.position.x(),b.position.y())));
+			tobeSent.bases.add(new BaseData(b.id())); // For now, it does nothing, but it will...
 		for (PlaneModel.View p : snapshot.planes.view)
 			// FIXME Fix Energy, gaz, action performed, etc...
 			tobeSent.planes.add(
 					new PlaneData(p.id(), 
 					new CoordData(p.position.x(),p.position.y()), 
-					-1, -1, -1, false)); // FIXME default values to make it work
+					-1, -1, -1, PlaneStateData.IDLE)); // FIXME default values to make it work
 		
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		
