@@ -15,6 +15,8 @@ import model.BaseModel;
 import model.PlaneModel;
 import players.NetworkPlayerManager;
 
+import common.Nullable;
+
 
 /*
  * A data updater by player
@@ -29,14 +31,20 @@ public class DataUpdater { // FIXME rename DataPreparer?
 	{
 		pManager = pm;
 	}
-
-	public static InitData prepareInitData(Snapshot snapshot)
+	
+	/**
+	 * Getting a null snapshot means the client is disconnecting or being disconnected (eg: game shutting down)
+	 */
+	public static InitData prepareInitData(Nullable<Snapshot> snapshot)
 	{
 		InitData tobeSent = new InitData();
 		tobeSent.bases = new ArrayList<BaseInitData>();
 		
-		for (BaseModel.View b : snapshot.bases.view)
-			tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position.x(),b.position.y())));
+		if (snapshot.hasSome())
+		{
+			for (BaseModel.View b : snapshot.get().bases.view)
+				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position.x(),b.position.y())));
+		}
 		
 		return tobeSent;
 	}

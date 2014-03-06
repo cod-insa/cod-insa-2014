@@ -33,6 +33,7 @@ public class Accessors {
 		public AccessFailureException(String msg) { super(msg); }
 		public AccessFailureException(Exception cause) { super(cause); }
 	}
+	
 	static public interface FRAccess<T> {
 		static class Failure extends AccessFailureException {
 			private static final long serialVersionUID = 1L;
@@ -42,6 +43,7 @@ public class Accessors {
 		}
 		public T get() throws FRAccess.Failure;
 	}
+	
 	static public interface FWAccess<T> {
 		static class Failure extends AccessFailureException {
 			private static final long serialVersionUID = 1L;

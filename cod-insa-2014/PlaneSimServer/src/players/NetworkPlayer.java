@@ -29,6 +29,8 @@ import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
+import common.Nullable;
+
 import control.CommandMaker;
 
 /**
@@ -49,7 +51,7 @@ public class NetworkPlayer extends Player {
 	
 //	private int playerID;
 //	private String teamName;
-	private int lastNumFrame = 0;
+	private int lastNumFrame = -1;
 //	
 //	private List<BaseModel> bases;
 //	private List<PlaneModel> planes;
@@ -74,6 +76,13 @@ public class NetworkPlayer extends Player {
 	//boolean connected = false;
 	
 	
+	/**
+	 * Assumptions:
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	class DataHandler implements Bridge.Iface {
 		
 		@Override
@@ -93,8 +102,14 @@ public class NetworkPlayer extends Player {
 			return connectionId;
 		}
 		
-		@Override
-		public Data retrieveData(int idConnection) throws TException {
+		
+		
+		
+		/**
+		 * Returning null means we are disconnected
+		 * 
+		 */
+		public Nullable<Snapshot> waitForNextSnapshot() {
 			
 			Snapshot s = world.getCurrentSnapshot();
 			
@@ -102,7 +117,7 @@ public class NetworkPlayer extends Player {
 			{
 //				System.out.println("Player "+ name+" is waiting");
 				
-				synchronized(world) { // [not true:] Something different for each server, maybe in parameter
+				synchronized(world) {
 					try {
 						world.wait();
 					} catch (InterruptedException e) {
@@ -112,9 +127,9 @@ public class NetworkPlayer extends Player {
 				
 //				System.out.println("Player "+ name+" is unblocked");
 				
-				
 				if (disconnected)
-					return DataUpdater.prepareEndofGame();
+					//return DataUpdater.prepareEndofGame();
+					return new Nullable<>(null);
 				
 				s = world.getCurrentSnapshot();
 			}
@@ -123,14 +138,22 @@ public class NetworkPlayer extends Player {
 			
 //			System.out.println("Player "+ name+" is being served");
 			
-			return DataUpdater.prepareData(s);
-			
+			return new Nullable<>(s);
+		}
+		
+		@Override
+		public Data retrieveData(int idConnection) throws TException {
+			Nullable<Snapshot> s = waitForNextSnapshot();
+			if (s.none()) {
+				assert disconnected;
+				return DataUpdater.prepareEndofGame();
+			}
+			return DataUpdater.prepareData(s.get());
 		}
 
 		@Override
 		public InitData retrieveInitData(int idConnection) throws TException {
-			
-			return DataUpdater.prepareInitData(world.getCurrentSnapshot());
+			return DataUpdater.prepareInitData(waitForNextSnapshot());
 		}
 		
 	}

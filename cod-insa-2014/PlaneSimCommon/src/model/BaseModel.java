@@ -20,7 +20,7 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 	
 	public BaseModel (int id, Coord.Unique pos) {
 		//super(new View(),id,pos);
-		super(id,pos);
+		super(id, pos);
 	}
 	
 	public BaseModel (BaseModel src) {
@@ -30,6 +30,6 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 	@Override public Object copy() {
 		return new BaseModel(this);
 	}
-
 	
 }
+
