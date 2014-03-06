@@ -15,7 +15,7 @@ public class MoveCommand implements Command {
 	{
 		//plane = p;
 		planeId = pid;
-		destination = d.copy().getView(); // FIXME request Immutable to avoid copies
+		destination = d.copied().view(); // FIXME request Immutable to avoid copies
 	}
 	
 	@Override

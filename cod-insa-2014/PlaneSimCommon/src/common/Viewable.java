@@ -20,6 +20,6 @@ public interface Viewable<V extends Viewable.View> {
 		
 	}
 	
-	public V getView();
+	public V view();
 
 }

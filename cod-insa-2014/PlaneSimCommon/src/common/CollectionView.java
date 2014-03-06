@@ -188,7 +188,7 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 					return ite.hasNext();
 				}
 				@Override public V next() {
-					return ite.next().getView();
+					return ite.next().view();
 				}
 				@Override public void remove() {
 					throw new UnsupportedOperationException();

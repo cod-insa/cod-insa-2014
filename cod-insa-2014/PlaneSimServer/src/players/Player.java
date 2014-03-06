@@ -4,9 +4,14 @@ import java.util.Queue;
 
 import command.Command;
 
-public interface Player {
+public abstract class Player {
 
-	Queue<Command> flushCommands();
+	public abstract Queue<Command> flushCommands();
+	
+	//int getPlayerID();
+	
+	private static int nbPlayers = 0;
+	public final int id = ++nbPlayers;
 	
 //	boolean addCommand(Command c);
 //	Command getNextCommand();

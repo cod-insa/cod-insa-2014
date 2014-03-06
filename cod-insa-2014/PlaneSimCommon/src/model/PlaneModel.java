@@ -16,7 +16,7 @@ public class PlaneModel extends EntityModel implements Serializable, Viewable<Pl
 		public double health() { return health; }
 	}
 	
-	@Override public View getView() {
+	@Override public View view() {
 		return new View();
 	}
 	

@@ -16,7 +16,7 @@ public class CommandMaker {
 	}
 	
 	static public Command make(MoveCommandData data) {
-		return new MoveCommand(data.pc.idPlane, make(data.posDest).view);
+		return new MoveCommand(data.pc.idPlane, make(data.posDest).view());
 	}
 
 	static public Command make(WaitCommandData data) {

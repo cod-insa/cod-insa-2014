@@ -14,7 +14,7 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 		
 	}
 	
-	@Override public View getView() {
+	@Override public View view() {
 		return new View();
 	}
 	

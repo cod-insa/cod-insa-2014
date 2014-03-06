@@ -13,6 +13,7 @@ public class EntityModel implements Copyable { //, Viewable<EntityModel.View> {
 		public double rotation() { return _rot; }
 		public double speed() { return _spe; }
 		public boolean exists() { return _exists; }
+		public int ownerId() { return ownerId; }
 	}
 	
 	public final int id;
@@ -26,6 +27,8 @@ public class EntityModel implements Copyable { //, Viewable<EntityModel.View> {
 	public double _spe = 0;
 	//double _alt = 1;
 	protected boolean _exists = true;
+	
+	public int ownerId;
 	
 	public final Coord.View position;// = _pos.view;
 	
@@ -57,7 +60,7 @@ public class EntityModel implements Copyable { //, Viewable<EntityModel.View> {
 		return new EntityModel(this);
 	}
 	
-	public View getView() {
+	public View view() {
 		return new View();
 	}
 	

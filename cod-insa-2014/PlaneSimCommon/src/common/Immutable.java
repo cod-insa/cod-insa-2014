@@ -19,7 +19,7 @@ implements
 	public final V view;
 
 	public<T extends Viewable<V>> Immutable(Unique<T> uniqueObject) {
-		this.view = uniqueObject.take().getView();
+		this.view = uniqueObject.take().view();
 	}
 
 	public<T> Immutable(Unique<T> uniqueObject, Converter<T,V> viewer) {
@@ -38,7 +38,7 @@ implements
 	*/
 	
 	@Override
-	public V getView() {
+	public V view() {
 		return view;
 	}
 	

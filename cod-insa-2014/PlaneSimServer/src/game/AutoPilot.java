@@ -10,7 +10,7 @@ public final class AutoPilot {
 	Plane plane;
 	
 	private final Coord _aim = new Coord(0,0);
-	public final Coord.View currentAim = _aim.view;
+	public final Coord.View currentAim = _aim.view();
 	
 	private Entity<?> entityAim = null;
 	

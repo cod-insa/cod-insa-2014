@@ -39,7 +39,7 @@ public class Unique<T> {
 	V view(Unique<T> src) {
 		if (src.object == null)
 			throw new ExpiredCopyException();
-		return src.object.getView();
+		return src.object.view();
 	}
 	
 	

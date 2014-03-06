@@ -147,7 +147,7 @@ public interface ListView<T>
 			this.delegate = (List<Viewable<V>>) src;
 		}
 		
-		@Override public V get(int arg0) { return delegate.get(arg0).getView(); }
+		@Override public V get(int arg0) { return delegate.get(arg0).view(); }
 
 		@Override public int size() { return delegate.size(); }
 

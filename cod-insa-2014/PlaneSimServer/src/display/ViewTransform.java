@@ -12,10 +12,10 @@ public class ViewTransform {
 	 */
 	
 	final Coord _shift = new Coord(0,0);
-	final Coord.View shift = _shift.view;
+	final Coord.View shift = _shift.view();
 	
 	final Coord _scale = new Coord(1,1);
-	final Coord.View scale = _scale.view;
+	final Coord.View scale = _scale.view();
 	
 	//double rotation; // Not implemented
 	
@@ -43,8 +43,8 @@ public class ViewTransform {
 		zoomIn(scaleIncreaseRatio);
 		Coord sp2 = getCoord(p); sp2.sub(shift);
 		
-		sp2.sub(sp.view);
-		_shift.sub(sp2.view);
+		sp2.sub(sp.view());
+		_shift.sub(sp2.view());
 		
 	}
 	

@@ -33,13 +33,13 @@ public class PolygonShape {
 	}
 	
 	public Polygon toPolygon(Coord.View center, double rotation, ViewTransform vtrans) {
-		rotate(rotation-current_rotation, new Coord(0,0).view);
+		rotate(rotation-current_rotation, new Coord(0,0).view());
 		
 		Polygon ret = new Polygon();
 		for (Point2D.Double p : points) {
 			Coord c = new Coord(p);
 			c.add(center);
-			Pixel pix = vtrans.getViewPos(c.view);
+			Pixel pix = vtrans.getViewPos(c.view());
 			ret.addPoint(pix.x, pix.y);
 		}
 		

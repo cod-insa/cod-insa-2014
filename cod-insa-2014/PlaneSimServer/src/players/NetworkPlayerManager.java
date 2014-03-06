@@ -147,7 +147,7 @@ public class NetworkPlayerManager {
 	}
 	
 	synchronized void notifyDisconnect (NetworkPlayer p) {
-		System.out.println("Player "+p.name+" (id "+p.id+") disconnected.");
+		System.out.println("Player "+p.name+" (id "+p.connectionId+") disconnected.");
 		
 		if (onDisconnect != null)
 			onDisconnect.apply(p);
@@ -155,12 +155,12 @@ public class NetworkPlayerManager {
 	
 	synchronized void notifyConnect (NetworkPlayer p) {
 		
-		System.out.println("Player "+p.name+" (id "+p.id+") connected.");
+		System.out.println("Player "+p.name+" (id "+p.connectionId+") connected.");
 		
-		if (connectedPlayersById.containsKey(p.id))
-			System.err.println("Warning: player of id "+p.id+" tried to connect more than once.");
+		if (connectedPlayersById.containsKey(p.connectionId))
+			System.err.println("Warning: player of id "+p.connectionId+" tried to connect more than once.");
 		
-		connectedPlayersById.put(p.id, p);
+		connectedPlayersById.put(p.connectionId, p);
 		
 		notify();
 		

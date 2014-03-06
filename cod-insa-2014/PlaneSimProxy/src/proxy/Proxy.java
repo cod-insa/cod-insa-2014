@@ -108,7 +108,7 @@ public class Proxy
 	{
 		ArrayList<PlaneModel.View> planesToReturn = new ArrayList<PlaneModel.View>();
 		for (model.PlaneModel p : killed_planes.values())
-			planesToReturn.add(p.getView());
+			planesToReturn.add(p.view());
 		return planesToReturn;
 	}
 
@@ -116,7 +116,7 @@ public class Proxy
 	{
 		ArrayList<PlaneModel.View> planesToReturn = new ArrayList<PlaneModel.View>();
 		for (model.PlaneModel p : ai_planes.values())
-			planesToReturn.add(p.getView());
+			planesToReturn.add(p.view());
 		return planesToReturn;
 	}
 	
@@ -124,7 +124,7 @@ public class Proxy
 	{
 		ArrayList<BaseModel.View> basesToReturn = new ArrayList<BaseModel.View>();
 		for (model.BaseModel b : bases.values())
-			basesToReturn.add(b.getView());
+			basesToReturn.add(b.view());
 		return basesToReturn;
 	}
 	public void updateSimFrame()

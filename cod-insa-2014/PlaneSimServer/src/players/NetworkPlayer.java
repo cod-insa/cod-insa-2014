@@ -41,7 +41,7 @@ import control.CommandMaker;
  we will accumulate the decisions here and return them all in a list, following IA's interface
 */
 
-public class NetworkPlayer implements Player {
+public class NetworkPlayer extends Player {
 	
 	private Queue<Command> commands = new LinkedList<Command>();
 	
@@ -58,7 +58,7 @@ public class NetworkPlayer implements Player {
 	public final String name;
 	String nickname = null;
 	
-	public final int id;
+	public final int connectionId;
 	
 	TSimpleServer dataSender, commandsReceiver;
 	Thread dataSenderThead, commandsReceiverThread;
@@ -88,7 +88,7 @@ public class NetworkPlayer implements Player {
 			
 			manager.notifyConnect(NetworkPlayer.this);
 			
-			return id;
+			return connectionId;
 		}
 		
 		@Override
@@ -165,7 +165,7 @@ public class NetworkPlayer implements Player {
 		this.name = name;
 		this.world = world;
 		//this.id = Util.rand.nextInt();
-		this.id = id;
+		this.connectionId = id;
 		
 		dataSender = new TSimpleServer(
 				new TServer.Args(new TServerSocket(dataSenderPort)).processor(

@@ -164,7 +164,7 @@ public class ConnectionWindow {
 			//frmPlayersCon.add(new JLabel("[pending] " + p.name+" ("+p.getNickname()+")", new ImageIcon(i), SwingConstants.LEFT));
 			JLabel lbl = new JLabel("" + p.name+ "...", new ImageIcon(pendingImage), SwingConstants.LEFT);
 			panel.add(lbl); // , gbc
-			labels .put(p.id, lbl);
+			labels .put(p.connectionId, lbl);
 			panel.add(Box.createRigidArea(new Dimension(0,margin)));
 			
 		}
@@ -192,11 +192,11 @@ public class ConnectionWindow {
 	
 	
 	public void notifyConnect(NetworkPlayer p) {
-		labels.get(p.id).setIcon(new ImageIcon(connectedImage)); //
-		labels.get(p.id).setText(p.name+" ("+p.getNickname()+")");
+		labels.get(p.connectionId).setIcon(new ImageIcon(connectedImage)); //
+		labels.get(p.connectionId).setText(p.name+" ("+p.getNickname()+")");
 	}
 	public void notifyDisconnect(NetworkPlayer p) {
-		labels.get(p.id).setIcon(new ImageIcon(disconnectedImage)); // throw new Error();
+		labels.get(p.connectionId).setIcon(new ImageIcon(disconnectedImage)); // throw new Error();
 	}
 	
 	public void close() {

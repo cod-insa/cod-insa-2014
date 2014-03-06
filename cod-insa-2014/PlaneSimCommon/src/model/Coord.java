@@ -2,6 +2,8 @@ package model;
 
 import java.awt.geom.Point2D;
 
+import model.Coord.View;
+
 import common.Copyable;
 import common.Util;
 import common.Viewable;
@@ -31,55 +33,36 @@ object that no one else has direct access on.
 */
 
 //public final class Coord implements Copyable<Coord>, Viewable {
-public final class Coord implements Viewable<Coord.View>, Copyable {
+public final class Coord extends InternalView implements Viewable<Coord.View>, Copyable {
 	
 
 	/*
 	 * Immutable common Coord objects:
 	 */
 	public static final Coord.View
-		origin = new Coord(0,0).view,
-		unit   = new Coord(1,1).view
+		origin = new Coord(0,0).view(),
+		unit   = new Coord(1,1).view()
 	;
 	
+	
+//	public final class View extends InternalView implements Viewable.View { //implements Copyable<Coord> {
+//
+//		public double x() { return x; }
+//		public double y() { return y; }
+//		
+//		public View (Coord model) {
+//			super(model);
+//		}
+//		
+//	}
+	public final class View extends InternalView implements Viewable.View { //implements Copyable<Coord> {
 
-	public final class View implements Viewable.View { //implements Copyable<Coord> {
-		
 		public double x() { return x; }
 		public double y() { return y; }
 		
-		public Coord add (View cv)
-		{ Coord r = new Coord(this); r.add(cv); return r; }
-		
-		public Coord add (double shift)
-		{ Coord r = new Coord(this); r.add(shift); return r; }
-		
-		public Coord rotate (Coord center, double angle)
-		{ Coord r = new Coord(this); r.rotate(center, angle); return r; }
-		
-		//@Override
-		public Coord copy() { return Coord.this.copy(); }
-
-		@Override
-		public boolean equals (Object e) {
-			if (e == null)
-				return false;
-			if (e instanceof Coord.View)
-				return x == ((Coord.View)e).x() && y == ((Coord.View)e).y();
-			if (e instanceof Coord)
-				return x == ((Coord)e).x && y == ((Coord)e).y;
-			return false;
-		}
-		
-		@Override
-		public int hashCode () {
-			//return Doubles.hashCode(x) * 31 + Doubles.hashCode(y);
-			return Double.valueOf(x).hashCode() * 31 + Double.valueOf(y).hashCode();
-		}
-		
-		@Override
-		public String toString() {
-			return Coord.this.toString();
+		public View () {
+			//super(Coord.this);
+			model = Coord.this;
 		}
 		
 	}
@@ -113,11 +96,13 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 	
 	public double x, y;
 	
-	public final View view = new View();
+	//public final View view = new View();
+	final View view = new View();
 	
 	@Override
-	public View getView() {
+	public View view() {
 		return view;
+		//return new View();
 	}
 	@Override
 	public Coord copy() {
@@ -125,6 +110,8 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 	}
 	
 	public Coord (double x, double y) {
+		//super(this);
+		model = this;
 		this.x = x;
 		this.y = y;
 	}
@@ -137,8 +124,11 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 	public Coord(Point2D.Double p) {
 		this(p.x, p.y);
 	}
+//	private Coord(InternalView v) {
+//		this(v.x(), v.y());
+//	}
 	
-	public void set(View cv) {
+	public void set (View cv) {
 		x = cv.x();
 		y = cv.y();
 	}
@@ -147,13 +137,13 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 		x += cv.x();
 		y += cv.y();
 	}
-	public void add (double shift) {
-		x += shift;
-		y += shift;
-	}
 	public void sub (View cv) {
 		x -= cv.x();
 		y -= cv.y();
+	}
+	public void shift (double shift) {
+		x += shift;
+		y += shift;
 	}
 	
 	public void mult (double q) {
@@ -161,17 +151,75 @@ public final class Coord implements Viewable<Coord.View>, Copyable {
 		y *= q;
 	}
 	
-	public void rotate (Coord center, double angle) {
+	public void rotate (View center, double angle) {
 		// TODO
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
+//	@Override
+//	public String toString() {
+//		return "Coord("+x+", "+y+")";
+//	}
+	
+}
+
+
+class InternalView {
+	
+	protected Coord model;
+	
+//	public InternalView (Coord model) {
+//		this.model = model;
+//	}
+	
+//	private Coord copy() {
+//		return new Coord(model);
+//	}
+	
+	public Coord opposite ()
+	{ Coord r = new Coord(-model.x, -model.y); return r; }
+	
+	public Coord addedTo (View cv)
+	{ Coord r = new Coord(model); r.add(cv); return r; }
+	
+	public Coord shifted (double shift)
+	{ Coord r = new Coord(model); r.shift(shift); return r; }
+
+	public Coord rotated (View center, double angle)
+	{ Coord r = new Coord(model); r.rotate(center, angle); return r; }
+	
+	//@Override
+	public Coord copied() { return model.copy(); }
+
+	@Override
+	public boolean equals (Object e) {
+		if (e == null)
+			return false;
+		if (e instanceof Coord)
+			return model.x == ((Coord)e).x && model.y == ((Coord)e).y;
+		if (e instanceof Coord.View)
+			return model.x == ((Coord.View)e).x() && model.y == ((Coord.View)e).y();
+		return false;
+	}
+	
+	@Override
+	public int hashCode () {
+		//return Doubles.hashCode(x) * 31 + Doubles.hashCode(y);
+		return Double.valueOf(model.x).hashCode() * 31 + Double.valueOf(model.y).hashCode();
+	}
+	
 	@Override
 	public String toString() {
-		return "Coord("+x+", "+y+")";
+		//return model.toString();
+		return "Coord("+model.x+", "+model.y+")";
 	}
 	
 }
+
+
+
+
+
 
 
 

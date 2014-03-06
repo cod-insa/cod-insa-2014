@@ -58,7 +58,7 @@ public class SimDisplayPanel extends JPanel {
     		Plane p = new Plane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()));
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
-	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view);
+	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view());
     	}
     	System.out.println(pls);
     	pls.get(0).autoPilot.goTo(pls.get(1));
