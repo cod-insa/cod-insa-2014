@@ -8,12 +8,22 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+
 	public double health = 1;
+	public State state = State.IDLE;
 	
 
 	public class View extends MovingEntityModel.View {
 		public double health() { return health; }
+		public State state() { return state; }
+	}
+	
+	public enum State {
+		IDLE,
+		MOVING,
+		FOLLOWING,
+		ATTACKING,
+		DEAD // FIXME use it
 	}
 	
 	@Override public View view() {
@@ -31,6 +41,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	public PlaneModel (PlaneModel.View p) {
 		super(p);
 		health = p.health();
+		state = p.state();
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package game;
 
 import model.Coord;
+import model.PlaneModel.State;
 
 
 public final class AutoPilot {
@@ -21,11 +22,13 @@ public final class AutoPilot {
 	public void goTo(Coord.View aim) {
 		entityAim = null;
 		_aim.set(aim);
+		plane.model.state = State.MOVING;
 	}
 	public void goTo(Entity<?> e) {
 		if (e == plane)
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		entityAim = e;
+		plane.model.state = State.FOLLOWING;
 	}
 	
 	public void refresh(double period) {
@@ -35,6 +38,11 @@ public final class AutoPilot {
 		if (entityAim != null && (entityAim.model.exists || (entityAim = null) != null)) {
 			_aim.set(entityAim.model.position());
 		}
+		else plane.model.state = State.IDLE;
+		
+		if (entityAim == null)
+			plane.model.state = State.IDLE;
+		
 		
 		double aimAngle = Math.atan2(_aim.y-plane.model.position().y(), _aim.x-plane.model.position().x()) + Math.PI*2 - plane.model.rotation;
 		
