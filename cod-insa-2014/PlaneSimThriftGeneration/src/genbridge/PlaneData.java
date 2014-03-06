@@ -38,7 +38,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   private static final org.apache.thrift.protocol.TField PLANE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("plane_id", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField POSIT_FIELD_DESC = new org.apache.thrift.protocol.TField("posit", org.apache.thrift.protocol.TType.STRUCT, (short)2);
   private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField ENERGY_FIELD_DESC = new org.apache.thrift.protocol.TField("energy", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField HEALTH_FIELD_DESC = new org.apache.thrift.protocol.TField("health", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
   private static final org.apache.thrift.protocol.TField GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("gaz", org.apache.thrift.protocol.TType.I32, (short)5);
   private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)6);
 
@@ -51,7 +51,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   public int plane_id; // required
   public CoordData posit; // required
   public int ai_id; // required
-  public int energy; // required
+  public double health; // required
   public int gaz; // required
   /**
    * 
@@ -64,7 +64,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     PLANE_ID((short)1, "plane_id"),
     POSIT((short)2, "posit"),
     AI_ID((short)3, "ai_id"),
-    ENERGY((short)4, "energy"),
+    HEALTH((short)4, "health"),
     GAZ((short)5, "gaz"),
     /**
      * 
@@ -91,8 +91,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
           return POSIT;
         case 3: // AI_ID
           return AI_ID;
-        case 4: // ENERGY
-          return ENERGY;
+        case 4: // HEALTH
+          return HEALTH;
         case 5: // GAZ
           return GAZ;
         case 6: // STATE
@@ -139,7 +139,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   // isset id assignments
   private static final int __PLANE_ID_ISSET_ID = 0;
   private static final int __AI_ID_ISSET_ID = 1;
-  private static final int __ENERGY_ISSET_ID = 2;
+  private static final int __HEALTH_ISSET_ID = 2;
   private static final int __GAZ_ISSET_ID = 3;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
@@ -151,8 +151,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CoordData.class)));
     tmpMap.put(_Fields.AI_ID, new org.apache.thrift.meta_data.FieldMetaData("ai_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.ENERGY, new org.apache.thrift.meta_data.FieldMetaData("energy", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+    tmpMap.put(_Fields.HEALTH, new org.apache.thrift.meta_data.FieldMetaData("health", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.GAZ, new org.apache.thrift.meta_data.FieldMetaData("gaz", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.STATE, new org.apache.thrift.meta_data.FieldMetaData("state", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -168,7 +168,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     int plane_id,
     CoordData posit,
     int ai_id,
-    int energy,
+    double health,
     int gaz,
     PlaneStateData state)
   {
@@ -178,8 +178,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.posit = posit;
     this.ai_id = ai_id;
     setAi_idIsSet(true);
-    this.energy = energy;
-    setEnergyIsSet(true);
+    this.health = health;
+    setHealthIsSet(true);
     this.gaz = gaz;
     setGazIsSet(true);
     this.state = state;
@@ -195,7 +195,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       this.posit = new CoordData(other.posit);
     }
     this.ai_id = other.ai_id;
-    this.energy = other.energy;
+    this.health = other.health;
     this.gaz = other.gaz;
     if (other.isSetState()) {
       this.state = other.state;
@@ -213,8 +213,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.posit = null;
     setAi_idIsSet(false);
     this.ai_id = 0;
-    setEnergyIsSet(false);
-    this.energy = 0;
+    setHealthIsSet(false);
+    this.health = 0.0;
     setGazIsSet(false);
     this.gaz = 0;
     this.state = null;
@@ -290,27 +290,27 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __AI_ID_ISSET_ID, value);
   }
 
-  public int getEnergy() {
-    return this.energy;
+  public double getHealth() {
+    return this.health;
   }
 
-  public PlaneData setEnergy(int energy) {
-    this.energy = energy;
-    setEnergyIsSet(true);
+  public PlaneData setHealth(double health) {
+    this.health = health;
+    setHealthIsSet(true);
     return this;
   }
 
-  public void unsetEnergy() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ENERGY_ISSET_ID);
+  public void unsetHealth() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __HEALTH_ISSET_ID);
   }
 
-  /** Returns true if field energy is set (has been assigned a value) and false otherwise */
-  public boolean isSetEnergy() {
-    return EncodingUtils.testBit(__isset_bitfield, __ENERGY_ISSET_ID);
+  /** Returns true if field health is set (has been assigned a value) and false otherwise */
+  public boolean isSetHealth() {
+    return EncodingUtils.testBit(__isset_bitfield, __HEALTH_ISSET_ID);
   }
 
-  public void setEnergyIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ENERGY_ISSET_ID, value);
+  public void setHealthIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __HEALTH_ISSET_ID, value);
   }
 
   public int getGaz() {
@@ -394,11 +394,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       }
       break;
 
-    case ENERGY:
+    case HEALTH:
       if (value == null) {
-        unsetEnergy();
+        unsetHealth();
       } else {
-        setEnergy((Integer)value);
+        setHealth((Double)value);
       }
       break;
 
@@ -432,8 +432,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     case AI_ID:
       return Integer.valueOf(getAi_id());
 
-    case ENERGY:
-      return Integer.valueOf(getEnergy());
+    case HEALTH:
+      return Double.valueOf(getHealth());
 
     case GAZ:
       return Integer.valueOf(getGaz());
@@ -458,8 +458,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       return isSetPosit();
     case AI_ID:
       return isSetAi_id();
-    case ENERGY:
-      return isSetEnergy();
+    case HEALTH:
+      return isSetHealth();
     case GAZ:
       return isSetGaz();
     case STATE:
@@ -508,12 +508,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         return false;
     }
 
-    boolean this_present_energy = true;
-    boolean that_present_energy = true;
-    if (this_present_energy || that_present_energy) {
-      if (!(this_present_energy && that_present_energy))
+    boolean this_present_health = true;
+    boolean that_present_health = true;
+    if (this_present_health || that_present_health) {
+      if (!(this_present_health && that_present_health))
         return false;
-      if (this.energy != that.energy)
+      if (this.health != that.health)
         return false;
     }
 
@@ -581,12 +581,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetEnergy()).compareTo(other.isSetEnergy());
+    lastComparison = Boolean.valueOf(isSetHealth()).compareTo(other.isSetHealth());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetEnergy()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.energy, other.energy);
+    if (isSetHealth()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.health, other.health);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -647,8 +647,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     sb.append(this.ai_id);
     first = false;
     if (!first) sb.append(", ");
-    sb.append("energy:");
-    sb.append(this.energy);
+    sb.append("health:");
+    sb.append(this.health);
     first = false;
     if (!first) sb.append(", ");
     sb.append("gaz:");
@@ -735,10 +735,10 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 4: // ENERGY
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.energy = iprot.readI32();
-              struct.setEnergyIsSet(true);
+          case 4: // HEALTH
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.health = iprot.readDouble();
+              struct.setHealthIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -785,8 +785,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       oprot.writeFieldBegin(AI_ID_FIELD_DESC);
       oprot.writeI32(struct.ai_id);
       oprot.writeFieldEnd();
-      oprot.writeFieldBegin(ENERGY_FIELD_DESC);
-      oprot.writeI32(struct.energy);
+      oprot.writeFieldBegin(HEALTH_FIELD_DESC);
+      oprot.writeDouble(struct.health);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(GAZ_FIELD_DESC);
       oprot.writeI32(struct.gaz);
@@ -823,7 +823,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       if (struct.isSetAi_id()) {
         optionals.set(2);
       }
-      if (struct.isSetEnergy()) {
+      if (struct.isSetHealth()) {
         optionals.set(3);
       }
       if (struct.isSetGaz()) {
@@ -842,8 +842,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       if (struct.isSetAi_id()) {
         oprot.writeI32(struct.ai_id);
       }
-      if (struct.isSetEnergy()) {
-        oprot.writeI32(struct.energy);
+      if (struct.isSetHealth()) {
+        oprot.writeDouble(struct.health);
       }
       if (struct.isSetGaz()) {
         oprot.writeI32(struct.gaz);
@@ -871,8 +871,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         struct.setAi_idIsSet(true);
       }
       if (incoming.get(3)) {
-        struct.energy = iprot.readI32();
-        struct.setEnergyIsSet(true);
+        struct.health = iprot.readDouble();
+        struct.setHealthIsSet(true);
       }
       if (incoming.get(4)) {
         struct.gaz = iprot.readI32();
