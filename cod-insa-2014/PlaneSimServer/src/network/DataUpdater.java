@@ -43,7 +43,7 @@ public class DataUpdater { // FIXME rename DataPreparer?
 		if (snapshot.hasSome())
 		{
 			for (BaseModel.View b : snapshot.get().bases.view)
-				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position.x(),b.position.y())));
+				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 		}
 		
 		return tobeSent;
@@ -63,7 +63,7 @@ public class DataUpdater { // FIXME rename DataPreparer?
 			// FIXME Fix Energy, gaz, action performed, etc...
 			tobeSent.planes.add(
 					new PlaneData(p.id(), 
-					new CoordData(p.position.x(),p.position.y()), 
+					new CoordData(p.position().x(),p.position().y()), 
 					-1, -1, -1, PlaneStateData.IDLE)); // FIXME default values to make it work
 		
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);

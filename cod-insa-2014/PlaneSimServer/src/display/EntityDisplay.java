@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 
 public abstract class EntityDisplay<T extends Entity<?>> {
 	
-	T entity;
+	final T entity;
 	
 	public EntityDisplay(T entity) {
 		this.entity = entity;

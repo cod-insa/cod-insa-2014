@@ -9,6 +9,7 @@ import java.util.Map;
 import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
+
 import command.Command;
 
 
@@ -93,8 +94,8 @@ public class Proxy
 				
 				// Then we update the plane with the information given by the server :
 				
-				plane._pos.x = p.posit.x;
-				plane._pos.y = p.posit.y;
+				plane.position.x = p.posit.x;
+				plane.position.y = p.posit.y;
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
 			}

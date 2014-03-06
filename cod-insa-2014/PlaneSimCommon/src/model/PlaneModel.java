@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import common.Viewable;
 
-public class PlaneModel extends EntityModel implements Serializable, Viewable<PlaneModel.View> {
+public class PlaneModel extends MovingEntityModel implements Serializable, Viewable<PlaneModel.View> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -12,7 +12,7 @@ public class PlaneModel extends EntityModel implements Serializable, Viewable<Pl
 	public double health = 1;
 	
 
-	public class View extends EntityModel.View {
+	public class View extends MovingEntityModel.View {
 		public double health() { return health; }
 	}
 	
@@ -24,17 +24,18 @@ public class PlaneModel extends EntityModel implements Serializable, Viewable<Pl
 	
 	
 	public PlaneModel (int id, Coord.Unique pos) {
-		super(id,pos);
+		//super(id,pos);
+		super(id, pos);
 	}
 	
-	public PlaneModel (PlaneModel p) {
+	public PlaneModel (PlaneModel.View p) {
 		super(p);
-		health = p.health;
+		health = p.health();
 	}
-
+	
 	@Override
 	public Object copy() {
-		return new PlaneModel(this);
+		return new PlaneModel(view());
 	}
 	
 }

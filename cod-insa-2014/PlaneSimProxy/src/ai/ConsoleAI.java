@@ -38,7 +38,7 @@ public class ConsoleAI extends AbstractAI
 			
 			for (PlaneModel.View p : proxy.getMyPlanes())
 			{
-				MoveCommand mc = new MoveCommand(p.id(), b.position);
+				MoveCommand mc = new MoveCommand(p.id(), b.position());
 				
 				System.out.println("Sending command "+mc);
 				

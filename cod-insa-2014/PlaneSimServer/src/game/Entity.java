@@ -1,6 +1,7 @@
 package game;
 
 import model.Coord;
+import model.MovingEntityModel;
 import display.EntityDisplay;
 
 
@@ -22,9 +23,9 @@ public abstract class Entity<Model extends model.EntityModel> {
 	
 	
 	final Model model;
-	public final Model.View vModel;
+	public final Model.View modelView;
 	// FIXME: in fact, maybe it'd be better to write it as a getter (even though we loose some invariants)
-	Model.View model() { return model.view(); }
+	public Model.View model() { return model.view(); }
 	// Then "model" refers to the entity, and model() to its view.
 	
 	public final Altitude altitude;
@@ -61,7 +62,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 		//this.view = view;
 		//model = new model.Entity(pos);
 		this.model = model;
-		vModel = model.view();
+		modelView = model.view();
 		
 		this.altitude = alt;
 		sim.addEntity(this);
@@ -80,8 +81,15 @@ public abstract class Entity<Model extends model.EntityModel> {
 	}
 	
 	public final void update(double period) {
-		model._pos.x += Math.cos(model._rot)*model._spe;
-		model._pos.y += Math.sin(model._rot)*model._spe;
+//		model.position.x += Math.cos(model.rotation)*model.speed;
+//		model.position.y += Math.sin(model.rotation)*model.speed;
+		
+		if (model instanceof MovingEntityModel) {
+			MovingEntityModel model = (MovingEntityModel) this.model;
+			model.position.x += Math.cos(model.rotation)*model.speed;
+			model.position.y += Math.sin(model.rotation)*model.speed;
+		}
+		
 		updateSpecialized(period);
 	}
 	

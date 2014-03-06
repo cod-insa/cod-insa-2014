@@ -32,11 +32,11 @@ public final class AutoPilot {
 		
 		// The following branch executes if there is an entityAim and if it exists;
 		// if it doesn't exist it sets it to null and doesn't execute the branch
-		if (entityAim != null && (entityAim.model.exists() || (entityAim = null) != null)) {
-			_aim.set(entityAim.model.position);
+		if (entityAim != null && (entityAim.model.exists || (entityAim = null) != null)) {
+			_aim.set(entityAim.model.position());
 		}
 		
-		double aimAngle = Math.atan2(_aim.y-plane.model.position.y(), _aim.x-plane.model.position.x()) + Math.PI*2 - plane.model.rotation();
+		double aimAngle = Math.atan2(_aim.y-plane.model.position().y(), _aim.x-plane.model.position().x()) + Math.PI*2 - plane.model.rotation;
 		
 		aimAngle %= Math.PI*2;
 		

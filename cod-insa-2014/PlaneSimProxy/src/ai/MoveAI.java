@@ -40,7 +40,7 @@ public class MoveAI extends AbstractAI
 					//System.out.println("Moving plane "+p.id()+" to base "+bases.get(i).id()+", at pos "+b.position);
 					
 					// Make and send a MoveCommand with the plane to the random base
-					MoveCommand mc = new MoveCommand(p.id(), b.position);
+					MoveCommand mc = new MoveCommand(p.id(), b.position());
 					
 					System.out.println("Sending command "+mc);
 					

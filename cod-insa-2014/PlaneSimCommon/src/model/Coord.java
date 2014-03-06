@@ -97,7 +97,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 	public double x, y;
 	
 	//public final View view = new View();
-	final View view = new View();
+	private final View view = new View();
 	
 	@Override
 	public View view() {

@@ -14,7 +14,7 @@ public final class Plane extends Entity<model.PlaneModel> {
 		super(new model.PlaneModel(makeNextId(), pos), sim, pos, Altitude.SKY);
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
-		model._spe = 1E-2;
+		model.speed = 1E-2;
 	}
 	
 	@Override
