@@ -93,11 +93,11 @@ public class CommandSender extends Thread {
 						ie.printStackTrace();
 					}
 				}
-			}
-			while (!waitingList.isEmpty()) {
-				currentCmd = waitingList.remove();
-				sendThriftCommand(currentCmd);
-				System.out.println(">> sent");
+				while (!waitingList.isEmpty()) {
+					currentCmd = waitingList.remove();
+					sendThriftCommand(currentCmd);
+					System.out.println(">> sent");
+				}
 			}
 		}
 	}
