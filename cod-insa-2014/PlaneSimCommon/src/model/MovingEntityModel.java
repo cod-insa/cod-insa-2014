@@ -6,7 +6,7 @@ public abstract class MovingEntityModel extends EntityModel {
 	
 	public final Coord position;
 	
-	public double speed = 0;
+	public double speed = 0; // TODO add to ctor
 	
 	
 	public class View extends EntityModel.View {

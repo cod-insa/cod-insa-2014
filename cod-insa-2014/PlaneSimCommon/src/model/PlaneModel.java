@@ -9,8 +9,8 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	private static final long serialVersionUID = 1L;
 	
 
-	public double health = 1;
-	public State state = State.IDLE;
+	public double health; // = 1;
+	public State state; // = State.IDLE;
 	
 
 	public class View extends MovingEntityModel.View {
@@ -33,9 +33,11 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 //	public final View view = new View();
 	
 	
-	public PlaneModel (int id, Coord.Unique pos) {
+	public PlaneModel (int id, Coord.Unique pos, double health, State state) {
 		//super(id,pos);
 		super(id, pos);
+		this.health = health;
+		this.state = state;
 	}
 	
 	public PlaneModel (PlaneModel.View p) {

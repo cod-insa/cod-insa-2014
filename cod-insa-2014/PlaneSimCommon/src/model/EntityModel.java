@@ -8,13 +8,8 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 	
 	public final int id;
 	
-	//public final View view;
-	
-	//public final Coord _pos;// = new Coord(0,0);
-	//public final EntityView<?> view;
-	
 	public double rotation = 0;
-	//double _alt = 1;
+	
 	public boolean exists = true;
 	
 	/**
@@ -23,7 +18,6 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 	public int ownerId;
 	
 	public class View implements Viewable.View {
-		//public final Coord.View position = _pos.view;
 		public Coord.View position() { return EntityModel.this.position(); }
 		public int id() { return id; }
 		public double rotation() { return rotation; }
@@ -31,14 +25,7 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 		public int ownerId() { return ownerId; }
 	}
 	
-	//public final Coord.View position;// = _pos.view;
 	public abstract Coord.View position();
-	
-//	// FIXME: are these functions actually useful?
-//	public double rotation() { return rotation; }
-//	public double speed() { return speed; }
-//	//public double altitude() { return _alt; }
-//	public boolean exists() { return exists; }
 	
 	public void rotate (double angle) {
 		rotation += angle;

@@ -101,7 +101,7 @@ public class Proxy
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
-				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y));
+				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, p.state);
 				ai_planes.put(plane.id, plane);
 			}
 		}

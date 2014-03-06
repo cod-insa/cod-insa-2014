@@ -2,13 +2,17 @@ package common;
 
 
 
-/*
+/**
  * Contract:
  * - ALL CLASSES IMPLEMENTING THIS MUST PERFORM DEEP COPIES
  * - Copies must be castable to the actual object type; if A is Copyable, "(A)a.copy()" should not fail
  * 		this means classes extending a Copyable class must override copy
+ * 
+ * A typical design is to always add a copy constructor to classes implementing Copyable, and defer
+ * copying to this constructor in copy(), that must be overridden for all classes inheriting
+ * a class implementing Copyable.
+ * 
  */
-
 public interface Copyable {
 	/*
 	public final class Unique<T extends Copyable<T>> {

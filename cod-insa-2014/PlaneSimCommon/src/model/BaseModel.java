@@ -9,7 +9,9 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 	
 	private static final long serialVersionUID = 1L;
 	
+	
 	public final Immutable<Coord.View> position;
+	
 	
 	public class View extends EntityModel.View {
 		public Immutable<Coord.View> getPosition() {
