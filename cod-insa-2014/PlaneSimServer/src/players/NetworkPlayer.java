@@ -129,8 +129,8 @@ public class NetworkPlayer extends Player {
 
 		@Override
 		public InitData retrieveInitData(int idConnection) throws TException {
-			// TODO TODO
-			return null;
+			
+			return DataUpdater.prepareInitData(world.getCurrentSnapshot());
 		}
 		
 	}

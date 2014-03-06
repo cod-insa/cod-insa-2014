@@ -2,8 +2,10 @@ package network;
 
 import game.World.Snapshot;
 import genbridge.BaseData;
+import genbridge.BaseInitData;
 import genbridge.CoordData;
 import genbridge.Data;
+import genbridge.InitData;
 import genbridge.PlaneData;
 import genbridge.PlaneStateData;
 
@@ -28,6 +30,17 @@ public class DataUpdater { // FIXME rename DataPreparer?
 		pManager = pm;
 	}
 
+	public static InitData prepareInitData(Snapshot snapshot)
+	{
+		InitData tobeSent = new InitData();
+		tobeSent.bases = new ArrayList<BaseInitData>();
+		
+		for (BaseModel.View b : snapshot.bases.view)
+			tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position.x(),b.position.y())));
+		
+		return tobeSent;
+	}
+	
 	public static Data prepareData(Snapshot snapshot)
 	{
 		Data tobeSent;
