@@ -190,7 +190,10 @@ public class ConnectionWindow {
 		
 	}
 	
-	
+	public void notifyGameStarted() {
+		ImageIcon image = new ImageIcon(getClass().getResource(Resources.CONNECTIONS_ICON));
+		frmPlayersCon.setIconImage(image.getImage());
+	}
 	public void notifyConnect(NetworkPlayer p) {
 		labels.get(p.connectionId).setIcon(new ImageIcon(connectedImage)); //
 		labels.get(p.connectionId).setText(p.name+" ("+p.getNickname()+")");

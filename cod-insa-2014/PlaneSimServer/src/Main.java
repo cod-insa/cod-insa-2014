@@ -101,6 +101,8 @@ public class Main {
 				
 				public void call() {
 					
+					cw.notifyGameStarted();
+					
 					////////////////////////
 					//cw.close();
 					////////////////////////
