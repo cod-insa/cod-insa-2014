@@ -35,6 +35,8 @@ public class ConnectionWindow {
 	JFrame frmPlayersCon;
 	private Map<Integer,JLabel> labels = new HashMap<>();
 	
+	JButton startBeforeBtn, cancelBtn;
+	
 	static final int imgSize = 30;
 	
 	static Image pendingImage = Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(Resources.WAITING_ICON));
@@ -175,14 +177,25 @@ public class ConnectionWindow {
 		          BorderLayout.LINE_START);
 		panel.add(Box.createRigidArea(new Dimension(0,margin)));
 		
-		JButton cancelBtn = new JButton("Close this connection window", UIManager.getIcon("OptionPane.errorIcon"));
+		panel.add(startBeforeBtn = new JButton("Start without waiting", UIManager.getIcon("OptionPane.warningIcon")));
 		
-		panel.add(cancelBtn);
+		panel.add(Box.createRigidArea(new Dimension(0,margin)));
+		
+//		JButton cancelBtn = new JButton("Close this connection window", UIManager.getIcon("OptionPane.errorIcon"));
+//		panel.add(cancelBtn);
+		panel.add(cancelBtn = new JButton("Cancel and exit the server", UIManager.getIcon("OptionPane.errorIcon")));
+		
+		startBeforeBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				npm.startWithoutWaiting();
+				startBeforeBtn.setText("Started without waiting!");
+			}
+		});
+		
 		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { close(); onCancel.call(); }
 		});
-		
-		
+
 		frmPlayersCon.pack();
 		//frmPlayersCon.setSize(-1,100);
 		
@@ -191,6 +204,8 @@ public class ConnectionWindow {
 	}
 	
 	public void notifyGameStarted() {
+		startBeforeBtn.setEnabled(false);
+		cancelBtn.setText("Close this window");
 		ImageIcon image = new ImageIcon(getClass().getResource(Resources.CONNECTIONS_ICON));
 		frmPlayersCon.setIconImage(image.getImage());
 	}

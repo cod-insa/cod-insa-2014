@@ -1,5 +1,6 @@
 package players;
 
+import game.Settings;
 import game.World;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class NetworkPlayerManager {
 	//private List<TSimpleServer> playerServers;
 	
 	private volatile boolean waiting_for_cons = false;
+	private volatile boolean startWithoutWaiting = false;
 	
 	private Map<Integer, NetworkPlayer> connectedPlayersById = new HashMap<>();
 	private Set<Integer> usedIds = new HashSet<>();
@@ -99,18 +101,24 @@ public class NetworkPlayerManager {
 		this.onDisconnect = onDisconnect;
 	}
 	
+	@SuppressWarnings("unused")
 	public void waitForConnections(Event onDone) {
 		System.out.println("Waiting for "+players.size()+" player(s) to connect...");
 		
-		this.onConnect = onConnect;
+		//this.onConnect = onConnect;
 		
 		waiting_for_cons = true;
 		
-		while (connectedPlayersById.size() != players.size()) {
+		if (!Settings.DEBUG_NO_WAIT_FOR_PLAYERS)
+			then:
+		
+		while (!startWithoutWaiting && connectedPlayersById.size() != players.size()) {
 			//if (connectedPlayersById.size() > players.size()) throw new Error("Unexpected");
 			assert connectedPlayersById.size() < players.size();
 			try {
+				
 				synchronized(this){ wait(); }
+				
 			} catch (InterruptedException e) {
 				System.err.println("Interrupted while waiting for player connections, resuming waiting. Exception was:");
 				e.printStackTrace(System.err);
@@ -167,6 +175,11 @@ public class NetworkPlayerManager {
 		if (onConnect != null)
 			onConnect.apply(p);
 		
+	}
+	
+	public synchronized void startWithoutWaiting () {
+		startWithoutWaiting = true;
+		notify();
 	}
 
 	public int getNbPlayers() {
