@@ -48,7 +48,7 @@ public class IncomingData {
 		System.out.println("Trying to connect to the server...");
 		try {
 			id = client.connect("Banane2");
-			System.out.println("Connected with id :" + id);
+			System.out.println("Connected with id: " + id);
 			if (id < 0)
 			{
 				System.err.println("Error while connecting to the server: invalid id.");
