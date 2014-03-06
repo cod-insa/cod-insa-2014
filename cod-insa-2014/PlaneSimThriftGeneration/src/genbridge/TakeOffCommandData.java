@@ -32,22 +32,22 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fields>, java.io.Serializable, Cloneable, Comparable<BaseData> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BaseData");
+public class TakeOffCommandData implements org.apache.thrift.TBase<TakeOffCommandData, TakeOffCommandData._Fields>, java.io.Serializable, Cloneable, Comparable<TakeOffCommandData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("TakeOffCommandData");
 
-  private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField PC_FIELD_DESC = new org.apache.thrift.protocol.TField("pc", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new BaseDataStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new BaseDataTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new TakeOffCommandDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new TakeOffCommandDataTupleSchemeFactory());
   }
 
-  public int base_id; // required
+  public PlaneCommandData pc; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    BASE_ID((short)1, "base_id");
+    PC((short)1, "pc");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -62,8 +62,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // BASE_ID
-          return BASE_ID;
+        case 1: // PC
+          return PC;
         default:
           return null;
       }
@@ -104,76 +104,74 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   }
 
   // isset id assignments
-  private static final int __BASE_ID_ISSET_ID = 0;
-  private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.BASE_ID, new org.apache.thrift.meta_data.FieldMetaData("base_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+    tmpMap.put(_Fields.PC, new org.apache.thrift.meta_data.FieldMetaData("pc", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PlaneCommandData.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BaseData.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(TakeOffCommandData.class, metaDataMap);
   }
 
-  public BaseData() {
+  public TakeOffCommandData() {
   }
 
-  public BaseData(
-    int base_id)
+  public TakeOffCommandData(
+    PlaneCommandData pc)
   {
     this();
-    this.base_id = base_id;
-    setBase_idIsSet(true);
+    this.pc = pc;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public BaseData(BaseData other) {
-    __isset_bitfield = other.__isset_bitfield;
-    this.base_id = other.base_id;
+  public TakeOffCommandData(TakeOffCommandData other) {
+    if (other.isSetPc()) {
+      this.pc = new PlaneCommandData(other.pc);
+    }
   }
 
-  public BaseData deepCopy() {
-    return new BaseData(this);
+  public TakeOffCommandData deepCopy() {
+    return new TakeOffCommandData(this);
   }
 
   @Override
   public void clear() {
-    setBase_idIsSet(false);
-    this.base_id = 0;
+    this.pc = null;
   }
 
-  public int getBase_id() {
-    return this.base_id;
+  public PlaneCommandData getPc() {
+    return this.pc;
   }
 
-  public BaseData setBase_id(int base_id) {
-    this.base_id = base_id;
-    setBase_idIsSet(true);
+  public TakeOffCommandData setPc(PlaneCommandData pc) {
+    this.pc = pc;
     return this;
   }
 
-  public void unsetBase_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __BASE_ID_ISSET_ID);
+  public void unsetPc() {
+    this.pc = null;
   }
 
-  /** Returns true if field base_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetBase_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __BASE_ID_ISSET_ID);
+  /** Returns true if field pc is set (has been assigned a value) and false otherwise */
+  public boolean isSetPc() {
+    return this.pc != null;
   }
 
-  public void setBase_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __BASE_ID_ISSET_ID, value);
+  public void setPcIsSet(boolean value) {
+    if (!value) {
+      this.pc = null;
+    }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case BASE_ID:
+    case PC:
       if (value == null) {
-        unsetBase_id();
+        unsetPc();
       } else {
-        setBase_id((Integer)value);
+        setPc((PlaneCommandData)value);
       }
       break;
 
@@ -182,8 +180,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case BASE_ID:
-      return Integer.valueOf(getBase_id());
+    case PC:
+      return getPc();
 
     }
     throw new IllegalStateException();
@@ -196,8 +194,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
     }
 
     switch (field) {
-    case BASE_ID:
-      return isSetBase_id();
+    case PC:
+      return isSetPc();
     }
     throw new IllegalStateException();
   }
@@ -206,21 +204,21 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof BaseData)
-      return this.equals((BaseData)that);
+    if (that instanceof TakeOffCommandData)
+      return this.equals((TakeOffCommandData)that);
     return false;
   }
 
-  public boolean equals(BaseData that) {
+  public boolean equals(TakeOffCommandData that) {
     if (that == null)
       return false;
 
-    boolean this_present_base_id = true;
-    boolean that_present_base_id = true;
-    if (this_present_base_id || that_present_base_id) {
-      if (!(this_present_base_id && that_present_base_id))
+    boolean this_present_pc = true && this.isSetPc();
+    boolean that_present_pc = true && that.isSetPc();
+    if (this_present_pc || that_present_pc) {
+      if (!(this_present_pc && that_present_pc))
         return false;
-      if (this.base_id != that.base_id)
+      if (!this.pc.equals(that.pc))
         return false;
     }
 
@@ -233,19 +231,19 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   }
 
   @Override
-  public int compareTo(BaseData other) {
+  public int compareTo(TakeOffCommandData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetBase_id()).compareTo(other.isSetBase_id());
+    lastComparison = Boolean.valueOf(isSetPc()).compareTo(other.isSetPc());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetBase_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.base_id, other.base_id);
+    if (isSetPc()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.pc, other.pc);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -267,11 +265,15 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("BaseData(");
+    StringBuilder sb = new StringBuilder("TakeOffCommandData(");
     boolean first = true;
 
-    sb.append("base_id:");
-    sb.append(this.base_id);
+    sb.append("pc:");
+    if (this.pc == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.pc);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
@@ -280,6 +282,9 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
     // check for sub-struct validity
+    if (pc != null) {
+      pc.validate();
+    }
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -292,23 +297,21 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     try {
-      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-      __isset_bitfield = 0;
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class BaseDataStandardSchemeFactory implements SchemeFactory {
-    public BaseDataStandardScheme getScheme() {
-      return new BaseDataStandardScheme();
+  private static class TakeOffCommandDataStandardSchemeFactory implements SchemeFactory {
+    public TakeOffCommandDataStandardScheme getScheme() {
+      return new TakeOffCommandDataStandardScheme();
     }
   }
 
-  private static class BaseDataStandardScheme extends StandardScheme<BaseData> {
+  private static class TakeOffCommandDataStandardScheme extends StandardScheme<TakeOffCommandData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, BaseData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, TakeOffCommandData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -318,10 +321,11 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
           break;
         }
         switch (schemeField.id) {
-          case 1: // BASE_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.base_id = iprot.readI32();
-              struct.setBase_idIsSet(true);
+          case 1: // PC
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+              struct.pc = new PlaneCommandData();
+              struct.pc.read(iprot);
+              struct.setPcIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -337,47 +341,50 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, BaseData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, TakeOffCommandData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(BASE_ID_FIELD_DESC);
-      oprot.writeI32(struct.base_id);
-      oprot.writeFieldEnd();
+      if (struct.pc != null) {
+        oprot.writeFieldBegin(PC_FIELD_DESC);
+        struct.pc.write(oprot);
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
 
   }
 
-  private static class BaseDataTupleSchemeFactory implements SchemeFactory {
-    public BaseDataTupleScheme getScheme() {
-      return new BaseDataTupleScheme();
+  private static class TakeOffCommandDataTupleSchemeFactory implements SchemeFactory {
+    public TakeOffCommandDataTupleScheme getScheme() {
+      return new TakeOffCommandDataTupleScheme();
     }
   }
 
-  private static class BaseDataTupleScheme extends TupleScheme<BaseData> {
+  private static class TakeOffCommandDataTupleScheme extends TupleScheme<TakeOffCommandData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, BaseData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, TakeOffCommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetBase_id()) {
+      if (struct.isSetPc()) {
         optionals.set(0);
       }
       oprot.writeBitSet(optionals, 1);
-      if (struct.isSetBase_id()) {
-        oprot.writeI32(struct.base_id);
+      if (struct.isSetPc()) {
+        struct.pc.write(oprot);
       }
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, BaseData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, TakeOffCommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
-        struct.base_id = iprot.readI32();
-        struct.setBase_idIsSet(true);
+        struct.pc = new PlaneCommandData();
+        struct.pc.read(iprot);
+        struct.setPcIsSet(true);
       }
     }
   }

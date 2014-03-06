@@ -40,7 +40,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)3);
   private static final org.apache.thrift.protocol.TField ENERGY_FIELD_DESC = new org.apache.thrift.protocol.TField("energy", org.apache.thrift.protocol.TType.I32, (short)4);
   private static final org.apache.thrift.protocol.TField GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("gaz", org.apache.thrift.protocol.TType.I32, (short)5);
-  private static final org.apache.thrift.protocol.TField ACTION_PERFORMED_FIELD_DESC = new org.apache.thrift.protocol.TField("actionPerformed", org.apache.thrift.protocol.TType.BOOL, (short)6);
+  private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)6);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -53,7 +53,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   public int ai_id; // required
   public int energy; // required
   public int gaz; // required
-  public boolean actionPerformed; // required
+  /**
+   * 
+   * @see PlaneStateData
+   */
+  public PlaneStateData state; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -62,7 +66,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     AI_ID((short)3, "ai_id"),
     ENERGY((short)4, "energy"),
     GAZ((short)5, "gaz"),
-    ACTION_PERFORMED((short)6, "actionPerformed");
+    /**
+     * 
+     * @see PlaneStateData
+     */
+    STATE((short)6, "state");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -87,8 +95,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
           return ENERGY;
         case 5: // GAZ
           return GAZ;
-        case 6: // ACTION_PERFORMED
-          return ACTION_PERFORMED;
+        case 6: // STATE
+          return STATE;
         default:
           return null;
       }
@@ -133,7 +141,6 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   private static final int __AI_ID_ISSET_ID = 1;
   private static final int __ENERGY_ISSET_ID = 2;
   private static final int __GAZ_ISSET_ID = 3;
-  private static final int __ACTIONPERFORMED_ISSET_ID = 4;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -148,8 +155,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.GAZ, new org.apache.thrift.meta_data.FieldMetaData("gaz", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.ACTION_PERFORMED, new org.apache.thrift.meta_data.FieldMetaData("actionPerformed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.STATE, new org.apache.thrift.meta_data.FieldMetaData("state", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, PlaneStateData.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneData.class, metaDataMap);
   }
@@ -163,7 +170,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     int ai_id,
     int energy,
     int gaz,
-    boolean actionPerformed)
+    PlaneStateData state)
   {
     this();
     this.plane_id = plane_id;
@@ -175,8 +182,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     setEnergyIsSet(true);
     this.gaz = gaz;
     setGazIsSet(true);
-    this.actionPerformed = actionPerformed;
-    setActionPerformedIsSet(true);
+    this.state = state;
   }
 
   /**
@@ -191,7 +197,9 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.ai_id = other.ai_id;
     this.energy = other.energy;
     this.gaz = other.gaz;
-    this.actionPerformed = other.actionPerformed;
+    if (other.isSetState()) {
+      this.state = other.state;
+    }
   }
 
   public PlaneData deepCopy() {
@@ -209,8 +217,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.energy = 0;
     setGazIsSet(false);
     this.gaz = 0;
-    setActionPerformedIsSet(false);
-    this.actionPerformed = false;
+    this.state = null;
   }
 
   public int getPlane_id() {
@@ -329,27 +336,36 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __GAZ_ISSET_ID, value);
   }
 
-  public boolean isActionPerformed() {
-    return this.actionPerformed;
+  /**
+   * 
+   * @see PlaneStateData
+   */
+  public PlaneStateData getState() {
+    return this.state;
   }
 
-  public PlaneData setActionPerformed(boolean actionPerformed) {
-    this.actionPerformed = actionPerformed;
-    setActionPerformedIsSet(true);
+  /**
+   * 
+   * @see PlaneStateData
+   */
+  public PlaneData setState(PlaneStateData state) {
+    this.state = state;
     return this;
   }
 
-  public void unsetActionPerformed() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ACTIONPERFORMED_ISSET_ID);
+  public void unsetState() {
+    this.state = null;
   }
 
-  /** Returns true if field actionPerformed is set (has been assigned a value) and false otherwise */
-  public boolean isSetActionPerformed() {
-    return EncodingUtils.testBit(__isset_bitfield, __ACTIONPERFORMED_ISSET_ID);
+  /** Returns true if field state is set (has been assigned a value) and false otherwise */
+  public boolean isSetState() {
+    return this.state != null;
   }
 
-  public void setActionPerformedIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ACTIONPERFORMED_ISSET_ID, value);
+  public void setStateIsSet(boolean value) {
+    if (!value) {
+      this.state = null;
+    }
   }
 
   public void setFieldValue(_Fields field, Object value) {
@@ -394,11 +410,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       }
       break;
 
-    case ACTION_PERFORMED:
+    case STATE:
       if (value == null) {
-        unsetActionPerformed();
+        unsetState();
       } else {
-        setActionPerformed((Boolean)value);
+        setState((PlaneStateData)value);
       }
       break;
 
@@ -422,8 +438,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     case GAZ:
       return Integer.valueOf(getGaz());
 
-    case ACTION_PERFORMED:
-      return Boolean.valueOf(isActionPerformed());
+    case STATE:
+      return getState();
 
     }
     throw new IllegalStateException();
@@ -446,8 +462,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       return isSetEnergy();
     case GAZ:
       return isSetGaz();
-    case ACTION_PERFORMED:
-      return isSetActionPerformed();
+    case STATE:
+      return isSetState();
     }
     throw new IllegalStateException();
   }
@@ -510,12 +526,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         return false;
     }
 
-    boolean this_present_actionPerformed = true;
-    boolean that_present_actionPerformed = true;
-    if (this_present_actionPerformed || that_present_actionPerformed) {
-      if (!(this_present_actionPerformed && that_present_actionPerformed))
+    boolean this_present_state = true && this.isSetState();
+    boolean that_present_state = true && that.isSetState();
+    if (this_present_state || that_present_state) {
+      if (!(this_present_state && that_present_state))
         return false;
-      if (this.actionPerformed != that.actionPerformed)
+      if (!this.state.equals(that.state))
         return false;
     }
 
@@ -585,12 +601,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetActionPerformed()).compareTo(other.isSetActionPerformed());
+    lastComparison = Boolean.valueOf(isSetState()).compareTo(other.isSetState());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetActionPerformed()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.actionPerformed, other.actionPerformed);
+    if (isSetState()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.state, other.state);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -639,8 +655,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     sb.append(this.gaz);
     first = false;
     if (!first) sb.append(", ");
-    sb.append("actionPerformed:");
-    sb.append(this.actionPerformed);
+    sb.append("state:");
+    if (this.state == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.state);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
@@ -731,10 +751,10 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 6: // ACTION_PERFORMED
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
-              struct.actionPerformed = iprot.readBool();
-              struct.setActionPerformedIsSet(true);
+          case 6: // STATE
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.state = PlaneStateData.findByValue(iprot.readI32());
+              struct.setStateIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -771,9 +791,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       oprot.writeFieldBegin(GAZ_FIELD_DESC);
       oprot.writeI32(struct.gaz);
       oprot.writeFieldEnd();
-      oprot.writeFieldBegin(ACTION_PERFORMED_FIELD_DESC);
-      oprot.writeBool(struct.actionPerformed);
-      oprot.writeFieldEnd();
+      if (struct.state != null) {
+        oprot.writeFieldBegin(STATE_FIELD_DESC);
+        oprot.writeI32(struct.state.getValue());
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -807,7 +829,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       if (struct.isSetGaz()) {
         optionals.set(4);
       }
-      if (struct.isSetActionPerformed()) {
+      if (struct.isSetState()) {
         optionals.set(5);
       }
       oprot.writeBitSet(optionals, 6);
@@ -826,8 +848,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       if (struct.isSetGaz()) {
         oprot.writeI32(struct.gaz);
       }
-      if (struct.isSetActionPerformed()) {
-        oprot.writeBool(struct.actionPerformed);
+      if (struct.isSetState()) {
+        oprot.writeI32(struct.state.getValue());
       }
     }
 
@@ -857,8 +879,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         struct.setGazIsSet(true);
       }
       if (incoming.get(5)) {
-        struct.actionPerformed = iprot.readBool();
-        struct.setActionPerformedIsSet(true);
+        struct.state = PlaneStateData.findByValue(iprot.readI32());
+        struct.setStateIsSet(true);
       }
     }
   }

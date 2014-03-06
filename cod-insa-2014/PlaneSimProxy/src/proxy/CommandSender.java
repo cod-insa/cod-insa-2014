@@ -3,9 +3,11 @@ package proxy;
 import genbridge.CommandData;
 import genbridge.CommandReceiver;
 import genbridge.CoordData;
+import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
 import genbridge.Response;
+import genbridge.TakeOffCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.ArrayList;
@@ -21,7 +23,9 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
 import command.Command;
+import command.LandCommand;
 import command.MoveCommand;
+import command.TakeOffCommand;
 import command.WaitCommand;
 
 public class CommandSender extends Thread {
@@ -47,12 +51,12 @@ public class CommandSender extends Thread {
 			TTransport transport;
 			transport = new TSocket(ip, port);
 			transport.open();
-			
+
 			TProtocol protocol = new TBinaryProtocol(transport);
-			//TProtocol protocol = new TSimpleJSONProtocol(transport);
-			
+			// TProtocol protocol = new TSimpleJSONProtocol(transport);
+
 			client = new CommandReceiver.Client(protocol);
-			
+
 		} catch (Exception e) {
 			System.err.println("Error while initializing data retriever : ");
 			e.printStackTrace();
@@ -69,11 +73,10 @@ public class CommandSender extends Thread {
 		return (ArrayList<String>) errors.clone();
 	}
 
-	public boolean isTimeOut()
-	{
+	public boolean isTimeOut() {
 		return isTimeOut;
 	}
-	
+
 	public void newFrame() {
 		isTimeOut = false;
 	}
@@ -86,9 +89,9 @@ public class CommandSender extends Thread {
 			synchronized (this) {
 				while (waitingList.isEmpty()) {
 					try {
-						System.out.println(">> waiting");
+						// System.out.println(">> waiting");
 						wait();
-						System.out.println(">> notified");
+						// System.out.println(">> notified");
 					} catch (InterruptedException ie) {
 						ie.printStackTrace();
 					}
@@ -96,7 +99,7 @@ public class CommandSender extends Thread {
 				while (!waitingList.isEmpty()) {
 					currentCmd = waitingList.remove();
 					sendThriftCommand(currentCmd);
-					System.out.println(">> sent");
+					//System.out.println(">> sent");
 				}
 			}
 		}
@@ -121,8 +124,19 @@ public class CommandSender extends Thread {
 				r = client.sendWaitCommand(
 						DataMaker.make((WaitCommand) cmd, proxy.getNumFrame()),
 						idConnection);
+			} else if (cmd instanceof LandCommand) {
+				// Call server method
+				r = client.sendLandCommand(
+						DataMaker.make((LandCommand) cmd, proxy.getNumFrame()),
+						idConnection);
+			} else if (cmd instanceof TakeOffCommand) {
+				// Call server method
+				r = client.sendTakeOffCommand(
+						DataMaker.make((TakeOffCommand) cmd,
+								proxy.getNumFrame()), idConnection);
 			} else {
-				System.err.println("Command not recognized !");
+				System.err
+						.println("Command not recognized or not supported (yet) !");
 				r = new Response(Command.ERROR_UNKNOWN, "Commande inconnue");
 			}
 			treatResult(r);
@@ -153,6 +167,16 @@ public class CommandSender extends Thread {
 
 		static CoordData make(Coord.View c) {
 			return new CoordData(c.x(), c.y());
+		}
+
+		public static LandCommandData make(LandCommand cmd, int numFrame) {
+			return new LandCommandData(new PlaneCommandData(new CommandData(
+					numFrame), cmd.planeId), cmd.baseId);
+		}
+
+		public static TakeOffCommandData make(TakeOffCommand cmd, int numFrame) {
+			return new TakeOffCommandData(new PlaneCommandData(new CommandData(
+					numFrame), cmd.planeId));
 		}
 
 		static MoveCommandData make(MoveCommand cmd, int numFrame) {

@@ -32,22 +32,22 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fields>, java.io.Serializable, Cloneable, Comparable<BaseData> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BaseData");
+public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fields>, java.io.Serializable, Cloneable, Comparable<InitData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("InitData");
 
-  private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("bases", org.apache.thrift.protocol.TType.LIST, (short)1);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new BaseDataStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new BaseDataTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new InitDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new InitDataTupleSchemeFactory());
   }
 
-  public int base_id; // required
+  public List<BaseInitData> bases; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    BASE_ID((short)1, "base_id");
+    BASES((short)1, "bases");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -62,8 +62,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // BASE_ID
-          return BASE_ID;
+        case 1: // BASES
+          return BASES;
         default:
           return null;
       }
@@ -104,76 +104,94 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   }
 
   // isset id assignments
-  private static final int __BASE_ID_ISSET_ID = 0;
-  private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.BASE_ID, new org.apache.thrift.meta_data.FieldMetaData("base_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+    tmpMap.put(_Fields.BASES, new org.apache.thrift.meta_data.FieldMetaData("bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseInitData.class))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BaseData.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(InitData.class, metaDataMap);
   }
 
-  public BaseData() {
+  public InitData() {
   }
 
-  public BaseData(
-    int base_id)
+  public InitData(
+    List<BaseInitData> bases)
   {
     this();
-    this.base_id = base_id;
-    setBase_idIsSet(true);
+    this.bases = bases;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public BaseData(BaseData other) {
-    __isset_bitfield = other.__isset_bitfield;
-    this.base_id = other.base_id;
+  public InitData(InitData other) {
+    if (other.isSetBases()) {
+      List<BaseInitData> __this__bases = new ArrayList<BaseInitData>(other.bases.size());
+      for (BaseInitData other_element : other.bases) {
+        __this__bases.add(new BaseInitData(other_element));
+      }
+      this.bases = __this__bases;
+    }
   }
 
-  public BaseData deepCopy() {
-    return new BaseData(this);
+  public InitData deepCopy() {
+    return new InitData(this);
   }
 
   @Override
   public void clear() {
-    setBase_idIsSet(false);
-    this.base_id = 0;
+    this.bases = null;
   }
 
-  public int getBase_id() {
-    return this.base_id;
+  public int getBasesSize() {
+    return (this.bases == null) ? 0 : this.bases.size();
   }
 
-  public BaseData setBase_id(int base_id) {
-    this.base_id = base_id;
-    setBase_idIsSet(true);
+  public java.util.Iterator<BaseInitData> getBasesIterator() {
+    return (this.bases == null) ? null : this.bases.iterator();
+  }
+
+  public void addToBases(BaseInitData elem) {
+    if (this.bases == null) {
+      this.bases = new ArrayList<BaseInitData>();
+    }
+    this.bases.add(elem);
+  }
+
+  public List<BaseInitData> getBases() {
+    return this.bases;
+  }
+
+  public InitData setBases(List<BaseInitData> bases) {
+    this.bases = bases;
     return this;
   }
 
-  public void unsetBase_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __BASE_ID_ISSET_ID);
+  public void unsetBases() {
+    this.bases = null;
   }
 
-  /** Returns true if field base_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetBase_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __BASE_ID_ISSET_ID);
+  /** Returns true if field bases is set (has been assigned a value) and false otherwise */
+  public boolean isSetBases() {
+    return this.bases != null;
   }
 
-  public void setBase_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __BASE_ID_ISSET_ID, value);
+  public void setBasesIsSet(boolean value) {
+    if (!value) {
+      this.bases = null;
+    }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case BASE_ID:
+    case BASES:
       if (value == null) {
-        unsetBase_id();
+        unsetBases();
       } else {
-        setBase_id((Integer)value);
+        setBases((List<BaseInitData>)value);
       }
       break;
 
@@ -182,8 +200,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case BASE_ID:
-      return Integer.valueOf(getBase_id());
+    case BASES:
+      return getBases();
 
     }
     throw new IllegalStateException();
@@ -196,8 +214,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
     }
 
     switch (field) {
-    case BASE_ID:
-      return isSetBase_id();
+    case BASES:
+      return isSetBases();
     }
     throw new IllegalStateException();
   }
@@ -206,21 +224,21 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof BaseData)
-      return this.equals((BaseData)that);
+    if (that instanceof InitData)
+      return this.equals((InitData)that);
     return false;
   }
 
-  public boolean equals(BaseData that) {
+  public boolean equals(InitData that) {
     if (that == null)
       return false;
 
-    boolean this_present_base_id = true;
-    boolean that_present_base_id = true;
-    if (this_present_base_id || that_present_base_id) {
-      if (!(this_present_base_id && that_present_base_id))
+    boolean this_present_bases = true && this.isSetBases();
+    boolean that_present_bases = true && that.isSetBases();
+    if (this_present_bases || that_present_bases) {
+      if (!(this_present_bases && that_present_bases))
         return false;
-      if (this.base_id != that.base_id)
+      if (!this.bases.equals(that.bases))
         return false;
     }
 
@@ -233,19 +251,19 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   }
 
   @Override
-  public int compareTo(BaseData other) {
+  public int compareTo(InitData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetBase_id()).compareTo(other.isSetBase_id());
+    lastComparison = Boolean.valueOf(isSetBases()).compareTo(other.isSetBases());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetBase_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.base_id, other.base_id);
+    if (isSetBases()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bases, other.bases);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -267,11 +285,15 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("BaseData(");
+    StringBuilder sb = new StringBuilder("InitData(");
     boolean first = true;
 
-    sb.append("base_id:");
-    sb.append(this.base_id);
+    sb.append("bases:");
+    if (this.bases == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.bases);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
@@ -292,23 +314,21 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     try {
-      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-      __isset_bitfield = 0;
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class BaseDataStandardSchemeFactory implements SchemeFactory {
-    public BaseDataStandardScheme getScheme() {
-      return new BaseDataStandardScheme();
+  private static class InitDataStandardSchemeFactory implements SchemeFactory {
+    public InitDataStandardScheme getScheme() {
+      return new InitDataStandardScheme();
     }
   }
 
-  private static class BaseDataStandardScheme extends StandardScheme<BaseData> {
+  private static class InitDataStandardScheme extends StandardScheme<InitData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, BaseData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, InitData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -318,10 +338,21 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
           break;
         }
         switch (schemeField.id) {
-          case 1: // BASE_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.base_id = iprot.readI32();
-              struct.setBase_idIsSet(true);
+          case 1: // BASES
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                struct.bases = new ArrayList<BaseInitData>(_list0.size);
+                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                {
+                  BaseInitData _elem2;
+                  _elem2 = new BaseInitData();
+                  _elem2.read(iprot);
+                  struct.bases.add(_elem2);
+                }
+                iprot.readListEnd();
+              }
+              struct.setBasesIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -337,47 +368,72 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, BaseData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, InitData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(BASE_ID_FIELD_DESC);
-      oprot.writeI32(struct.base_id);
-      oprot.writeFieldEnd();
+      if (struct.bases != null) {
+        oprot.writeFieldBegin(BASES_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.bases.size()));
+          for (BaseInitData _iter3 : struct.bases)
+          {
+            _iter3.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
 
   }
 
-  private static class BaseDataTupleSchemeFactory implements SchemeFactory {
-    public BaseDataTupleScheme getScheme() {
-      return new BaseDataTupleScheme();
+  private static class InitDataTupleSchemeFactory implements SchemeFactory {
+    public InitDataTupleScheme getScheme() {
+      return new InitDataTupleScheme();
     }
   }
 
-  private static class BaseDataTupleScheme extends TupleScheme<BaseData> {
+  private static class InitDataTupleScheme extends TupleScheme<InitData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, BaseData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, InitData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetBase_id()) {
+      if (struct.isSetBases()) {
         optionals.set(0);
       }
       oprot.writeBitSet(optionals, 1);
-      if (struct.isSetBase_id()) {
-        oprot.writeI32(struct.base_id);
+      if (struct.isSetBases()) {
+        {
+          oprot.writeI32(struct.bases.size());
+          for (BaseInitData _iter4 : struct.bases)
+          {
+            _iter4.write(oprot);
+          }
+        }
       }
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, BaseData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, InitData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
-        struct.base_id = iprot.readI32();
-        struct.setBase_idIsSet(true);
+        {
+          org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.bases = new ArrayList<BaseInitData>(_list5.size);
+          for (int _i6 = 0; _i6 < _list5.size; ++_i6)
+          {
+            BaseInitData _elem7;
+            _elem7 = new BaseInitData();
+            _elem7.read(iprot);
+            struct.bases.add(_elem7);
+          }
+        }
+        struct.setBasesIsSet(true);
       }
     }
   }

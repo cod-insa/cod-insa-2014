@@ -523,14 +523,14 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
           case 2: // PLANES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                struct.planes = new ArrayList<PlaneData>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
+                struct.planes = new ArrayList<PlaneData>(_list8.size);
+                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
                 {
-                  PlaneData _elem2;
-                  _elem2 = new PlaneData();
-                  _elem2.read(iprot);
-                  struct.planes.add(_elem2);
+                  PlaneData _elem10;
+                  _elem10 = new PlaneData();
+                  _elem10.read(iprot);
+                  struct.planes.add(_elem10);
                 }
                 iprot.readListEnd();
               }
@@ -542,14 +542,14 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
           case 3: // BASES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list3 = iprot.readListBegin();
-                struct.bases = new ArrayList<BaseData>(_list3.size);
-                for (int _i4 = 0; _i4 < _list3.size; ++_i4)
+                org.apache.thrift.protocol.TList _list11 = iprot.readListBegin();
+                struct.bases = new ArrayList<BaseData>(_list11.size);
+                for (int _i12 = 0; _i12 < _list11.size; ++_i12)
                 {
-                  BaseData _elem5;
-                  _elem5 = new BaseData();
-                  _elem5.read(iprot);
-                  struct.bases.add(_elem5);
+                  BaseData _elem13;
+                  _elem13 = new BaseData();
+                  _elem13.read(iprot);
+                  struct.bases.add(_elem13);
                 }
                 iprot.readListEnd();
               }
@@ -580,9 +580,9 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(PLANES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.planes.size()));
-          for (PlaneData _iter6 : struct.planes)
+          for (PlaneData _iter14 : struct.planes)
           {
-            _iter6.write(oprot);
+            _iter14.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -592,9 +592,9 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(BASES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.bases.size()));
-          for (BaseData _iter7 : struct.bases)
+          for (BaseData _iter15 : struct.bases)
           {
-            _iter7.write(oprot);
+            _iter15.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -634,18 +634,18 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       if (struct.isSetPlanes()) {
         {
           oprot.writeI32(struct.planes.size());
-          for (PlaneData _iter8 : struct.planes)
+          for (PlaneData _iter16 : struct.planes)
           {
-            _iter8.write(oprot);
+            _iter16.write(oprot);
           }
         }
       }
       if (struct.isSetBases()) {
         {
           oprot.writeI32(struct.bases.size());
-          for (BaseData _iter9 : struct.bases)
+          for (BaseData _iter17 : struct.bases)
           {
-            _iter9.write(oprot);
+            _iter17.write(oprot);
           }
         }
       }
@@ -661,28 +661,28 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       }
       if (incoming.get(1)) {
         {
-          org.apache.thrift.protocol.TList _list10 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.planes = new ArrayList<PlaneData>(_list10.size);
-          for (int _i11 = 0; _i11 < _list10.size; ++_i11)
+          org.apache.thrift.protocol.TList _list18 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.planes = new ArrayList<PlaneData>(_list18.size);
+          for (int _i19 = 0; _i19 < _list18.size; ++_i19)
           {
-            PlaneData _elem12;
-            _elem12 = new PlaneData();
-            _elem12.read(iprot);
-            struct.planes.add(_elem12);
+            PlaneData _elem20;
+            _elem20 = new PlaneData();
+            _elem20.read(iprot);
+            struct.planes.add(_elem20);
           }
         }
         struct.setPlanesIsSet(true);
       }
       if (incoming.get(2)) {
         {
-          org.apache.thrift.protocol.TList _list13 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.bases = new ArrayList<BaseData>(_list13.size);
-          for (int _i14 = 0; _i14 < _list13.size; ++_i14)
+          org.apache.thrift.protocol.TList _list21 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.bases = new ArrayList<BaseData>(_list21.size);
+          for (int _i22 = 0; _i22 < _list21.size; ++_i22)
           {
-            BaseData _elem15;
-            _elem15 = new BaseData();
-            _elem15.read(iprot);
-            struct.bases.add(_elem15);
+            BaseData _elem23;
+            _elem23 = new BaseData();
+            _elem23.read(iprot);
+            struct.bases.add(_elem23);
           }
         }
         struct.setBasesIsSet(true);

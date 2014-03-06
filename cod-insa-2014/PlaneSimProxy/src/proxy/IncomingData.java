@@ -2,6 +2,7 @@ package proxy;
 
 import genbridge.Bridge;
 import genbridge.Data;
+import genbridge.InitData;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -47,14 +48,18 @@ public class IncomingData {
 		System.out.println("Trying to connect to the server...");
 		try {
 			id = client.connect("Banane2");
-			
+			System.out.println("Connected with id :" + id);
 			if (id < 0)
 			{
-				System.err.println("Error while connecting to the server: id sent by the server is not valid ("+id+").");
+				System.err.println("Error while connecting to the server: invalid id.");
 				System.exit(1);
 			}
 			
-			System.out.println("Connected with id :" + id);
+			System.out.println("Retrieving ");
+			InitData d = client.retrieveInitData(id);
+			
+			proxy.setInitData(d);
+			
 		} catch (TException e) {
 			System.err.println("Error while connecting to the server");
 			e.printStackTrace();
