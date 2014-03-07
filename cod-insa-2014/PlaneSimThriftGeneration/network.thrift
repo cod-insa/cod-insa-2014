@@ -22,15 +22,17 @@ struct CoordData {
 enum PlaneStateData {
 	IDLE = 1,
 	MOVING = 2,
-	ATTACKING = 3,
-	AT_AIRPORT = 4
+	FOLLOWING = 3,
+	ATTACKING = 4,
+	AT_AIRPORT = 5,
+	DEAD = 6
 }
 
 struct PlaneData {
 	1: int plane_id,
 	2: CoordData posit,
 	3: int ai_id,
-	4: int energy,
+	4: double health,
 	5: int gaz,
 	6: PlaneStateData state
 }

@@ -16,7 +16,7 @@ import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import network.DataUpdater;
+import network.DataPreparer;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
@@ -146,14 +146,14 @@ public class NetworkPlayer extends Player {
 			Nullable<Snapshot> s = waitForNextSnapshot();
 			if (s.none()) {
 				assert disconnected;
-				return DataUpdater.prepareEndofGame();
+				return DataPreparer.prepareEndofGame();
 			}
-			return DataUpdater.prepareData(s.get());
+			return DataPreparer.prepareData(s.get());
 		}
 
 		@Override
 		public InitData retrieveInitData(int idConnection) throws TException {
-			return DataUpdater.prepareInitData(waitForNextSnapshot());
+			return DataPreparer.prepareInitData(waitForNextSnapshot());
 		}
 		
 	}

@@ -1,6 +1,7 @@
 package proxy;
 import genbridge.Data;
 import genbridge.InitData;
+import genbridge.PlaneStateData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +10,6 @@ import java.util.Map;
 import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
-
 import command.Command;
 
 
@@ -96,12 +96,14 @@ public class Proxy
 				
 				plane.position.x = p.posit.x;
 				plane.position.y = p.posit.y;
+				plane.health = p.health;
+				plane.state = StateConverter.make(p.state);
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
-				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, p.state);
+				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
 				ai_planes.put(plane.id, plane);
 			}
 		}
@@ -145,7 +147,34 @@ public class Proxy
 		cm.sendCommand(c);
 	}
 
-	
+	public static class StateConverter {
+		public static PlaneModel.State make(PlaneStateData sd)
+		{
+			PlaneModel.State s = null;
+			switch (sd)
+			{
+			case AT_AIRPORT:
+				s = PlaneModel.State.AT_AIRPORT;
+				break;
+			case ATTACKING:
+				s = PlaneModel.State.ATTACKING;
+				break;
+			case IDLE:
+				s = PlaneModel.State.IDLE;
+				break;
+			case MOVING:
+				s = PlaneModel.State.MOVING;
+				break;
+			case DEAD:
+				s = PlaneModel.State.DEAD;
+				break;
+			case FOLLOWING:
+				s = PlaneModel.State.FOLLOWING;
+				break;
+			}
+			return s;
+		}
+	}
 }
 
 

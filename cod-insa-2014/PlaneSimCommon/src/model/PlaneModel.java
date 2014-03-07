@@ -24,7 +24,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 		MOVING,
 		FOLLOWING,
 		ATTACKING,
-		IN_BASE,
+		AT_AIRPORT,
 		DEAD // FIXME use it
 	}
 	
