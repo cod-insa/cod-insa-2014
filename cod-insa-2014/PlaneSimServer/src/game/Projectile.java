@@ -35,7 +35,9 @@ public class Projectile extends Entity<MovingEntityModel> {
 
 	@Override
 	public final void updateSpecialized (double period) {
-		distToCover -= model.position().distanceTo(lastPosition);
+		distToCover -= model.position().distanceTo(lastPosition); // FIXME useless calculations...
+//		distToCover -= SPEED; // FIXME WorldWrap hack
+		
 		if (distToCover < 0) {
 			die();
 			return;

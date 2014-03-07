@@ -118,15 +118,22 @@ public abstract class Entity<Model extends model.EntityModel> {
 			
 			if (World.WORLD_WRAP)
 			{
-				if (model.position.x < 0)
+				if (model.position.x < 0) {
 					model.position.x += World.WIDTH;
-				else if (model.position.x > World.WIDTH)
+					_lastPosition.x += World.WIDTH;
+				}
+				else if (model.position.x > World.WIDTH) {
 					model.position.x -= World.WIDTH;
-				
-				if (model.position.y < 0)
+					_lastPosition.x -= World.WIDTH;
+				}
+				if (model.position.y < 0) {
 					model.position.y += World.HEIGHT;
-				else if (model.position.y > World.HEIGHT)
+					_lastPosition.y += World.WIDTH;
+				}
+				else if (model.position.y > World.HEIGHT) {
 					model.position.y -= World.HEIGHT;
+					_lastPosition.y -= World.WIDTH;
+				}
 			}
 			
 		}

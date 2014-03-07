@@ -108,8 +108,9 @@ public class Sim {
 					if (current_frame%world_snapshot_frame_period == 0) {
 						int N = 1;
 						for (int i = 0; i < N; i++) {
-							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble(), Util.rand.nextDouble()), 3);
-							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble(), Util.rand.nextDouble()), 4);
+							double w = World.WIDTH, h = World.HEIGHT;
+							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3);
+							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4);
 						}
 					}
 					

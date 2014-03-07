@@ -58,6 +58,8 @@ public class SimDisplayPanel extends JPanel {
         //s.setDisplayer(disp);
         this.disp = disp;
         
+        vtrans.zoomIn(1./2);
+        
         final SimDisplayPanel that = this;
         
     	sim = s;
