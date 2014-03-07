@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 
 import common.Immutable;
+import common.Unique;
 import common.Viewable;
 
 public class BaseModel extends EntityModel implements Serializable, Viewable<BaseModel.View> {
@@ -15,7 +16,7 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 	
 	public class View extends EntityModel.View {
 		public Immutable<Coord.View> getPosition() {
-			return position;
+			return BaseModel.this.position;
 		}
 	}
 	
@@ -23,7 +24,7 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 		return new View();
 	}
 	
-	public BaseModel (int id, Coord.Unique pos) {
+	public BaseModel (int id, Unique<Coord> pos) {
 		//super(new View(),id,pos);
 		//super(id, pos);
 		super(id);

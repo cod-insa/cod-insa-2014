@@ -6,7 +6,7 @@ import model.PlaneModel.State;
 
 public final class AutoPilot {
 	
-	static final double MAX_ROT_SPEED = Math.PI*.03;
+//	static final double MAX_ROT_SPEED = Math.PI*.03;
 	
 	Plane plane;
 	
@@ -51,7 +51,7 @@ public final class AutoPilot {
 		if (aimAngle > Math.PI)
 			aimAngle -= Math.PI*2;
 		
-		double mrs = MAX_ROT_SPEED*period;
+		double mrs = Plane.MAX_ROT_SPEED*period;
 		//double mrs = MAX_ROT_SPEED*period*(.7+rand.nextDouble()*.3);
 		
 		double delta = aimAngle > mrs? mrs: aimAngle;

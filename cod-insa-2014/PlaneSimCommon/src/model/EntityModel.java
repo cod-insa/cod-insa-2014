@@ -18,7 +18,10 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 	public int ownerId;
 	
 	public class View implements Viewable.View {
-		public Coord.View position() { return EntityModel.this.position(); }
+//		public Coord.View position() { return EntityModel.this.position(); }
+		public final Coord.View position = EntityModel.this.position();
+		public Coord.View position() { return position; }
+		
 		public int id() { return id; }
 		public double rotation() { return rotation; }
 		public boolean exists() { return exists; }

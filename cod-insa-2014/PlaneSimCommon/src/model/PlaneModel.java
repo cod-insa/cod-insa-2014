@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+import common.Unique;
 import common.Viewable;
 
 public class PlaneModel extends MovingEntityModel implements Serializable, Viewable<PlaneModel.View> {
@@ -34,7 +35,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 //	public final View view = new View();
 	
 	
-	public PlaneModel (int id, Coord.Unique pos, double health, State state) {
+	public PlaneModel (int id, Unique<Coord> pos, double health, State state) {
 		//super(id,pos);
 		super(id, pos);
 		this.health = health;

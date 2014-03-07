@@ -223,7 +223,7 @@ public class Util {
 	}
 	public static <T, U>
 	ListView<U>
-		transform (List<T> src, Converter<T,U> eltTransformer)
+		transformView (List<T> src, Converter<T,U> eltTransformer)
 	{
 		return new ListView.Transform<U>(src, eltTransformer);
 	}

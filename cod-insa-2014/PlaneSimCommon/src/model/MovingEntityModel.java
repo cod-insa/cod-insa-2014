@@ -1,5 +1,7 @@
 package model;
 
+import common.Unique;
+
 
 public abstract class MovingEntityModel extends EntityModel {
 	
@@ -13,7 +15,7 @@ public abstract class MovingEntityModel extends EntityModel {
 		public double speed() { return speed; }
 	}
 	
-	public MovingEntityModel(int id, Coord.Unique pos) {
+	public MovingEntityModel(int id, Unique<Coord> pos) {
 		super(id);
 		position = pos.take();
 	}

@@ -11,8 +11,9 @@ import common.ListView;
 import common.Unique;
 import common.Util;
 import common.Util.Converter;
+import common.Viewable;
 
-public class World {
+public class World implements Viewable<World.View> {
 	
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
@@ -46,7 +47,17 @@ public class World {
     	/*************************************/
 		
 	}
-
+	
+	class View implements Viewable.ViewOf<World> {
+		
+		public final ListView<BaseModel.View> bases = Util.transformView (World.this.bases, new Converter<Base, BaseModel.View>() {
+			public BaseModel.View convert(Base src) { return src.model.view(); }
+		});
+		
+	}
+	public final View view = new View();
+	public View view() { return view; }
+	
 	public static class Snapshot {
 		
 		public final int id;
@@ -62,7 +73,7 @@ public class World {
 			
 			// We start by making a list view of all our bases' models (each game.Base has a model.BaseModel attribute named "model")
 			
-			ListView<BaseModel> vbases = Util.transform (w.bases, new Converter<Base, BaseModel>() {
+			ListView<BaseModel> vbases = Util.transformView (w.bases, new Converter<Base, BaseModel>() {
 				public BaseModel convert(Base src) { return src.model; }
 			});
 			
