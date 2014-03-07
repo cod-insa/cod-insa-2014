@@ -15,6 +15,12 @@ import common.Viewable;
 
 public class World implements Viewable<World.View> {
 	
+	private static double S = 3;
+	
+	public static final boolean WORLD_WRAP = true;
+	public static final double WIDTH = S, HEIGHT = S;
+	
+	
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
 	

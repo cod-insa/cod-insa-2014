@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -53,6 +54,7 @@ public class MainWindow {
 //	}
 //	final Exiter exiter;
 	final Event onExit;
+	private JLabel bottom_label = new JLabel("LOOL!!");
 	
     /**
      * Create the application.
@@ -199,7 +201,14 @@ public class MainWindow {
         panel_top_btns.add(btnBaz);
         panel_top_btns.add(btnExit);
         
+        
+        
 
+        JPanel panel_bottom = new JPanel(); // FIXME rm?
+        panel_bottom.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        panel_bottom.add(bottom_label);
+        
+        
         GroupLayout gl_panel_1 = new GroupLayout(main_panel);
         gl_panel_1.setHorizontalGroup(
             gl_panel_1.createParallelGroup(Alignment.LEADING)

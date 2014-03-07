@@ -1,5 +1,6 @@
 package control;
 
+import game.AutoPilot.Mode;
 import game.Plane;
 import game.Sim;
 
@@ -49,7 +50,7 @@ public class Controller {
 			Plane p = s.getPlane(mc.planeId);
 			if (p == null)
 				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
-			else p.autoPilot.goTo(mc.destination);
+			else p.autoPilot.goTo(mc.destination, Mode.ATTACK_ON_SIGHT); // FIXME get the right mode
 		} else {
 			throw new Error("Unrecognized command!");
 		}

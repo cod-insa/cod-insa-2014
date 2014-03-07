@@ -145,6 +145,10 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		x += shift;
 		y += shift;
 	}
+	public void shift (double dx, double dy) {
+		x += dx;
+		y += dy;
+	}
 	
 	public void mult (double q) {
 		x *= q;
@@ -182,11 +186,20 @@ class InternalView {
 	public Coord addedTo (View cv)
 	{ Coord r = new Coord(model); r.add(cv); return r; }
 	
+	public final Coord addedTo (View cv, double coeff)
+	{ Coord r = new Coord(model); r.shift(cv.x()*coeff, cv.y()*coeff); return r; }
+	
 	public Coord shifted (double shift)
 	{ Coord r = new Coord(model); r.shift(shift); return r; }
 
 	public Coord rotated (View center, double angle)
 	{ Coord r = new Coord(model); r.rotate(center, angle); return r; }
+
+	public double distanceTo (View cv)
+	{ return Math.sqrt((cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y)); }
+	
+	public double squareDistanceTo (View cv)
+	{ return (cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y); }
 	
 	//@Override
 	public Coord copied() { return model.copy(); }

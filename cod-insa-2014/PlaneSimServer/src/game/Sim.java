@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -8,6 +9,7 @@ import java.util.TimerTask;
 import model.Coord;
 
 import common.Accessors.RAccess;
+import common.Util;
 
 import control.Controller;
 import display.Displayer;
@@ -28,6 +30,9 @@ public class Sim {
 	//final Timer updateTimer = new Timer();
 	//final Timer updateTimer = null;
 	Timer updateTimer = null;
+	
+	int fps = 0;
+	long lastTime = -1;
 	
 	//public final Access<List<Entity>> entities = new BasicAccess(w.entities);
 	public final RAccess<List<Entity<?>>> entities = new RAccess<List<Entity<?>>> () {
@@ -86,13 +91,28 @@ public class Sim {
 			updateTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
+					
+					long time = System.currentTimeMillis();
+					//System.out.println(1f/(float)(time-lastTime));
+					fps = (int) (1000f/(float)(time-lastTime));
+					lastTime = time;
+					
 					//System.out.println("A");
 					update();
 					Controller.get().update(Sim.this);
 					
 					if (current_frame%world_snapshot_frame_period == 0)
 						world.takeSnapshot();
-						
+					
+					
+					if (current_frame%world_snapshot_frame_period == 0) {
+						int N = 1;
+						for (int i = 0; i < N; i++) {
+							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble(), Util.rand.nextDouble()), 3);
+							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble(), Util.rand.nextDouble()), 4);
+						}
+					}
+					
 					current_frame++;
 					//throw new Error();
 					//System.out.println("B");
@@ -116,10 +136,20 @@ public class Sim {
 		//System.gc();
 	}
 	
+	private List<Entity<?>> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
+	
 	void addEntity (Entity<?> e) {
-		world.entities.add(e);
+//		world.entities.add(e);
+		addedEntities.add(e);
 		//if (disp != null)
 		disp.addEntity(e);
+	}
+
+	void removeEntity (Entity<?> e) {
+//		world.entities.remove(e);
+		removedEntities.add(e);
+		//if (disp != null)
+		disp.removeEntity(e);
 	}
 	
 	/*
@@ -137,9 +167,16 @@ public class Sim {
 	}
 	
 	
-	void update() {
-		world.update();
+	void update()
+	{
+		disp.flushEntities();
 		
+		world.entities.addAll(addedEntities);
+		addedEntities.clear();
+		world.entities.removeAll(removedEntities);
+		removedEntities.clear();
+		
+		world.update();
 	}
 	
 	public Plane getPlane(int planeId) {
@@ -164,10 +201,25 @@ public class Sim {
 	public World getW() {
 		return world;
 	}
+
+	public String getInfoString() {
+		return "Entities: "+world.entities.size()+" | FPS: "+fps;
+	}
 	
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

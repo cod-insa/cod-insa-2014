@@ -2,9 +2,6 @@ package game;
 
 import model.Coord;
 import model.MovingEntityModel;
-
-import common.Unique;
-
 import display.EntityDisplay;
 
 
@@ -30,8 +27,14 @@ public abstract class Entity<Model extends model.EntityModel> {
 	// FIXME: in fact, maybe it'd be better to write it as a getter (even though we loose some invariants)
 	public Model.View model() { return model.view(); }
 	// Then "model" refers to the entity, and model() to its view.
+	private final Coord _lastPosition; // = new Coord(0,0);
+	public final Coord.View lastPosition; // = _lastPosition.view();
 	
 	public final Altitude altitude;
+	
+	protected final Sim sim;
+	
+	protected double radius = 0;
 	
 	/*
 	final Coord _pos;// = new Coord(0,0);
@@ -57,7 +60,8 @@ public abstract class Entity<Model extends model.EntityModel> {
 	
 	//public Entity(Coord.View pos) {
 	//public Entity(Sim sim, EntityView<?> view, Coord pos) {
-	public Entity(Model model, Sim sim, Unique<Coord> pos, Altitude alt) {
+	//public Entity(Model model, Sim sim, Unique<Coord> pos, Altitude alt) {
+	public Entity(Model model, Sim sim, Altitude alt) {
 		//_pos.set(pos);
 		///System.out.println(T.unit);
 		//_pos = pos;
@@ -66,6 +70,10 @@ public abstract class Entity<Model extends model.EntityModel> {
 		//model = new model.Entity(pos);
 		this.model = model;
 		modelView = model.view();
+		this.sim = sim;
+		
+		_lastPosition = model.position().copied();
+		lastPosition = _lastPosition.view();
 		
 		this.altitude = alt;
 		sim.addEntity(this);
@@ -83,14 +91,44 @@ public abstract class Entity<Model extends model.EntityModel> {
 		return model.id;
 	}
 	
+	public final void die() {
+		sim.removeEntity(this);
+	}
+	
+	public final double radius() {
+		return radius;
+	}
+	
+	public final boolean isEnemy(Entity<?> e) {
+		return model.ownerId != e.model.ownerId;
+	}
+	
 	public final void update(double period) {
 //		model.position.x += Math.cos(model.rotation)*model.speed;
 //		model.position.y += Math.sin(model.rotation)*model.speed;
 		
+		_lastPosition.set(model.position());
+		
 		if (model instanceof MovingEntityModel) {
+			
 			MovingEntityModel model = (MovingEntityModel) this.model;
+			
 			model.position.x += Math.cos(model.rotation)*model.speed;
 			model.position.y += Math.sin(model.rotation)*model.speed;
+			
+			if (World.WORLD_WRAP)
+			{
+				if (model.position.x < 0)
+					model.position.x += World.WIDTH;
+				else if (model.position.x > World.WIDTH)
+					model.position.x -= World.WIDTH;
+				
+				if (model.position.y < 0)
+					model.position.y += World.HEIGHT;
+				else if (model.position.y > World.HEIGHT)
+					model.position.y -= World.HEIGHT;
+			}
+			
 		}
 		
 		updateSpecialized(period);

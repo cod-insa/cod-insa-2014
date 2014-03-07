@@ -2,7 +2,6 @@ package display;
 
 import game.Plane;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class PlaneDisplay extends EntityDisplay<Plane> {
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
 		
-		g2d.setColor(Color.blue);
+		g2d.setColor(getPlayerColor());
 		
 		g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
 		

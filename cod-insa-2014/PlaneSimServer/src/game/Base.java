@@ -10,9 +10,12 @@ import display.EntityDisplay;
 
 public class Base extends Entity<model.BaseModel> {
 	
+	public static final double RADIUS = .05;
+	
 	public Base(Sim sim, Unique<Coord> pos) {
 		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
-		super(new model.BaseModel(makeNextId(), pos), sim, pos, Altitude.GROUND);
+		super(new model.BaseModel(makeNextId(), pos), sim, Altitude.GROUND);
+		radius = RADIUS;
 	}
 	
 	@Override

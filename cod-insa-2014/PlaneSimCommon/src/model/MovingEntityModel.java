@@ -3,8 +3,7 @@ package model;
 import common.Unique;
 
 
-public abstract class MovingEntityModel extends EntityModel {
-	
+public class MovingEntityModel extends EntityModel {
 	
 	public final Coord position;
 	
@@ -31,5 +30,12 @@ public abstract class MovingEntityModel extends EntityModel {
 	public model.Coord.View position() {
 		return position.view();
 	}
+
+	@Override
+	public Object copy() {
+		return new MovingEntityModel(new View());
+	}
 	
 }
+
+
