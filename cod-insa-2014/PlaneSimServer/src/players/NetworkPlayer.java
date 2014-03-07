@@ -4,6 +4,7 @@ import game.World;
 import game.World.Snapshot;
 import genbridge.Bridge;
 import genbridge.CommandReceiver;
+import genbridge.ConnectionData;
 import genbridge.Data;
 import genbridge.InitData;
 import genbridge.LandCommandData;
@@ -30,7 +31,6 @@ import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
 import common.Nullable;
-
 import control.CommandMaker;
 
 /**
@@ -86,7 +86,7 @@ public class NetworkPlayer extends Player {
 	class DataHandler implements Bridge.Iface {
 		
 		@Override
-		public int connect(String nickname) throws TException {
+		public ConnectionData connect(String nickname) throws TException {
 			
 //			if (connected)
 //				System.err.println("");
@@ -99,7 +99,7 @@ public class NetworkPlayer extends Player {
 			
 			manager.notifyConnect(NetworkPlayer.this);
 			
-			return connectionId;
+			return new ConnectionData(connectionId,id);
 		}
 		
 		

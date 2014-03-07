@@ -16,14 +16,15 @@ import command.Command;
 public class Proxy 
 {
 	// Incoming and Outcoming data manager.
-	private IncomingData idm; 
-	private CommandSender cm; 
+	private IncomingData idm;
+	private CommandSender cm;
 	
 	// Datas
 	private Map<Integer,BaseModel> bases;
 	private Map<Integer,PlaneModel> ai_planes;
 	private Map<Integer,PlaneModel> killed_planes;
 	
+	private int player_id;
 	private int numFrame;
 	
 	public Proxy(String ip, int port)
@@ -32,6 +33,8 @@ public class Proxy
 		ai_planes = new HashMap<Integer,PlaneModel>();
 		killed_planes = new HashMap<Integer,PlaneModel>();
 		bases = new HashMap<Integer,BaseModel>();
+		
+		player_id = idm.getPlayerId();
 		
 		idm.retrieveInitialData();
 		cm = new CommandSender(ip, port+1, idm.getIdConnection(), this);
@@ -87,6 +90,7 @@ public class Proxy
 		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
 		for (genbridge.PlaneData p : d.planes)
 		{
+			
 			if (killed_planes.containsKey(p.plane_id)) // So this plane is still alive finally
 			{
 				PlaneModel plane = killed_planes.remove(p.plane_id);
@@ -97,6 +101,7 @@ public class Proxy
 				plane.position.x = p.posit.x;
 				plane.position.y = p.posit.y;
 				plane.health = p.health;
+				
 				plane.state = StateConverter.make(p.state);
 				// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				// plane.health = p.energy; // Not necessary for now
@@ -162,7 +167,7 @@ public class Proxy
 			case IDLE:
 				s = PlaneModel.State.IDLE;
 				break;
-			case MOVING:
+			case GOING_TO:
 				s = PlaneModel.State.MOVING;
 				break;
 			case DEAD:

@@ -36,7 +36,7 @@ public class Bridge {
 
   public interface Iface {
 
-    public int connect(String nom) throws org.apache.thrift.TException;
+    public ConnectionData connect(String nom) throws org.apache.thrift.TException;
 
     public InitData retrieveInitData(int idConnection) throws org.apache.thrift.TException;
 
@@ -74,7 +74,7 @@ public class Bridge {
       super(iprot, oprot);
     }
 
-    public int connect(String nom) throws org.apache.thrift.TException
+    public ConnectionData connect(String nom) throws org.apache.thrift.TException
     {
       send_connect(nom);
       return recv_connect();
@@ -87,7 +87,7 @@ public class Bridge {
       sendBase("connect", args);
     }
 
-    public int recv_connect() throws org.apache.thrift.TException
+    public ConnectionData recv_connect() throws org.apache.thrift.TException
     {
       connect_result result = new connect_result();
       receiveBase(result, "connect");
@@ -183,7 +183,7 @@ public class Bridge {
         prot.writeMessageEnd();
       }
 
-      public int getResult() throws org.apache.thrift.TException {
+      public ConnectionData getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -292,7 +292,6 @@ public class Bridge {
       public connect_result getResult(I iface, connect_args args) throws org.apache.thrift.TException {
         connect_result result = new connect_result();
         result.success = iface.connect(args.nom);
-        result.setSuccessIsSet(true);
         return result;
       }
     }
@@ -356,7 +355,7 @@ public class Bridge {
       return processMap;
     }
 
-    public static class connect<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, connect_args, Integer> {
+    public static class connect<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, connect_args, ConnectionData> {
       public connect() {
         super("connect");
       }
@@ -365,13 +364,12 @@ public class Bridge {
         return new connect_args();
       }
 
-      public AsyncMethodCallback<Integer> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
+      public AsyncMethodCallback<ConnectionData> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new AsyncMethodCallback<Integer>() { 
-          public void onComplete(Integer o) {
+        return new AsyncMethodCallback<ConnectionData>() { 
+          public void onComplete(ConnectionData o) {
             connect_result result = new connect_result();
             result.success = o;
-            result.setSuccessIsSet(true);
             try {
               fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
               return;
@@ -403,7 +401,7 @@ public class Bridge {
         return false;
       }
 
-      public void start(I iface, connect_args args, org.apache.thrift.async.AsyncMethodCallback<Integer> resultHandler) throws TException {
+      public void start(I iface, connect_args args, org.apache.thrift.async.AsyncMethodCallback<ConnectionData> resultHandler) throws TException {
         iface.connect(args.nom,resultHandler);
       }
     }
@@ -869,7 +867,7 @@ public class Bridge {
   public static class connect_result implements org.apache.thrift.TBase<connect_result, connect_result._Fields>, java.io.Serializable, Cloneable, Comparable<connect_result>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("connect_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I32, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -877,7 +875,7 @@ public class Bridge {
       schemes.put(TupleScheme.class, new connect_resultTupleSchemeFactory());
     }
 
-    public int success; // required
+    public ConnectionData success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -938,13 +936,11 @@ public class Bridge {
     }
 
     // isset id assignments
-    private static final int __SUCCESS_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ConnectionData.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(connect_result.class, metaDataMap);
     }
@@ -953,19 +949,19 @@ public class Bridge {
     }
 
     public connect_result(
-      int success)
+      ConnectionData success)
     {
       this();
       this.success = success;
-      setSuccessIsSet(true);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public connect_result(connect_result other) {
-      __isset_bitfield = other.__isset_bitfield;
-      this.success = other.success;
+      if (other.isSetSuccess()) {
+        this.success = new ConnectionData(other.success);
+      }
     }
 
     public connect_result deepCopy() {
@@ -974,31 +970,31 @@ public class Bridge {
 
     @Override
     public void clear() {
-      setSuccessIsSet(false);
-      this.success = 0;
+      this.success = null;
     }
 
-    public int getSuccess() {
+    public ConnectionData getSuccess() {
       return this.success;
     }
 
-    public connect_result setSuccess(int success) {
+    public connect_result setSuccess(ConnectionData success) {
       this.success = success;
-      setSuccessIsSet(true);
       return this;
     }
 
     public void unsetSuccess() {
-      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+      this.success = null;
     }
 
     /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
-      return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+      return this.success != null;
     }
 
     public void setSuccessIsSet(boolean value) {
-      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+      if (!value) {
+        this.success = null;
+      }
     }
 
     public void setFieldValue(_Fields field, Object value) {
@@ -1007,7 +1003,7 @@ public class Bridge {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((Integer)value);
+          setSuccess((ConnectionData)value);
         }
         break;
 
@@ -1017,7 +1013,7 @@ public class Bridge {
     public Object getFieldValue(_Fields field) {
       switch (field) {
       case SUCCESS:
-        return Integer.valueOf(getSuccess());
+        return getSuccess();
 
       }
       throw new IllegalStateException();
@@ -1049,12 +1045,12 @@ public class Bridge {
       if (that == null)
         return false;
 
-      boolean this_present_success = true;
-      boolean that_present_success = true;
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
       if (this_present_success || that_present_success) {
         if (!(this_present_success && that_present_success))
           return false;
-        if (this.success != that.success)
+        if (!this.success.equals(that.success))
           return false;
       }
 
@@ -1105,7 +1101,11 @@ public class Bridge {
       boolean first = true;
 
       sb.append("success:");
-      sb.append(this.success);
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
       first = false;
       sb.append(")");
       return sb.toString();
@@ -1114,6 +1114,9 @@ public class Bridge {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -1126,8 +1129,6 @@ public class Bridge {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -1153,8 +1154,9 @@ public class Bridge {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.success = iprot.readI32();
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new ConnectionData();
+                struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -1175,9 +1177,9 @@ public class Bridge {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.isSetSuccess()) {
+        if (struct.success != null) {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeI32(struct.success);
+          struct.success.write(oprot);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -1203,7 +1205,7 @@ public class Bridge {
         }
         oprot.writeBitSet(optionals, 1);
         if (struct.isSetSuccess()) {
-          oprot.writeI32(struct.success);
+          struct.success.write(oprot);
         }
       }
 
@@ -1212,7 +1214,8 @@ public class Bridge {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = iprot.readI32();
+          struct.success = new ConnectionData();
+          struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
       }

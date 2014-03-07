@@ -1,6 +1,7 @@
 package proxy;
 
 import genbridge.Bridge;
+import genbridge.ConnectionData;
 import genbridge.Data;
 import genbridge.InitData;
 
@@ -13,7 +14,10 @@ import org.apache.thrift.transport.TTransport;
 public class IncomingData {
 
 	private Proxy proxy;
-	private int id;
+	private int connection_id;
+	private int player_id;
+
+
 	private Bridge.Client client;
 	
 	public IncomingData(String ip, int port, Proxy p)
@@ -40,23 +44,28 @@ public class IncomingData {
 	
 	
 	public int getIdConnection() {
-		return id;
+		return connection_id;
+	}
+	public int getPlayerId() {
+		return player_id;
 	}
 	
 	public void retrieveInitialData()
 	{
 		System.out.println("Trying to connect to the server...");
 		try {
-			id = client.connect("Banane2");
-			System.out.println("Connected with id: " + id);
-			if (id < 0)
+			ConnectionData cd = client.connect("Banane2");
+			player_id = cd.player_id;
+			connection_id = cd.con_id;
+			System.out.println("Connected with id: " + connection_id);
+			if (connection_id < 0)
 			{
 				System.err.println("Error while connecting to the server: invalid id.");
 				System.exit(1);
 			}
 			
 			System.out.println("Retrieving ");
-			InitData d = client.retrieveInitData(id);
+			InitData d = client.retrieveInitData(connection_id);
 			
 			proxy.setInitData(d);
 			
@@ -71,7 +80,7 @@ public class IncomingData {
 	{
 		//System.out.println("Trying to update data...");
 		try {
-			Data d = client.retrieveData(id); // Will be blocked during call
+			Data d = client.retrieveData(connection_id); // Will be blocked during call
 			if (d.numFrame < 0)
 			{
 				if (d.numFrame == -1)
