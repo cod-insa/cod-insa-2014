@@ -5,10 +5,10 @@ import proxy.Proxy;
 
 public abstract class AbstractAI{
 
-	protected Proxy server;
+	protected Proxy game;
 	
 	public AbstractAI(String ip, int port) {
-		server = new Proxy(ip, port, this);
+		game = new Proxy(ip, port, this);
 	}
 	
 	/**
