@@ -5,7 +5,7 @@ import proxy.Proxy;
 
 public abstract class AbstractAI{
 
-	protected Proxy serveur;
+	protected Proxy server;
 	
 	public AbstractAI(String ip, int port) {
 		serveur = new Proxy(ip, port, this);
