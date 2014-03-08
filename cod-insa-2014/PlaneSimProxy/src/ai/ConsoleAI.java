@@ -21,8 +21,8 @@ public class ConsoleAI extends AbstractAI
 		Scanner in = new Scanner(System.in);
 		
 		while (true) {
-			server.updateSimFrame();
-			ArrayList<BaseModel.View> bases = server.getBases();
+			game.updateSimFrame();
+			ArrayList<BaseModel.View> bases = game.getBases();
 			int i;
 
 			System.out.print("Next base: ");
@@ -35,13 +35,13 @@ public class ConsoleAI extends AbstractAI
 			
 			BaseModel.View b = bases.get(i);
 			
-			for (PlaneModel.View p : server.getMyPlanes())
+			for (PlaneModel.View p : game.getMyPlanes())
 			{
 				MoveCommand mc = new MoveCommand(p.id(), b.position());
 				
 				System.out.println("Sending command "+mc);
 				
-				server.sendCommand(mc);
+				game.sendCommand(mc);
 			}
 			
 		}
