@@ -22,10 +22,10 @@ public class MoveAI extends AbstractAI
 		//r.setSeed(System.currentTimeMillis()); // not needed?
 		
 		while (true) {
-			serveur.updateSimFrame();
-			ArrayList<BaseModel.View> bases = serveur.getBases();
+			server.updateSimFrame();
+			ArrayList<BaseModel.View> bases = server.getBases();
 			
-			for (PlaneModel.View p : serveur.getMyPlanes())
+			for (PlaneModel.View p : server.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {
@@ -43,7 +43,7 @@ public class MoveAI extends AbstractAI
 					
 					System.out.println("Sending command "+mc);
 					
-					serveur.sendCommand(mc);
+					server.sendCommand(mc);
 				}
 			}
 			try {

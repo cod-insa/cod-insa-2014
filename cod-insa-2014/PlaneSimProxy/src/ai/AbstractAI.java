@@ -8,7 +8,7 @@ public abstract class AbstractAI{
 	protected Proxy server;
 	
 	public AbstractAI(String ip, int port) {
-		serveur = new Proxy(ip, port, this);
+		server = new Proxy(ip, port, this);
 	}
 	
 	/**
