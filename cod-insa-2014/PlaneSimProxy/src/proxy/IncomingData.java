@@ -57,7 +57,8 @@ public class IncomingData {
 			ConnectionData cd = client.connect("Banane2");
 			player_id = cd.player_id;
 			connection_id = cd.con_id;
-			System.out.println("Connected with id: " + connection_id);
+			
+			System.out.println("Connected with id: " + connection_id + ". You are player n°" + player_id);
 			if (connection_id < 0)
 			{
 				System.err.println("Error while connecting to the server: invalid id.");

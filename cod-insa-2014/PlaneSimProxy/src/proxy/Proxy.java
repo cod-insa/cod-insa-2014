@@ -23,6 +23,8 @@ public class Proxy
 	private Map<Integer,BaseModel> bases;
 	private Map<Integer,PlaneModel> ai_planes;
 	private Map<Integer,PlaneModel> killed_planes;
+	private Map<Integer,PlaneModel> ennemy_planes;
+	
 	
 	private int player_id;
 	private int numFrame;
@@ -32,11 +34,12 @@ public class Proxy
 		idm = new IncomingData(ip,port,this);
 		ai_planes = new HashMap<Integer,PlaneModel>();
 		killed_planes = new HashMap<Integer,PlaneModel>();
+		ennemy_planes = new HashMap<Integer,PlaneModel>();
 		bases = new HashMap<Integer,BaseModel>();
-		
+		idm.retrieveInitialData();
+
 		player_id = idm.getPlayerId();
 		
-		idm.retrieveInitialData();
 		cm = new CommandSender(ip, port+1, idm.getIdConnection(), this);
 		cm.start();
 	}
@@ -82,36 +85,64 @@ public class Proxy
 		
 		// Update avions
 		
-		System.out.println("Looking for "+d.planes.size()+" planes and the list : " + d.planes);
+		System.out.println("Looking for "+d.planes.size()+" planes");
 		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
+		Map<Integer,PlaneModel> nextFrameEnnemyUnits = new HashMap<Integer,PlaneModel>();
+		ennemy_planes.clear();
+		
 		
 		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
 		for (genbridge.PlaneData p : d.planes)
 		{
-			
-			if (killed_planes.containsKey(p.plane_id)) // So this plane is still alive finally
+			if (p.ai_id == player_id) // unit belong to the ai
 			{
-				PlaneModel plane = killed_planes.remove(p.plane_id);
-				ai_planes.put(p.plane_id, plane); // We move it from killed plane to ai_planes
-				
-				// Then we update the plane with the information given by the server :
-				
-				plane.position.x = p.posit.x;
-				plane.position.y = p.posit.y;
-				plane.health = p.health;
-				
-				plane.state = StateConverter.make(p.state);
-				// plane._rot = p.rotation; // Ajouter au thrift plus tard
-				// plane.health = p.energy; // Not necessary for now
+				if (killed_planes.containsKey(p.plane_id)) // So this plane is still alive finally
+				{
+					PlaneModel plane = killed_planes.remove(p.plane_id);
+					ai_planes.put(p.plane_id, plane); // We move it from killed plane to ai_planes
+					
+					// Then we update the plane with the information given by the server :
+					
+					plane.position.x = p.posit.x;
+					plane.position.y = p.posit.y;
+					plane.health = p.health;
+					
+					plane.state = StateConverter.make(p.state);
+					// plane._rot = p.rotation; // Ajouter au thrift plus tard
+					// plane.health = p.energy; // Not necessary for now
+				}
+				else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
+				{
+					PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
+					ai_planes.put(plane.id, plane);
+				}
 			}
-			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
+			else // this is an ennemy unit
 			{
-				PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
-				ai_planes.put(plane.id, plane);
+				if (ennemy_planes.containsKey(p.plane_id)) // the unit already exists, we just update it
+				{
+					PlaneModel plane = ennemy_planes.get(p.plane_id);
+					nextFrameEnnemyUnits.put(p.plane_id, plane);
+					
+					plane.position.x = p.posit.x;
+					plane.position.y = p.posit.y;
+					plane.health = p.health;
+					
+					plane.state = StateConverter.make(p.state);
+				}
+				else // unit just appeared
+				{
+					PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
+					ennemy_planes.put(plane.id, plane);
+				}
 			}
 		}
+		// erase the ennemy_planes, now, all the ennemy planes are in the nextFrameEnnemyUnits
+		
+		ennemy_planes = nextFrameEnnemyUnits;
+		
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
 	

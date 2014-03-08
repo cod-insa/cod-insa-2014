@@ -56,7 +56,7 @@ public abstract class DataPreparer {
 			tobeSent.planes.add(
 					new PlaneData(p.id(), 
 					new CoordData(p.position().x(),p.position().y()), 
-					-1, p.health(), -1, DataStateConverter.make(p.state())));
+					p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
 		
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		
