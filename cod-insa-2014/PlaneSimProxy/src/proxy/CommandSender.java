@@ -35,15 +35,17 @@ public class CommandSender extends Thread {
 	private boolean isTimeOut;
 	private int idConnection;
 	private Proxy proxy;
+	private boolean running;
 
 	private Queue<Command> waitingList;
 
 	public CommandSender(String ip, int port, int idC, Proxy p) {
+		proxy = p;
+		running = false;
 		errors = new ArrayList<String>();
 		waitingList = new LinkedList<Command>();
 		isTimeOut = false;
 		idConnection = idC;
-		proxy = p;
 
 		// Initialize client
 		try {
@@ -58,9 +60,9 @@ public class CommandSender extends Thread {
 			client = new CommandReceiver.Client(protocol);
 
 		} catch (Exception e) {
-			System.err.println("Error while initializing data retriever : ");
-			e.printStackTrace();
-			System.exit(-1);
+			System.err.println("Error while connecting to the server. Message: " + e.getMessage());
+	    	System.err.println("Cause : The server is not running, the game may have ended or, the port or the ip may be not good");
+	    	proxy.quit(1);
 		}
 	}
 
@@ -83,8 +85,9 @@ public class CommandSender extends Thread {
 
 	@Override
 	public void run() {
+		running = true;
 		Command currentCmd;
-		while (true) // FIXME ugly
+		while (running)
 		{
 			synchronized (this) {
 				while (waitingList.isEmpty()) {
@@ -103,6 +106,10 @@ public class CommandSender extends Thread {
 				}
 			}
 		}
+		if (client.getInputProtocol().getTransport().isOpen())
+			client.getInputProtocol().getTransport().close();
+		if (client.getOutputProtocol().getTransport().isOpen())
+			client.getOutputProtocol().getTransport().close();
 	}
 
 	public synchronized void sendCommand(Command cmd) {
@@ -141,8 +148,8 @@ public class CommandSender extends Thread {
 			}
 			treatResult(r);
 		} catch (TException e) {
-			System.err.println("Error while sending the command");
-			e.printStackTrace();
+			System.err.println("Unexpected error received while sending a command. Message: " + e.getMessage());
+	    	proxy.quit(1);
 		}
 	}
 
@@ -162,19 +169,23 @@ public class CommandSender extends Thread {
 					+ r.message);
 		}
 	}
-
+	
+	public void terminate() {
+		running = false;
+	}
+	
 	public static class DataMaker {
 
 		static CoordData make(Coord.View c) {
 			return new CoordData(c.x(), c.y());
 		}
 
-		public static LandCommandData make(LandCommand cmd, int numFrame) {
+		static LandCommandData make(LandCommand cmd, int numFrame) {
 			return new LandCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId), cmd.baseId);
 		}
 
-		public static TakeOffCommandData make(TakeOffCommand cmd, int numFrame) {
+		static TakeOffCommandData make(TakeOffCommand cmd, int numFrame) {
 			return new TakeOffCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId));
 		}
@@ -188,6 +199,5 @@ public class CommandSender extends Thread {
 			return new WaitCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId));
 		}
-
 	}
 }
