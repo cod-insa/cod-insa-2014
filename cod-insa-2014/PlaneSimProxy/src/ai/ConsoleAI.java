@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import model.BaseModel;
 import model.PlaneModel;
-import proxy.Proxy;
 
 import command.MoveCommand;
 
@@ -14,7 +13,7 @@ public class ConsoleAI extends AbstractAI
 	
 	public ConsoleAI(String ip, int port)
 	{
-		super(new Proxy(ip,port));
+		super(ip,port);
 	}
 
 	@Override
@@ -22,8 +21,8 @@ public class ConsoleAI extends AbstractAI
 		Scanner in = new Scanner(System.in);
 		
 		while (true) {
-			proxy.updateSimFrame();
-			ArrayList<BaseModel.View> bases = proxy.getBases();
+			serveur.updateSimFrame();
+			ArrayList<BaseModel.View> bases = serveur.getBases();
 			int i;
 
 			System.out.print("Next base: ");
@@ -36,18 +35,23 @@ public class ConsoleAI extends AbstractAI
 			
 			BaseModel.View b = bases.get(i);
 			
-			for (PlaneModel.View p : proxy.getMyPlanes())
+			for (PlaneModel.View p : serveur.getMyPlanes())
 			{
 				MoveCommand mc = new MoveCommand(p.id(), b.position());
 				
 				System.out.println("Sending command "+mc);
 				
-				proxy.sendCommand(mc);
+				serveur.sendCommand(mc);
 			}
 			
 		}
 		
 		System.exit(0);
+	}
+
+	@Override
+	public void end() {
+		
 	}
 	
 	public static void main(String[] args) 
@@ -63,6 +67,7 @@ public class ConsoleAI extends AbstractAI
 		AbstractAI ai = new ConsoleAI(ip,port);
 		ai.think();
 	}
+
 }
 
 
