@@ -41,6 +41,16 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 		position = src.getPosition(); // Immutable state can be shared
 	}
 	
+	public void landPlane(PlaneModel pm)
+	{
+		planes.add(pm);
+	}
+	
+	public void takeOffPlane(PlaneModel pm)
+	{
+		planes.remove(pm);
+	}
+	
 	@Override public Object copy() {
 		return new BaseModel(view());
 	}
