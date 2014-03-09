@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import model.PlaneModel.State;
+
 
 public class PlaneDisplay extends EntityDisplay<Plane> {
 	
@@ -26,10 +28,12 @@ public class PlaneDisplay extends EntityDisplay<Plane> {
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
 		
-		g2d.setColor(getPlayerColor());
-		
-		g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
-		
+		if (entity.getState() != State.AT_AIRPORT)
+		{
+			g2d.setColor(getPlayerColor());
+			
+			g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
+		}
 	}
 	
 }

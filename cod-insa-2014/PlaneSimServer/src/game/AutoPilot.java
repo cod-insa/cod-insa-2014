@@ -45,7 +45,7 @@ public final class AutoPilot {
 	public void goTo(Coord.View aim, Mode m) {
 		entityAim = null;
 		_aim.set(aim);
-		plane.model.state = State.MOVING;
+		plane.model.state = State.GOING_TO;
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
 		mode = m;

@@ -87,7 +87,7 @@ public abstract class DataPreparer {
 			case IDLE:
 				psd = PlaneStateData.IDLE;
 				break;
-			case MOVING:
+			case GOING_TO:
 				psd = PlaneStateData.GOING_TO;
 				break;
 			case DEAD: 

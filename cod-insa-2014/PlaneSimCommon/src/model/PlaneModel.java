@@ -21,7 +21,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	
 	public enum State {
 		IDLE,
-		MOVING,
+		GOING_TO,
 		FOLLOWING,
 		ATTACKING,
 		AT_AIRPORT,

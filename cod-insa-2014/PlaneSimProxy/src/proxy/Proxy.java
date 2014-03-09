@@ -216,7 +216,7 @@ public class Proxy
 				s = PlaneModel.State.IDLE;
 				break;
 			case GOING_TO:
-				s = PlaneModel.State.MOVING;
+				s = PlaneModel.State.GOING_TO;
 				break;
 			case DEAD:
 				s = PlaneModel.State.DEAD;
