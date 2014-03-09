@@ -1,7 +1,7 @@
 package command;
 
 
-public class TakeOffCommand implements Command {
+public class TakeOffCommand extends Command {
 
 	//public final Plane plane;
 	public final int planeId;
@@ -16,6 +16,11 @@ public class TakeOffCommand implements Command {
 	@Override
 	public String toString() {
 		return "Take off: "+planeId;
+	}
+	
+	@Override
+	public void match() throws TakeOffCommand {
+		throw this;
 	}
 	
 }

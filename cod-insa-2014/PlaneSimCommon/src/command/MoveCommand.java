@@ -2,7 +2,7 @@ package command;
 
 import model.Coord;
 
-public class MoveCommand implements Command {
+public class MoveCommand extends Command {
 
 	//public final Plane plane;
 	public final int planeId;
@@ -23,4 +23,11 @@ public class MoveCommand implements Command {
 		return "mv "+planeId+" -> "+destination;
 	}
 	
+	@Override
+	public void match() throws MoveCommand {
+		throw this;
+	}
+	
 }
+
+

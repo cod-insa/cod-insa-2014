@@ -1,7 +1,9 @@
 package command;
 
 
-public interface Command {
+public abstract class Command extends Throwable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static final int
 		SUCCESS = 0,
@@ -11,5 +13,13 @@ public interface Command {
 		ERROR_UNKNOWN = -4
 	;
 	
+	public abstract void match() throws
+		MoveCommand,
+		LandCommand,
+		TakeOffCommand,
+		WaitCommand
+	;
 	
 }
+
+

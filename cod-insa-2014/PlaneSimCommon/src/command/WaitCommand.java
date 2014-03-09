@@ -1,7 +1,7 @@
 package command;
 
 
-public class WaitCommand implements Command {
+public class WaitCommand extends Command {
 
 	//public final Plane plane;
 	public final int planeId;
@@ -11,6 +11,11 @@ public class WaitCommand implements Command {
 	{
 		//plane = p;
 		planeId = pid;
+	}
+
+	@Override
+	public void match() throws WaitCommand {
+		throw this;
 	}
 	
 }

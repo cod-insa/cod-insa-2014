@@ -1,7 +1,7 @@
 package command;
 
 
-public class LandCommand implements Command {
+public class LandCommand extends Command {
 
 	//public final Plane plane;
 	public final int planeId;
@@ -19,6 +19,11 @@ public class LandCommand implements Command {
 	@Override
 	public String toString() {
 		return "land "+planeId+" -> "+baseId;
+	}
+
+	@Override
+	public void match() throws LandCommand {
+		throw this;
 	}
 	
 }
