@@ -5,14 +5,21 @@ import proxy.Proxy;
 
 public abstract class AbstractAI{
 
-	protected Proxy proxy;
+	protected Proxy game;
 	
-	public AbstractAI(Proxy p) {
-		proxy = p;
+	public AbstractAI(String ip, int port) {
+		game = new Proxy(ip, port, this);
 	}
 	
 	/**
-	 * To implement ! This is what the AI will execute
+	 * Must be implemented. This is the starting point of your AI.
 	 */
 	public abstract void think();
+	
+	/**
+	 * Called when the client has finish
+	 * Can occure when an error occure or the game ends
+	 * Use it specifically if you have files to close, else leave it empty
+	 */
+	public void end() {}
 }

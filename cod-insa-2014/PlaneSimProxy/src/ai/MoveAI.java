@@ -5,7 +5,6 @@ import java.util.Random;
 
 import model.BaseModel;
 import model.PlaneModel;
-import proxy.Proxy;
 
 import command.MoveCommand;
 
@@ -14,7 +13,7 @@ public class MoveAI extends AbstractAI
 	
 	public MoveAI(String ip, int port)
 	{
-		super(new Proxy(ip,port));
+		super(ip,port);
 	}
 
 	@Override
@@ -23,10 +22,10 @@ public class MoveAI extends AbstractAI
 		//r.setSeed(System.currentTimeMillis()); // not needed?
 		
 		while (true) {
-			proxy.updateSimFrame();
-			ArrayList<BaseModel.View> bases = proxy.getBases();
+			game.updateSimFrame();
+			ArrayList<BaseModel.View> bases = game.getBases();
 			
-			for (PlaneModel.View p : proxy.getMyPlanes())
+			for (PlaneModel.View p : game.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {
@@ -44,7 +43,7 @@ public class MoveAI extends AbstractAI
 					
 					System.out.println("Sending command "+mc);
 					
-					proxy.sendCommand(mc);
+					game.sendCommand(mc);
 				}
 			}
 			try {

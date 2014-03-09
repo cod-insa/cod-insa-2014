@@ -10,6 +10,8 @@ import java.util.Map;
 import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
+import ai.AbstractAI;
+
 import command.Command;
 
 
@@ -18,6 +20,7 @@ public class Proxy
 	// Incoming and Outcoming data manager.
 	private IncomingData idm;
 	private CommandSender cm;
+	private AbstractAI client_ai;
 	
 	// Datas
 	private Map<Integer,BaseModel> bases;
@@ -29,8 +32,9 @@ public class Proxy
 	private int player_id;
 	private int numFrame;
 	
-	public Proxy(String ip, int port)
+	public Proxy(String ip, int port, AbstractAI ai)
 	{
+		client_ai = ai;
 		idm = new IncomingData(ip,port,this);
 		ai_planes = new HashMap<Integer,PlaneModel>();
 		killed_planes = new HashMap<Integer,PlaneModel>();
@@ -183,6 +187,19 @@ public class Proxy
 		cm.sendCommand(c);
 	}
 
+	public void quit(int errorCode)
+	{
+		if (idm != null)
+			idm.terminate();
+		if (cm != null)
+			cm.terminate();
+		if (client_ai != null) // Safelly exit the client
+			client_ai.end();
+		
+		System.out.println("Gracefully terminated the client");
+		System.exit(errorCode);
+	}
+	
 	public static class StateConverter {
 		public static PlaneModel.State make(PlaneStateData sd)
 		{
@@ -211,6 +228,7 @@ public class Proxy
 			return s;
 		}
 	}
+	
 }
 
 
