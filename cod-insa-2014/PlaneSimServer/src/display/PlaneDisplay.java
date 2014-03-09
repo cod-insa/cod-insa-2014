@@ -2,6 +2,7 @@ package display;
 
 import game.Plane;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import model.PlaneModel.State;
 
 
 public class PlaneDisplay extends EntityDisplay<Plane> {
+	
+	public static final float PLANE_ALPHA_AT_BASE = .3f;
 	
 	PolygonShape shape;
 
@@ -28,12 +31,23 @@ public class PlaneDisplay extends EntityDisplay<Plane> {
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
 		
-		if (entity.getState() != State.AT_AIRPORT)
-		{
-			g2d.setColor(getPlayerColor());
-			
-			g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
-		}
+//		if (entity.getState() != State.AT_AIRPORT)
+//		{
+//			g2d.setColor(getPlayerColor());
+//			
+//			g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
+//		}
+		
+		Color c = getPlayerColor();
+		//System.out.println((float)c.getRed()/255f);
+		if (entity.getState() == State.AT_AIRPORT)
+			c = new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, PLANE_ALPHA_AT_BASE);
+		
+		g2d.setColor(c);
+		
+		g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
+		
+		
 	}
 	
 }
