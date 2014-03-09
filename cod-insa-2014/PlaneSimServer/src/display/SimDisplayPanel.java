@@ -36,7 +36,7 @@ public class SimDisplayPanel extends JPanel {
     
     
     private static final int SCREEN_MOVE_MARGIN = 130;
-    private static final double SCREEN_MOVE_COEFF = .001;
+    private static final double SCREEN_MOVE_COEFF = .001, VIEW_INERTIA_DAMPING = .9;
     
     private static final double GAME_SHIFT_MARGIN = .2;
     
@@ -81,6 +81,7 @@ public class SimDisplayPanel extends JPanel {
     	
     	/*************************************/
     	
+    	final Coord viewInertia = new Coord(0,0);
     	
     	repaint_timer.schedule(new TimerTask() {
             @Override
@@ -106,38 +107,58 @@ public class SimDisplayPanel extends JPanel {
             	if (0 < mouse.x && mouse.x < getWidth() && 0 < mouse.y && mouse.y < getHeight()) {
             		
 	            	if (0 < mouse.x && mouse.x < SCREEN_MOVE_MARGIN) {
-	            		vtrans._shift.x -= (SCREEN_MOVE_MARGIN - mouse.x) * SCREEN_MOVE_COEFF;
+	            		vtrans._shift.x += (viewInertia.x = -(SCREEN_MOVE_MARGIN - mouse.x) * SCREEN_MOVE_COEFF);
 	            	} else if (getWidth()-SCREEN_MOVE_MARGIN < mouse.x && mouse.x < getWidth()) {
-	            		vtrans._shift.x += (mouse.x - getWidth() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF;
+	            		vtrans._shift.x += (viewInertia.x = (mouse.x - getWidth() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
 	            	}
 	            	if (0 < mouse.y && mouse.y < SCREEN_MOVE_MARGIN) {
-	            		vtrans._shift.y -= (SCREEN_MOVE_MARGIN - mouse.y) * SCREEN_MOVE_COEFF;
+	            		vtrans._shift.y += (viewInertia.y = -(SCREEN_MOVE_MARGIN - mouse.y) * SCREEN_MOVE_COEFF);
 	            	} else if (getHeight()-SCREEN_MOVE_MARGIN < mouse.y && mouse.y < getHeight()) {
-	            		vtrans._shift.y += (mouse.y - getHeight() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF;
+	            		vtrans._shift.y += (viewInertia.y = (mouse.y - getHeight() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
 	            	}
 	            	
 	            	
-	            	Coord bottom_right = vtrans.getCoord(new Pixel(getWidth(), getHeight()));
-	            	bottom_right.sub(vtrans.shift);
-	            	
+//	            	Coord bottom_right = vtrans.getCoord(new Pixel(getWidth(), getHeight()));
+//	            	bottom_right.sub(vtrans.shift);
+//	            	
+////	            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
+////	            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
 //	            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
 //	            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
-	            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
-	            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
-	            	
-	            	if (vtrans._shift.x < -GAME_SHIFT_MARGIN)
-	            		vtrans._shift.x = -GAME_SHIFT_MARGIN;
-	            	
-	            	//else if (vtrans._shift.x > World.WIDTH+GAME_SHIFT_MARGIN) vtrans._shift.x = World.WIDTH+GAME_SHIFT_MARGIN;
-
-	            	if (vtrans._shift.y > World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y)
-	            		vtrans._shift.y = World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y;
-	            	
-	            	if (vtrans._shift.y < -GAME_SHIFT_MARGIN)
-	            		vtrans._shift.y = -GAME_SHIFT_MARGIN;
+//	            	
+//	            	if (vtrans._shift.x < -GAME_SHIFT_MARGIN)
+//	            		vtrans._shift.x = -GAME_SHIFT_MARGIN;
+//	            	
+//	            	//else if (vtrans._shift.x > World.WIDTH+GAME_SHIFT_MARGIN) vtrans._shift.x = World.WIDTH+GAME_SHIFT_MARGIN;
+//
+//	            	if (vtrans._shift.y > World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y)
+//	            		vtrans._shift.y = World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y;
+//	            	
+//	            	if (vtrans._shift.y < -GAME_SHIFT_MARGIN)
+//	            		vtrans._shift.y = -GAME_SHIFT_MARGIN;
 	            	
 	            	
+            	} else {
+            		viewInertia.mult(VIEW_INERTIA_DAMPING);
+            		vtrans._shift.add(viewInertia.view());
             	}
+            	
+            	
+            	Coord bottom_right = vtrans.getCoord(new Pixel(getWidth(), getHeight()));
+            	bottom_right.sub(vtrans.shift);
+            	
+            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
+            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
+            	
+            	if (vtrans._shift.x < -GAME_SHIFT_MARGIN)
+            		vtrans._shift.x = -GAME_SHIFT_MARGIN;
+            	
+            	if (vtrans._shift.y > World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y)
+            		vtrans._shift.y = World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y;
+            	
+            	if (vtrans._shift.y < -GAME_SHIFT_MARGIN)
+            		vtrans._shift.y = -GAME_SHIFT_MARGIN;
+            	
             	
             	
             }
