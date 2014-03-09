@@ -58,6 +58,10 @@ public final class Plane extends Entity<model.PlaneModel> {
 		new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
 	}
 	
+	public State getState()
+	{
+		return model.state;
+	}
 }
 
 

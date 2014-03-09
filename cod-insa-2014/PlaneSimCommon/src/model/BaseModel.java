@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.Immutable;
 import common.Unique;
@@ -13,6 +15,7 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 	
 	public final Immutable<Coord.View> position;
 	
+	private final List<PlaneModel> planes;
 	
 	public class View extends EntityModel.View {
 		public Immutable<Coord.View> getPosition() {
@@ -28,11 +31,13 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 		//super(new View(),id,pos);
 		//super(id, pos);
 		super(id);
+		planes = new ArrayList<PlaneModel>();
 		position = new Immutable<>(pos);
 	}
 	
 	public BaseModel (BaseModel.View src) {
 		super(src.id());
+		planes = new ArrayList<PlaneModel>();
 		position = src.getPosition(); // Immutable state can be shared
 	}
 	
@@ -44,6 +49,8 @@ public class BaseModel extends EntityModel implements Serializable, Viewable<Bas
 	public model.Coord.View position() {
 		return position.view();
 	}
+	
+	
 	
 }
 

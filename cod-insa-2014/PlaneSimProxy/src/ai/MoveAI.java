@@ -5,7 +5,7 @@ import java.util.Random;
 
 import model.BaseModel;
 import model.PlaneModel;
-
+import model.PlaneModel.State;
 import command.MoveCommand;
 
 public class MoveAI extends AbstractAI 
@@ -38,12 +38,9 @@ public class MoveAI extends AbstractAI
 					
 					//System.out.println("Moving plane "+p.id()+" to base "+bases.get(i).id()+", at pos "+b.position);
 					
-					// Make and send a MoveCommand with the plane to the random base
-					MoveCommand mc = new MoveCommand(p.id(), b.position());
-					
-					System.out.println("Sending command "+mc);
-					
-					game.sendCommand(mc);
+					if (p.state() == State.IDLE)
+						// Make and send a MoveCommand with the plane to the random base
+						game.sendCommand(new MoveCommand(p.id(), b.position()));
 				}
 			}
 			try {
