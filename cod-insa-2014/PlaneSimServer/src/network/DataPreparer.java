@@ -10,6 +10,7 @@ import genbridge.PlaneData;
 import genbridge.PlaneStateData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.BaseModel;
 import model.PlaneModel;
@@ -41,7 +42,7 @@ public abstract class DataPreparer {
 		return tobeSent;
 	}
 	
-	public static Data prepareData(Snapshot snapshot)
+	public static Data prepareData(Snapshot snapshot, int ai_id)
 	{
 		Data tobeSent;
 		tobeSent = new Data();
@@ -50,7 +51,14 @@ public abstract class DataPreparer {
 		tobeSent.planes = new ArrayList<PlaneData>();
 		
 		for (BaseModel.View b : snapshot.bases.view) // Convert game model objects to thrift objects
-			tobeSent.bases.add(new BaseData(b.id())); // For now, it does nothing, but it will...
+		{
+			List<Integer> id_planes = new ArrayList<Integer>();
+			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
+				for (PlaneModel.View p : b.getPlanes())
+					id_planes.add(p.id());
+
+			tobeSent.bases.add(new BaseData(b.id(),id_planes,b.ownerId()));
+		}
 		for (PlaneModel.View p : snapshot.planes.view)
 			// FIXME Fix gaz and ai_id
 			tobeSent.planes.add(

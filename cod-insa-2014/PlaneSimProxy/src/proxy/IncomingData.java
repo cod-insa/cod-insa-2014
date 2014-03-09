@@ -36,11 +36,9 @@ public class IncomingData {
 	      
 	    } catch (Exception e) {
 	    	System.err.println("Error while connecting to the server. Message: " + e.getMessage());
-	    	System.err.println("Cause : The server is not running, the game may have ended or, the port or the ip may be not good");
+	    	System.err.println("Cause : The server is not running, the game may have begun, ended or, the port or the ip could be wrong");
 	    	proxy.quit(1);
 	    } 
-		
-		
 	}
 	
 	

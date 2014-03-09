@@ -21,7 +21,7 @@ struct CoordData {
 
 enum PlaneStateData {
 	IDLE = 1,
-	MOVING = 2,
+	GOING_TO = 2,
 	FOLLOWING = 3,
 	ATTACKING = 4,
 	AT_AIRPORT = 5,
@@ -38,12 +38,19 @@ struct PlaneData {
 }
 
 struct BaseData {
-	1: int base_id
+	1: int base_id,
+	2: list<int> planes_id,
+	3: int ai_id
 }
 
 struct BaseInitData {
 	1: int base_id,
 	2: CoordData posit
+}
+
+struct ConnectionData {
+	1: int con_id,
+	2: int player_id
 }
 
 struct InitData {
@@ -63,7 +70,7 @@ struct Data {
 # This service will be called synchronously
 
 service Bridge { 
-	int connect(1: string nom),
+	ConnectionData connect(1: string nom),
 	InitData retrieveInitData(1: int idConnection),
 	Data retrieveData(1: int idConnection)
 }

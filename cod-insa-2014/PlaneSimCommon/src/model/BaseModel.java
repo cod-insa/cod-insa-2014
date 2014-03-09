@@ -27,6 +27,10 @@ public class BaseModel extends EntityModel implements Serializable,
 		public ListView<PlaneModel.View> getPlanes() {
 			return Util.view(planes);
 		}
+		
+		public BaseModel copied() {
+			return new BaseModel(BaseModel.this);
+		}
 	}
 
 	@Override
@@ -44,8 +48,15 @@ public class BaseModel extends EntityModel implements Serializable,
 
 	public BaseModel(BaseModel.View src) {
 		super(src.id());
-		planes = new ArrayList<PlaneModel>();
+		planes = Util.copy(src.copied().planes);
 		position = src.getPosition(); // Immutable state can be shared
+	}
+	
+	private BaseModel(BaseModel src)
+	{
+		super(src.id);
+		planes = Util.copy(src.planes);
+		position = src.position;
 	}
 
 	@Override

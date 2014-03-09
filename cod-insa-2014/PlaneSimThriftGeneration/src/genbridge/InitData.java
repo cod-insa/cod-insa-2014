@@ -341,14 +341,14 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
           case 1: // BASES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                struct.bases = new ArrayList<BaseInitData>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
+                struct.bases = new ArrayList<BaseInitData>(_list8.size);
+                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
                 {
-                  BaseInitData _elem2;
-                  _elem2 = new BaseInitData();
-                  _elem2.read(iprot);
-                  struct.bases.add(_elem2);
+                  BaseInitData _elem10;
+                  _elem10 = new BaseInitData();
+                  _elem10.read(iprot);
+                  struct.bases.add(_elem10);
                 }
                 iprot.readListEnd();
               }
@@ -376,9 +376,9 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         oprot.writeFieldBegin(BASES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.bases.size()));
-          for (BaseInitData _iter3 : struct.bases)
+          for (BaseInitData _iter11 : struct.bases)
           {
-            _iter3.write(oprot);
+            _iter11.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -409,9 +409,9 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (struct.isSetBases()) {
         {
           oprot.writeI32(struct.bases.size());
-          for (BaseInitData _iter4 : struct.bases)
+          for (BaseInitData _iter12 : struct.bases)
           {
-            _iter4.write(oprot);
+            _iter12.write(oprot);
           }
         }
       }
@@ -423,14 +423,14 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
         {
-          org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.bases = new ArrayList<BaseInitData>(_list5.size);
-          for (int _i6 = 0; _i6 < _list5.size; ++_i6)
+          org.apache.thrift.protocol.TList _list13 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.bases = new ArrayList<BaseInitData>(_list13.size);
+          for (int _i14 = 0; _i14 < _list13.size; ++_i14)
           {
-            BaseInitData _elem7;
-            _elem7 = new BaseInitData();
-            _elem7.read(iprot);
-            struct.bases.add(_elem7);
+            BaseInitData _elem15;
+            _elem15 = new BaseInitData();
+            _elem15.read(iprot);
+            struct.bases.add(_elem15);
           }
         }
         struct.setBasesIsSet(true);
