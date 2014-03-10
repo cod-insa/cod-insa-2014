@@ -52,8 +52,16 @@ public class Util {
 	@SuppressWarnings("unchecked")
 	public static<T extends Copyable>
 	T
-	copy(T src) {
+		copy(T src)
+	{
 		return (T) src.copy();
+	}
+	
+	public static<T extends CopyableAs<R>, R>
+	R
+		copy(T src)
+	{
+		return src.copyAs(new Dummy<R>());
 	}
 	
 	

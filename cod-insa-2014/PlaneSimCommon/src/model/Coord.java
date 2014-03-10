@@ -5,7 +5,9 @@ import java.awt.geom.Point2D;
 import model.Coord.View;
 
 import common.Copyable;
+import common.CopyableAs;
 import common.Util;
+import common.Util.Dummy;
 import common.Viewable;
 
 /*
@@ -55,7 +57,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 //		}
 //		
 //	}
-	public final class View extends InternalView implements Viewable.View { //implements Copyable<Coord> {
+	public final class View extends InternalView implements Viewable.View, CopyableAs<Coord> { //implements Copyable<Coord> {
 
 		public double x() { return x; }
 		public double y() { return y; }
@@ -63,6 +65,11 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		public View () {
 			//super(Coord.this);
 			model = Coord.this;
+		}
+		
+		@Override
+		public Coord copyAs(Dummy<Coord> type) {
+			return new Coord(this);
 		}
 		
 	}
