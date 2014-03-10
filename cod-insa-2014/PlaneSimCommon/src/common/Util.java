@@ -27,10 +27,22 @@ public class Util {
 		public boolean canConvert(T src);
 	}
 	
+	public final static class Dummy<T> {
+		public Dummy() { };
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////
 	// COPYING
 	///////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * 
+	 * Warning: deep copying collection wrappers that do not implement the
+	 * marker interface CollectionWrapper is unsafe and will not perform a deep
+	 * copy.
+	 * 
+	 */
 	
 	/*
 	 * A copy() utility based on the requirement that any Copyable's copy() result
@@ -176,6 +188,92 @@ public class Util {
 			}
 		};
 	}
+
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<Collection<T>, CollectionView<V>>
+		getCollectionViewer()
+	{
+		return new Converter<Collection<T>, CollectionView<V>>(){
+			@Override
+			public CollectionView<V> convert(Collection<T> src) {
+				return view(src);
+			}
+		};
+	}
+	
+
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<List<T>, ListView<V>>
+		getViewer(List<T> src)
+	{
+		return getListViewer();
+	}
+	
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<Collection<T>, CollectionView<V>>
+		getViewer(Collection<T> src)
+	{
+		return getCollectionViewer();
+	}
+	
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<T, V>
+		getViewer()
+	{
+		return new Converter<T, V>(){
+			public V convert(T src) {
+				return src.view();
+			}
+		};
+	}
+	
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<T, V>
+		getViewer(Dummy<T> arg)
+	{
+		return new Converter<T, V>(){
+			public V convert(T src) {
+				return src.view();
+			}
+		};
+	}
+	
+	
+	
+
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<T, V>
+		getViewer(T src)
+	{
+		return new Converter<T, V>() {
+			public V convert(T src) {
+				return src.view();
+			}
+		};
+	}
+	
+	public static <T extends Viewable<V>, V extends Viewable.View>
+	Converter<Unique<T>, V>
+		getViewer(Unique<T> src)
+	{
+		return new Converter<Unique<T>, V>() {
+			public V convert(Unique<T> src) {
+				return view(src);
+			}
+		};
+	}
+	
+//	public static <T extends Viewable<V>, V extends Viewable.View>
+//	Converter<T, V>
+//		getInternalViewer(Unique<T> src)
+//	{
+//		return new Converter<T, V>() {
+//			public V convert(T src) {
+//				return src.view();
+//			}
+//		};
+//	}
+	
 	
 
 	public static <V extends Viewable.View, T extends Viewable<V>>
@@ -191,12 +289,19 @@ public class Util {
 	{
 		return new ListView.Of<>(src);
 	}
-	
+
 	public static <V extends Viewable.View, T extends Viewable<V>>
 	V
 		view(Unique<T> src)
 	{
 		return Unique.view(src);
+	}
+	
+	public static <V extends Viewable.View, T extends Viewable<V>>
+	V
+		view(T src)
+	{
+		return src.view();
 	}
 	
 	

@@ -91,7 +91,7 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 	
 	
 
-	public static class Transform<U> extends AbstractCollection<U> implements CollectionView<U>
+	public static class Transform<U> extends AbstractCollection<U> implements CollectionView<U>, CollectionWrapper
 	{
 		final Collection<Object> delegate;
 		final Converter<Object,U> transformer;
@@ -101,6 +101,11 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 			// This is a safe cast because we're never inserting elements in src:
 			this.delegate = (Collection<Object>) src;
 			this.transformer = (Converter<Object, U>) transformer;
+		}
+		
+		@Override
+		public Collection<?> delegate() {
+			return delegate;
 		}
 		
 		@Override public int size() { return delegate.size(); }
@@ -132,7 +137,7 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 	
 	
 	/*
-	 * "contains" and "containsAll" use the underlying View's equality,
+	 * "contains" and "containsAll" use the underlying View's equality, // FIXME no more true..?
 	 * so it is up to the View object to decide how to handle equality
 	 * with their model type
 	 * 

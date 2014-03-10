@@ -15,7 +15,7 @@ public interface CollectionWrapper {
  */
 public interface CollectionWrapper {
 	
-	public Collection<?> delegate();
+	public Collection<?> delegate(); // FIXME: security problem for views?
 	
 	// Must be able to wrap a new collection of the same type as returned by delegate()
 	//public Collection<T> newWrapperInstance(Collection<?> src);

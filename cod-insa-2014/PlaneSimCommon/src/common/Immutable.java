@@ -51,6 +51,17 @@ implements
 	public Immutable<V> shallowCopy() {
 		return this;
 	}
+
+//	public static <T extends Viewable<V>, V extends Viewable.View>
+//	Converter<T, V>
+//		getViewer(Unique<T> src)
+//	{
+//		return new Converter<T, V>() {
+//			public V convert(T src) {
+//				return Unique.view(src);
+//			}
+//		};
+//	}
 	
 //	public static class List<T> extends Immutable<ListView<T>> {
 //
@@ -67,3 +78,12 @@ implements
 //	}
 	
 }
+
+
+
+
+
+
+
+
+
