@@ -10,7 +10,7 @@ import display.EntityDisplay;
 
 public class Base extends Entity<model.BaseModel> {
 	
-	public static final double RADIUS = .05;
+	public static final double RADIUS = .04; // .05;
 	
 	
 	public Base(Sim sim, Unique<Coord> pos) {

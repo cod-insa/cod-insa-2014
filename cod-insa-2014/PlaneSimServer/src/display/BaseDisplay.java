@@ -29,7 +29,7 @@ public class BaseDisplay extends EntityDisplay<Base> {
 		g2d.setColor(getPlayerColor());
 		
 		//double size = 5E-2;
-		double size = entity.radius();
+		double size = entity.radius()*2;
 		Pixel left = vtrans.getViewPos(entity.model().position().shifted(-size/2).view());
 		Pixel right = vtrans.getViewPos(entity.model().position().shifted(size/2).view());
 		

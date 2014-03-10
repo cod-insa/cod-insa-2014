@@ -27,8 +27,9 @@ public class Sim {
 	boolean running = false;
 //	public final World world;
 	private final World world = new World(this);
-	ListView<Entity<?>> entities = Util.shallowView(world.entities);
-	ListView<Plane> planes = Util.shallowView(world.planes);
+	public ListView<Entity<?>> entities = Util.shallowView(world.entities);
+	public ListView<Plane> planes = Util.shallowView(world.planes);
+	public ListView<Base> bases;
 	
 	
 	//final Timer updateTimer = new Timer();
@@ -59,11 +60,14 @@ public class Sim {
 //		this.world = new World(this);    // [no more true:] also sets this.world... to avoid NPE..
 		
 		
+//		world.bases.add(new Base(this, new Coord.Unique(.1,.2)));
+//		world.bases.add(new Base(this, new Coord.Unique(.2,.5)));
+//		world.bases.add(new Base(this, new Coord.Unique(.7,.6)));
+		world.bases.add(new Base(this, new Coord.Unique(.3,.2)));
+		world.bases.add(new Base(this, new Coord.Unique(.4,.5)));
+		world.bases.add(new Base(this, new Coord.Unique(.9,.6)));
 		
-
-		world.bases.add(new Base(this, new Coord.Unique(.1,.2)));
-		world.bases.add(new Base(this, new Coord.Unique(.2,.5)));
-		world.bases.add(new Base(this, new Coord.Unique(.7,.6)));
+		bases = Util.shallowView(world.bases);
 		
 		//new Timer(); new Timer();
 		
@@ -204,6 +208,14 @@ public class Sim {
 		//throw new Error("Not found"); // FIXME better exception
 		return null;
 	}
+	public Base getBase(int baseId) {
+		// FIXME use a hashmap instead
+		for (Base b: bases)
+			if (b.id() == baseId)
+				return b;
+		return null;
+	}
+	
 
 	/*
 	public Controller getSetpUpdater() {

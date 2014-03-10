@@ -215,15 +215,18 @@ class InternalView {
 	
 	public Coord shifted (double shift)
 	{ Coord r = new Coord(model); r.shift(shift); return r; }
-
+	
 	public Coord rotated (View center, double angle)
 	{ Coord r = new Coord(model); r.rotate(center, angle); return r; }
-
+	
 	public double distanceTo (View cv)
 	{ return Math.sqrt((cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y)); }
 	
 	public double squareDistanceTo (View cv)
 	{ return (cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y); }
+	
+	public double angleWith (View cv)
+	{ return Math.atan2(cv.y()-model.y, cv.x()-model.x); }
 	
 	//@Override
 	public Coord copied() { return model.copy(null); /* FIXME NOT NULL */ }

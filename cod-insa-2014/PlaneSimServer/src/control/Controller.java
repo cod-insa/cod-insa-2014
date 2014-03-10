@@ -10,6 +10,7 @@ import java.util.List;
 import players.Player;
 
 import command.Command;
+import command.LandCommand;
 import command.MoveCommand;
 import common.NotSupportedException;
 
@@ -62,8 +63,9 @@ public class Controller {
 				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
 			else p.autoPilot.goTo(mc.destination, Mode.ATTACK_ON_SIGHT); // FIXME get the right mode
 		}
-//		catch (LandCommand lc) {
-//		}
+		catch (LandCommand lc) {
+			s.getPlane(lc.planeId).autoPilot.landAt(s.getBase(lc.baseId));
+		}
 //		catch (TakeOffCommand toc) {
 //		}
 //		catch (WaitCommand wc) {

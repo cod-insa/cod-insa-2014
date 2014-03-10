@@ -30,7 +30,7 @@ public class Projectile extends Entity<MovingEntityModel> {
 		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
 		model.speed = SPEED;
 		model.ownerId = ownerId;
-		distToCover = Plane.VISION_RADIUS - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
+		distToCover = Plane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
 	}
 	
 	@Override

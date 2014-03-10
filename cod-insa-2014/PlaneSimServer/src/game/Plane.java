@@ -20,7 +20,7 @@ public final class Plane extends Entity<model.PlaneModel> {
 		MAX_ACCELERATION = .001,
 		MAX_DECELERATION = MAX_ACCELERATION,
 		
-		VISION_RADIUS = .7,
+		VISION_DIST = .7, VISION_DIST_SQUARED = VISION_DIST*VISION_DIST,
 		
 		MAX_FIRING_ANGLE = Math.PI*.2,
 		
@@ -53,7 +53,7 @@ public final class Plane extends Entity<model.PlaneModel> {
 	public EntityDisplay<Plane> getView() {
 		return disp;
 	}
-
+	
 	public void fire() {
 		new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
 	}
@@ -62,9 +62,23 @@ public final class Plane extends Entity<model.PlaneModel> {
 	{
 		return model.state;
 	}
-
+	
 	public boolean isFlying() {
 		return model.isFlying();
+	}
+	
+	public boolean isFriend(Entity<?> e) {
+		return model.ownerId == e.model.ownerId;
+	}
+	
+	public boolean canSee(Entity<?> e) {
+		return model.position.squareDistanceTo(e.model.position()) <= VISION_DIST_SQUARED;
+	}
+	
+	public boolean knowsPositionOf(Entity<?> e) {
+		if (e instanceof Base)
+			return true;
+		return isFriend(e) || canSee(e);
 	}
 	
 }

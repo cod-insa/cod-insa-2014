@@ -1,6 +1,7 @@
 package display;
 
 import game.AutoPilot.Mode;
+import game.Base;
 import game.Entity;
 import game.Plane;
 import game.Sim;
@@ -67,15 +68,18 @@ public class SimDisplayPanel extends JPanel {
     	/********** FIXME DEV TEST: **********/
     	
     	Random r = new Random();
-    	int nb = 5;
+//    	int nb = 5;
+    	int nb = 1;
     	for (int i = 0; i < nb; i++) {
-    		Plane p = new Plane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<3?1:2));
+    		Plane p = new Plane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2));
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
     	}
-    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
-    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
+    	if (pls.size() > 1) {
+	    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
+	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
+    	}
     	
 		//new Base(sim, new Coord(.3,.6));
     	
@@ -219,8 +223,19 @@ public class SimDisplayPanel extends JPanel {
                     
                 	/*
                 	for (Plane p: pls)
-                		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view);
+                		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view(), Mode.IGNORE);
 					*/
+                	
+                	Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
+                	Base b = null;
+                	for (Base bb : sim.bases) {
+                		if (bb.model().position.distanceTo(mousePos) < bb.radius())
+                			b = bb;
+                	}
+                	if (b == null)
+                		pls.get(0).autoPilot.goTo(mousePos, Mode.IGNORE);
+                	else pls.get(0).autoPilot.landAt(b);
+                	
                 	
                 	/*for (Plane p: pls)
                 		((NetworkPlayer)DataUpdater.get().getPlayers().get(0)).addCommand(

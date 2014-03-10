@@ -12,7 +12,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	
 
 	public double health; // = 1;
-	public State state; // = State.IDLE;
+	public State state; // don't try to modify this: it is controlled by the autoPilot
 	
 
 	public class View extends MovingEntityModel.View {
@@ -31,8 +31,9 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 		GOING_TO,
 		FOLLOWING,
 		ATTACKING,
+		LANDING,
 		AT_AIRPORT,
-		DEAD // FIXME use it
+		DEAD, // FIXME use it
 	}
 	
 	@Override public View view() {
