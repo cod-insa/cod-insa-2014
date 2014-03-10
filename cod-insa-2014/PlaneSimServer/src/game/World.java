@@ -28,6 +28,7 @@ public class World implements Viewable<World.View> {
 	
 	// All the current entities of the game
 	List<Entity<?>> entities = new ArrayList<Entity<?>>();
+	public List<Plane> planes = new ArrayList<Plane>();
 	
 	public World (Sim sim) {
 		//sim.world = this;
@@ -62,6 +63,7 @@ public class World implements Viewable<World.View> {
 		
 	}
 	public final View view = new View();
+	
 	public View view() { return view; }
 	
 	public static class Snapshot {
@@ -90,8 +92,10 @@ public class World implements Viewable<World.View> {
 			
 			// Finally, we can create a safe immutable view of this copy because no one else can access
 			// this unique copy and thus no one can modify it
-			
+
 			bases = new Immutable<>(ubases, Util.<BaseModel, BaseModel.View>getListViewer());
+			//bases = new Immutable<>(ubases, Util.getViewer(new ArrayList<BaseModel>())); // works but does a useless instantiation
+			//bases = new Immutable<>(ubases, Util.getInternalViewer(ubases)); // doesn't work
 			
 			
 			// This was a lot of fun. Let's proceed differently for planes (we don't have a w.planes collection):
@@ -132,7 +136,7 @@ public class World implements Viewable<World.View> {
 	public List<Entity<?>> getEntities() {
 		return entities;
 	}
-
+	
 
 	public void update() {
 		update(1);

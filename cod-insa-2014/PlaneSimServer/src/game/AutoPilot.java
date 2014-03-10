@@ -130,7 +130,7 @@ public final class AutoPilot {
 	private Entity<?> seekNearestEnemy() {
 		Double minSDist = null;
 		Entity<?> ret = null;
-		for (Entity<?> e: sim.entities.get())
+		for (Entity<?> e: sim.entities)
 		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 			if (plane.isEnemy(e) && e.altitude == plane.altitude) {
 				double sd = plane.model().position().squareDistanceTo(e.model().position());

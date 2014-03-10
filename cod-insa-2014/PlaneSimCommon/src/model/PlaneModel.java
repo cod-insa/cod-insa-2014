@@ -52,5 +52,20 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	public Object copy() {
 		return new PlaneModel(view());
 	}
+
+	public boolean isFlying() {
+		return state != State.AT_AIRPORT && state != State.DEAD;
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+

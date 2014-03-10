@@ -1,14 +1,13 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Coord;
 
-import common.Accessors.RAccess;
+import common.ListView;
 import common.Util;
 
 import control.Controller;
@@ -26,7 +25,12 @@ public class Sim {
 	int current_frame = 0;
 	public int getCurrentFrame() { return current_frame; }
 	boolean running = false;
-	public final World world;
+//	public final World world;
+	private final World world = new World(this);
+	ListView<Entity<?>> entities = Util.shallowView(world.entities);
+	ListView<Plane> planes = Util.shallowView(world.planes);
+	
+	
 	//final Timer updateTimer = new Timer();
 	//final Timer updateTimer = null;
 	Timer updateTimer = null;
@@ -35,11 +39,11 @@ public class Sim {
 	long lastTime = -1;
 	
 	//public final Access<List<Entity>> entities = new BasicAccess(w.entities);
-	public final RAccess<List<Entity<?>>> entities = new RAccess<List<Entity<?>>> () {
-		public List<Entity<?>> get() {
-			return Collections.unmodifiableList(world.entities);
-		}
-	};
+//	public final RAccess<List<Entity<?>>> entities = new RAccess<List<Entity<?>>> () {
+//		public List<Entity<?>> get() {
+//			return Collections.unmodifiableList(world.entities);
+//		}
+//	};
 	/*// compare to the simpler:
 	public final List<Entity> getEntities() {
 		return Collections.unmodifiableList(w.entities);
@@ -52,7 +56,9 @@ public class Sim {
 		this.nbPlayers = nbplay;
 		//this.stepUpdate = new Controller(update_period);
 		
-		this.world = new World(this);    // [no more true:] also sets this.world... to avoid NPE..
+//		this.world = new World(this);    // [no more true:] also sets this.world... to avoid NPE..
+		
+		
 		
 
 		world.bases.add(new Base(this, new Coord.Unique(.1,.2)));
@@ -153,6 +159,24 @@ public class Sim {
 		disp.removeEntity(e);
 	}
 	
+	void update()
+	{
+		disp.flushEntities();
+		
+		world.entities.addAll(addedEntities);
+		for (Entity<?> e : addedEntities)
+			if (e instanceof Plane)
+				world.planes.add((Plane)e);
+		addedEntities.clear();
+		world.entities.removeAll(removedEntities);
+		world.planes.removeAll(removedEntities);
+		removedEntities.clear();
+		
+		world.update();
+	}
+	
+	
+	
 	/*
 	public void setDisplayer (Displayer disp) {
 		this.disp = disp;
@@ -168,23 +192,15 @@ public class Sim {
 	}
 	
 	
-	void update()
-	{
-		disp.flushEntities();
-		
-		world.entities.addAll(addedEntities);
-		addedEntities.clear();
-		world.entities.removeAll(removedEntities);
-		removedEntities.clear();
-		
-		world.update();
-	}
-	
 	public Plane getPlane(int planeId) {
 		// FIXME use a hashmap instead
-		for (Entity<?> e: entities.get())
-			if (e instanceof Plane && ((Plane)e).id() == planeId)
-				return (Plane)e;
+//		for (Entity<?> e: entities)
+//			if (e instanceof Plane && ((Plane)e).id() == planeId)
+//				return (Plane)e;
+		for (Plane p: planes)
+			if (p.id() == planeId)
+				return p;
+		
 		//throw new Error("Not found"); // FIXME better exception
 		return null;
 	}
@@ -199,12 +215,16 @@ public class Sim {
 		return nbPlayers;
 	}
 
-	public World getW() {
-		return world;
-	}
+//	public World getW() {
+//		return world;
+//	}
 
 	public String getInfoString() {
 		return "Entities: "+world.entities.size()+" | FPS: "+fps;
+	}
+
+	public World getWorld() {
+		return world;
 	}
 	
 	

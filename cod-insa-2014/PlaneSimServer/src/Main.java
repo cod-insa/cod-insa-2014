@@ -48,7 +48,7 @@ public class Main {
 			final Displayer disp = new Displayer();
 			final Sim planeSim = new Sim(disp, nbplay);
 			
-			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.world);
+			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
 			
 			for (int i = 0; i < args.length; i+= 2) {
 	//			String[] ip_port = args[i+1].split(":");

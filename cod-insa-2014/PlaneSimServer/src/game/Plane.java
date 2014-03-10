@@ -62,6 +62,11 @@ public final class Plane extends Entity<model.PlaneModel> {
 	{
 		return model.state;
 	}
+
+	public boolean isFlying() {
+		return model.isFlying();
+	}
+	
 }
 
 

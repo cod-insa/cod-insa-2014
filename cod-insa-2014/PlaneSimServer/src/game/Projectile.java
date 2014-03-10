@@ -22,7 +22,7 @@ public class Projectile extends Entity<MovingEntityModel> {
 	
 	private double distToCover; // = Plane.VISION_RADIUS;
 	public double distToCover() { return distToCover; };
-
+	
 	//public Projectile(MovingEntityModel model, Sim sim, Unique<Coord> pos, Altitude alt, double direction) {
 		//super(model, sim, pos, alt);
 	public Projectile (Sim sim, Unique<Coord> pos, int ownerId, double direction) {
@@ -32,7 +32,7 @@ public class Projectile extends Entity<MovingEntityModel> {
 		model.ownerId = ownerId;
 		distToCover = Plane.VISION_RADIUS - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
 	}
-
+	
 	@Override
 	public final void updateSpecialized (double period) {
 		distToCover -= model.position().distanceTo(lastPosition); // FIXME useless calculations...
@@ -46,13 +46,18 @@ public class Projectile extends Entity<MovingEntityModel> {
 			//distToCover / INEFFECTIVE_RANGE
 			return;
 		}
-		for (Entity<?> e: sim.entities.get()) {
-			if (e.altitude == altitude && model.position().distanceTo(e.model.position()) < radius + e.radius) {
-				// TODO
+//		for (Entity<?> e: sim.entities.get()) {
+//			if (e.altitude == altitude && model.position().distanceTo(e.model.position()) < radius + e.radius) {
+//				// TODO
+//			}
+//		}
+		for (Plane p : sim.planes) {
+			if (p.isFlying() && model.position().distanceTo(p.model.position()) < radius + p.radius) {
+				
 			}
 		}
 	}
-
+	
 	@Override
 	public EntityDisplay<Projectile> getView() {
 		return disp;
