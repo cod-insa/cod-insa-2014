@@ -11,7 +11,6 @@ import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
 import ai.AbstractAI;
-
 import command.Command;
 
 
@@ -27,7 +26,6 @@ public class Proxy
 	private Map<Integer,PlaneModel> ai_planes;
 	private Map<Integer,PlaneModel> killed_planes;
 	private Map<Integer,PlaneModel> ennemy_planes;
-	
 	
 	private int player_id;
 	private int numFrame;
@@ -73,17 +71,20 @@ public class Proxy
 		// Update bases 
 		for (genbridge.BaseData b : d.bases)
 		{
-			if (bases.containsKey(b.base_id)) // update informations
+			if (bases.containsKey(b.base_id))
 			{
-				model.BaseModel base = bases.get(b.base_id); // base in the list
-				// For now, just updating coords (doing nothing lol)
-				
-				//TODO If there is things that have to be updated for bases, it's here
-				
+				model.BaseModel base = bases.get(b.base_id); // get the base in the map
+
+				if (b.ai_id == player_id)
+				{
+					base.planes.clear();
+					for (int i : b.planes_id) // Only the planes from the ai are in the list
+						base.planes.add(ai_planes.get(i));
+				}
 			}
-			else // There is a base which is not in the bases created at the beginning
+			else // There is a base which is not in the bases created at the beginning, pretty weird
 			{
-				System.err.println("Base "+b.base_id+" does not exist. You should suicide.");
+				System.err.println("Unexpected error : The base id received is unknown");
 			}
 		}
 		
@@ -187,17 +188,23 @@ public class Proxy
 		cm.sendCommand(c);
 	}
 
-	public void quit(int errorCode)
+	public void quit(int code)
 	{
 		if (idm != null)
 			idm.terminate();
-		if (cm != null)
-			cm.terminate();
-		if (client_ai != null) // Safelly exit the client
+		if (client_ai != null)
 			client_ai.end();
-		
+		if (cm != null)
+		{
+			cm.terminate();
+			try {
+				cm.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		System.out.println("Gracefully terminated the client");
-		System.exit(errorCode);
+		System.exit(code);
 	}
 	
 	public static class StateConverter {

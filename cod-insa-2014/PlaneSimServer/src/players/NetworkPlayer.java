@@ -148,7 +148,7 @@ public class NetworkPlayer extends Player {
 				assert disconnected;
 				return DataPreparer.prepareEndofGame();
 			}
-			return DataPreparer.prepareData(s.get());
+			return DataPreparer.prepareData(s.get(),id);
 		}
 
 		@Override
