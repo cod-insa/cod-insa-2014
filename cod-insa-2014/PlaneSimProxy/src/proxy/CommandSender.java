@@ -157,7 +157,7 @@ public class CommandSender extends Thread {
 			break;
 		default:
 			addError(r.message);
-			System.out.println("Error on command ! " + r.code + ", message: "
+			System.out.println("WARNING : Error on command ! code:" + r.code + ", message: "
 					+ r.message);
 		}
 	}

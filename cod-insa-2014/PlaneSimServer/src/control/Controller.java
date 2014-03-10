@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
-
 import command.Command;
 import command.LandCommand;
 import command.MoveCommand;
+import command.WaitCommand;
 import common.NotSupportedException;
 
 public class Controller {
@@ -68,8 +68,13 @@ public class Controller {
 		}
 //		catch (TakeOffCommand toc) {
 //		}
-//		catch (WaitCommand wc) {
-//		}
+		catch (WaitCommand wc) {
+			// should be something like 
+			/*
+			Plane p = s.getPlane(wc.planeId);
+			p.autoPilot.goTo(p.modelView.position, Mode.ATTACK_ON_SIGHT);
+			*/
+		}
 		catch (Command def) {
 			throw new NotSupportedException("Unrecognized command");
 		}

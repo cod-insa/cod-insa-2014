@@ -5,12 +5,14 @@ import genbridge.PlaneStateData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
 import ai.AbstractAI;
+
 import command.Command;
 
 
@@ -179,6 +181,11 @@ public class Proxy
 			basesToReturn.add(b.view());
 		return basesToReturn;
 	}
+	public List<String> getErrors()
+	{
+		return cm.getErrors();
+	}
+	
 	public void updateSimFrame()
 	{
 		idm.updateData();
