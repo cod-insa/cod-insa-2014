@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Set;
+
 import common.Unique;
 
 
@@ -32,8 +34,11 @@ public class MovingEntityModel extends EntityModel {
 	}
 
 	@Override
-	public Object copy() {
-		return new MovingEntityModel(new View());
+	public MovingEntityModel copy (Set<Object> context) {
+		if (context.contains(this)) return this;
+		MovingEntityModel ret = new MovingEntityModel(new View());
+		context.add(ret);
+		return ret;
 	}
 	
 }

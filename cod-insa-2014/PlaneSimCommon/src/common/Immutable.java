@@ -1,5 +1,7 @@
 package common;
 
+import java.util.Set;
+
 import common.Util.Converter;
 
 /*
@@ -43,7 +45,7 @@ implements
 	}
 	
 	@Override
-	public Immutable<V> copy() {
+	public Immutable<V> copy (Set<Object> context) {
 		return this;
 	}
 	

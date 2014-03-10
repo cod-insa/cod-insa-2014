@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.geom.Point2D;
+import java.util.Set;
 
 import model.Coord.View;
 
@@ -10,7 +11,7 @@ import common.Util;
 import common.Util.Dummy;
 import common.Viewable;
 
-/*
+/**
 
 When you own a Coord, set it "final".
 If you want to expose the coordinate for free modification, set it public.
@@ -38,7 +39,7 @@ object that no one else has direct access on.
 public final class Coord extends InternalView implements Viewable<Coord.View>, Copyable {
 	
 
-	/*
+	/**
 	 * Immutable common Coord objects:
 	 */
 	public static final Coord.View
@@ -58,6 +59,19 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 //		
 //	}
 	public final class View extends InternalView implements Viewable.View, CopyableAs<Coord> { //implements Copyable<Coord> {
+		
+		/*
+		 * FIXME: since hashCode/equals are overloaded, deep copies with context will share
+		 * previously distinct equal representations, which is a big problem and potentially
+		 * extremely vicious source of bugs.
+		 * This is espacially true with respect to views. Copying views require
+		 * distinguishable objects.
+		 * It may be better to provide wrappers that do override equals while not
+		 * overriding equals in the main class itself.
+		 * Or at least change the behavior of equals so it doesn't return true for
+		 * distinct mutable objects (confusing).
+		 * 
+		 */
 
 		public double x() { return x; }
 		public double y() { return y; }
@@ -74,7 +88,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		
 	}
 	
-	/*
+	/**
 	 * By implementing Unique<Coord>, Coord.Unique tells us it contains a Coord that no
 	 * one can have modifiable references to until it is taken.
 	 * 
@@ -89,7 +103,9 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 			super(new Coord(x,y), false);
 		}*/
 		public Unique(Coord original) {
-			super(original.copy());
+			// passing null here is not an error only because we know we don't use a context in this class' copy():
+			// FIXME: this may change
+			super(original.copy(null));
 		}
 		public Unique(double x, double y) {
 			super(new Coord(x,y));
@@ -112,7 +128,8 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		//return new View();
 	}
 	@Override
-	public Coord copy() {
+	public Coord copy (Set<Object> context) {
+		//if (context.contains(this)) return this; // No! cf: hashCode/equals overloaded
 		return new Coord(this);
 	}
 	
@@ -209,8 +226,8 @@ class InternalView {
 	{ return (cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y); }
 	
 	//@Override
-	public Coord copied() { return model.copy(); }
-
+	public Coord copied() { return model.copy(null); /* FIXME NOT NULL */ }
+	
 	@Override
 	public boolean equals (Object e) {
 		if (e == null)

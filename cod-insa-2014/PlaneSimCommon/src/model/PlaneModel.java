@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import common.Unique;
 import common.Viewable;
@@ -17,6 +18,12 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	public class View extends MovingEntityModel.View {
 		public double health() { return health; }
 		public State state() { return state; }
+		
+		public PlaneModel copied(Set<Object> context) {
+//			if (context.contains(PlaneModel.this)) return PlaneModel.this;
+//			return new BaseModel(BaseModel.this);
+			return copy(context);
+		}
 	}
 	
 	public enum State {
@@ -49,8 +56,10 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 	}
 	
 	@Override
-	public Object copy() {
-		return new PlaneModel(view());
+	public PlaneModel copy (Set<Object> context) {
+		if (context.contains(this)) return this;
+		PlaneModel ret = new PlaneModel(view());
+		return ret;
 	}
 
 	public boolean isFlying() {

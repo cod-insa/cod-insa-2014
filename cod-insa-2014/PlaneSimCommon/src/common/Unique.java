@@ -1,5 +1,8 @@
 package common;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /*
  * A class implementing the Unique concept, which is a "deep" concept (sub-objects of Unique object are also Unique).
  * This is basically a wrapper to hide the unique mutable reference to an object (and its sub-objects).
@@ -51,15 +54,19 @@ public class Unique<T> {
 	
 	public static class Copy<T> extends Unique<T> {
 		
-		/*
+		/**
 		 * Provide any object and a deep Copier to copy it and we'll make a unique copy of it
 		 * 
 		 */
 		public Copy (T original, Copyable.Copier<T> copier) {
-			super(copier.copy(original));
+			super(copier.copy(original, new HashSet<Object>()));
 		}
 		
-		/*
+		public Copy (T original, Copyable.Copier<T> copier, Set<Object> context) {
+			super(copier.copy(original, context));
+		}
+		
+		/**
 		 * Java doesn't allow this parameter to be declared: <U extends T & Copyable>
 		 * 
 		 *	public<U extends T & Copyable> Copy(U original) {
@@ -71,7 +78,10 @@ public class Unique<T> {
 		 * 
 		 */
 		public static<T extends Copyable> Copy<T> make (T src) {
-			return new Copy<>(src);
+			return new Copy<>(Util.copy(src));
+		}
+		public static<T extends Copyable> Copy<T> make (T src, Set<Object> context) {
+			return new Copy<>(Util.copy(src, context));
 		}
 		
 		private Copy(T copy) {

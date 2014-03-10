@@ -3,15 +3,19 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import common.ListView;
-import common.Util;
 import common.Immutable;
+import common.ListView;
 import common.Unique;
+import common.Util;
 import common.Viewable;
 
-public class BaseModel extends EntityModel implements Serializable,
-		Viewable<BaseModel.View> {
+public class BaseModel extends EntityModel
+	implements
+		Serializable,
+		Viewable<BaseModel.View>
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,7 +23,8 @@ public class BaseModel extends EntityModel implements Serializable,
 
 	public final List<PlaneModel> planes;
 
-	public class View extends EntityModel.View {
+	public class View extends EntityModel.View
+	{
 		public Immutable<Coord.View> getPosition() {
 			return BaseModel.this.position;
 		}
@@ -28,9 +33,9 @@ public class BaseModel extends EntityModel implements Serializable,
 			return Util.view(planes);
 		}
 		
-		public BaseModel copied() {
-			return new BaseModel(BaseModel.this);
-		}
+//		public BaseModel copied() {
+//			return new BaseModel(BaseModel.this);
+//		}
 	}
 
 	@Override
@@ -46,22 +51,30 @@ public class BaseModel extends EntityModel implements Serializable,
 		position = new Immutable<>(pos);
 	}
 
-	public BaseModel(BaseModel.View src) {
+	public BaseModel(BaseModel.View src, Set<Object> context) {
 		super(src.id());
-		planes = Util.copy(src.copied().planes);
+//		planes = Util.copy(src.copied().planes);
+//		planes = Util.copy(src.getPlanes());
+		planes = new ArrayList<PlaneModel>();
+		for (PlaneModel.View p : src.getPlanes())
+//			planes.add(Util.copy(p, context));
+			planes.add(p.copied(context));
 		position = src.getPosition(); // Immutable state can be shared
 	}
 	
-	private BaseModel(BaseModel src)
-	{
-		super(src.id);
-		planes = Util.copy(src.planes);
-		position = src.position;
-	}
+//	private BaseModel(BaseModel src)
+//	{
+//		super(src.id);
+//		planes = Util.copy(src.planes);
+//		position = src.position;
+//	}
 
 	@Override
-	public Object copy() {
-		return new BaseModel(view());
+	public BaseModel copy (Set<Object> context) {
+		if (context.contains(this)) return this;
+		BaseModel ret = new BaseModel(view(), context);
+		context.add(ret);
+		return ret;
 	}
 
 	@Override
@@ -70,3 +83,12 @@ public class BaseModel extends EntityModel implements Serializable,
 	}
 
 }
+
+
+
+
+
+
+
+
+

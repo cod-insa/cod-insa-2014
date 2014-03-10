@@ -3,8 +3,10 @@ package common;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import common.Copyable.Copier;
 
@@ -35,16 +37,13 @@ public class Util {
 	///////////////////////////////////////////////////////////////////////////
 	// COPYING
 	///////////////////////////////////////////////////////////////////////////
+
+	static Set<Object> getContext(Set<Object> context) {
+		return context == null? new HashSet<Object>(): context;
+	}
+	static Set<Object> getContext() { return getContext(null); }
 	
 	/**
-	 * 
-	 * Warning: deep copying collection wrappers that do not implement the
-	 * marker interface CollectionWrapper is unsafe and will not perform a deep
-	 * copy.
-	 * 
-	 */
-	
-	/*
 	 * A copy() utility based on the requirement that any Copyable's copy() result
 	 * should be castable to the object class
 	 * 
@@ -52,10 +51,18 @@ public class Util {
 	@SuppressWarnings("unchecked")
 	public static<T extends Copyable>
 	T
+		copy(T src, Set<Object> context)
+	{
+		return (T) src.copy(context);
+	}
+	
+	public static<T extends Copyable>
+	T
 		copy(T src)
 	{
-		return (T) src.copy();
+		return copy(src, getContext());
 	}
+	
 	
 	public static<T extends CopyableAs<R>, R>
 	R
@@ -74,8 +81,8 @@ public class Util {
 	{
 		return new Copyable.Copier<List<T>>(){
 			@Override
-			public List<T> copy(List<T> src) {
-				return Util.copy(src);
+			public List<T> copy(List<T> src, Set<Object> context) {
+				return Util.copy(src, context);
 			}
 		};
 	}
@@ -89,8 +96,8 @@ public class Util {
 	{
 		return new Copyable.Copier<List<T>>(){
 			@Override
-			public List<T> copy(List<T> src) {
-				return Util.copy(src, elementCopier);
+			public List<T> copy(List<T> src, Set<Object> context) {
+				return Util.copy(src, elementCopier, context);
 			}
 		};
 	}
@@ -103,7 +110,9 @@ public class Util {
 
 	@SuppressWarnings("unchecked")
 	public static<T, CT extends Collection<T>>
-	CT copy (CT src, Copier<T> elemeCopier) {
+	CT
+		copy (CT src, Copier<T> elemeCopier, Set<Object> context)
+	{
 		
 		Collection<?> realCollectionSrc = src;
 		
@@ -115,7 +124,7 @@ public class Util {
 		try {
 			CT ret = (CT) c.newInstance();
 			for (T elt: src)
-				ret.add(elemeCopier.copy(elt));
+				ret.add(elemeCopier.copy(elt, context));
 			return ret;
 		} catch (
 			  SecurityException
@@ -129,20 +138,43 @@ public class Util {
 					"and is not an instance of CollectionWrapper ("+c+")");
 		}
 	}
+	public static<T, CT extends Collection<T>>
+	CT
+		copy (CT src, Copier<T> elemeCopier)
+	{
+		return copy(src, elemeCopier, getContext());
+	}
 
 	public static<T extends Copyable, CT extends Collection<T>>
-	CT copy (CT src) {
+	CT
+		copy (CT src, Set<Object> context)
+	{
 		return copy(src, new Copier<T>() {
 			@Override
-			public T copy(T src) {
-				return Util.copy(src);
+			public T copy(T src, Set<Object> context) {
+				return Util.copy(src, context);
 			}
-		});
+		}, context);
 	}
-	
+	public static<T extends Copyable, CT extends Collection<T>>
+	CT
+		copy (CT src)
+	{
+		return copy(src, getContext());
+	}
+
+	/**
+	 * 
+	 * Warning: deep copying collection wrappers that do not implement the
+	 * marker interface CollectionWrapper is unsafe and will not perform a deep
+	 * copy. // TODO use instead a predefined list of legally copyable collections
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public static<T, CT extends Collection<T>>
-	CT shallowCopy (CT src) {
+	CT
+		shallowCopy (CT src)
+	{
 		
 		try {
 			return (CT) src.getClass().getDeclaredMethod("clone").invoke(src);
