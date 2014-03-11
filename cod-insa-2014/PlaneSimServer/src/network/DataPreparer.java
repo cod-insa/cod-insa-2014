@@ -1,5 +1,6 @@
 package network;
 
+import game.World;
 import game.World.Snapshot;
 import genbridge.BaseData;
 import genbridge.BaseInitData;
@@ -39,7 +40,8 @@ public abstract class DataPreparer {
 			for (BaseModel.View b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 		}
-		
+		tobeSent.mapHeight = World.HEIGHT;
+		tobeSent.mapWidth = World.WIDTH;
 		return tobeSent;
 	}
 	

@@ -54,7 +54,9 @@ struct ConnectionData {
 }
 
 struct InitData {
-	1: list<BaseInitData> bases
+	1: list<BaseInitData> bases,
+	2: int mapWidth,
+	3: int mapHeight
 }
 
 struct Data {
