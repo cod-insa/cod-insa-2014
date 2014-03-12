@@ -67,9 +67,9 @@ public class Controller {
 		catch (LandCommand lc) {
 			s.getPlane(lc.planeId).autoPilot.landAt(s.getBase(lc.baseId));
 		}
-		catch (TakeOffCommand toc) {
-			s.getPlane(toc.planeId).autoPilot.takeOff();
-		}
+//		catch (TakeOffCommand toc) {
+//			s.getPlane(toc.planeId).autoPilot.takeOff();
+//		}
 		catch (WaitCommand wc) {
 			// should be something like 
 			/*

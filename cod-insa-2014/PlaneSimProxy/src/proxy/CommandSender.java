@@ -24,7 +24,6 @@ import org.apache.thrift.transport.TTransport;
 import command.Command;
 import command.LandCommand;
 import command.MoveCommand;
-import command.TakeOffCommand;
 import command.WaitCommand;
 
 public class CommandSender extends Thread {
@@ -136,14 +135,15 @@ public class CommandSender extends Thread {
 				// Call server method
 				r = client.sendLandCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
-			} catch (TakeOffCommand e) {
-				
-				
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-				
 			}
+//			catch (TakeOffCommand e) {
+//				
+//				
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				
+//				
+//			}
 			treatResult(r);
 		} catch (TException e) {
 			System.err
