@@ -9,14 +9,14 @@ import display.BaseDisplay;
 import display.EntityDisplay;
 
 
-public class Base extends Entity<model.BaseModel> {
+public class Base extends Entity {
 	
 	public static final double RADIUS = .04; // .05;
 	
 	
 	public Base(Sim sim, Unique<Coord> pos) {
 		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
-		super(new model.BaseModel(makeNextId(), pos), sim, Altitude.GROUND);
+		super(new BaseModel(makeNextId(), pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 	}
 	
@@ -29,9 +29,12 @@ public class Base extends Entity<model.BaseModel> {
 	public EntityDisplay<Base> getView() {
 		return new BaseDisplay(this);
 	}
-
+	
 	@Override
-	public BaseModel.View model() { return model.view(); }
+	BaseModel model() { return (BaseModel) model; }
+	
+	@Override
+	public BaseModel.View modelView() { return model().view(); }
 	
 }
 

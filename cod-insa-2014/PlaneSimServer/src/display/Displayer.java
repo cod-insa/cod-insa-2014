@@ -9,7 +9,7 @@ import java.util.List;
 public class Displayer {
 	
 	@SuppressWarnings("serial")
-	static class EntityList extends ArrayList<Entity<?>> {}
+	static class EntityList extends ArrayList<Entity> {}
 	
 	final EntityList[] entitiesByAltitude;
 	
@@ -19,21 +19,21 @@ public class Displayer {
 			entitiesByAltitude[i] = new EntityList();
 	}
 
-	private List<Entity<?>> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
+	private List<Entity> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
 	
-	public void addEntity(Entity<?> e) {
+	public void addEntity(Entity e) {
 //		entitiesByAltitude[e.altitude.ordinal()].add(e);
 		addedEntities.add(e);
 	}
-	public void removeEntity(Entity<?> e) {
+	public void removeEntity(Entity e) {
 //		entitiesByAltitude[e.altitude.ordinal()].remove(e);
 		removedEntities.add(e);
 	}
 	public synchronized void flushEntities() {
-		for (Entity<?> e : addedEntities)
+		for (Entity e : addedEntities)
 			entitiesByAltitude[e.altitude.ordinal()].add(e);
 		addedEntities.clear();
-		for (Entity<?> e : removedEntities)
+		for (Entity e : removedEntities)
 			entitiesByAltitude[e.altitude.ordinal()].remove(e);
 		removedEntities.clear();
 	}

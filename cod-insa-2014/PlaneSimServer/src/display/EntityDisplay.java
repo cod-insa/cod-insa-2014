@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 
-public abstract class EntityDisplay<T extends Entity<?>> {
+public abstract class EntityDisplay<T extends Entity> {
 	
 	final T entity;
 	
@@ -15,7 +15,7 @@ public abstract class EntityDisplay<T extends Entity<?>> {
 	}
 	
 	public Color getPlayerColor() {
-		switch(entity.model().ownerId()) {
+		switch(entity.modelView().ownerId()) {
 		case 0:
 			return Color.gray;
 		case 1:

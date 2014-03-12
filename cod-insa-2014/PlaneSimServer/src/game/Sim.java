@@ -27,7 +27,7 @@ public class Sim {
 	boolean running = false;
 //	public final World world;
 	private final World world = new World(this);
-	public ListView<Entity<?>> entities = Util.shallowView(world.entities);
+	public ListView<Entity> entities = Util.shallowView(world.entities);
 	public ListView<Plane> planes = Util.shallowView(world.planes);
 	public ListView<Base> bases;
 	
@@ -147,16 +147,16 @@ public class Sim {
 		//System.gc();
 	}
 	
-	private List<Entity<?>> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
+	private List<Entity> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
 	
-	void addEntity (Entity<?> e) {
+	void addEntity (Entity e) {
 //		world.entities.add(e);
 		addedEntities.add(e);
 		//if (disp != null)
 		disp.addEntity(e);
 	}
 
-	void removeEntity (Entity<?> e) {
+	void removeEntity (Entity e) {
 //		world.entities.remove(e);
 		removedEntities.add(e);
 		//if (disp != null)
@@ -168,7 +168,7 @@ public class Sim {
 		disp.flushEntities();
 		
 		world.entities.addAll(addedEntities);
-		for (Entity<?> e : addedEntities)
+		for (Entity e : addedEntities)
 			if (e instanceof Plane)
 				world.planes.add((Plane)e);
 		addedEntities.clear();
@@ -191,7 +191,7 @@ public class Sim {
 	public List<Entity> getEntities() {
 		return Collections.unmodifiableList(w.entities);
 	}*/
-	public List<Entity<?>> _debug_backdoor() { // FIXME
+	public List<Entity> _debug_backdoor() { // FIXME
 		return world.entities;
 	}
 	

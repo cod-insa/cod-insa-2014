@@ -230,7 +230,7 @@ public class SimDisplayPanel extends JPanel {
                 	Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
                 	Base b = null;
                 	for (Base bb : sim.bases) {
-                		if (bb.model().position.distanceTo(mousePos) < bb.radius())
+                		if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
                 			b = bb;
                 	}
                 	Plane p = pls.get(0);
@@ -242,7 +242,7 @@ public class SimDisplayPanel extends JPanel {
 //           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
                 	//else if (p.model().state() == State.AT_AIRPORT && b.model().getPlanes().contains(p.modelView))
                 	}
-                    else if (p.model().state() == State.AT_AIRPORT && b.model().getPlanes().size() > 0 && b.model().getPlanes().get(0).id() == p.modelView.id()) // ugly hack
+                    else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().getPlanes().size() > 0 && b.modelView().getPlanes().get(0).id() == p.modelView().id()) // ugly hack
                 		{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
                 	else pls.get(0).autoPilot.landAt(b);
                 	
@@ -319,8 +319,8 @@ public class SimDisplayPanel extends JPanel {
         
         
         synchronized (disp) {
-        for (List<Entity<?>> els : disp.entitiesByAltitude)
-        	for (Entity<?> e: els) {
+        for (List<Entity> els : disp.entitiesByAltitude)
+        	for (Entity e: els) {
             	//if (e instanceof Base) System.out.println("ok");
             	
             	e.getView().draw(g2d, vtrans);

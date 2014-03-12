@@ -33,6 +33,10 @@ public class MovingEntityModel extends EntityModel {
 	public model.Coord.View position() {
 		return position.view();
 	}
+	
+	@Override public View view() {
+		return new View();
+	}
 
 	@Override
 	public MovingEntityModel copy (Set<Object> context) {

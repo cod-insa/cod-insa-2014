@@ -9,7 +9,7 @@ import common.Unique;
 import display.EntityDisplay;
 import display.PlaneDisplay;
 
-public final class Plane extends Entity<model.PlaneModel> {
+public final class Plane extends Entity {
 	
 	public static final double
 	
@@ -35,13 +35,13 @@ public final class Plane extends Entity<model.PlaneModel> {
 	//model.Plane.View model() { return null; }
 	
 	public Plane (Sim sim, Unique<Coord> pos, int ownerId) {
-		super(new model.PlaneModel(makeNextId(), pos, 1, State.IDLE), sim, Altitude.SKY);
+		super(new PlaneModel(makeNextId(), pos, 1, State.IDLE), sim, Altitude.SKY);
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
 		//model.speed = 1E-2;
 		//model.speed = MIN_SPEED;
 		//model.speed = MAX_SPEED;
-		model.speed = 0;
+		model().speed = 0;
 		model.ownerId = ownerId;
 		radius = RADIUS;
 	}
@@ -57,7 +57,10 @@ public final class Plane extends Entity<model.PlaneModel> {
 	}
 	
 	@Override
-	public PlaneModel.View model() { return model.view(); }
+	PlaneModel model() { return (PlaneModel) model; }
+	
+	@Override
+	public PlaneModel.View modelView() { return model().view(); }
 	
 	
 	public void fire (double angle) {
@@ -68,24 +71,24 @@ public final class Plane extends Entity<model.PlaneModel> {
 	
 	public State getState()
 	{
-		return model.state;
+		return model().state;
 	}
 	
 	public boolean isFlying() {
-		return model.isFlying();
+		return model().isFlying();
 	}
 	
-	public boolean isFriend(Entity<?> e) {
+	public boolean isFriend(Entity e) {
 		return model.ownerId == e.model.ownerId;
 	}
 	
-	public boolean canSee(Entity<?> e) {
-		if (e instanceof Plane && ((Plane)e).model.state == State.AT_AIRPORT)
+	public boolean canSee(Entity e) {
+		if (e instanceof Plane && ((Plane)e).model().state == State.AT_AIRPORT)
 			return false;
-		return model.position.squareDistanceTo(e.model.position()) <= VISION_DIST_SQUARED;
+		return model().position.squareDistanceTo(e.model.position()) <= VISION_DIST_SQUARED;
 	}
 	
-	public boolean knowsPositionOf(Entity<?> e) {
+	public boolean knowsPositionOf(Entity e) {
 		if (e instanceof Base)
 			return true;
 		return isFriend(e) || canSee(e);

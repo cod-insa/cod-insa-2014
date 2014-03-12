@@ -27,8 +27,8 @@ public class World implements Viewable<World.View> {
 	List<Base> bases = new ArrayList<Base>();
 	
 	// All the current entities of the game
-	List<Entity<?>> entities = new ArrayList<Entity<?>>();
-	public List<Plane> planes = new ArrayList<Plane>();
+	List<Entity> entities = new ArrayList<>();
+	public List<Plane> planes = new ArrayList<>();
 	
 	public World (Sim sim) {
 		//sim.world = this;
@@ -58,7 +58,7 @@ public class World implements Viewable<World.View> {
 	class View implements Viewable.ViewOf<World> {
 		
 		public final ListView<BaseModel.View> bases = Util.transformView (World.this.bases, new Converter<Base, BaseModel.View>() {
-			public BaseModel.View convert(Base src) { return src.model.view(); }
+			public BaseModel.View convert(Base src) { return src.model().view(); }
 		});
 		
 	}
@@ -82,7 +82,7 @@ public class World implements Viewable<World.View> {
 			// We start by making a list view of all our bases' models (each game.Base has a model.BaseModel attribute named "model")
 			
 			ListView<BaseModel> vbases = Util.transformView (w.bases, new Converter<Base, BaseModel>() {
-				public BaseModel convert(Base src) { return src.model; }
+				public BaseModel convert(Base src) { return src.model(); }
 			});
 			
 			// Then we make a unique deep copy of all those models using the fact that model.Base is Copyable,
@@ -107,7 +107,7 @@ public class World implements Viewable<World.View> {
 			
 			// Fill the list with unique copies of our plane models
 			
-			for (Entity<?> e : w.entities)
+			for (Entity e : w.entities)
 				if (e.model instanceof PlaneModel)
 					uplanes.add(Unique.Copy.make((PlaneModel)e.model));
 
@@ -133,7 +133,7 @@ public class World implements Viewable<World.View> {
 		return currentSnapshot;
 	}
 	
-	public List<Entity<?>> getEntities() {
+	public List<Entity> getEntities() {
 		return entities;
 	}
 	
@@ -143,7 +143,7 @@ public class World implements Viewable<World.View> {
 	}
 	public void update(double period) {
 		
-		for (Entity<?> e: entities) {
+		for (Entity e: entities) {
 			
 			e.update(period);
 			

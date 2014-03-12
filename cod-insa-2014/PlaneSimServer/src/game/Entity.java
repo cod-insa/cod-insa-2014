@@ -1,12 +1,13 @@
 package game;
 
 import model.Coord;
+import model.EntityModel;
 import model.MovingEntityModel;
 import display.EntityDisplay;
 
 
 
-public abstract class Entity<Model extends model.EntityModel> {
+public abstract class Entity {
 	
 	public static enum Altitude {
 		GROUND,
@@ -22,10 +23,14 @@ public abstract class Entity<Model extends model.EntityModel> {
 //	public final int id = makeNextId();
 	
 	
-	final Model model;
-	public final Model.View modelView;
+	protected final EntityModel model;
+//	public final Model.View modelView;
 	// FIXME: in fact, maybe it'd be better to write it as a getter (even though we loose some invariants)
-	public Model.View model() { return model.view(); }
+	public EntityModel.View modelView() { return model.view(); }
+	EntityModel model() { return model; }
+	
+	
+	
 	// Then "model" refers to the entity, and model() to its view.
 	private final Coord _lastPosition; // = new Coord(0,0);
 	public final Coord.View lastPosition; // = _lastPosition.view();
@@ -61,7 +66,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 	//public Entity(Coord.View pos) {
 	//public Entity(Sim sim, EntityView<?> view, Coord pos) {
 	//public Entity(Model model, Sim sim, Unique<Coord> pos, Altitude alt) {
-	public Entity(Model model, Sim sim, Altitude alt) {
+	public Entity(EntityModel model, Sim sim, Altitude alt) {
 		//_pos.set(pos);
 		///System.out.println(T.unit);
 		//_pos = pos;
@@ -69,7 +74,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 		//this.view = view;
 		//model = new model.Entity(pos);
 		this.model = model;
-		modelView = model.view();
+//		modelView = model.view();
 		this.sim = sim;
 		
 		_lastPosition = model.position().copied();
@@ -99,7 +104,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 		return radius;
 	}
 	
-	public final boolean isEnemy(Entity<?> e) {
+	public final boolean isEnemy(Entity e) {
 		return model.ownerId > 0 && model.ownerId != e.model.ownerId;
 	}
 	

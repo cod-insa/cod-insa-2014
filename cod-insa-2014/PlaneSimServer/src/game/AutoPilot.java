@@ -35,7 +35,7 @@ public final class AutoPilot {
 	
 	private double targetSpeed = Plane.MAX_SPEED;
 	
-	private Entity<?> entityAim = null;
+	private Entity entityAim = null;
 	//boolean specifically_attacking = false;
 	//boolean attacking = false;
 	//Action current_action = Action.NONE;
@@ -54,7 +54,7 @@ public final class AutoPilot {
 		unland();
 		entityAim = null;
 		_aim.set(aim);
-		plane.model.state = State.GOING_TO;
+		plane.model().state = State.GOING_TO;
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
 //		attacking = false;
@@ -63,7 +63,7 @@ public final class AutoPilot {
 		
 //		System.out.println(plane.model.position.angleWith(_aim.view()));
 	}
-	public void goTo(Entity<?> e, Mode m) {
+	public void goTo(Entity e, Mode m) {
 		if (e == plane)
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		unland();
@@ -76,7 +76,7 @@ public final class AutoPilot {
 		mode = m;
 	}
 
-	public void attackSpecific(Entity<?> e) {
+	public void attackSpecific(Entity e) {
 		unland();
 		goTo(e, Mode.IGNORE);
 		//specifically_attacking = true;
@@ -85,7 +85,7 @@ public final class AutoPilot {
 		state = State.ATTACKING;
 //		mode = Mode.IGNORE;
 	}
-	void attack(Entity<?> e) {
+	void attack(Entity e) {
 		unland();
 		goTo(e, Mode.ATTACK_ON_SIGHT);
 //		attacking_mode = AttackMode.ANY;
@@ -96,7 +96,7 @@ public final class AutoPilot {
 	
 	
 	public void landAt(Base b) {
-		if (b.model.planes.contains(plane)) {
+		if (b.model().planes.contains(plane)) {
 			assert state == State.AT_AIRPORT;
 			return;
 		}
@@ -107,13 +107,13 @@ public final class AutoPilot {
 	}
 	void land(Base b) {
 		state = State.AT_AIRPORT;
-		b.model.planes.add(plane.model); //addPlane();
+		b.model().planes.add(plane.model()); //addPlane();
 		//plane.model.speed = 0;
 	}
 	void unland() {
 		if (state == State.AT_AIRPORT) {
 			state = State.IDLE;
-			((Base)entityAim).model.planes.remove(plane);
+			((Base)entityAim).model().planes.remove(plane);
 		}
 	}
 	public void takeOff() {
@@ -158,13 +158,13 @@ public final class AutoPilot {
 			
 			if (mode == Mode.ATTACK_ON_SIGHT) {
 	//			if (attacking_mode != AttackMode.SPECIFIC) {
-				Entity<?> e = seekNearestEnemy();
+				Entity e = seekNearestEnemy();
 				if (e != null) {
 					attack(e);
 				}
 			}
 			
-			double angleToAim = plane.model.position.angleWith(_aim.view());
+			double angleToAim = plane.model().position.angleWith(_aim.view());
 			
 			//aimAngle = Math.atan2(_aim.y-plane.model.position().y(), _aim.x-plane.model.position().x()) + Math.PI*2 - plane.model.rotation;
 			aimAngle = angleToAim + Math.PI*2 - plane.model.rotation();
@@ -250,19 +250,19 @@ public final class AutoPilot {
 			
 		} else {
 			
-			plane.model.speed = 0;
+			plane.model().speed = 0;
 			
 		}
 		
-		plane.model.state = state;
+		plane.model().state = state;
 		
 	}
 	
 	
 	
-	private Entity<?> seekNearestEnemy() {
+	private Entity seekNearestEnemy() {
 		Double minSDist = null;
-		Entity<?> ret = null;
+		Entity ret = null;
 //		for (Entity<?> e: sim.entities)
 //		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 //			if (plane.isEnemy(e) && e.altitude == plane.altitude) {
@@ -274,7 +274,7 @@ public final class AutoPilot {
 		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 			if (plane.isEnemy(e) && e.altitude == plane.altitude)
 			{
-				double sd = plane.model().position().squareDistanceTo(e.model().position());
+				double sd = plane.modelView().position().squareDistanceTo(e.modelView().position());
 				if (sd <= Plane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
 				{ minSDist = sd; ret = e; }
 			}
@@ -309,14 +309,14 @@ public final class AutoPilot {
 			targetSpeed = Plane.MAX_SPEED;
 		
 		
-		if (plane.model.speed < targetSpeed) {
-			plane.model.speed += Plane.MAX_ACCELERATION*period;
-			if (plane.model.speed > targetSpeed)
-				plane.model.speed = targetSpeed;
-		} else if (plane.model.speed > targetSpeed) {
-			plane.model.speed -= Plane.MAX_DECELERATION*period;
-			if (plane.model.speed < targetSpeed)
-				plane.model.speed = targetSpeed;
+		if (plane.model().speed < targetSpeed) {
+			plane.model().speed += Plane.MAX_ACCELERATION*period;
+			if (plane.model().speed > targetSpeed)
+				plane.model().speed = targetSpeed;
+		} else if (plane.model().speed > targetSpeed) {
+			plane.model().speed -= Plane.MAX_DECELERATION*period;
+			if (plane.model().speed < targetSpeed)
+				plane.model().speed = targetSpeed;
 		}
 	}
 	

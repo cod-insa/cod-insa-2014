@@ -45,7 +45,7 @@ public class PlaneDisplay extends EntityDisplay<Plane> {
 		
 		g2d.setColor(c);
 		
-		g2d.draw(shape.toPolygon(entity.modelView.position(), entity.modelView.rotation(), vtrans));
+		g2d.draw(shape.toPolygon(entity.modelView().position(), entity.modelView().rotation(), vtrans));
 		
 		
 	}

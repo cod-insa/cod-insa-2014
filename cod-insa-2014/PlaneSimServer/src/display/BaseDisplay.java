@@ -30,8 +30,8 @@ public class BaseDisplay extends EntityDisplay<Base> {
 		
 		//double size = 5E-2;
 		double size = entity.radius()*2;
-		Pixel left = vtrans.getViewPos(entity.model().position().shifted(-size/2).view());
-		Pixel right = vtrans.getViewPos(entity.model().position().shifted(size/2).view());
+		Pixel left = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
+		Pixel right = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
 		
 		g2d.fillOval (
 				left.x,

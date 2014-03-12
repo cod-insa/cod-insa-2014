@@ -32,7 +32,7 @@ public class ProjectileDisplay extends EntityDisplay<Projectile> {
 //		Pixel second = vtrans.getViewPos(entity.model().position());
 		
 		/** Shortened: */
-		Coord.View endPosition = entity.model().position();
+		Coord.View endPosition = entity.modelView().position();
 		//Coord inBetween = end.addedTo(entity.lastPosition, -1);
 		Coord inBetween = entity.lastPosition.addedTo(endPosition, -1);
 		inBetween.mult(.9);
