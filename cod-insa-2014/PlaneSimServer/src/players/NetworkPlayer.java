@@ -1,6 +1,6 @@
 package players;
 
-import game.Sim;
+import game.Game;
 import game.World;
 import game.World.Snapshot;
 import genbridge.Bridge;

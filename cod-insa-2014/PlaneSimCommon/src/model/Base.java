@@ -11,25 +11,25 @@ import common.Unique;
 import common.Util;
 import common.Viewable;
 
-public class BaseModel extends EntityModel
+public class Base extends Entity
 	implements
 		Serializable,
-		Viewable<BaseModel.View>
+		Viewable<Base.View>
 {
 
 	private static final long serialVersionUID = 1L;
 
 	public final Immutable<Coord.View> position;
 
-	public final List<PlaneModel> planes;
+	public final List<Plane> planes;
 
-	public class View extends EntityModel.View
+	public class View extends Entity.View
 	{
 		public Immutable<Coord.View> getPosition() {
-			return BaseModel.this.position;
+			return Base.this.position;
 		}
 
-		public ListView<PlaneModel.View> getPlanes() {
+		public ListView<Plane.View> getPlanes() {
 			return Util.view(planes);
 		}
 		
@@ -43,20 +43,20 @@ public class BaseModel extends EntityModel
 		return new View();
 	}
 
-	public BaseModel(int id, Unique<Coord> pos) {
+	public Base(int id, Unique<Coord> pos) {
 		// super(new View(),id,pos);
 		// super(id, pos);
 		super(id);
-		planes = new ArrayList<PlaneModel>();
+		planes = new ArrayList<Plane>();
 		position = new Immutable<>(pos);
 	}
 
-	public BaseModel(BaseModel.View src, Set<Object> context) {
+	public Base(Base.View src, Set<Object> context) {
 		super(src.id());
 //		planes = Util.copy(src.copied().planes);
 //		planes = Util.copy(src.getPlanes());
-		planes = new ArrayList<PlaneModel>();
-		for (PlaneModel.View p : src.getPlanes())
+		planes = new ArrayList<Plane>();
+		for (Plane.View p : src.getPlanes())
 //			planes.add(Util.copy(p, context));
 			planes.add(p.copied(context));
 		position = src.getPosition(); // Immutable state can be shared
@@ -70,9 +70,9 @@ public class BaseModel extends EntityModel
 //	}
 
 	@Override
-	public BaseModel copy (Set<Object> context) {
+	public Base copy (Set<Object> context) {
 		if (context.contains(this)) return this;
-		BaseModel ret = new BaseModel(view(), context);
+		Base ret = new Base(view(), context);
 		context.add(ret);
 		return ret;
 	}

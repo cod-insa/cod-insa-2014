@@ -1,6 +1,6 @@
 package display;
 
-import game.Sim;
+import game.Game;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -46,7 +46,7 @@ public class MainWindow {
     protected final JButton btnBar = new JButton();
     public JList some_list;
 	
-	private Sim sim;
+	private Game sim;
 	//private Controller contr;
 	
 //	public interface Exiter {
@@ -60,7 +60,7 @@ public class MainWindow {
      * Create the application.
      */
     @SuppressWarnings({ })
-    public MainWindow(Displayer disp, Sim s, Event onExit) {
+    public MainWindow(Displayer disp, Game s, Event onExit) {
     	sim = s;
     	//contr = s.getSetpUpdater();
         this.onExit = onExit;

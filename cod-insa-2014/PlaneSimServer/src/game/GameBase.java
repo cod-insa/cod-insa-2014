@@ -1,6 +1,6 @@
 package game;
 
-import model.BaseModel;
+import model.Base;
 import model.Coord;
 
 import common.Unique;
@@ -9,14 +9,14 @@ import display.BaseDisplay;
 import display.EntityDisplay;
 
 
-public class Base extends Entity {
+public class GameBase extends GameEntity {
 	
 	public static final double RADIUS = .04; // .05;
 	
 	
-	public Base(Sim sim, Unique<Coord> pos) {
+	public GameBase(Game sim, Unique<Coord> pos) {
 		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
-		super(new BaseModel(makeNextId(), pos), sim, Altitude.GROUND);
+		super(new Base(makeNextId(), pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 	}
 	
@@ -26,15 +26,15 @@ public class Base extends Entity {
 	}
 	
 	@Override
-	public EntityDisplay<Base> getView() {
+	public EntityDisplay<GameBase> getView() {
 		return new BaseDisplay(this);
 	}
 	
 	@Override
-	BaseModel model() { return (BaseModel) model; }
+	Base model() { return (Base) model; }
 	
 	@Override
-	public BaseModel.View modelView() { return model().view(); }
+	public Base.View modelView() { return model().view(); }
 	
 }
 

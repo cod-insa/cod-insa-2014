@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.BaseModel;
+import model.Base;
 import model.Coord;
-import model.PlaneModel;
+import model.Plane;
 import ai.AbstractAI;
 
 import command.Command;
@@ -24,10 +24,10 @@ public class Proxy
 	private AbstractAI client_ai;
 	
 	// Datas
-	private Map<Integer,BaseModel> bases;
-	private Map<Integer,PlaneModel> ai_planes;
-	private Map<Integer,PlaneModel> killed_planes;
-	private Map<Integer,PlaneModel> ennemy_planes;
+	private Map<Integer,Base> bases;
+	private Map<Integer,Plane> ai_planes;
+	private Map<Integer,Plane> killed_planes;
+	private Map<Integer,Plane> ennemy_planes;
 	private double mapWidth, mapHeight;
 	
 	private int player_id;
@@ -39,10 +39,10 @@ public class Proxy
 	{
 		client_ai = ai;
 		idm = new IncomingData(ip,port,this);
-		ai_planes = new HashMap<Integer,PlaneModel>();
-		killed_planes = new HashMap<Integer,PlaneModel>();
-		ennemy_planes = new HashMap<Integer,PlaneModel>();
-		bases = new HashMap<Integer,BaseModel>();
+		ai_planes = new HashMap<Integer,Plane>();
+		killed_planes = new HashMap<Integer,Plane>();
+		ennemy_planes = new HashMap<Integer,Plane>();
+		bases = new HashMap<Integer,Base>();
 		idm.retrieveInitialData();
 
 		player_id = idm.getPlayerId();
@@ -56,7 +56,7 @@ public class Proxy
 		
 		for (genbridge.BaseInitData b : d.bases)
 		{
-			model.BaseModel base = new BaseModel(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
+			model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
 			bases.put(base.id, base);
 			//System.out.println("Created base "+base.id);
 			//System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.x);
@@ -80,7 +80,7 @@ public class Proxy
 		{
 			if (bases.containsKey(b.base_id))
 			{
-				model.BaseModel base = bases.get(b.base_id); // get the base in the map
+				model.Base base = bases.get(b.base_id); // get the base in the map
 
 				if (b.ai_id == player_id)
 				{
@@ -101,7 +101,7 @@ public class Proxy
 		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
-		Map<Integer,PlaneModel> nextFrameEnnemyUnits = new HashMap<Integer,PlaneModel>();
+		Map<Integer,Plane> nextFrameEnnemyUnits = new HashMap<Integer,Plane>();
 		ennemy_planes.clear();
 		
 		
@@ -112,7 +112,7 @@ public class Proxy
 			{
 				if (killed_planes.containsKey(p.plane_id)) // So this plane is still alive finally
 				{
-					PlaneModel plane = killed_planes.remove(p.plane_id);
+					Plane plane = killed_planes.remove(p.plane_id);
 					ai_planes.put(p.plane_id, plane); // We move it from killed plane to ai_planes
 					
 					// Then we update the plane with the information given by the server :
@@ -127,7 +127,7 @@ public class Proxy
 				}
 				else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 				{
-					PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
+					Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
 					ai_planes.put(plane.id, plane);
 				}
 			}
@@ -135,7 +135,7 @@ public class Proxy
 			{
 				if (ennemy_planes.containsKey(p.plane_id)) // the unit already exists, we just update it
 				{
-					PlaneModel plane = ennemy_planes.get(p.plane_id);
+					Plane plane = ennemy_planes.get(p.plane_id);
 					nextFrameEnnemyUnits.put(p.plane_id, plane);
 					
 					plane.position.x = p.posit.x;
@@ -146,7 +146,7 @@ public class Proxy
 				}
 				else // unit just appeared
 				{
-					PlaneModel plane = new PlaneModel(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
+					Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
 					ennemy_planes.put(plane.id, plane);
 				}
 			}
@@ -171,26 +171,26 @@ public class Proxy
 		return mapHeight;
 	}
 	
-	public ArrayList<PlaneModel.View> getKilledPlanes()
+	public ArrayList<Plane.View> getKilledPlanes()
 	{
-		ArrayList<PlaneModel.View> planesToReturn = new ArrayList<PlaneModel.View>();
-		for (model.PlaneModel p : killed_planes.values())
+		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		for (model.Plane p : killed_planes.values())
 			planesToReturn.add(p.view());
 		return planesToReturn;
 	}
 
-	public ArrayList<PlaneModel.View> getMyPlanes()
+	public ArrayList<Plane.View> getMyPlanes()
 	{
-		ArrayList<PlaneModel.View> planesToReturn = new ArrayList<PlaneModel.View>();
-		for (model.PlaneModel p : ai_planes.values())
+		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		for (model.Plane p : ai_planes.values())
 			planesToReturn.add(p.view());
 		return planesToReturn;
 	}
 	
-	public ArrayList<BaseModel.View> getBases()
+	public ArrayList<Base.View> getBases()
 	{
-		ArrayList<BaseModel.View> basesToReturn = new ArrayList<BaseModel.View>();
-		for (model.BaseModel b : bases.values())
+		ArrayList<Base.View> basesToReturn = new ArrayList<Base.View>();
+		for (model.Base b : bases.values())
 			basesToReturn.add(b.view());
 		return basesToReturn;
 	}
@@ -228,28 +228,28 @@ public class Proxy
 	}
 	
 	public static class StateConverter {
-		public static PlaneModel.State make(PlaneStateData sd)
+		public static Plane.State make(PlaneStateData sd)
 		{
-			PlaneModel.State s = null;
+			Plane.State s = null;
 			switch (sd)
 			{
 			case AT_AIRPORT:
-				s = PlaneModel.State.AT_AIRPORT;
+				s = Plane.State.AT_AIRPORT;
 				break;
 			case ATTACKING:
-				s = PlaneModel.State.ATTACKING;
+				s = Plane.State.ATTACKING;
 				break;
 			case IDLE:
-				s = PlaneModel.State.IDLE;
+				s = Plane.State.IDLE;
 				break;
 			case GOING_TO:
-				s = PlaneModel.State.GOING_TO;
+				s = Plane.State.GOING_TO;
 				break;
 			case DEAD:
-				s = PlaneModel.State.DEAD;
+				s = Plane.State.DEAD;
 				break;
 			case FOLLOWING:
-				s = PlaneModel.State.FOLLOWING;
+				s = Plane.State.FOLLOWING;
 				break;
 			}
 			return s;

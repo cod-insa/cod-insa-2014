@@ -5,14 +5,14 @@ import java.util.Set;
 import common.Unique;
 
 
-public class MovingEntityModel extends EntityModel {
+public class MovingEntityModel extends Entity {
 	
 	public final Coord position;
 	
 	public double speed = 0; // TODO add to ctor
 	
 	
-	public class View extends EntityModel.View {
+	public class View extends Entity.View {
 		public double speed() { return speed; }
 	}
 	

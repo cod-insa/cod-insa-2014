@@ -1,13 +1,13 @@
 package game;
 
 import model.Coord;
-import model.EntityModel;
+import model.Entity;
 import model.MovingEntityModel;
 import display.EntityDisplay;
 
 
 
-public abstract class Entity {
+public abstract class GameEntity {
 	
 	public static enum Altitude {
 		GROUND,
@@ -23,11 +23,11 @@ public abstract class Entity {
 //	public final int id = makeNextId();
 	
 	
-	protected final EntityModel model;
+	protected final Entity model;
 //	public final Model.View modelView;
 	// FIXME: in fact, maybe it'd be better to write it as a getter (even though we loose some invariants)
-	public EntityModel.View modelView() { return model.view(); }
-	EntityModel model() { return model; }
+	public Entity.View modelView() { return model.view(); }
+	Entity model() { return model; }
 	
 	
 	
@@ -37,7 +37,7 @@ public abstract class Entity {
 	
 	public final Altitude altitude;
 	
-	protected final Sim sim;
+	protected final Game sim;
 	
 	protected double radius = 0;
 	
@@ -66,7 +66,7 @@ public abstract class Entity {
 	//public Entity(Coord.View pos) {
 	//public Entity(Sim sim, EntityView<?> view, Coord pos) {
 	//public Entity(Model model, Sim sim, Unique<Coord> pos, Altitude alt) {
-	public Entity(EntityModel model, Sim sim, Altitude alt) {
+	public GameEntity(Entity model, Game sim, Altitude alt) {
 		//_pos.set(pos);
 		///System.out.println(T.unit);
 		//_pos = pos;
@@ -104,7 +104,7 @@ public abstract class Entity {
 		return radius;
 	}
 	
-	public final boolean isEnemy(Entity e) {
+	public final boolean isEnemy(GameEntity e) {
 		return model.ownerId > 0 && model.ownerId != e.model.ownerId;
 	}
 	

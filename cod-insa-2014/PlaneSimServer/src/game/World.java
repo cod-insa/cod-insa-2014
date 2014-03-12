@@ -3,8 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.BaseModel;
-import model.PlaneModel;
+import model.Base;
+import model.Plane;
 
 import common.Immutable;
 import common.ListView;
@@ -24,13 +24,13 @@ public class World implements Viewable<World.View> {
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
 	
-	List<Base> bases = new ArrayList<Base>();
+	List<GameBase> bases = new ArrayList<GameBase>();
 	
 	// All the current entities of the game
-	List<Entity> entities = new ArrayList<>();
-	public List<Plane> planes = new ArrayList<>();
+	List<GameEntity> entities = new ArrayList<>();
+	public List<GamePlane> planes = new ArrayList<>();
 	
-	public World (Sim sim) {
+	public World (Game sim) {
 		//sim.world = this;
 		
 		
@@ -57,8 +57,8 @@ public class World implements Viewable<World.View> {
 	
 	class View implements Viewable.ViewOf<World> {
 		
-		public final ListView<BaseModel.View> bases = Util.transformView (World.this.bases, new Converter<Base, BaseModel.View>() {
-			public BaseModel.View convert(Base src) { return src.model().view(); }
+		public final ListView<Base.View> bases = Util.transformView (World.this.bases, new Converter<GameBase, Base.View>() {
+			public Base.View convert(GameBase src) { return src.model().view(); }
 		});
 		
 	}
@@ -70,8 +70,8 @@ public class World implements Viewable<World.View> {
 		
 		public final int id;
 		
-		public final Immutable<ListView<BaseModel.View>> bases;
-		public final Immutable<ListView<PlaneModel.View>> planes;
+		public final Immutable<ListView<Base.View>> bases;
+		public final Immutable<ListView<Plane.View>> planes;
 		
 		Snapshot(World w) {
 			
@@ -81,19 +81,19 @@ public class World implements Viewable<World.View> {
 			
 			// We start by making a list view of all our bases' models (each game.Base has a model.BaseModel attribute named "model")
 			
-			ListView<BaseModel> vbases = Util.transformView (w.bases, new Converter<Base, BaseModel>() {
-				public BaseModel convert(Base src) { return src.model(); }
+			ListView<Base> vbases = Util.transformView (w.bases, new Converter<GameBase, Base>() {
+				public Base convert(GameBase src) { return src.model(); }
 			});
 			
 			// Then we make a unique deep copy of all those models using the fact that model.Base is Copyable,
 			// and using Util.getListCopier() to perform the deep copy on the java.util.List
 			
-			Unique<List<BaseModel>> ubases = new Unique.Copy<>(vbases.asUnmodifiableList(), Util.<BaseModel>getListCopier());
+			Unique<List<Base>> ubases = new Unique.Copy<>(vbases.asUnmodifiableList(), Util.<Base>getListCopier());
 			
 			// Finally, we can create a safe immutable view of this copy because no one else can access
 			// this unique copy and thus no one can modify it
 
-			bases = new Immutable<>(ubases, Util.<BaseModel, BaseModel.View>getListViewer());
+			bases = new Immutable<>(ubases, Util.<Base, Base.View>getListViewer());
 			//bases = new Immutable<>(ubases, Util.getViewer(new ArrayList<BaseModel>())); // works but does a useless instantiation
 			//bases = new Immutable<>(ubases, Util.getInternalViewer(ubases)); // doesn't work
 			
@@ -102,18 +102,18 @@ public class World implements Viewable<World.View> {
 			
 			// Make a Unique.Collection of PlaneModels that we will fill with unique PlaneModels
 			
-			Unique.Collection<PlaneModel, List<PlaneModel>> uplanes =
-					new Unique.Collection<PlaneModel, List<PlaneModel>>(ArrayList.class);
+			Unique.Collection<Plane, List<Plane>> uplanes =
+					new Unique.Collection<Plane, List<Plane>>(ArrayList.class);
 			
 			// Fill the list with unique copies of our plane models
 			
-			for (Entity e : w.entities)
-				if (e.model instanceof PlaneModel)
-					uplanes.add(Unique.Copy.make((PlaneModel)e.model));
+			for (GameEntity e : w.entities)
+				if (e.model instanceof Plane)
+					uplanes.add(Unique.Copy.make((Plane)e.model));
 
 			// Get a safe immutable list view for this unique list
 			
-			planes = new Immutable<ListView<PlaneModel.View>>(uplanes, Util.<PlaneModel, PlaneModel.View>getListViewer());
+			planes = new Immutable<ListView<Plane.View>>(uplanes, Util.<Plane, Plane.View>getListViewer());
 			
 		}
 	}
@@ -133,7 +133,7 @@ public class World implements Viewable<World.View> {
 		return currentSnapshot;
 	}
 	
-	public List<Entity> getEntities() {
+	public List<GameEntity> getEntities() {
 		return entities;
 	}
 	
@@ -143,7 +143,7 @@ public class World implements Viewable<World.View> {
 	}
 	public void update(double period) {
 		
-		for (Entity e: entities) {
+		for (GameEntity e: entities) {
 			
 			e.update(period);
 			

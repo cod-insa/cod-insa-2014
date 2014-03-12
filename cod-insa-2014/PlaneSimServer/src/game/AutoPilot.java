@@ -1,7 +1,7 @@
 package game;
 
 import model.Coord;
-import model.PlaneModel.State;
+import model.Plane.State;
 
 
 public final class AutoPilot {
@@ -26,16 +26,16 @@ public final class AutoPilot {
 //		NONE,
 //	}
 	
-	Sim sim;
+	Game sim;
 	
-	Plane plane;
+	GamePlane plane;
 	
 	private final Coord _aim = new Coord(0,0);
 	public final Coord.View currentAim = _aim.view();
 	
-	private double targetSpeed = Plane.MAX_SPEED;
+	private double targetSpeed = GamePlane.MAX_SPEED;
 	
-	private Entity entityAim = null;
+	private GameEntity entityAim = null;
 	//boolean specifically_attacking = false;
 	//boolean attacking = false;
 	//Action current_action = Action.NONE;
@@ -45,7 +45,7 @@ public final class AutoPilot {
 	
 //	AttackMode attacking_mode = AttackMode.NONE;
 	
-	public AutoPilot(Sim s, Plane p) {
+	public AutoPilot(Game s, GamePlane p) {
 		sim = s;
 		plane = p;
 	}
@@ -63,7 +63,7 @@ public final class AutoPilot {
 		
 //		System.out.println(plane.model.position.angleWith(_aim.view()));
 	}
-	public void goTo(Entity e, Mode m) {
+	public void goTo(GameEntity e, Mode m) {
 		if (e == plane)
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		unland();
@@ -76,7 +76,7 @@ public final class AutoPilot {
 		mode = m;
 	}
 
-	public void attackSpecific(Entity e) {
+	public void attackSpecific(GameEntity e) {
 		unland();
 		goTo(e, Mode.IGNORE);
 		//specifically_attacking = true;
@@ -85,7 +85,7 @@ public final class AutoPilot {
 		state = State.ATTACKING;
 //		mode = Mode.IGNORE;
 	}
-	void attack(Entity e) {
+	void attack(GameEntity e) {
 		unland();
 		goTo(e, Mode.ATTACK_ON_SIGHT);
 //		attacking_mode = AttackMode.ANY;
@@ -95,7 +95,7 @@ public final class AutoPilot {
 	}
 	
 	
-	public void landAt(Base b) {
+	public void landAt(GameBase b) {
 		if (b.model().planes.contains(plane)) {
 			assert state == State.AT_AIRPORT;
 			return;
@@ -105,7 +105,7 @@ public final class AutoPilot {
 		goTo(b, Mode.IGNORE);
 		state = State.LANDING;
 	}
-	void land(Base b) {
+	void land(GameBase b) {
 		state = State.AT_AIRPORT;
 		b.model().planes.add(plane.model()); //addPlane();
 		//plane.model.speed = 0;
@@ -113,7 +113,7 @@ public final class AutoPilot {
 	void unland() {
 		if (state == State.AT_AIRPORT) {
 			state = State.IDLE;
-			((Base)entityAim).model().planes.remove(plane);
+			((GameBase)entityAim).model().planes.remove(plane);
 		}
 	}
 	public void takeOff() {
@@ -144,7 +144,7 @@ public final class AutoPilot {
 //		if (entityAim == null)
 //			plane.model.state = State.IDLE;
 		
-		targetSpeed = Plane.MAX_SPEED;
+		targetSpeed = GamePlane.MAX_SPEED;
 		
 		if (state != State.AT_AIRPORT) {
 			
@@ -158,7 +158,7 @@ public final class AutoPilot {
 			
 			if (mode == Mode.ATTACK_ON_SIGHT) {
 	//			if (attacking_mode != AttackMode.SPECIFIC) {
-				Entity e = seekNearestEnemy();
+				GameEntity e = seekNearestEnemy();
 				if (e != null) {
 					attack(e);
 				}
@@ -177,7 +177,7 @@ public final class AutoPilot {
 			
 			
 			if (state == State.ATTACKING) {
-				if (Math.abs(aimAngle) <= Plane.MAX_FIRING_ANGLE)
+				if (Math.abs(aimAngle) <= GamePlane.MAX_FIRING_ANGLE)
 					plane.fire(angleToAim);
 				
 //				if (Math.abs(aimAngle) <= Plane.MAX_FIRING_ANGLE) {
@@ -190,10 +190,10 @@ public final class AutoPilot {
 //				targetSpeed = Math.sin(aimAngle);
 
 				//if (Math.abs(aimAngle) < Math.PI/2)
-				if (Math.abs(aimAngle) <= Plane.MAX_FIRING_ANGLE)
+				if (Math.abs(aimAngle) <= GamePlane.MAX_FIRING_ANGLE)
 //					 targetSpeed = Plane.MIN_SPEED;
-					 targetSpeed = Plane.MIN_SPEED + (Plane.MAX_SPEED - Plane.MIN_SPEED) * Math.sin(aimAngle);
-				else targetSpeed = Plane.MAX_SPEED;
+					 targetSpeed = GamePlane.MIN_SPEED + (GamePlane.MAX_SPEED - GamePlane.MIN_SPEED) * Math.sin(aimAngle);
+				else targetSpeed = GamePlane.MAX_SPEED;
 				
 
 //				targetSpeed = Plane.MIN_SPEED + (Plane.MAX_SPEED - Plane.MIN_SPEED) * Math.sin(aimAngle*2);
@@ -207,7 +207,7 @@ public final class AutoPilot {
 			if (state == State.LANDING) {
 	//			double circling_radius = Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED) * Plane.MAX_SPEED/2;
 	//			double circling_radius = Plane.MAX_SPEED / (2 * Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED));
-				double circling_radius = Plane.MAX_SPEED / Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED);
+				double circling_radius = GamePlane.MAX_SPEED / Math.cos(Math.PI/2 - GamePlane.MAX_ROT_SPEED);
 				double d = pos().distanceTo(aimPos());
 				
 	//			System.out.println(circling_radius+" "+d);
@@ -223,11 +223,11 @@ public final class AutoPilot {
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
 					//targetSpeed = Math.pow(d/circling_radius,2) * Plane.MAX_SPEED;
-					targetSpeed = d/circling_radius * Plane.MAX_SPEED;
+					targetSpeed = d/circling_radius * GamePlane.MAX_SPEED;
 					
 					if (d <= entityAim.radius*.7)
 					{
-						land(((Base)entityAim));
+						land(((GameBase)entityAim));
 					}
 					
 	//				targetSpeed = Plane.MAX_SPEED*Math.cos(aimAngle);
@@ -260,9 +260,9 @@ public final class AutoPilot {
 	
 	
 	
-	private Entity seekNearestEnemy() {
+	private GameEntity seekNearestEnemy() {
 		Double minSDist = null;
-		Entity ret = null;
+		GameEntity ret = null;
 //		for (Entity<?> e: sim.entities)
 //		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 //			if (plane.isEnemy(e) && e.altitude == plane.altitude) {
@@ -270,12 +270,12 @@ public final class AutoPilot {
 //				if (sd <= Plane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
 //				{ minSDist = sd; ret = e; }
 //			}
-		for (Plane e: sim.planes)
+		for (GamePlane e: sim.planes)
 		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 			if (plane.isEnemy(e) && e.altitude == plane.altitude)
 			{
 				double sd = plane.modelView().position().squareDistanceTo(e.modelView().position());
-				if (sd <= Plane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
+				if (sd <= GamePlane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
 				{ minSDist = sd; ret = e; }
 			}
 		return ret;
@@ -290,7 +290,7 @@ public final class AutoPilot {
 //		if (aimAngle > Math.PI)
 //			aimAngle -= Math.PI*2;
 		
-		double mrs = Plane.MAX_ROT_SPEED*period;
+		double mrs = GamePlane.MAX_ROT_SPEED*period;
 		//double mrs = MAX_ROT_SPEED*period*(.7+rand.nextDouble()*.3);
 		
 		double delta = aimAngle > mrs? mrs: aimAngle;
@@ -302,19 +302,19 @@ public final class AutoPilot {
 	private void adjustSpeed(double period)
 	{
 		
-		double min_speed = state == State.LANDING? 0: Plane.MIN_SPEED;
+		double min_speed = state == State.LANDING? 0: GamePlane.MIN_SPEED;
 		if (targetSpeed < min_speed)
 			targetSpeed = min_speed;
-		else if (targetSpeed > Plane.MAX_SPEED)
-			targetSpeed = Plane.MAX_SPEED;
+		else if (targetSpeed > GamePlane.MAX_SPEED)
+			targetSpeed = GamePlane.MAX_SPEED;
 		
 		
 		if (plane.model().speed < targetSpeed) {
-			plane.model().speed += Plane.MAX_ACCELERATION*period;
+			plane.model().speed += GamePlane.MAX_ACCELERATION*period;
 			if (plane.model().speed > targetSpeed)
 				plane.model().speed = targetSpeed;
 		} else if (plane.model().speed > targetSpeed) {
-			plane.model().speed -= Plane.MAX_DECELERATION*period;
+			plane.model().speed -= GamePlane.MAX_DECELERATION*period;
 			if (plane.model().speed < targetSpeed)
 				plane.model().speed = targetSpeed;
 		}

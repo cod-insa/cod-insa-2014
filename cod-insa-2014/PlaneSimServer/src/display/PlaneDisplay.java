@@ -1,22 +1,22 @@
 package display;
 
-import game.Plane;
+import game.GamePlane;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import model.PlaneModel.State;
+import model.Plane.State;
 
 
-public class PlaneDisplay extends EntityDisplay<Plane> {
+public class PlaneDisplay extends EntityDisplay<GamePlane> {
 	
 	public static final float PLANE_ALPHA_AT_BASE = .3f;
 	
 	PolygonShape shape;
 
-	public PlaneDisplay (Plane p) {
+	public PlaneDisplay (GamePlane p) {
 		super(p);
 		
 		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();

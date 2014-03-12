@@ -3,8 +3,8 @@ package network;
 import game.World;
 import game.World.Snapshot;
 import genbridge.Response;
-import model.BaseModel;
-import model.PlaneModel;
+import model.Base;
+import model.Plane;
 
 import command.Command;
 import command.LandCommand;
@@ -18,12 +18,12 @@ public abstract class CommandChecker {
 	{
 		boolean planeFound = false;
 		int i = 0;
-		ListView<PlaneModel.View> planes = s.planes.view();
+		ListView<Plane.View> planes = s.planes.view();
 		while (!planeFound && i < planes.size())
 			if (planes.get(i++).id() == mc.planeId)
 				planeFound = true;
 		if (!planeFound)
-			return new Response(Command.ERROR_COMMAND,"The plane n°"+mc.planeId+" doesn't exist. Command ignored.");
+			return new Response(Command.ERROR_COMMAND,"The plane nï¿½"+mc.planeId+" doesn't exist. Command ignored.");
 		
 		if (mc.destination.x() < 0 || 
 				mc.destination.x() > World.WIDTH ||
@@ -39,12 +39,12 @@ public abstract class CommandChecker {
 	{
 		boolean planeFound = false;
 		int i = 0;
-		ListView<PlaneModel.View> planes = s.planes.view();
+		ListView<Plane.View> planes = s.planes.view();
 		while (!planeFound && i < planes.size())
 			if (planes.get(i++).id() == wc.planeId)
 				planeFound = true;
 		if (!planeFound)
-			return new Response(Command.ERROR_COMMAND,"The plane n°"+wc.planeId+" doesn't exist. Command ignored.");
+			return new Response(Command.ERROR_COMMAND,"The plane nï¿½"+wc.planeId+" doesn't exist. Command ignored.");
 		
 		return new Response(Command.SUCCESS,"");
 	}
@@ -53,21 +53,21 @@ public abstract class CommandChecker {
 	{
 		boolean planeFound = false;
 		int i = 0;
-		ListView<PlaneModel.View> planes = s.planes.view();
+		ListView<Plane.View> planes = s.planes.view();
 		while (!planeFound && i < planes.size())
 			if (planes.get(i++).id() == lc.planeId)
 				planeFound = true;
 		if (!planeFound)
-			return new Response(Command.ERROR_COMMAND,"The plane n°"+lc.planeId+" doesn't exist. Command ignored.");
+			return new Response(Command.ERROR_COMMAND,"The plane nï¿½"+lc.planeId+" doesn't exist. Command ignored.");
 		
 		boolean baseFound = false;
 		i = 0;
-		ListView<BaseModel.View> bases = s.bases.view();
+		ListView<Base.View> bases = s.bases.view();
 		while (!baseFound && i < bases.size())
 			if (bases.get(i++).id() == lc.planeId)
 				baseFound = true;
 		if (!baseFound)
-			return new Response(Command.ERROR_COMMAND,"The base n°"+lc.planeId+" doesn't exist. Command ignored.");
+			return new Response(Command.ERROR_COMMAND,"The base nï¿½"+lc.planeId+" doesn't exist. Command ignored.");
 		
 		return new Response(Command.SUCCESS,"");
 	}

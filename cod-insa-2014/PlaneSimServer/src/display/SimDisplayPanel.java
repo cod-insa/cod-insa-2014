@@ -1,10 +1,10 @@
 package display;
 
 import game.AutoPilot.Mode;
-import game.Base;
-import game.Entity;
-import game.Plane;
-import game.Sim;
+import game.GameBase;
+import game.GameEntity;
+import game.GamePlane;
+import game.Game;
 import game.World;
 
 import java.awt.BasicStroke;
@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import model.Coord;
-import model.PlaneModel.State;
+import model.Plane.State;
 
 
 public class SimDisplayPanel extends JPanel {
@@ -45,15 +45,15 @@ public class SimDisplayPanel extends JPanel {
     
 	public final long refresh_period = 30;
 	
-	Sim sim;
+	Game sim;
 	ViewTransform vtrans = new ViewTransform(getWidth());
 	Displayer disp = new Displayer();
 	
-	ArrayList<Plane> pls = new ArrayList<Plane>();// FIXME debug
+	ArrayList<GamePlane> pls = new ArrayList<GamePlane>();// FIXME debug
 	
 	final Timer repaint_timer = new Timer();
 	
-    public SimDisplayPanel(Displayer disp, Sim s) {
+    public SimDisplayPanel(Displayer disp, Game s) {
     	
         super();
         
@@ -72,7 +72,7 @@ public class SimDisplayPanel extends JPanel {
 //    	int nb = 5;
     	int nb = 2;
     	for (int i = 0; i < nb; i++) {
-    		Plane p = new Plane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2));
+    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2));
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
@@ -228,12 +228,12 @@ public class SimDisplayPanel extends JPanel {
 					*/
                 	
                 	Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
-                	Base b = null;
-                	for (Base bb : sim.bases) {
+                	GameBase b = null;
+                	for (GameBase bb : sim.bases) {
                 		if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
                 			b = bb;
                 	}
-                	Plane p = pls.get(0);
+                	GamePlane p = pls.get(0);
                 	if (b == null) {
                 		p.autoPilot.goTo(mousePos, Mode.IGNORE);
 //                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
@@ -319,8 +319,8 @@ public class SimDisplayPanel extends JPanel {
         
         
         synchronized (disp) {
-        for (List<Entity> els : disp.entitiesByAltitude)
-        	for (Entity e: els) {
+        for (List<GameEntity> els : disp.entitiesByAltitude)
+        	for (GameEntity e: els) {
             	//if (e instanceof Base) System.out.println("ok");
             	
             	e.getView().draw(g2d, vtrans);

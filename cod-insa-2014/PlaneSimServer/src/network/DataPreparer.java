@@ -13,8 +13,8 @@ import genbridge.PlaneStateData;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.BaseModel;
-import model.PlaneModel;
+import model.Base;
+import model.Plane;
 import common.ListView;
 import common.Nullable;
 import common.Util;
@@ -37,7 +37,7 @@ public abstract class DataPreparer {
 		
 		if (snapshot.hasSome())
 		{
-			for (BaseModel.View b : snapshot.get().bases.view)
+			for (Base.View b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 		}
 		tobeSent.mapHeight = World.HEIGHT;
@@ -53,18 +53,18 @@ public abstract class DataPreparer {
 		tobeSent.bases = new ArrayList<BaseData>();
 		tobeSent.planes = new ArrayList<PlaneData>();
 		
-		for (BaseModel.View b : snapshot.bases.view) // Convert game model objects to thrift objects
+		for (Base.View b : snapshot.bases.view) // Convert game model objects to thrift objects
 		{
 			List<Integer> id_planes = new ArrayList<Integer>();
 			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
-				for (PlaneModel.View p : b.getPlanes())
+				for (Plane.View p : b.getPlanes())
 					id_planes.add(p.id());
 
 			tobeSent.bases.add(new BaseData(b.id(),id_planes,b.ownerId()));
 		}
 		
-		List<PlaneModel.View> ai_planes = new ArrayList<PlaneModel.View>();
-		for (PlaneModel.View p : snapshot.planes.view)
+		List<Plane.View> ai_planes = new ArrayList<Plane.View>();
+		for (Plane.View p : snapshot.planes.view)
 			if (p.ownerId() == ai_id)
 			{
 				// FIXME Fix gaz 
@@ -75,9 +75,9 @@ public abstract class DataPreparer {
 				ai_planes.add(p);
 			}
 		
-		for (PlaneModel.View p : snapshot.planes.view)
+		for (Plane.View p : snapshot.planes.view)
 			if (p.ownerId() != ai_id)
-				for (PlaneModel.View ai_p : ai_planes)
+				for (Plane.View ai_p : ai_planes)
 					if (ai_p.position().squareDistanceTo(p.position()) < ai_p.radarRange())
 					{
 						tobeSent.planes.add(
@@ -104,7 +104,7 @@ public abstract class DataPreparer {
 	}
 	
 	public static class DataStateConverter {
-		public static PlaneStateData make(PlaneModel.State s)
+		public static PlaneStateData make(Plane.State s)
 		{
 			PlaneStateData psd = null;
 			switch (s)

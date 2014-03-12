@@ -1,15 +1,15 @@
 package game;
 
 import model.Coord;
-import model.PlaneModel;
-import model.PlaneModel.State;
+import model.Plane;
+import model.Plane.State;
 
 import common.Unique;
 
 import display.EntityDisplay;
 import display.PlaneDisplay;
 
-public final class Plane extends Entity {
+public final class GamePlane extends GameEntity {
 	
 	public static final double
 	
@@ -34,8 +34,8 @@ public final class Plane extends Entity {
 	
 	//model.Plane.View model() { return null; }
 	
-	public Plane (Sim sim, Unique<Coord> pos, int ownerId) {
-		super(new PlaneModel(makeNextId(), pos, 1, State.IDLE), sim, Altitude.SKY);
+	public GamePlane (Game sim, Unique<Coord> pos, int ownerId) {
+		super(new Plane(makeNextId(), pos, 1, State.IDLE), sim, Altitude.SKY);
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
 		//model.speed = 1E-2;
@@ -52,15 +52,15 @@ public final class Plane extends Entity {
 	}
 
 	@Override
-	public EntityDisplay<Plane> getView() {
+	public EntityDisplay<GamePlane> getView() {
 		return disp;
 	}
 	
 	@Override
-	PlaneModel model() { return (PlaneModel) model; }
+	Plane model() { return (Plane) model; }
 	
 	@Override
-	public PlaneModel.View modelView() { return model().view(); }
+	public Plane.View modelView() { return model().view(); }
 	
 	
 	public void fire (double angle) {
@@ -78,18 +78,18 @@ public final class Plane extends Entity {
 		return model().isFlying();
 	}
 	
-	public boolean isFriend(Entity e) {
+	public boolean isFriend(GameEntity e) {
 		return model.ownerId == e.model.ownerId;
 	}
 	
-	public boolean canSee(Entity e) {
-		if (e instanceof Plane && ((Plane)e).model().state == State.AT_AIRPORT)
+	public boolean canSee(GameEntity e) {
+		if (e instanceof GamePlane && ((GamePlane)e).model().state == State.AT_AIRPORT)
 			return false;
 		return model().position.squareDistanceTo(e.model.position()) <= VISION_DIST_SQUARED;
 	}
 	
-	public boolean knowsPositionOf(Entity e) {
-		if (e instanceof Base)
+	public boolean knowsPositionOf(GameEntity e) {
+		if (e instanceof GameBase)
 			return true;
 		return isFriend(e) || canSee(e);
 	}

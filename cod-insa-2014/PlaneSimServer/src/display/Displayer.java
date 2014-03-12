@@ -1,6 +1,6 @@
 package display;
 
-import game.Entity;
+import game.GameEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,31 +9,31 @@ import java.util.List;
 public class Displayer {
 	
 	@SuppressWarnings("serial")
-	static class EntityList extends ArrayList<Entity> {}
+	static class EntityList extends ArrayList<GameEntity> {}
 	
 	final EntityList[] entitiesByAltitude;
 	
 	public Displayer() {
-		entitiesByAltitude = new EntityList[Entity.Altitude.values().length];
+		entitiesByAltitude = new EntityList[GameEntity.Altitude.values().length];
 		for (int i = 0; i < entitiesByAltitude.length; i++)
 			entitiesByAltitude[i] = new EntityList();
 	}
 
-	private List<Entity> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
+	private List<GameEntity> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
 	
-	public void addEntity(Entity e) {
+	public void addEntity(GameEntity e) {
 //		entitiesByAltitude[e.altitude.ordinal()].add(e);
 		addedEntities.add(e);
 	}
-	public void removeEntity(Entity e) {
+	public void removeEntity(GameEntity e) {
 //		entitiesByAltitude[e.altitude.ordinal()].remove(e);
 		removedEntities.add(e);
 	}
 	public synchronized void flushEntities() {
-		for (Entity e : addedEntities)
+		for (GameEntity e : addedEntities)
 			entitiesByAltitude[e.altitude.ordinal()].add(e);
 		addedEntities.clear();
-		for (Entity e : removedEntities)
+		for (GameEntity e : removedEntities)
 			entitiesByAltitude[e.altitude.ordinal()].remove(e);
 		removedEntities.clear();
 	}

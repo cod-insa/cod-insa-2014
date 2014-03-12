@@ -1,13 +1,13 @@
 package display;
 
-import game.Base;
+import game.GameBase;
 
 import java.awt.Graphics2D;
 
 
-public class BaseDisplay extends EntityDisplay<Base> {
+public class BaseDisplay extends EntityDisplay<GameBase> {
 
-	public BaseDisplay (Base b) {
+	public BaseDisplay (GameBase b) {
 		super(b);
 	}
 

@@ -1,8 +1,8 @@
 package control;
 
 import game.AutoPilot.Mode;
-import game.Plane;
-import game.Sim;
+import game.GamePlane;
+import game.Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +39,14 @@ public class Controller {
 		single = this;
 	}
 	
-	public void update (Sim s) {
+	public void update (Game s) {
 		if (s.getCurrentFrame()%period == 0)
 			for (Player p: players)
 				for (Command c: p.flushCommands())
 					apply(c, s);
 	}
 	
-	public void apply (Command c, Sim s) {
+	public void apply (Command c, Game s) {
 //		if (c instanceof MoveCommand) {
 //			MoveCommand mc = (MoveCommand) c;
 //			//s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
@@ -59,7 +59,7 @@ public class Controller {
 //		}
 		try { c.match(); }
 		catch (MoveCommand mc) {
-			Plane p = s.getPlane(mc.planeId);
+			GamePlane p = s.getPlane(mc.planeId);
 			if (p == null)
 				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
 			else p.autoPilot.goTo(mc.destination, Mode.ATTACK_ON_SIGHT); // FIXME get the right mode

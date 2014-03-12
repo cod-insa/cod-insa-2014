@@ -1,4 +1,4 @@
-import game.Sim;
+import game.Game;
 
 import org.apache.thrift.transport.TTransportException;
 
@@ -46,7 +46,7 @@ public class Main {
 			int nbplay = args.length/2;
 			
 			final Displayer disp = new Displayer();
-			final Sim planeSim = new Sim(disp, nbplay);
+			final Game planeSim = new Game(disp, nbplay);
 			
 			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
 			

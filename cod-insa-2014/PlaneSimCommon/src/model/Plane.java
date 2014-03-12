@@ -6,7 +6,7 @@ import java.util.Set;
 import common.Unique;
 import common.Viewable;
 
-public class PlaneModel extends MovingEntityModel implements Serializable, Viewable<PlaneModel.View> {
+public class Plane extends MovingEntityModel implements Serializable, Viewable<Plane.View> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final double DEFAULT_RANGE = 10;
@@ -20,7 +20,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 		public State state() { return state; }
 		public double radarRange() { return radarRange; }
 		
-		public PlaneModel copied(Set<Object> context) {
+		public Plane copied(Set<Object> context) {
 //			if (context.contains(PlaneModel.this)) return PlaneModel.this;
 //			return new BaseModel(BaseModel.this);
 			return copy(context);
@@ -44,7 +44,7 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 //	public final View view = new View();
 	
 	
-	public PlaneModel (int id, Unique<Coord> pos, double health, State state) {
+	public Plane (int id, Unique<Coord> pos, double health, State state) {
 		//super(id,pos);
 		super(id, pos);
 		this.health = health;
@@ -52,16 +52,16 @@ public class PlaneModel extends MovingEntityModel implements Serializable, Viewa
 		this.radarRange = DEFAULT_RANGE;
 	}
 	
-	public PlaneModel (PlaneModel.View p) {
+	public Plane (Plane.View p) {
 		super(p);
 		health = p.health();
 		state = p.state();
 	}
 	
 	@Override
-	public PlaneModel copy (Set<Object> context) {
+	public Plane copy (Set<Object> context) {
 		if (context.contains(this)) return this;
-		PlaneModel ret = new PlaneModel(view());
+		Plane ret = new Plane(view());
 		return ret;
 	}
 

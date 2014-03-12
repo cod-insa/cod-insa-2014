@@ -3,8 +3,8 @@ package ai;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import model.BaseModel;
-import model.PlaneModel;
+import model.Base;
+import model.Plane;
 
 import command.MoveCommand;
 
@@ -22,7 +22,7 @@ public class ConsoleAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			ArrayList<BaseModel.View> bases = game.getBases();
+			ArrayList<Base.View> bases = game.getBases();
 			int i;
 
 			System.out.print("Next base: ");
@@ -33,9 +33,9 @@ public class ConsoleAI extends AbstractAI
 				/* I want to */ break /* free! */;
 			}
 			
-			BaseModel.View b = bases.get(i);
+			Base.View b = bases.get(i);
 			
-			for (PlaneModel.View p : game.getMyPlanes())
+			for (Plane.View p : game.getMyPlanes())
 			{
 				MoveCommand mc = new MoveCommand(p.id(), b.position());
 				

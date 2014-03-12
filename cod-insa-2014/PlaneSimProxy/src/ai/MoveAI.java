@@ -3,9 +3,9 @@ package ai;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.BaseModel;
-import model.PlaneModel;
-import model.PlaneModel.State;
+import model.Base;
+import model.Plane;
+import model.Plane.State;
 
 import command.MoveCommand;
 
@@ -24,9 +24,9 @@ public class MoveAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			ArrayList<BaseModel.View> bases = game.getBases();
+			ArrayList<Base.View> bases = game.getBases();
 			
-			for (PlaneModel.View p : game.getMyPlanes())
+			for (Plane.View p : game.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {
@@ -35,7 +35,7 @@ public class MoveAI extends AbstractAI
 					//i=0;
 					//////////////////
 					
-					BaseModel.View b = bases.get(i);
+					Base.View b = bases.get(i);
 					
 					//System.out.println("Moving plane "+p.id()+" to base "+bases.get(i).id()+", at pos "+b.position);
 			

@@ -4,7 +4,7 @@ import common.Copyable;
 import common.Viewable;
 
 
-public abstract class EntityModel implements Copyable { //, Viewable<EntityModel.View> {
+public abstract class Entity implements Copyable { //, Viewable<EntityModel.View> {
 	
 	public final int id;
 
@@ -20,7 +20,7 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 	
 	public class View implements Viewable.View {
 //		public Coord.View position() { return EntityModel.this.position(); }
-		public final Coord.View position = EntityModel.this.position();
+		public final Coord.View position = Entity.this.position();
 		public Coord.View position() { return position; }
 		
 		public int id() { return id; }
@@ -50,14 +50,14 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 
 	//public Entity(int id, Coord.Unique pos) {
 //	public EntityModel(int id, Unique<Coord> pos) {
-	public EntityModel(int id) {
+	public Entity(int id) {
 		this.id = id;
 		//_pos = pos.take();
 		//position = _pos.view;
 		//view = new View();
 		//this.view = view;
 	}
-	public EntityModel(EntityModel.View src) {
+	public Entity(Entity.View src) {
 		this(src.id());
 		rotation = src.rotation();
 	}

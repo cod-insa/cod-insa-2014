@@ -9,7 +9,7 @@ import common.Util;
 import display.EntityDisplay;
 import display.ProjectileDisplay;
 
-public class Projectile extends Entity {
+public class Projectile extends GameEntity {
 	
 	public static double
 		SPEED = .1,
@@ -25,13 +25,13 @@ public class Projectile extends Entity {
 	
 	//public Projectile(MovingEntityModel model, Sim sim, Unique<Coord> pos, Altitude alt, double direction) {
 		//super(model, sim, pos, alt);
-	public Projectile (Sim sim, Unique<Coord> pos, int ownerId, double direction) {
+	public Projectile (Game sim, Unique<Coord> pos, int ownerId, double direction) {
 		super(new MovingEntityModel(makeNextId(), pos), sim, Altitude.SKY);
 //		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
 		model().rotation(direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION);
 		model().speed = SPEED;
 		model().ownerId = ownerId;
-		distToCover = Plane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
+		distToCover = GamePlane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class Projectile extends Entity {
 //				// TODO
 //			}
 //		}
-		for (Plane p : sim.planes) {
+		for (GamePlane p : sim.planes) {
 			if (p.isFlying() && model.position().distanceTo(p.model.position()) < radius + p.radius) {
 				
 			}

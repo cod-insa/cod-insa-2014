@@ -13,7 +13,7 @@ import common.Util;
 import control.Controller;
 import display.Displayer;
 
-public class Sim {
+public class Game {
 	
 	public final long update_period = 30;
 	public final long world_snapshot_frame_period = 50;
@@ -27,9 +27,9 @@ public class Sim {
 	boolean running = false;
 //	public final World world;
 	private final World world = new World(this);
-	public ListView<Entity> entities = Util.shallowView(world.entities);
-	public ListView<Plane> planes = Util.shallowView(world.planes);
-	public ListView<Base> bases;
+	public ListView<GameEntity> entities = Util.shallowView(world.entities);
+	public ListView<GamePlane> planes = Util.shallowView(world.planes);
+	public ListView<GameBase> bases;
 	
 	
 	//final Timer updateTimer = new Timer();
@@ -51,7 +51,7 @@ public class Sim {
 	}
 	*/ 
 	
-	public Sim (Displayer disp, int nbplay) {
+	public Game (Displayer disp, int nbplay) {
 		this.disp = disp;
 		
 		this.nbPlayers = nbplay;
@@ -63,9 +63,9 @@ public class Sim {
 //		world.bases.add(new Base(this, new Coord.Unique(.1,.2)));
 //		world.bases.add(new Base(this, new Coord.Unique(.2,.5)));
 //		world.bases.add(new Base(this, new Coord.Unique(.7,.6)));
-		world.bases.add(new Base(this, new Coord.Unique(.3,.2)));
-		world.bases.add(new Base(this, new Coord.Unique(.4,.5)));
-		world.bases.add(new Base(this, new Coord.Unique(.9,.6)));
+		world.bases.add(new GameBase(this, new Coord.Unique(.3,.2)));
+		world.bases.add(new GameBase(this, new Coord.Unique(.4,.5)));
+		world.bases.add(new GameBase(this, new Coord.Unique(.9,.6)));
 		
 		bases = Util.shallowView(world.bases);
 		
@@ -109,7 +109,7 @@ public class Sim {
 					
 					//System.out.println("A");
 					update();
-					Controller.get().update(Sim.this);
+					Controller.get().update(Game.this);
 					
 					if (current_frame%world_snapshot_frame_period == 0)
 						world.takeSnapshot();
@@ -119,8 +119,8 @@ public class Sim {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
 							double w = World.WIDTH, h = World.HEIGHT;
-							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3);
-							new Plane(Sim.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4);
 						}
 					}
 					
@@ -147,16 +147,16 @@ public class Sim {
 		//System.gc();
 	}
 	
-	private List<Entity> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
+	private List<GameEntity> addedEntities = new ArrayList<>(), removedEntities = new ArrayList<>();
 	
-	void addEntity (Entity e) {
+	void addEntity (GameEntity e) {
 //		world.entities.add(e);
 		addedEntities.add(e);
 		//if (disp != null)
 		disp.addEntity(e);
 	}
 
-	void removeEntity (Entity e) {
+	void removeEntity (GameEntity e) {
 //		world.entities.remove(e);
 		removedEntities.add(e);
 		//if (disp != null)
@@ -168,9 +168,9 @@ public class Sim {
 		disp.flushEntities();
 		
 		world.entities.addAll(addedEntities);
-		for (Entity e : addedEntities)
-			if (e instanceof Plane)
-				world.planes.add((Plane)e);
+		for (GameEntity e : addedEntities)
+			if (e instanceof GamePlane)
+				world.planes.add((GamePlane)e);
 		addedEntities.clear();
 		world.entities.removeAll(removedEntities);
 		world.planes.removeAll(removedEntities);
@@ -191,26 +191,26 @@ public class Sim {
 	public List<Entity> getEntities() {
 		return Collections.unmodifiableList(w.entities);
 	}*/
-	public List<Entity> _debug_backdoor() { // FIXME
+	public List<GameEntity> _debug_backdoor() { // FIXME
 		return world.entities;
 	}
 	
 	
-	public Plane getPlane(int planeId) {
+	public GamePlane getPlane(int planeId) {
 		// FIXME use a hashmap instead
 //		for (Entity<?> e: entities)
 //			if (e instanceof Plane && ((Plane)e).id() == planeId)
 //				return (Plane)e;
-		for (Plane p: planes)
+		for (GamePlane p: planes)
 			if (p.id() == planeId)
 				return p;
 		
 		//throw new Error("Not found"); // FIXME better exception
 		return null;
 	}
-	public Base getBase(int baseId) {
+	public GameBase getBase(int baseId) {
 		// FIXME use a hashmap instead
-		for (Base b: bases)
+		for (GameBase b: bases)
 			if (b.id() == baseId)
 				return b;
 		return null;

@@ -1,12 +1,12 @@
 package display;
 
-import game.Entity;
+import game.GameEntity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 
-public abstract class EntityDisplay<T extends Entity> {
+public abstract class EntityDisplay<T extends GameEntity> {
 	
 	final T entity;
 	
