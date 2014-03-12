@@ -38,7 +38,7 @@ object that no one else has direct access on.
 //public final class Coord implements Copyable<Coord>, Viewable {
 public final class Coord extends InternalView implements Viewable<Coord.View>, Copyable {
 	
-
+	
 	/**
 	 * Immutable common Coord objects:
 	 */
@@ -46,6 +46,59 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		origin = new Coord(0,0).view(),
 		unit   = new Coord(1,1).view()
 	;
+	
+	/**
+	 * pb: can't be used so that Coord implements it because of a restriction with member interfaces
+	 * 
+	 */
+	public static interface Interface {
+		
+		public static interface ReadOnly {
+			
+			public double x();
+			public double y();
+			
+			public Coord opposite ();
+			
+			public Coord addedTo (View cv);
+			
+			public Coord addedTo (View cv, double coeff);
+			
+			public Coord shifted (double shift);
+			
+			public Coord rotated (View center, double angle);
+			
+			public double distanceTo (View cv);
+			
+			public double squareDistanceTo (View cv);
+			
+			public double angleWith (View cv);
+			
+		}
+		
+		public static interface ReadWrite extends ReadOnly {
+
+			public double x (double value);
+			public double y (double value);
+			
+			public View view();
+			
+			public Coord copy (Set<Object> context);
+			
+			public void set (View cv);
+	
+			public void add (View cv);
+			public void sub (View cv);
+			public void shift (double shift);
+			public void shift (double dx, double dy);
+			
+			public void mult (double q);
+			
+			public void rotate (View center, double angle);
+			
+		}
+		
+	}
 	
 	
 //	public final class View extends InternalView implements Viewable.View { //implements Copyable<Coord> {
@@ -73,8 +126,8 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		 * 
 		 */
 
-		public double x() { return x; }
-		public double y() { return y; }
+//		public double x() { return x; }
+//		public double y() { return y; }
 		
 		public View () {
 			//super(Coord.this);
@@ -93,7 +146,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 	 * one can have modifiable references to until it is taken.
 	 * 
 	 */
-	static public final class Unique extends common.Unique<Coord> implements Viewable<Coord.View> {
+	static public final class Unique extends common.Unique<Coord> implements Interface.ReadWrite, Viewable<Coord.View> {
 		/*public Unique(Coord c) {
 			super(c);
 		}
@@ -120,6 +173,87 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		public model.Coord.View view() {
 			// The follwoing is possible because Coord is a Viewable<Coord.View> type
 			return Util.view((common.Unique<Coord>)this);
+		}
+		
+		@Override
+		public double x() {
+			return object.x;
+		}
+		@Override
+		public double y() {
+			return object.x;
+		}
+		@Override
+		public Coord opposite() {
+			return object.opposite();
+		}
+		@Override
+		public Coord addedTo(model.Coord.View cv) {
+			return object.addedTo(cv);
+		}
+		@Override
+		public Coord addedTo(model.Coord.View cv, double coeff) {
+			return object.addedTo(cv);
+		}
+		@Override
+		public Coord shifted(double shift) {
+			return object.shifted(shift);
+		}
+		@Override
+		public Coord rotated(model.Coord.View center, double angle) {
+			return object.rotated(center, angle);
+		}
+		@Override
+		public double distanceTo(model.Coord.View cv) {
+			return object.distanceTo(cv);
+		}
+		@Override
+		public double squareDistanceTo(model.Coord.View cv) {
+			return squareDistanceTo(cv);
+		}
+		@Override
+		public double angleWith(model.Coord.View cv) {
+			return object.angleWith(cv);
+		}
+		@Override
+		public double x(double value) {
+			return object.x = value;
+		}
+		@Override
+		public double y(double value) {
+			return object.y = value;
+		}
+		@Override
+		public Coord copy(Set<Object> context) {
+			return object.copy(context);
+		}
+		@Override
+		public void set(model.Coord.View cv) {
+			object.set(cv);
+		}
+		@Override
+		public void add(model.Coord.View cv) {
+			object.add(cv);
+		}
+		@Override
+		public void sub(model.Coord.View cv) {
+			object.set(cv);
+		}
+		@Override
+		public void shift(double shift) {
+			object.shift(shift);
+		}
+		@Override
+		public void shift(double dx, double dy) {
+			object.shift(dx, dy);
+		}
+		@Override
+		public void mult(double q) {
+			object.mult(q);
+		}
+		@Override
+		public void rotate(model.Coord.View center, double angle) {
+			object.rotate(center, angle);
 		}
 	}
 	
@@ -209,6 +343,9 @@ class InternalView {
 //	private Coord copy() {
 //		return new Coord(model);
 //	}
+	
+	public double x() { return model.x; }
+	public double y() { return model.y; }
 	
 	public Coord opposite ()
 	{ Coord r = new Coord(-model.x, -model.y); return r; }

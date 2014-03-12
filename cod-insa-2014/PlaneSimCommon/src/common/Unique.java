@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class Unique<T> {
 	
-	T object;
+	protected T object;
 	
 	/*
 	 * Caution: for the whole invariant to hold, this constructor must only be called with an argument
