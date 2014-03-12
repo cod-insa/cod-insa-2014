@@ -93,7 +93,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 	 * one can have modifiable references to until it is taken.
 	 * 
 	 */
-	static public final class Unique extends common.Unique<Coord> {
+	static public final class Unique extends common.Unique<Coord> implements Viewable<Coord.View> {
 		/*public Unique(Coord c) {
 			super(c);
 		}
@@ -116,9 +116,10 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 			super(new Coord(x,y));
 		}
 		
-		// The follwoing is possible because Coord is a Viewable<Coord.View> type
-		public View view() {
-			return Util.view(this);
+		@Override
+		public model.Coord.View view() {
+			// The follwoing is possible because Coord is a Viewable<Coord.View> type
+			return Util.view((common.Unique<Coord>)this);
 		}
 	}
 	
