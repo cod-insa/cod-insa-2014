@@ -20,7 +20,6 @@ public class MoveAI extends AbstractAI
 	@Override
 	public void think() {
 		Random r = new Random();
-		//r.setSeed(System.currentTimeMillis()); // not needed?
 		
 		while (true) {
 			game.updateSimFrame();
@@ -50,18 +49,6 @@ public class MoveAI extends AbstractAI
 						game.sendCommand(new MoveCommand(p.id(), b.position()));
 					
 				}
-			}
-			try {
-				// le client ne doit pas s'arr�ter pas (et ne ferme pas la socket)
-				// wait marche pas, faudra changer �a lorsqu'il sera temps.
-				//Thread.sleep(Integer.MAX_VALUE);
-				
-				Thread.sleep(5);
-				
-				
-			} catch (InterruptedException e) {
-				//e.printStackTrace();
-				throw new Error(e);
 			}
 		}
 	}

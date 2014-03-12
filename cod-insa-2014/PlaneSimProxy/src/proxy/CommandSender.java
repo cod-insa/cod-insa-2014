@@ -90,7 +90,7 @@ public class CommandSender extends Thread {
 		Command currentCmd;
 		while (running) {
 			synchronized (this) {
-				while (waitingList.isEmpty()) {
+				while (waitingList.isEmpty() && running) {
 					try {
 						// System.out.println(">> waiting");
 						wait();
@@ -99,7 +99,7 @@ public class CommandSender extends Thread {
 						ie.printStackTrace();
 					}
 				}
-				while (!waitingList.isEmpty()) {
+				while (!waitingList.isEmpty() && running) {
 					currentCmd = waitingList.remove();
 					sendThriftCommand(currentCmd);
 					// System.out.println(">> sent");
@@ -172,6 +172,10 @@ public class CommandSender extends Thread {
 
 	public void terminate() {
 		running = false;
+		synchronized(this)
+		{
+			notify();
+		}
 	}
 
 	public static class DataMaker {

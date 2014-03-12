@@ -43,17 +43,9 @@ public class ConsoleAI extends AbstractAI
 				
 				game.sendCommand(mc);
 			}
-			
 		}
-		
-		System.exit(0);
 	}
 
-	@Override
-	public void end() {
-		
-	}
-	
 	public static void main(String[] args) 
 	{
 		if (args.length != 2)
