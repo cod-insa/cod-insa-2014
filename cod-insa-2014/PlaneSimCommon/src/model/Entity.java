@@ -60,6 +60,7 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	}
 	public Entity(Entity.View src) {
 		this(src.id());
+		ownerId = src.ownerId();
 		rotation = src.rotation();
 	}
 	
