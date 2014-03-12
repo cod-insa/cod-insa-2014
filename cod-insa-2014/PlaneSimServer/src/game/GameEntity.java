@@ -118,8 +118,13 @@ public abstract class GameEntity {
 			
 			MovingEntityModel model = (MovingEntityModel) this.model;
 			
-			model.position.x += Math.cos(model.rotation())*model.speed;
-			model.position.y += Math.sin(model.rotation())*model.speed;
+//			model.position.x += Math.cos(model.rotation())*model.speed;
+//			model.position.y += Math.sin(model.rotation())*model.speed;
+			
+			Coord speedVec = model.speedVector().take();
+			model.position.x += speedVec.x;
+			model.position.y += speedVec.y;
+			
 			
 			if (World.WORLD_WRAP)
 			{

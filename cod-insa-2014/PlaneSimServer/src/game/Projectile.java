@@ -25,8 +25,8 @@ public class Projectile extends GameEntity {
 	
 	//public Projectile(MovingEntityModel model, Sim sim, Unique<Coord> pos, Altitude alt, double direction) {
 		//super(model, sim, pos, alt);
-	public Projectile (Game sim, Unique<Coord> pos, int ownerId, double direction) {
-		super(new MovingEntityModel(makeNextId(), pos), sim, Altitude.SKY);
+	public Projectile (Game sim, Unique<Coord> pos, Unique<Coord> ine, int ownerId, double direction) {
+		super(new MovingEntityModel(makeNextId(), pos, ine), sim, Altitude.SKY);
 //		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
 		model().rotation(direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION);
 		model().speed = SPEED;

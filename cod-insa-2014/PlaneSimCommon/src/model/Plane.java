@@ -46,7 +46,7 @@ public class Plane extends MovingEntityModel implements Serializable, Viewable<P
 	
 	public Plane (int id, Unique<Coord> pos, double health, State state) {
 		//super(id,pos);
-		super(id, pos);
+		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
 		this.state = state;
 		this.radarRange = DEFAULT_RANGE;

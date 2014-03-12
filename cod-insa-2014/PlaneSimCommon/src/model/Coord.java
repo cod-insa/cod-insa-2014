@@ -102,10 +102,15 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 			//this.object = new Coord(x,y);
 			super(new Coord(x,y), false);
 		}*/
-		public Unique(Coord original) {
+//		public Unique(Coord original) {
+//			// passing null here is not an error only because we know we don't use a context in this class' copy():
+//			// FIXME: this may change
+//			super(original.copy(null));
+//		}
+		public Unique(Coord.View original) {
 			// passing null here is not an error only because we know we don't use a context in this class' copy():
 			// FIXME: this may change
-			super(original.copy(null));
+			super(original.copied());
 		}
 		public Unique(double x, double y) {
 			super(new Coord(x,y));
