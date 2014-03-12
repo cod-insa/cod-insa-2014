@@ -29,15 +29,24 @@ public class CoordConverter {
 		return max_lat - min_lat;
 	}
 
-	public Coord toDegrees(Coord cartesianCoord) {
-		return new Coord(cartesianCoord.x + min_long, cartesianCoord.y - min_lat);
+	public Coord toDegrees(double longitude, double latitude)
+	{
+		return new Coord(longitude + min_long, latitude + min_lat);
 	}
-
-	public Coord toCartesian(Coord degreesCoord) {
-		return new Coord(degreesCoord.x - min_long, degreesCoord.y - min_lat);
+	public Coord toDegrees(Coord cartesianCoord) {
+		return new Coord(cartesianCoord.x + min_long, cartesianCoord.y + min_lat);
 	}
 	public Coord.View toDegrees(Coord.View cartesianCoord) {
-		return new Coord(cartesianCoord.x() + min_long, cartesianCoord.y() - min_lat).view();
+		return new Coord(cartesianCoord.x() + min_long, cartesianCoord.y() + min_lat).view();
+	}
+	
+	
+	public Coord toCartesian(double longitude, double latitude)
+	{
+		return new Coord(longitude - min_long, latitude - min_lat);
+	}
+	public Coord toCartesian(Coord degreesCoord) {
+		return new Coord(degreesCoord.x - min_long, degreesCoord.y - min_lat);
 	}
 
 	public Coord.View toCartesian(Coord.View degreesCoord) {
