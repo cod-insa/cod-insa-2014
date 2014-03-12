@@ -1,6 +1,5 @@
 package players;
 
-import game.Game;
 import game.World;
 import game.World.Snapshot;
 import genbridge.Bridge;
@@ -59,7 +58,7 @@ public class NetworkPlayer extends Player {
 	private int lastNumFrame = -1;
 //	
 //	private List<BaseModel> bases;
-//	private List<PlaneModel> planes;
+//	private List<PlaneModel> planes;²²
 //	
 //	private boolean isWaitingDataUpdate;
 //	private Object waitData;
@@ -70,7 +69,7 @@ public class NetworkPlayer extends Player {
 	public final int connectionId;
 	
 	TSimpleServer dataSender, commandsReceiver;
-	Thread dataSenderThead, commandsReceiverThread;
+	Thread dataSenderThread, commandsReceiverThread;
 	
 	NetworkPlayerManager manager;
 	
@@ -274,14 +273,14 @@ public class NetworkPlayer extends Player {
 	
 	void serve() {
 		
-		dataSenderThead = new Thread() {
+		dataSenderThread = new Thread() {
 			public void run() {
 				dataSender.serve();
 				System.out.println("Player "+name+" data sender terminated");
 				disconnect();
 			};
 		};
-		dataSenderThead.start();
+		dataSenderThread.start();
 		
 		commandsReceiverThread = new Thread() {
 			public void run() {
@@ -328,9 +327,9 @@ public class NetworkPlayer extends Player {
 	}
 	void join() {
 		
-		while(dataSenderThead.isAlive() || commandsReceiverThread.isAlive())
+		while(dataSenderThread.isAlive() || commandsReceiverThread.isAlive())
 			try {
-				dataSenderThead.join();
+				dataSenderThread.join();
 				commandsReceiverThread.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();

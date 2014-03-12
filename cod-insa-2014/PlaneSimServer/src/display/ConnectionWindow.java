@@ -213,9 +213,12 @@ public class ConnectionWindow {
 		labels.get(p.connectionId).setIcon(new ImageIcon(connectedImage)); //
 		labels.get(p.connectionId).setText(p.name+" ("+p.getNickname()+")");
 	}
-	public void notifyDisconnect(NetworkPlayer p) {
-		labels.get(p.connectionId).setIcon(new ImageIcon(disconnectedImage)); // throw new Error();
-	}
+    public void notifyDisconnect(NetworkPlayer p) {
+        labels.get(p.connectionId).setIcon(new ImageIcon(disconnectedImage)); // throw new Error();
+    }
+    public void notifyTimeoutStatus(NetworkPlayer p, boolean timeouting) {
+        labels.get(p.connectionId).setIcon(UIManager.getIcon("OptionPane.warningIcon")); // throw new Error();
+    }
 	
 	public void close() {
 		//System.out.println("CLOS");
