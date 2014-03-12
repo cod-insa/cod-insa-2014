@@ -272,7 +272,8 @@ public final class AutoPilot {
 //			}
 		for (GamePlane e: sim.planes)
 		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
-			if (plane.isEnemy(e) && e.altitude == plane.altitude)
+		//	if (plane.isEnemy(e) && e.altitude == plane.altitude && plane.canSee(e))
+			if (plane.canAttack(e))
 			{
 				double sd = plane.modelView().position().squareDistanceTo(e.modelView().position());
 				if (sd <= GamePlane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
