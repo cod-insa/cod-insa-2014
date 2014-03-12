@@ -1,5 +1,6 @@
 package network;
 
+import game.World;
 import game.World.Snapshot;
 import genbridge.BaseData;
 import genbridge.BaseInitData;
@@ -14,8 +15,9 @@ import java.util.List;
 
 import model.BaseModel;
 import model.PlaneModel;
-
+import common.ListView;
 import common.Nullable;
+import common.Util;
 
 
 /*
@@ -38,7 +40,8 @@ public abstract class DataPreparer {
 			for (BaseModel.View b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 		}
-		
+		tobeSent.mapHeight = World.HEIGHT;
+		tobeSent.mapWidth = World.WIDTH;
 		return tobeSent;
 	}
 	
@@ -59,13 +62,32 @@ public abstract class DataPreparer {
 
 			tobeSent.bases.add(new BaseData(b.id(),id_planes,b.ownerId()));
 		}
-		for (PlaneModel.View p : snapshot.planes.view)
-			// FIXME Fix gaz and ai_id
-			tobeSent.planes.add(
-					new PlaneData(p.id(), 
-					new CoordData(p.position().x(),p.position().y()), 
-					p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
 		
+		List<PlaneModel.View> ai_planes = new ArrayList<PlaneModel.View>();
+		for (PlaneModel.View p : snapshot.planes.view)
+			if (p.ownerId() == ai_id)
+			{
+				// FIXME Fix gaz 
+				tobeSent.planes.add(
+						new PlaneData(p.id(), 
+						new CoordData(p.position().x(),p.position().y()), 
+						p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
+				ai_planes.add(p);
+			}
+		
+		for (PlaneModel.View p : snapshot.planes.view)
+			if (p.ownerId() != ai_id)
+				for (PlaneModel.View ai_p : ai_planes)
+					if (ai_p.position().squareDistanceTo(p.position()) < ai_p.radarRange())
+					{
+						tobeSent.planes.add(
+								new PlaneData(p.id(), 
+								new CoordData(p.position().x(),p.position().y()), 
+								p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
+						break; // We found at least one ai_plane which see the plane p
+					}
+		
+		System.out.println(snapshot.planes.view.size() + " :snapshot <=> data: " + tobeSent.planes.size());
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		
 		return tobeSent;
@@ -80,6 +102,7 @@ public abstract class DataPreparer {
 //		tobeSent.planes = new ArrayList<PlaneData>();
 		return tobeSent;
 	}
+	
 	public static class DataStateConverter {
 		public static PlaneStateData make(PlaneModel.State s)
 		{

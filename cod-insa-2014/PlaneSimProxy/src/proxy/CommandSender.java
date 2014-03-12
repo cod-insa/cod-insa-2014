@@ -7,7 +7,6 @@ import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
 import genbridge.Response;
-import genbridge.TakeOffCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.ArrayList;
@@ -60,9 +59,12 @@ public class CommandSender extends Thread {
 			client = new CommandReceiver.Client(protocol);
 
 		} catch (Exception e) {
-			System.err.println("Error while connecting to the server. Message: " + e.getMessage());
-	    	System.err.println("Cause : The server is not running, the game may have ended or, the port or the ip may be not good");
-	    	proxy.quit(1);
+			System.err
+					.println("Error while connecting to the server. Message: "
+							+ e.getMessage());
+			System.err
+					.println("Cause : The server is not running, the game may have ended or, the port or the ip may be not good");
+			proxy.quit(1);
 		}
 	}
 
@@ -87,8 +89,7 @@ public class CommandSender extends Thread {
 	public void run() {
 		running = true;
 		Command currentCmd;
-		while (running)
-		{
+		while (running) {
 			synchronized (this) {
 				while (waitingList.isEmpty()) {
 					try {
@@ -102,7 +103,7 @@ public class CommandSender extends Thread {
 				while (!waitingList.isEmpty()) {
 					currentCmd = waitingList.remove();
 					sendThriftCommand(currentCmd);
-					//System.out.println(">> sent");
+					// System.out.println(">> sent");
 				}
 			}
 		}
@@ -119,37 +120,36 @@ public class CommandSender extends Thread {
 
 	private void sendThriftCommand(Command cmd) {
 		System.out.println("Sending command...");
-		Response r;
+		Response r = null;
 		try {
-			if (cmd instanceof MoveCommand) {
+			try { // match the command
+				cmd.match();
+			} catch (MoveCommand c) {
 				// Call server method
 				r = client.sendMoveCommand(
-						DataMaker.make((MoveCommand) cmd, proxy.getNumFrame()),
-						idConnection);
-			} else if (cmd instanceof WaitCommand) {
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (WaitCommand c) {
 				// Call server method
 				r = client.sendWaitCommand(
-						DataMaker.make((WaitCommand) cmd, proxy.getNumFrame()),
-						idConnection);
-			} else if (cmd instanceof LandCommand) {
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (LandCommand c) {
 				// Call server method
 				r = client.sendLandCommand(
-						DataMaker.make((LandCommand) cmd, proxy.getNumFrame()),
-						idConnection);
-			} else if (cmd instanceof TakeOffCommand) {
-				// Call server method
-				r = client.sendTakeOffCommand(
-						DataMaker.make((TakeOffCommand) cmd,
-								proxy.getNumFrame()), idConnection);
-			} else {
-				System.err
-						.println("Command not recognized or not supported (yet) !");
-				r = new Response(Command.ERROR_UNKNOWN, "Commande inconnue");
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (TakeOffCommand e) {
+				
+				
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				
 			}
 			treatResult(r);
 		} catch (TException e) {
-			System.err.println("Unexpected error received while sending a command. Message: " + e.getMessage());
-	    	proxy.quit(1);
+			System.err
+					.println("Unexpected error received while sending a command. Message: "
+							+ e.getMessage());
+			proxy.quit(1);
 		}
 	}
 
@@ -165,15 +165,15 @@ public class CommandSender extends Thread {
 			break;
 		default:
 			addError(r.message);
-			System.out.println("Error on command ! " + r.code + ", message: "
+			System.out.println("WARNING : Error on command ! code:" + r.code + ", message: "
 					+ r.message);
 		}
 	}
-	
+
 	public void terminate() {
 		running = false;
 	}
-	
+
 	public static class DataMaker {
 
 		static CoordData make(Coord.View c) {
@@ -183,11 +183,6 @@ public class CommandSender extends Thread {
 		static LandCommandData make(LandCommand cmd, int numFrame) {
 			return new LandCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId), cmd.baseId);
-		}
-
-		static TakeOffCommandData make(TakeOffCommand cmd, int numFrame) {
-			return new TakeOffCommandData(new PlaneCommandData(new CommandData(
-					numFrame), cmd.planeId));
 		}
 
 		static MoveCommandData make(MoveCommand cmd, int numFrame) {

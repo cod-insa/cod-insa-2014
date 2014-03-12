@@ -1,5 +1,6 @@
 package players;
 
+import game.Sim;
 import game.World;
 import game.World.Snapshot;
 import genbridge.Bridge;
@@ -10,13 +11,13 @@ import genbridge.InitData;
 import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
 import genbridge.Response;
-import genbridge.TakeOffCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import network.CommandChecker;
 import network.DataPreparer;
 
 import org.apache.thrift.TException;
@@ -30,7 +31,11 @@ import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
 import command.Command;
+import command.LandCommand;
+import command.MoveCommand;
+import command.WaitCommand;
 import common.Nullable;
+
 import control.CommandMaker;
 
 /**
@@ -165,32 +170,42 @@ public class NetworkPlayer extends Player {
 		@Override
 		public Response sendMoveCommand(MoveCommandData cmd, int idConnection) throws TException {
 			
-			//System.out.println("MC to "+CommandMaker.make(cmd.posDest).toString());
+			MoveCommand mc = (MoveCommand) CommandMaker.make(cmd);
+			Response r = CommandChecker.checkMoveCommand(mc,world.getCurrentSnapshot());
 			
-			addCommand(CommandMaker.make(cmd));
-			// TODO verify command
-			return new Response(Command.SUCCESS, null);
+			if (r.code == 0)
+				addCommand(mc);
+			// else
+			// 		log ?
+
+			return r;
 		}
 		
 		@Override
 		public Response sendWaitCommand(WaitCommandData cmd, int idConnection) throws TException {
-			addCommand(CommandMaker.make(cmd));
-			// TODO verify command
-			return new Response(Command.SUCCESS, null);
-		}
+			WaitCommand wc = (WaitCommand) CommandMaker.make(cmd);
+			Response r = CommandChecker.checkWaitCommand(wc,world.getCurrentSnapshot());
+			
+			if (r.code == 0)
+				addCommand(wc);
+			// else
+			// 		log ?
 
-		@Override
-		public Response sendTakeOffCommand(TakeOffCommandData cmd,
-				int idConnection) throws TException {
-			// TODO TODO
-			return null;
+			return r;
 		}
 
 		@Override
 		public Response sendLandCommand(LandCommandData cmd, int idConnection)
 				throws TException {
-			// TODO TODO
-			return null;
+			LandCommand lc = (LandCommand) CommandMaker.make(cmd);
+			Response r = CommandChecker.checkLandCommand(lc,world.getCurrentSnapshot());
+			
+			if (r.code == 0)
+				addCommand(lc);
+			// else
+			// 		log ?
+
+			return r;
 		}
 		
 	}

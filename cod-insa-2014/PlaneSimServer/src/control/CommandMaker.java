@@ -1,13 +1,11 @@
 package control;
 
 import genbridge.CoordData;
+import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
 import genbridge.WaitCommandData;
 import model.Coord;
-
-import command.Command;
-import command.MoveCommand;
-import command.WaitCommand;
+import command.*;
 
 public class CommandMaker {
 	
@@ -23,6 +21,9 @@ public class CommandMaker {
 		return new WaitCommand(data.pc.idPlane);
 	}
 	
-	
+
+	static public Command make(LandCommandData data) {
+		return new LandCommand(data.pc.idPlane, data.idBase);
+	}	
 	
 }

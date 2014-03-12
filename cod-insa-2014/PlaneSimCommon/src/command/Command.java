@@ -16,7 +16,6 @@ public abstract class Command extends Throwable {
 	public abstract void match() throws
 		MoveCommand,
 		LandCommand,
-		TakeOffCommand,
 		WaitCommand
 	;
 	

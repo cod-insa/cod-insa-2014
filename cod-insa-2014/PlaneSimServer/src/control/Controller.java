@@ -12,7 +12,7 @@ import players.Player;
 import command.Command;
 import command.LandCommand;
 import command.MoveCommand;
-import command.TakeOffCommand;
+import command.WaitCommand;
 import common.NotSupportedException;
 
 public class Controller {
@@ -70,8 +70,13 @@ public class Controller {
 		catch (TakeOffCommand toc) {
 			s.getPlane(toc.planeId).autoPilot.takeOff();
 		}
-//		catch (WaitCommand wc) {
-//		}
+		catch (WaitCommand wc) {
+			// should be something like 
+			/*
+			Plane p = s.getPlane(wc.planeId);
+			p.autoPilot.goTo(p.modelView.position, Mode.ATTACK_ON_SIGHT);
+			*/
+		}
 		catch (Command def) {
 			throw new NotSupportedException("Unrecognized command");
 		}

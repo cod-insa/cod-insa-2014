@@ -54,7 +54,9 @@ struct ConnectionData {
 }
 
 struct InitData {
-	1: list<BaseInitData> bases
+	1: list<BaseInitData> bases,
+	2: int mapWidth,
+	3: int mapHeight
 }
 
 struct Data {
@@ -98,10 +100,6 @@ struct WaitCommandData {
 	1: PlaneCommandData pc
 }
 
-struct TakeOffCommandData {
-	1: PlaneCommandData pc
-}
-
 struct LandCommandData {
 	1: PlaneCommandData pc,
 	2: int idBase
@@ -115,7 +113,6 @@ struct Response {
 service CommandReceiver {
 	Response sendMoveCommand(1: MoveCommandData cmd, 2: int idConnection),
 	Response sendWaitCommand(1: WaitCommandData cmd, 2: int idConnection),
-	Response sendTakeOffCommand(1: TakeOffCommandData cmd, 2: int idConnection),
 	Response sendLandCommand(1: LandCommandData cmd, 2: int idConnection)
 }
 

@@ -5,12 +5,14 @@ import genbridge.PlaneStateData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.BaseModel;
 import model.Coord;
 import model.PlaneModel;
 import ai.AbstractAI;
+
 import command.Command;
 
 
@@ -26,9 +28,12 @@ public class Proxy
 	private Map<Integer,PlaneModel> ai_planes;
 	private Map<Integer,PlaneModel> killed_planes;
 	private Map<Integer,PlaneModel> ennemy_planes;
+	private double mapWidth, mapHeight;
 	
 	private int player_id;
 	private int numFrame;
+	
+	
 	
 	public Proxy(String ip, int port, AbstractAI ai)
 	{
@@ -56,6 +61,8 @@ public class Proxy
 			//System.out.println("Created base "+base.id);
 			//System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.x);
 		}
+		mapWidth = d.mapWidth;
+		mapHeight = d.mapHeight;
 		
 	}
 	
@@ -156,6 +163,14 @@ public class Proxy
 		return numFrame;
 	}
 	
+	public double getMapWidth() {
+		return mapWidth;
+	}
+
+	public double getMapHeight() {
+		return mapHeight;
+	}
+	
 	public ArrayList<PlaneModel.View> getKilledPlanes()
 	{
 		ArrayList<PlaneModel.View> planesToReturn = new ArrayList<PlaneModel.View>();
@@ -179,6 +194,11 @@ public class Proxy
 			basesToReturn.add(b.view());
 		return basesToReturn;
 	}
+	public List<String> getErrors()
+	{
+		return cm.getErrors();
+	}
+	
 	public void updateSimFrame()
 	{
 		idm.updateData();
