@@ -1,6 +1,7 @@
 package game;
 
 import model.Coord;
+import model.PlaneModel;
 import model.PlaneModel.State;
 
 import common.Unique;
@@ -13,7 +14,7 @@ public final class Plane extends Entity<model.PlaneModel> {
 	public static final double
 	
 		MAX_SPEED = .01,   // 1E-2,
-		MIN_SPEED = .003,  // .3E-2,
+		MIN_SPEED = .008,  // .3E-2,
 		
 		MAX_ROT_SPEED = Math.PI*.03,
 		
@@ -22,7 +23,8 @@ public final class Plane extends Entity<model.PlaneModel> {
 		
 		VISION_DIST = .7, VISION_DIST_SQUARED = VISION_DIST*VISION_DIST,
 		
-		MAX_FIRING_ANGLE = Math.PI*.2,
+		//MAX_FIRING_ANGLE = Math.PI*.2,
+		MAX_FIRING_ANGLE = Math.PI*.4,
 		
 		RADIUS = .03
 	;
@@ -54,8 +56,14 @@ public final class Plane extends Entity<model.PlaneModel> {
 		return disp;
 	}
 	
-	public void fire() {
-		new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
+	@Override
+	public PlaneModel.View model() { return model.view(); }
+	
+	
+	public void fire (double angle) {
+		//new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
+		assert Math.abs(angle) <= MAX_FIRING_ANGLE;
+		new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, angle);
 	}
 	
 	public State getState()
@@ -72,6 +80,8 @@ public final class Plane extends Entity<model.PlaneModel> {
 	}
 	
 	public boolean canSee(Entity<?> e) {
+		if (e instanceof Plane && ((Plane)e).model.state == State.AT_AIRPORT)
+			return false;
 		return model.position.squareDistanceTo(e.model.position()) <= VISION_DIST_SQUARED;
 	}
 	

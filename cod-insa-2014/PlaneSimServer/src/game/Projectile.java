@@ -13,7 +13,7 @@ public class Projectile extends Entity<MovingEntityModel> {
 	
 	public static double
 		SPEED = .1,
-		INITIAL_ANGLUAR_IMPRECISION = Math.PI*.01,
+		INITIAL_ANGLUAR_IMPRECISION = Math.PI*.01, // = Math.PI*.01,
 		DISTANCE_RANDOMNESS = .5,
 		INEFFECTIVE_RANGE = .4
 	;
@@ -27,7 +27,8 @@ public class Projectile extends Entity<MovingEntityModel> {
 		//super(model, sim, pos, alt);
 	public Projectile (Sim sim, Unique<Coord> pos, int ownerId, double direction) {
 		super(new MovingEntityModel(makeNextId(), pos), sim, Altitude.SKY);
-		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
+//		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
+		model.rotation(direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION);
 		model.speed = SPEED;
 		model.ownerId = ownerId;
 		distToCover = Plane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;

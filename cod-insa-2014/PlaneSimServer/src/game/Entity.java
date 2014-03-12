@@ -100,7 +100,7 @@ public abstract class Entity<Model extends model.EntityModel> {
 	}
 	
 	public final boolean isEnemy(Entity<?> e) {
-		return model.ownerId != e.model.ownerId;
+		return model.ownerId > 0 && model.ownerId != e.model.ownerId;
 	}
 	
 	public final void update(double period) {
@@ -113,8 +113,8 @@ public abstract class Entity<Model extends model.EntityModel> {
 			
 			MovingEntityModel model = (MovingEntityModel) this.model;
 			
-			model.position.x += Math.cos(model.rotation)*model.speed;
-			model.position.y += Math.sin(model.rotation)*model.speed;
+			model.position.x += Math.cos(model.rotation())*model.speed;
+			model.position.y += Math.sin(model.rotation())*model.speed;
 			
 			if (World.WORLD_WRAP)
 			{

@@ -23,7 +23,8 @@ public class MovingEntityModel extends EntityModel {
 	
 	public MovingEntityModel(MovingEntityModel.View src) {
 		super(src);
-		rotation = src.rotation();
+//		rotation = src.rotation();
+		rotation(src.rotation());
 		position = src.position().copied();
 		speed = src.speed();
 	}

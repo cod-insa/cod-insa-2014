@@ -1,5 +1,6 @@
 package game;
 
+import model.BaseModel;
 import model.Coord;
 
 import common.Unique;
@@ -28,6 +29,9 @@ public class Base extends Entity<model.BaseModel> {
 	public EntityDisplay<Base> getView() {
 		return new BaseDisplay(this);
 	}
+
+	@Override
+	public BaseModel.View model() { return model.view(); }
 	
 }
 

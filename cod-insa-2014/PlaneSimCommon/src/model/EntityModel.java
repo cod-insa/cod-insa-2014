@@ -7,8 +7,9 @@ import common.Viewable;
 public abstract class EntityModel implements Copyable { //, Viewable<EntityModel.View> {
 	
 	public final int id;
-	
-	public double rotation = 0;
+
+	//public double rotation = 0;
+	private double rotation = 0;
 	
 	public boolean exists = true;
 	
@@ -29,10 +30,22 @@ public abstract class EntityModel implements Copyable { //, Viewable<EntityModel
 	}
 	
 	public abstract Coord.View position();
-	
-	public void rotate (double angle) {
-		rotation += angle;
+
+	public double rotation () {
+		return rotation;
+	}
+	public void rotation (double angle) {
+		rotation = angle;
 		rotation %= Math.PI*2;
+		if (rotation > Math.PI)
+			rotation -= Math.PI*2;
+	}
+	public void rotate (double angle_delta) {
+//		rotation += angle;
+//		rotation %= Math.PI*2;
+//		if (rotation > Math.PI)
+//			rotation -= Math.PI*2;
+		rotation(rotation + angle_delta);
 	}
 
 	//public Entity(int id, Coord.Unique pos) {

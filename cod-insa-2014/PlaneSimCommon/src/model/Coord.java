@@ -227,6 +227,7 @@ class InternalView {
 	
 	public double angleWith (View cv)
 	{ return Math.atan2(cv.y()-model.y, cv.x()-model.x); }
+//	{ return Math.atan((cv.y()-model.y) / (cv.x()-model.x)); }
 	
 	//@Override
 	public Coord copied() { return model.copy(null); /* FIXME NOT NULL */ }

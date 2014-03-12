@@ -12,6 +12,7 @@ import players.Player;
 import command.Command;
 import command.LandCommand;
 import command.MoveCommand;
+import command.TakeOffCommand;
 import common.NotSupportedException;
 
 public class Controller {
@@ -66,8 +67,9 @@ public class Controller {
 		catch (LandCommand lc) {
 			s.getPlane(lc.planeId).autoPilot.landAt(s.getBase(lc.baseId));
 		}
-//		catch (TakeOffCommand toc) {
-//		}
+		catch (TakeOffCommand toc) {
+			s.getPlane(toc.planeId).autoPilot.takeOff();
+		}
 //		catch (WaitCommand wc) {
 //		}
 		catch (Command def) {

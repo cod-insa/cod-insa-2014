@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import model.Coord;
+import model.PlaneModel.State;
 
 
 public class SimDisplayPanel extends JPanel {
@@ -69,7 +70,7 @@ public class SimDisplayPanel extends JPanel {
     	
     	Random r = new Random();
 //    	int nb = 5;
-    	int nb = 1;
+    	int nb = 2;
     	for (int i = 0; i < nb; i++) {
     		Plane p = new Plane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2));
 	    	pls.add(p);
@@ -232,8 +233,17 @@ public class SimDisplayPanel extends JPanel {
                 		if (bb.model().position.distanceTo(mousePos) < bb.radius())
                 			b = bb;
                 	}
-                	if (b == null)
-                		pls.get(0).autoPilot.goTo(mousePos, Mode.IGNORE);
+                	Plane p = pls.get(0);
+                	if (b == null) {
+                		p.autoPilot.goTo(mousePos, Mode.IGNORE);
+//                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
+                		
+                		
+//           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
+                	//else if (p.model().state() == State.AT_AIRPORT && b.model().getPlanes().contains(p.modelView))
+                	}
+                    else if (p.model().state() == State.AT_AIRPORT && b.model().getPlanes().size() > 0 && b.model().getPlanes().get(0).id() == p.modelView.id()) // ugly hack
+                		{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
                 	else pls.get(0).autoPilot.landAt(b);
                 	
                 	
