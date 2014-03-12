@@ -27,6 +27,14 @@ import control.Controller;
  */
 public class NetworkPlayerManager {
 	
+	public interface Listener {
+		
+		public void onConnect (NetworkPlayer player);
+		public void onDisconnect (NetworkPlayer player);
+		public void onTimeoutStatusUpdate (NetworkPlayer player, boolean timingOut);
+		
+	}
+	
 	private List<NetworkPlayer> players = new ArrayList<NetworkPlayer>();
 	
 //	private List<String> usedNames;
@@ -41,7 +49,12 @@ public class NetworkPlayerManager {
 	private Map<Integer, NetworkPlayer> connectedPlayersById = new HashMap<>();
 	private Set<Integer> usedIds = new HashSet<>();
 	private final World world;
-	private Function<NetworkPlayer, Void> onConnect = null, onDisconnect = null;
+	//private Function<NetworkPlayer, Void> onConnect = null, onDisconnect = null;
+	Listener listener = new Listener() {
+		public void onConnect(NetworkPlayer player) { }
+		public void onDisconnect(NetworkPlayer player) { }
+		public void onTimeoutStatusUpdate(NetworkPlayer player, boolean timingOut) { }
+	};
 	
 	public NetworkPlayerManager (World world)
 	{
@@ -68,8 +81,7 @@ public class NetworkPlayerManager {
 	 * called by the BridgeHandler when a new client is connected
 	 * @param name, the team name, given by orga at the beginning
 	 * @return the new player's ID
-	 * @throws TTransportException 
-	 * @throws UsedNameException, as we accept only one AI by team
+	 * @throws TTransportException
 	 */
 	public void addNewPlayer(String name, int port) throws TTransportException 
 	{
@@ -96,9 +108,12 @@ public class NetworkPlayerManager {
 		
 	}
 	
-	public void registerListeners(Function<NetworkPlayer, Void> onConnect, Function<NetworkPlayer, Void> onDisconnect) {
-		this.onConnect = onConnect;
-		this.onDisconnect = onDisconnect;
+//	public void registerListeners (Function<NetworkPlayer, Void> onConnect, Function<NetworkPlayer, Void> onDisconnect) {
+//		this.onConnect = onConnect;
+//		this.onDisconnect = onDisconnect;
+//	}
+	public void setListener (Listener list) {
+		this.listener = list;
 	}
 	
 	@SuppressWarnings("unused")
@@ -137,7 +152,7 @@ public class NetworkPlayerManager {
 		notify(); // FIXME working?
 	}
 	
-	public void diconnect() {
+	public void disconnect() {
 
 		System.out.println("Disconnecting players...");
 		
@@ -157,8 +172,10 @@ public class NetworkPlayerManager {
 	synchronized void notifyDisconnect (NetworkPlayer p) {
 		System.out.println("Player "+p.name+" (id "+p.connectionId+") disconnected.");
 		
-		if (onDisconnect != null)
-			onDisconnect.apply(p);
+//		if (onDisconnect != null)
+//			onDisconnect.apply(p);
+		
+		listener.onDisconnect(p);
 	}
 	
 	synchronized void notifyConnect (NetworkPlayer p) {
@@ -172,8 +189,16 @@ public class NetworkPlayerManager {
 		
 		notify();
 		
-		if (onConnect != null)
-			onConnect.apply(p);
+//		if (onConnect != null)
+//			onConnect.apply(p);
+		
+		listener.onConnect(p);
+		
+	}
+
+	public void notifyTimeout(NetworkPlayer p, boolean timingOut) {
+		
+		listener.onTimeoutStatusUpdate(p, timingOut);
 		
 	}
 	
@@ -189,8 +214,7 @@ public class NetworkPlayerManager {
 	public ListView<NetworkPlayer> getPlayers() {
 		return Util.shallowView(players);
 	}
-	
-	
+
 
 //	/**
 //	 * We check if all players have joined the game

@@ -51,7 +51,7 @@ import control.CommandMaker;
 
 public class NetworkPlayer extends Player {
 	
-	private Queue<Command> commands = new LinkedList<Command>();
+	private Queue<Command> commands = new LinkedList<>();
 	
 //	private int playerID;
 //	private String teamName;
@@ -70,7 +70,7 @@ public class NetworkPlayer extends Player {
 	
 	TSimpleServer dataSender, commandsReceiver;
 	Thread dataSenderThread, commandsReceiverThread;
-	
+
 	NetworkPlayerManager manager;
 	
 	World world;
@@ -83,7 +83,7 @@ public class NetworkPlayer extends Player {
 	/**
 	 * Assumptions:
 	 * 
-	 * 
+	 * TODO
 	 * 
 	 * 
 	 */
@@ -292,6 +292,10 @@ public class NetworkPlayer extends Player {
 		commandsReceiverThread.start();
 		
 	}
+
+    public boolean isConnected() {
+        return !disconnected;
+    }
 	
 	void disconnect() {
 		
@@ -382,6 +386,7 @@ public class NetworkPlayer extends Player {
 //			commands.clear();
 			commands = new ArrayDeque<>();
 		}
+		manager.notifyTimeout(this, coms.size() == 0);
 		return coms;
 	}
 

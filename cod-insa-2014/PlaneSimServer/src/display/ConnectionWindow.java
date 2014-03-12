@@ -177,8 +177,9 @@ public class ConnectionWindow {
 		          BorderLayout.LINE_START);
 		panel.add(Box.createRigidArea(new Dimension(0,margin)));
 		
-		panel.add(startBeforeBtn = new JButton("Start without waiting", UIManager.getIcon("OptionPane.warningIcon")));
-		
+		//panel.add(startBeforeBtn = new JButton("Start without waiting", UIManager.getIcon("OptionPane.warningIcon")));
+        panel.add(startBeforeBtn = new JButton("Start without waiting", UIManager.getIcon("OptionPane.informationIcon")));
+
 		panel.add(Box.createRigidArea(new Dimension(0,margin)));
 		
 //		JButton cancelBtn = new JButton("Close this connection window", UIManager.getIcon("OptionPane.errorIcon"));
@@ -216,8 +217,14 @@ public class ConnectionWindow {
     public void notifyDisconnect(NetworkPlayer p) {
         labels.get(p.connectionId).setIcon(new ImageIcon(disconnectedImage)); // throw new Error();
     }
-    public void notifyTimeoutStatus(NetworkPlayer p, boolean timeouting) {
-        labels.get(p.connectionId).setIcon(UIManager.getIcon("OptionPane.warningIcon")); // throw new Error();
+    public void notifyTimeoutStatus(NetworkPlayer p, boolean timingOut) {
+        if (p.isConnected()) {
+			//System.out.println(timingOut);
+            labels.get(p.connectionId).setIcon(
+					timingOut? UIManager.getIcon(new ImageIcon(connectedImage))
+                             : UIManager.getIcon("OptionPane.warningIcon")
+            ); // throw new Error();
+        }
     }
 	
 	public void close() {

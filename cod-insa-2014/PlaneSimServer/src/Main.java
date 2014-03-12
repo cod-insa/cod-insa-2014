@@ -72,7 +72,7 @@ public class Main {
 			//planeSim.start();
 			
 	//		npm.cancelWaitForConnections();
-	//		npm.diconnect();
+	//		npm.disconnect();
 			
 			//if(0==0) return;
 			
@@ -82,7 +82,7 @@ public class Main {
 				public void call() {
 					if (mainWindow[0] == null) {
 						npm.cancelWaitForConnections();  // call npm.cancelWaitForConnections
-						npm.diconnect();
+						npm.disconnect();
 						//planeSim.stop();
 						shutOff();
 					}
@@ -91,10 +91,27 @@ public class Main {
 			
 			//if(0==0) return;
 			
-			npm.registerListeners(new Function.Void<NetworkPlayer>() {
-				public void exec (NetworkPlayer p) { cw.notifyConnect(p); }
-			}, new Function.Void<NetworkPlayer>() {
-				public void exec (NetworkPlayer p) { cw.notifyDisconnect(p); }
+//			npm.registerListeners(new Function.Void<NetworkPlayer>() {
+//				public void exec (NetworkPlayer p) { cw.notifyConnect(p); }
+//			}, new Function.Void<NetworkPlayer>() {
+//				public void exec (NetworkPlayer p) { cw.notifyDisconnect(p); }
+//			}, new Function.Void<NetworkPlayer>() {
+//                public void exec (NetworkPlayer p, boolean timeouting) { cw.notifyTimeoutStatus(p, timeouting); }
+//            });
+			
+			npm.setListener(new NetworkPlayerManager.Listener() {
+				@Override
+				public void onConnect(NetworkPlayer player) {
+					cw.notifyConnect(player);
+				}
+				@Override
+				public void onDisconnect(NetworkPlayer player) {
+					cw.notifyDisconnect(player);
+				}
+				@Override
+				public void onTimeoutStatusUpdate(NetworkPlayer player, boolean timingOut) {
+					cw.notifyTimeoutStatus(player, timingOut);
+				}
 			});
 			
 			npm.waitForConnections(new Event() {
@@ -136,7 +153,7 @@ public class Main {
 					mainWindow[0] = new MainWindow(disp, planeSim, new Event() {
 						public void call() {
 							planeSim.stop();
-							npm.diconnect();
+							npm.disconnect();
 							shutOff();
 						}
 					}); // TODONE: and the server to stop when clicking on cross?
@@ -192,7 +209,7 @@ public class Main {
 	//		}
 			
 			/////////////////////////////////
-			//npm.diconnect();
+			//npm.disconnect();
 			/////////////////////////////////
 			
 	//		System.out.println(Thread.activeCount());
@@ -217,7 +234,7 @@ public class Main {
 	////			}
 	//		}
 		
-				System.out.println("Gracefully exitting the program...");
+				System.out.println("Gracefully exiting the program...");
 		}
 		catch (Exception e) {
 			System.err.println("Uncaught exception in PlaneSimServer.Main:");
