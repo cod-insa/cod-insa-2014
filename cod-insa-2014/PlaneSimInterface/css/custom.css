@@ -43,7 +43,7 @@ cursor:pointer;
 #leftcontain{
 	background-color: #007FFF;
     margin:0px;
-    padding:10px;
+    padding:0px;
     border-radius:0 25px 25px 0;
     position:fixed;
 	left:0;
