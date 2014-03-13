@@ -77,6 +77,21 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		return new View();
 	}
 	
+	public static boolean isVisibleByEntities(ListView<Entity> ent, Coord.View c)
+	{
+		for (Entity e : ent)
+		{
+			if (e instanceof Plane && ((Plane)e).view().canSee(c))
+			{
+				return true;
+			}
+/*			else if (e instanceof Base && ((Base)e).view().canSee(c))
+			{
+				return true;
+			}*/
+		}
+		return false;
+	}
 }
 
 
