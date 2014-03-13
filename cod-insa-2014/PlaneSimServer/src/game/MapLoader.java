@@ -6,10 +6,18 @@ import java.util.Scanner;
 
 import model.Coord;
 
+/**
+ * MapLoader
+ * Loads a map from a file and creates the bases.
+ * 
+ * TODO WebInterface will ask for center and zoom information
+ * 
+ * @author nicolas v
+ *
+ */
 public class MapLoader {
 
 	//IO
-	private String file;
 	private Scanner scanner;
 	private String path_file;
 
@@ -17,16 +25,20 @@ public class MapLoader {
 	private int basesCount;
 	private double center_lat;
 	private double center_long;
-	private double radius;
-
+	private double min_lat;
+	private double min_long;
+	private double max_lat;
+	private double max_long;
+	private int web_zoom;
+	
 	//Specify here available maps locations
 	private AvailableMaps map;
 	private static String location = "maps/";
 	private static String mapFrance = location+"france.map";
-	private static String mapUsa = location+"france.map";
-	private static String mapAfrica = location+"france.map";
-	private static String mapAsia = location+"france.map";
-	private static String mapEurope = location+"france.map";
+	private static String mapUsa = location+"usa.map";
+	private static String mapAfrica = location+"africa.map";
+	private static String mapAsia = location+"asia.map";
+	private static String mapEurope = location+"europe.map";
 	
 	//The new loaded map to use in the game
 	//private Map newmap;
@@ -36,7 +48,6 @@ public class MapLoader {
 		// What we load from a file is a list of base coordinates
 		private List<Coord> newmap;
 		
-		
 	}
 	
 	/**
@@ -45,26 +56,17 @@ public class MapLoader {
 	 */
 	public enum AvailableMaps{
 		FRANCE,
-		USA,
+		USA/*,
 		AFRICA,
 		ASIA,
-		EUROPE
+		EUROPE*/
 	};
-
-	/**
-	 * By default, loads France.
-	 */
-	public MapLoader()
-	{
-		file = "";
-		map = AvailableMaps.FRANCE;
-	}
 
 	/**
 	 * Specify here the map you want to load
 	 * @param mapname, from enum AvailableMaps
 	 */
-	public Map loadMap(AvailableMaps mapname) 
+	public MapLoader(AvailableMaps mapname) 
 	{
 		switch (mapname) {
 		case FRANCE:
@@ -73,7 +75,7 @@ public class MapLoader {
 		case USA:
 			path_file = mapUsa;
 			break;
-		case ASIA:
+		/*case ASIA:
 			path_file = mapAsia;
 			break;
 		case EUROPE:
@@ -81,8 +83,9 @@ public class MapLoader {
 			break;
 		case AFRICA:
 			path_file = mapAfrica;
-			break;
+			break;*/
 		default:
+			map = AvailableMaps.FRANCE;
 			System.err.println("Map not found!");
 		}
 		
@@ -93,9 +96,9 @@ public class MapLoader {
 			throw new Error(e);
 		}
 		
-		//readFile();
+		readFile();
 		//return newmap;
-		return readFile();
+		//return readFile();
 	}
 
 	/**
@@ -109,15 +112,19 @@ public class MapLoader {
 		
 		Map map = new Map();
 		
-		if(init_line_sep.length == 5)
+		if(init_line_sep.length == 9)
 		{
 			name = init_line_sep[0];
 			basesCount = Integer.parseInt(init_line_sep[1]);
 			center_lat = Double.parseDouble(init_line_sep[2]);
 			center_long = Double.parseDouble(init_line_sep[3]);
-			radius = Double.parseDouble(init_line_sep[4]);
+			min_lat = Double.parseDouble(init_line_sep[4]);
+			min_long = Double.parseDouble(init_line_sep[5]);
+			max_lat = Double.parseDouble(init_line_sep[6]);
+			max_long = Double.parseDouble(init_line_sep[7]);
+			web_zoom = Integer.parseInt(init_line_sep[8]);
 
-			System.out.println("New Map : "+name+" centered on "+center_lat+" "+center_long+" radius "+radius+" with "+basesCount+" bases");
+			System.out.println("New Map : "+name+" centered on "+center_lat+" "+center_long+" with "+basesCount+" bases");
 			//Map m = new Map(name,center_lat,center_long,radius,basesCount);
 
 			String line;
@@ -135,8 +142,6 @@ public class MapLoader {
 
 				System.out.println("New Base : "+name+" at "+latid+" "+longit);
 				//new Base(name,latid,longit);		
-				
-				
 			}
 			
 			//newmap = m;
@@ -148,6 +153,10 @@ public class MapLoader {
 			//System.err.println("Oops, map cannot be loaded! Check your file's header");
 			throw new Error("Oops, map cannot be loaded! Check your file's header");
 		}
+	}
+	
+	public static void main(String[] args) {
+		MapLoader map = new MapLoader(AvailableMaps.FRANCE);
 	}
 }
 
