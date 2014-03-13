@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import model.Plane.State;
 import common.Immutable;
 import common.ListView;
 import common.Unique;

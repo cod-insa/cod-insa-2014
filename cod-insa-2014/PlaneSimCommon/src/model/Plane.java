@@ -9,7 +9,7 @@ import common.Viewable;
 public class Plane extends MovingEntityModel implements Serializable, Viewable<Plane.View> {
 	
 	private static final long serialVersionUID = 1L;
-	private static final double DEFAULT_RANGE = 10;
+	private static final double DEFAULT_RANGE = 0.7;
 
 	public double health; // = 1;
 	public State state; // don't try to modify this: it is controlled by the autoPilot
@@ -19,12 +19,16 @@ public class Plane extends MovingEntityModel implements Serializable, Viewable<P
 		public double health() { return health; }
 		public State state() { return state; }
 		public double radarRange() { return radarRange; }
+		public boolean canSee(Coord.View pos) {
+			return position.squareDistanceTo(pos) <= radarRange;
+		}
 		
 		public Plane copied(Set<Object> context) {
 //			if (context.contains(PlaneModel.this)) return PlaneModel.this;
 //			return new BaseModel(BaseModel.this);
 			return copy(context);
 		}
+		
 	}
 	
 	public enum State {
@@ -56,6 +60,7 @@ public class Plane extends MovingEntityModel implements Serializable, Viewable<P
 		super(p);
 		health = p.health();
 		state = p.state();
+		radarRange = p.radarRange();
 	}
 	
 	@Override
@@ -68,6 +73,8 @@ public class Plane extends MovingEntityModel implements Serializable, Viewable<P
 	public boolean isFlying() {
 		return state != State.AT_AIRPORT && state != State.DEAD;
 	}
+	
+	
 	
 }
 
