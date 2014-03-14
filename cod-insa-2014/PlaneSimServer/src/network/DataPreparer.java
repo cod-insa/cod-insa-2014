@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Base;
+import model.Entity;
+import model.Entity.View;
 import model.Plane;
 import common.ListView;
 import common.Nullable;
-import common.Util;
 
 
 /*
@@ -53,17 +54,21 @@ public abstract class DataPreparer {
 		tobeSent.bases = new ArrayList<BaseData>();
 		tobeSent.planes = new ArrayList<PlaneData>();
 		
+		List<Entity.View> ai_entities = new ArrayList<Entity.View>();
+		
 		for (Base.View b : snapshot.bases.view) // Convert game model objects to thrift objects
 		{
 			List<Integer> id_planes = new ArrayList<Integer>();
 			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
+			{
+				ai_entities.add(b);
 				for (Plane.View p : b.getPlanes())
 					id_planes.add(p.id());
-
+			}
 			tobeSent.bases.add(new BaseData(b.id(),id_planes,b.ownerId()));
 		}
 		
-		List<Plane.View> ai_planes = new ArrayList<Plane.View>();
+		
 		for (Plane.View p : snapshot.planes.view)
 			if (p.ownerId() == ai_id)
 			{
@@ -72,22 +77,18 @@ public abstract class DataPreparer {
 						new PlaneData(p.id(), 
 						new CoordData(p.position().x(),p.position().y()), 
 						p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
-				ai_planes.add(p);
+				ai_entities.add(p);
 			}
 		
-		for (Plane.View p : snapshot.planes.view)
-			if (p.ownerId() != ai_id)
-				for (Plane.View ai_p : ai_planes)
-					if (ai_p.position().squareDistanceTo(p.position()) < ai_p.radarRange())
-					{
-						tobeSent.planes.add(
-								new PlaneData(p.id(), 
-								new CoordData(p.position().x(),p.position().y()), 
-								p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
-						break; // We found at least one ai_plane which see the plane p
-					}
+		for (Plane.View p : snapshot.planes.view) // For each plane 
+			if (p.ownerId() != ai_id) // That is not belonging to the ai 
+				if (Entity.isVisibleByEntities(ai_entities, p.position)) // And which are visible
+					// FIXME Fix gaz
+					tobeSent.planes.add(
+							new PlaneData(p.id(), 
+							new CoordData(p.position().x(),p.position().y()), 
+							p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
 		
-		System.out.println(snapshot.planes.view.size() + " :snapshot <=> data: " + tobeSent.planes.size());
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		
 		return tobeSent;

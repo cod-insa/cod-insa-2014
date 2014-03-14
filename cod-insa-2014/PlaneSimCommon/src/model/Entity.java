@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import common.Copyable;
 import common.ListView;
 import common.Viewable;
@@ -77,15 +79,15 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		return new View();
 	}
 	
-	public static boolean isVisibleByEntities(ListView<Entity> ent, Coord.View c)
+	public static boolean isVisibleByEntities(List<Entity.View> ent, Coord.View c)
 	{
-		for (Entity e : ent)
+		for (Entity.View e : ent)
 		{
-			if (e instanceof Plane && ((Plane)e).view().canSee(c))
+			if (e instanceof Plane.View && ((Plane.View)e).canSee(c))
 			{
 				return true;
 			}
-			else if (e instanceof Base && ((Base)e).view().canSee(c))
+			else if (e instanceof Base.View && ((Base.View)e).canSee(c))
 			{
 				return true;
 			}
