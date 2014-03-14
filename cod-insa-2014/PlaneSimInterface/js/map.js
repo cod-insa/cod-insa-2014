@@ -12,18 +12,26 @@
 
 //Map info
 var map;
+
+//France
 var center_lat = 48.0;
 var center_long = 2.0;
 var zoom_level = 6;
+
+//US
+//var center_lat = 39.0;
+//var center_long = -94.0;
+//var zoom_level = 5;
+
 
 //Objects to draw
 var basesArray = new Array();	
 var planesArray = new Array();
 
 //Images
-var plane1 = 'img/plane1.png';
-var plane2 = 'img/plane2.png';
-var base = 'img/home.png';
+var plane1 = '../img/plane1.png';
+var plane2 = '../img/plane2.png';
+var base = '../img/home.png';
 
 //Initialization	
 function initialisationMaps(){

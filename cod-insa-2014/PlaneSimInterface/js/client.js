@@ -2,7 +2,7 @@ var initServerConnection = function () {
 
  	var input = $('#input');
  
-    // if user is running mozilla then use it's built-in WebSocket
+    // if user is running mozilla then use its built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 
     var connection = new WebSocket('ws://192.168.1.89:14588');
