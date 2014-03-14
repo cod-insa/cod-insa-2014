@@ -23,6 +23,9 @@ public class Base extends Entity
 	public final Immutable<Coord.View> position;
 
 	public final List<Plane> planes;
+	
+	private static final double DEFAULT_RANGE = 0.7;
+	public double radarRange;
 
 	public class View extends Entity.View
 	{
@@ -37,6 +40,10 @@ public class Base extends Entity
 //		public BaseModel copied() {
 //			return new BaseModel(BaseModel.this);
 //		}
+		public double radarRange() { return radarRange; }
+		public boolean canSee(Coord.View pos) {
+			return position.squareDistanceTo(pos) <= radarRange*radarRange;
+		}
 	}
 
 	@Override
@@ -50,6 +57,7 @@ public class Base extends Entity
 		super(id);
 		planes = new ArrayList<Plane>();
 		position = new Immutable<>(pos);
+		this.radarRange = DEFAULT_RANGE;
 	}
 
 	public Base(Base.View src, Set<Object> context) {
@@ -61,6 +69,7 @@ public class Base extends Entity
 //			planes.add(Util.copy(p, context));
 			planes.add(p.copied(context));
 		position = src.getPosition(); // Immutable state can be shared
+		radarRange = src.radarRange();
 	}
 	
 //	private BaseModel(BaseModel src)

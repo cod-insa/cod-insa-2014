@@ -20,7 +20,7 @@ public class Plane extends MovingEntityModel implements Serializable, Viewable<P
 		public State state() { return state; }
 		public double radarRange() { return radarRange; }
 		public boolean canSee(Coord.View pos) {
-			return position.squareDistanceTo(pos) <= radarRange;
+			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
 		
 		public Plane copied(Set<Object> context) {

@@ -85,10 +85,10 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 			{
 				return true;
 			}
-/*			else if (e instanceof Base && ((Base)e).view().canSee(c))
+			else if (e instanceof Base && ((Base)e).view().canSee(c))
 			{
 				return true;
-			}*/
+			}
 		}
 		return false;
 	}
