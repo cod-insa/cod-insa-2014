@@ -13,7 +13,7 @@ public abstract class GameEntity {
 		GROUND,
 		MIDDLE,
 		SKY,
-		GUI
+		GUI,
 	}
 	
 	private static int _nb = 0;
