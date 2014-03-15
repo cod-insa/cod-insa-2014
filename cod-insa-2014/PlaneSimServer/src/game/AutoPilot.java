@@ -40,8 +40,9 @@ public final class AutoPilot {
 	//boolean attacking = false;
 	//Action current_action = Action.NONE;
 	State state = State.IDLE;
-	
-	public Mode mode = Mode.ATTACK_ON_SIGHT;
+
+	public Mode default_mode = Mode.ATTACK_ON_SIGHT;
+	public Mode mode = default_mode; // Mode.ATTACK_ON_SIGHT;
 	
 //	AttackMode attacking_mode = AttackMode.NONE;
 	
@@ -131,7 +132,8 @@ public final class AutoPilot {
 	}
 	
 	private double aimAngle;
-	
+	final double circling_radius = GamePlane.MAX_SPEED / Math.cos(Math.PI/2 - GamePlane.MAX_ROT_SPEED);
+
 	public void refresh(double period) {
 		
 //		// The following branch executes if there is an entityAim and if it exists;
@@ -155,6 +157,15 @@ public final class AutoPilot {
 				else resetEntityAim();
 			}
 			
+			if (state == State.GOING_TO)
+				System.out.println(plane.model().position.distanceTo(currentAim)+" "+circling_radius);
+			
+			if (state == State.GOING_TO
+					&& plane.model().position.distanceTo(currentAim) <= circling_radius // FIXME use a less strict comp?
+			) {
+				state = State.IDLE;
+				mode = default_mode;
+			}
 			
 			if (mode == Mode.ATTACK_ON_SIGHT) {
 	//			if (attacking_mode != AttackMode.SPECIFIC) {
@@ -207,7 +218,7 @@ public final class AutoPilot {
 			if (state == State.LANDING) {
 	//			double circling_radius = Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED) * Plane.MAX_SPEED/2;
 	//			double circling_radius = Plane.MAX_SPEED / (2 * Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED));
-				double circling_radius = GamePlane.MAX_SPEED / Math.cos(Math.PI/2 - GamePlane.MAX_ROT_SPEED);
+				//double circling_radius = GamePlane.MAX_SPEED / Math.cos(Math.PI/2 - GamePlane.MAX_ROT_SPEED);
 				double d = pos().distanceTo(aimPos());
 				
 	//			System.out.println(circling_radius+" "+d);
@@ -215,15 +226,15 @@ public final class AutoPilot {
 				//circling_radius *= 1.1;
 				//circling_radius *= 2;
 				//circling_radius *= 1.5;
-				circling_radius *= 1.2;
+				double larger_radius = circling_radius * 1.2;
 				
-				if (state == State.LANDING && d <= circling_radius) {
+				if (state == State.LANDING && d <= larger_radius) {
 					//targetSpeed = d/circling_radius * Plane.MAX_SPEED;
 	//				targetSpeed = Math.sqrt(d/circling_radius*circling_radius * Plane.MAX_SPEED);
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
 					//targetSpeed = Math.pow(d/circling_radius,2) * Plane.MAX_SPEED;
-					targetSpeed = d/circling_radius * GamePlane.MAX_SPEED;
+					targetSpeed = d/larger_radius * GamePlane.MAX_SPEED;
 					
 					if (d <= entityAim.radius*.7)
 					{

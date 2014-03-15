@@ -70,7 +70,7 @@ public class SimDisplayPanel extends JPanel {
     	
     	Random r = new Random();
 //    	int nb = 5;
-    	int nb = 4;
+    	int nb = 2;
     	for (int i = 0; i < nb; i++) {
     		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2));
 	    	pls.add(p);
