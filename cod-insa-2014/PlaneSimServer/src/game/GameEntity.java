@@ -104,9 +104,7 @@ public abstract class GameEntity {
 		return radius;
 	}
 	
-	public final boolean isEnemy(GameEntity e) {
-		return model.ownerId > 0 && model.ownerId != e.model.ownerId;
-	}
+	
 	
 	public final void update(double period) {
 //		model.position.x += Math.cos(model.rotation)*model.speed;

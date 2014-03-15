@@ -78,26 +78,6 @@ public final class GamePlane extends GameEntity {
 		return model().isFlying();
 	}
 	
-	public boolean isFriend(GameEntity e) {
-		return model.ownerId == e.model.ownerId;
-	}
-	
-	public boolean canSee(GameEntity e) {
-		if (e instanceof GamePlane && ((GamePlane)e).model().state == State.AT_AIRPORT)
-			return false;
-		return model().position.squareDistanceTo(e.model.position()) <= VISION_DIST_SQUARED;
-	}
-	
-	public boolean canAttack(GamePlane e) {
-		return isEnemy(e) && e.altitude == altitude && canSee(e);
-	}
-	
-	public boolean knowsPositionOf(GameEntity e) {
-		if (e instanceof GameBase)
-			return true;
-		return isFriend(e) || canSee(e);
-	}
-	
 }
 
 

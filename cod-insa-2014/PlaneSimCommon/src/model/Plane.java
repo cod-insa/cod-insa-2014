@@ -9,17 +9,24 @@ import common.Viewable;
 public class Plane extends MovingEntity implements Serializable, Viewable<Plane.View> {
 	
 	private static final long serialVersionUID = 1L;
-	private static final double DEFAULT_RANGE = 0.7;
+	//private static final double DEFAULT_RANGE = 0.7;
 
 	public double health; // = 1;
 	public State state; // don't try to modify this: it is controlled by the autoPilot
-	public double radarRange;
+	public Base curBase; // no sense if state != State.AT_AIRPORT
+	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
 
 	public class View extends MovingEntity.View {
 		public double health() { return health; }
 		public State state() { return state; }
-		public double radarRange() { return radarRange; }
-		public boolean canSee(Coord.View pos) {
+		@Override
+		public boolean canSee(Entity.View e) {
+			if (e instanceof Plane.View && ((Plane.View)e).state() == State.AT_AIRPORT)
+				return false;
+			return isWithinRadar(e.position);
+		}
+		@Override
+		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
 		
@@ -28,7 +35,16 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //			return new BaseModel(BaseModel.this);
 			return copy(context);
 		}
-		
+
+		public boolean knowsPositionOf(Entity.View e) {
+			if (e instanceof Base.View)
+				return true;
+			return isFriend(e) || canSee(e);
+		}
+
+		public boolean canAttack(Plane.View e) {
+			return isEnemy(e) && canSee(e);
+		}
 	}
 	
 	public enum State {
@@ -53,14 +69,13 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
 		this.state = state;
-		this.radarRange = DEFAULT_RANGE;
+		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 	}
 	
 	public Plane (Plane.View p) {
 		super(p);
 		health = p.health();
 		state = p.state();
-		radarRange = p.radarRange();
 	}
 	
 	@Override
