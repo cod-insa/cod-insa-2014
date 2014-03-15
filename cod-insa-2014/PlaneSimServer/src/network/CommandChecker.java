@@ -26,9 +26,9 @@ public abstract class CommandChecker {
 			return new Response(Command.ERROR_COMMAND,"The plane n�"+mc.planeId+" doesn't exist. Command ignored.");
 		
 		if (mc.destination.x() < 0 || 
-				mc.destination.x() > World.WIDTH ||
+				mc.destination.x() > s.width ||
 				mc.destination.y() < 0 ||
-				mc.destination.y() > World.HEIGHT)
+				mc.destination.y() > s.height)
 			return new Response(Command.ERROR_COMMAND,"The coord ("+mc.destination.x()+","+mc.destination.y()+") is not valid. Command ignored.");
 		
 		// plane id is ok, coords are ok

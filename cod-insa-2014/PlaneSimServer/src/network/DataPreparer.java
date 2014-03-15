@@ -40,9 +40,11 @@ public abstract class DataPreparer {
 		{
 			for (Base.View b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
+			
+			tobeSent.mapWidth = snapshot.get().width;
+			tobeSent.mapHeight = snapshot.get().height;
 		}
-		tobeSent.mapHeight = World.HEIGHT;
-		tobeSent.mapWidth = World.WIDTH;
+		
 		return tobeSent;
 	}
 	

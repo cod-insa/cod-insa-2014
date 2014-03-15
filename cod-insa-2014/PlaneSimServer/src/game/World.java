@@ -15,16 +15,17 @@ import common.Viewable;
 
 public class World implements Viewable<World.View> {
 	
-	private static double S = 3;
-	
 	public static final boolean WORLD_WRAP = true;
-	public static final double WIDTH = S, HEIGHT = S;
 	
+	private static double S = 3;
+	private static final double DEFAULT_WIDTH = S, DEFAULT_HEIGHT = S;
+	
+	public final double width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
 	
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
 	
-	List<GameBase> bases = new ArrayList<GameBase>();
+	List<GameBase> bases = new ArrayList<>();
 	
 	// All the current entities of the game
 	List<GameEntity> entities = new ArrayList<>();
@@ -73,7 +74,12 @@ public class World implements Viewable<World.View> {
 		public final Immutable<ListView<Base.View>> bases;
 		public final Immutable<ListView<Plane.View>> planes;
 		
+		public final double width, height;
+		
 		Snapshot(World w) {
+
+			width = w.width;
+			height = w.height;
 			
 			this.id = w.currentSnapshotId;
 			

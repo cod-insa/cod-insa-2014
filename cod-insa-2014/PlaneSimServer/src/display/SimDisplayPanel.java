@@ -152,14 +152,16 @@ public class SimDisplayPanel extends JPanel {
             	Coord bottom_right = vtrans.getCoord(new Pixel(getWidth(), getHeight()));
             	bottom_right.sub(vtrans.shift);
             	
-            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
-            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
+				World w = sim.getWorld();
+				
+            	if (vtrans._shift.x > w.width + GAME_SHIFT_MARGIN - bottom_right.x)
+            		vtrans._shift.x = w.width + GAME_SHIFT_MARGIN - bottom_right.x;
             	
             	if (vtrans._shift.x < -GAME_SHIFT_MARGIN)
             		vtrans._shift.x = -GAME_SHIFT_MARGIN;
             	
-            	if (vtrans._shift.y > World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y)
-            		vtrans._shift.y = World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y;
+            	if (vtrans._shift.y > w.height + GAME_SHIFT_MARGIN - bottom_right.y)
+            		vtrans._shift.y = w.height + GAME_SHIFT_MARGIN - bottom_right.y;
             	
             	if (vtrans._shift.y < -GAME_SHIFT_MARGIN)
             		vtrans._shift.y = -GAME_SHIFT_MARGIN;
@@ -332,7 +334,7 @@ public class SimDisplayPanel extends JPanel {
         
         g2d.setColor(Color.black);
         Pixel top_left = vtrans.getViewPos(new Coord(0,0).view());
-        Pixel bottom_right = vtrans.getViewPos(new Coord(World.WIDTH, World.HEIGHT).view());
+        Pixel bottom_right = vtrans.getViewPos(new Coord(sim.getWorld().width, sim.getWorld().height).view());
         g2d.drawRect(top_left.x, top_left.y, bottom_right.x-top_left.x, bottom_right.y-top_left.y);
         
         

@@ -118,7 +118,7 @@ public class Game {
 					if (current_frame%world_snapshot_frame_period == 0) {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
-							double w = World.WIDTH, h = World.HEIGHT;
+							double w = world.width, h = world.height;
 							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3);
 							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4);
 						}

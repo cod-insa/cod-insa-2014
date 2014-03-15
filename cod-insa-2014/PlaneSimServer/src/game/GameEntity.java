@@ -128,21 +128,22 @@ public abstract class GameEntity {
 			
 			if (World.WORLD_WRAP)
 			{
+				World w = sim.getWorld();
 				if (model.position.x < 0) {
-					model.position.x += World.WIDTH;
-					_lastPosition.x += World.WIDTH;
+					model.position.x += w.width; // World.WIDTH;
+					_lastPosition.x += w.width;
 				}
-				else if (model.position.x > World.WIDTH) {
-					model.position.x -= World.WIDTH;
-					_lastPosition.x -= World.WIDTH;
+				else if (model.position.x > w.width) {
+					model.position.x -= w.width;
+					_lastPosition.x -= w.width;
 				}
 				if (model.position.y < 0) {
-					model.position.y += World.HEIGHT;
-					_lastPosition.y += World.WIDTH;
+					model.position.y += w.height; // World.HEIGHT;
+					_lastPosition.y += w.height;
 				}
-				else if (model.position.y > World.HEIGHT) {
-					model.position.y -= World.HEIGHT;
-					_lastPosition.y -= World.WIDTH;
+				else if (model.position.y > w.height) {
+					model.position.y -= w.height;
+					_lastPosition.y -= w.height;
 				}
 			}
 			
