@@ -6,7 +6,7 @@ import java.util.Set;
 import common.Unique;
 import common.Viewable;
 
-public class Plane extends MovingEntityModel implements Serializable, Viewable<Plane.View> {
+public class Plane extends MovingEntity implements Serializable, Viewable<Plane.View> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final double DEFAULT_RANGE = 0.7;
@@ -15,7 +15,7 @@ public class Plane extends MovingEntityModel implements Serializable, Viewable<P
 	public State state; // don't try to modify this: it is controlled by the autoPilot
 	public double radarRange;
 
-	public class View extends MovingEntityModel.View {
+	public class View extends MovingEntity.View {
 		public double health() { return health; }
 		public State state() { return state; }
 		public double radarRange() { return radarRange; }

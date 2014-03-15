@@ -2,7 +2,7 @@ package game;
 
 import model.Coord;
 import model.Entity;
-import model.MovingEntityModel;
+import model.MovingEntity;
 import display.EntityDisplay;
 
 
@@ -114,9 +114,9 @@ public abstract class GameEntity {
 		
 		_lastPosition.set(model.position());
 		
-		if (model instanceof MovingEntityModel) {
+		if (model instanceof MovingEntity) {
 			
-			MovingEntityModel model = (MovingEntityModel) this.model;
+			MovingEntity model = (MovingEntity) this.model;
 			
 //			model.position.x += Math.cos(model.rotation())*model.speed;
 //			model.position.y += Math.sin(model.rotation())*model.speed;

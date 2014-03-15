@@ -1,7 +1,7 @@
 package game;
 
 import model.Coord;
-import model.MovingEntityModel;
+import model.MovingEntity;
 
 import common.Unique;
 import common.Util;
@@ -23,10 +23,10 @@ public class Projectile extends GameEntity {
 	private double distToCover; // = Plane.VISION_RADIUS;
 	public double distToCover() { return distToCover; };
 	
-	//public Projectile(MovingEntityModel model, Sim sim, Unique<Coord> pos, Altitude alt, double direction) {
+	//public Projectile(MovingEntity model, Sim sim, Unique<Coord> pos, Altitude alt, double direction) {
 		//super(model, sim, pos, alt);
 	public Projectile (Game sim, Unique<Coord> pos, Unique<Coord> ine, int ownerId, double direction) {
-		super(new MovingEntityModel(makeNextId(), pos, ine), sim, Altitude.SKY);
+		super(new MovingEntity(makeNextId(), pos, ine), sim, Altitude.SKY);
 //		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
 		model().rotation(direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION);
 		model().speed = SPEED;
@@ -65,10 +65,10 @@ public class Projectile extends GameEntity {
 	}
 	
 	@Override
-	MovingEntityModel model() { return (MovingEntityModel) model; }
+	MovingEntity model() { return (MovingEntity) model; }
 	
 	@Override
-	public MovingEntityModel.View modelView() { return model().view(); }
+	public MovingEntity.View modelView() { return model().view(); }
 	
 	
 }

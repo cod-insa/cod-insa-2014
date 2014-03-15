@@ -5,7 +5,7 @@ import java.util.Set;
 import common.Unique;
 
 
-public class MovingEntityModel extends Entity {
+public class MovingEntity extends Entity {
 	
 	public final Coord position, inertia;
 	
@@ -17,13 +17,13 @@ public class MovingEntityModel extends Entity {
 		public Coord.View inertia() { return inertia.view(); }
 	}
 	
-	public MovingEntityModel(int id, Unique<Coord> pos, Unique<Coord> ine) {
+	public MovingEntity(int id, Unique<Coord> pos, Unique<Coord> ine) {
 		super(id);
 		position = pos.take();
 		inertia = ine.take();
 	}
 	
-	public MovingEntityModel(MovingEntityModel.View src) {
+	public MovingEntity(MovingEntity.View src) {
 		super(src);
 //		rotation = src.rotation();
 		rotation(src.rotation());
@@ -42,9 +42,9 @@ public class MovingEntityModel extends Entity {
 	}
 
 	@Override
-	public MovingEntityModel copy (Set<Object> context) {
+	public MovingEntity copy (Set<Object> context) {
 		if (context.contains(this)) return this;
-		MovingEntityModel ret = new MovingEntityModel(new View());
+		MovingEntity ret = new MovingEntity(new View());
 		context.add(ret);
 		return ret;
 	}
