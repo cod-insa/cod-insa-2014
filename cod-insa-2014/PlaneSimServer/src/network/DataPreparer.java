@@ -41,8 +41,8 @@ public abstract class DataPreparer {
 			for (Base.View b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 			
-			tobeSent.mapWidth = snapshot.get().width;
-			tobeSent.mapHeight = snapshot.get().height;
+			tobeSent.mapWidth = (int)snapshot.get().width;
+			tobeSent.mapHeight = (int)snapshot.get().height;
 		}
 		
 		return tobeSent;
@@ -131,6 +131,11 @@ public abstract class DataPreparer {
 			case FOLLOWING:
 				psd = PlaneStateData.FOLLOWING;
 				break;
+			case LANDING:
+				psd = PlaneStateData.LANDING;
+				break;
+			default:
+				throw new Error("Unrecognized State");
 			}
 			return psd;
 		}

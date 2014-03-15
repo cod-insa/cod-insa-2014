@@ -36,8 +36,8 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("InitData");
 
   private static final org.apache.thrift.protocol.TField BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("bases", org.apache.thrift.protocol.TType.LIST, (short)1);
-  private static final org.apache.thrift.protocol.TField MAP_WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("mapWidth", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
-  private static final org.apache.thrift.protocol.TField MAP_HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("mapHeight", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField MAP_WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("mapWidth", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField MAP_HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("mapHeight", org.apache.thrift.protocol.TType.I32, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -46,8 +46,8 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   }
 
   public List<BaseInitData> bases; // required
-  public double mapWidth; // required
-  public double mapHeight; // required
+  public int mapWidth; // required
+  public int mapHeight; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -124,9 +124,9 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseInitData.class))));
     tmpMap.put(_Fields.MAP_WIDTH, new org.apache.thrift.meta_data.FieldMetaData("mapWidth", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.MAP_HEIGHT, new org.apache.thrift.meta_data.FieldMetaData("mapHeight", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(InitData.class, metaDataMap);
   }
@@ -136,8 +136,8 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
 
   public InitData(
     List<BaseInitData> bases,
-    double mapWidth,
-    double mapHeight)
+    int mapWidth,
+    int mapHeight)
   {
     this();
     this.bases = bases;
@@ -171,9 +171,9 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   public void clear() {
     this.bases = null;
     setMapWidthIsSet(false);
-    this.mapWidth = 0.0;
+    this.mapWidth = 0;
     setMapHeightIsSet(false);
-    this.mapHeight = 0.0;
+    this.mapHeight = 0;
   }
 
   public int getBasesSize() {
@@ -215,11 +215,11 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     }
   }
 
-  public double getMapWidth() {
+  public int getMapWidth() {
     return this.mapWidth;
   }
 
-  public InitData setMapWidth(double mapWidth) {
+  public InitData setMapWidth(int mapWidth) {
     this.mapWidth = mapWidth;
     setMapWidthIsSet(true);
     return this;
@@ -238,11 +238,11 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MAPWIDTH_ISSET_ID, value);
   }
 
-  public double getMapHeight() {
+  public int getMapHeight() {
     return this.mapHeight;
   }
 
-  public InitData setMapHeight(double mapHeight) {
+  public InitData setMapHeight(int mapHeight) {
     this.mapHeight = mapHeight;
     setMapHeightIsSet(true);
     return this;
@@ -275,7 +275,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (value == null) {
         unsetMapWidth();
       } else {
-        setMapWidth((Double)value);
+        setMapWidth((Integer)value);
       }
       break;
 
@@ -283,7 +283,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (value == null) {
         unsetMapHeight();
       } else {
-        setMapHeight((Double)value);
+        setMapHeight((Integer)value);
       }
       break;
 
@@ -296,10 +296,10 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       return getBases();
 
     case MAP_WIDTH:
-      return Double.valueOf(getMapWidth());
+      return Integer.valueOf(getMapWidth());
 
     case MAP_HEIGHT:
-      return Double.valueOf(getMapHeight());
+      return Integer.valueOf(getMapHeight());
 
     }
     throw new IllegalStateException();
@@ -508,16 +508,16 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
             }
             break;
           case 2: // MAP_WIDTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.mapWidth = iprot.readDouble();
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.mapWidth = iprot.readI32();
               struct.setMapWidthIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // MAP_HEIGHT
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.mapHeight = iprot.readDouble();
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.mapHeight = iprot.readI32();
               struct.setMapHeightIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -551,10 +551,10 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         oprot.writeFieldEnd();
       }
       oprot.writeFieldBegin(MAP_WIDTH_FIELD_DESC);
-      oprot.writeDouble(struct.mapWidth);
+      oprot.writeI32(struct.mapWidth);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(MAP_HEIGHT_FIELD_DESC);
-      oprot.writeDouble(struct.mapHeight);
+      oprot.writeI32(struct.mapHeight);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -594,10 +594,10 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         }
       }
       if (struct.isSetMapWidth()) {
-        oprot.writeDouble(struct.mapWidth);
+        oprot.writeI32(struct.mapWidth);
       }
       if (struct.isSetMapHeight()) {
-        oprot.writeDouble(struct.mapHeight);
+        oprot.writeI32(struct.mapHeight);
       }
     }
 
@@ -620,11 +620,11 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         struct.setBasesIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.mapWidth = iprot.readDouble();
+        struct.mapWidth = iprot.readI32();
         struct.setMapWidthIsSet(true);
       }
       if (incoming.get(2)) {
-        struct.mapHeight = iprot.readDouble();
+        struct.mapHeight = iprot.readI32();
         struct.setMapHeightIsSet(true);
       }
     }

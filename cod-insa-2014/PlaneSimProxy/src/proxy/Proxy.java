@@ -120,7 +120,7 @@ public class Proxy
 					plane.position.x = p.posit.x;
 					plane.position.y = p.posit.y;
 					plane.health = p.health;
-					
+					System.out.println(p.state);
 					plane.state = StateConverter.make(p.state);
 					// plane._rot = p.rotation; // Ajouter au thrift plus tard
 					// plane.health = p.energy; // Not necessary for now
@@ -251,6 +251,11 @@ public class Proxy
 			case FOLLOWING:
 				s = Plane.State.FOLLOWING;
 				break;
+			case LANDING:
+				s = Plane.State.LANDING;
+				break;
+			default:
+				throw new Error("Unhandled plane state");
 			}
 			return s;
 		}

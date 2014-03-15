@@ -24,8 +24,9 @@ enum PlaneStateData {
 	GOING_TO = 2,
 	FOLLOWING = 3,
 	ATTACKING = 4,
-	AT_AIRPORT = 5,
-	DEAD = 6
+	LANDING = 5,
+	AT_AIRPORT = 6,
+	DEAD = 7
 }
 
 struct PlaneData {

@@ -16,8 +16,9 @@ public enum PlaneStateData implements org.apache.thrift.TEnum {
   GOING_TO(2),
   FOLLOWING(3),
   ATTACKING(4),
-  AT_AIRPORT(5),
-  DEAD(6);
+  LANDING(5),
+  AT_AIRPORT(6),
+  DEAD(7);
 
   private final int value;
 
@@ -47,8 +48,10 @@ public enum PlaneStateData implements org.apache.thrift.TEnum {
       case 4:
         return ATTACKING;
       case 5:
-        return AT_AIRPORT;
+        return LANDING;
       case 6:
+        return AT_AIRPORT;
+      case 7:
         return DEAD;
       default:
         return null;
