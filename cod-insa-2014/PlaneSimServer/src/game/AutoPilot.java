@@ -150,7 +150,7 @@ public final class AutoPilot {
 			
 			if (entityAim != null) {
 				//if (entityAim.model.exists && ( plane.canSee(entityAim) || (state != State.FOLLOWING || plane.isFriend(entityAim)) ))
-				if (entityAim.model.exists && plane.knowsPositionOf(entityAim))
+				if (entityAim.model.exists && /*plane.knowsPositionOf(entityAim)*/ plane.model().view().knowsPositionOf(entityAim.model().view()))
 					 _aim.set(entityAim.model.position());
 				else resetEntityAim();
 			}
@@ -273,7 +273,7 @@ public final class AutoPilot {
 		for (GamePlane e: sim.planes)
 		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 		//	if (plane.isEnemy(e) && e.altitude == plane.altitude && plane.canSee(e))
-			if (plane.canAttack(e))
+			if (plane.model().view().canAttack(e.model().view()))
 			{
 				double sd = plane.modelView().position().squareDistanceTo(e.modelView().position());
 				if (sd <= GamePlane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))

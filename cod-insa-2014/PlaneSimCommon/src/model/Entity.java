@@ -1,9 +1,7 @@
 package model;
 
-import java.util.List;
-
+import model.Entity.View;
 import common.Copyable;
-import common.ListView;
 import common.Viewable;
 
 
@@ -21,6 +19,10 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	 */
 	public int ownerId;
 	
+	
+	private static final double DEFAULT_ENTITY_RADAR_RANGE = 0;
+	public double radarRange;
+	
 	public class View implements Viewable.View {
 //		public Coord.View position() { return EntityModel.this.position(); }
 		public final Coord.View position = Entity.this.position();
@@ -30,6 +32,19 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		public double rotation() { return rotation; }
 		public boolean exists() { return exists; }
 		public int ownerId() { return ownerId; }
+		public double radarRange() { return radarRange; }
+		public boolean canSee(Entity.View e) {
+			return false;
+		}
+		public boolean isWithinRadar(Coord.View pos) {
+			return false;
+		}
+		public boolean isFriend(Entity.View e) {
+			return ownerId == e.ownerId();
+		}
+		public final boolean isEnemy(Entity.View e) {
+			return ownerId > 0 && ownerId != e.ownerId();
+		}
 	}
 	
 	public abstract Coord.View position();
@@ -59,11 +74,13 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		//position = _pos.view;
 		//view = new View();
 		//this.view = view;
+		radarRange = DEFAULT_ENTITY_RADAR_RANGE;
 	}
 	public Entity(Entity.View src) {
 		this(src.id());
 		ownerId = src.ownerId();
 		rotation = src.rotation();
+		radarRange = src.radarRange();
 	}
 	
 //	public EntityModel (EntityModel src) {
@@ -77,22 +94,6 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	
 	public View view() {
 		return new View();
-	}
-	
-	public static boolean isVisibleByEntities(List<Entity.View> ent, Coord.View c)
-	{
-		for (Entity.View e : ent)
-		{
-			if (e instanceof Plane.View && ((Plane.View)e).canSee(c))
-			{
-				return true;
-			}
-			else if (e instanceof Base.View && ((Base.View)e).canSee(c))
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 }
 

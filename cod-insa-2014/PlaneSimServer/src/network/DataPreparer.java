@@ -82,7 +82,8 @@ public abstract class DataPreparer {
 		
 		for (Plane.View p : snapshot.planes.view) // For each plane 
 			if (p.ownerId() != ai_id) // That is not belonging to the ai 
-				if (Entity.isVisibleByEntities(ai_entities, p.position)) // And which are visible
+				for (Entity.View e : ai_entities)
+					if (e.canSee(p))
 					// FIXME Fix gaz
 					tobeSent.planes.add(
 							new PlaneData(p.id(), 
