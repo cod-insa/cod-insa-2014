@@ -157,8 +157,8 @@ public final class AutoPilot {
 				else resetEntityAim();
 			}
 			
-			if (state == State.GOING_TO)
-				System.out.println(plane.model().position.distanceTo(currentAim)+" "+circling_radius);
+//			if (state == State.GOING_TO)
+//				System.out.println(plane.model().position.distanceTo(currentAim)+" "+circling_radius);
 			
 			if (state == State.GOING_TO
 					&& plane.model().position.distanceTo(currentAim) <= circling_radius // FIXME use a less strict comp?
