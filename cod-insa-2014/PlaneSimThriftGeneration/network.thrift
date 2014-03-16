@@ -56,12 +56,12 @@ struct BaseInitData {
 	2: CoordData posit
 }
 
-struct ProgressAxeInitData {
+struct ProgressAxisInitData {
 	1: int base1_id,
 	2: int base2_id
 }
 
-struct ProgressAxeData {
+struct ProgressAxisData {
 	/* These are percentage */
 	1: double progressBase1, 
 	2: double progressBase2 
@@ -86,7 +86,7 @@ struct InitData {
 	1: list<BaseInitData> bases,
 	2: double mapWidth,
 	3: double mapHeight,
-	4: list<ProgressAxeInitData> progressAxes,
+	4: list<ProgressAxisInitData> progressAxis,
 	5: CountryInitData myCountry,
 	6: list<CountryInitData> othersCountry,
 	7: int initMoney
@@ -96,7 +96,7 @@ struct Data {
 	1: int numFrame,
 	2: list<PlaneData> planes,
 	3: list<BaseData> bases,
-	4: list<ProgressAxeData> progressAxes,
+	4: list<ProgressAxisData> progressAxis,
 	5: CountryData myCountry,
 	6: int currentMoney
 }
