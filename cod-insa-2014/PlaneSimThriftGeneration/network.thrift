@@ -34,19 +34,47 @@ struct PlaneData {
 	2: CoordData posit,
 	3: int ai_id,
 	4: double health,
-	5: int gaz,
-	6: PlaneStateData state
+	/* visible only if it belongs to the AI : */
+	5: int remainingGaz, 
+	6: PlaneStateData state,
+	7: int militarRessourceCarried,
+	8: int fuelRessourceCarried
 }
 
 struct BaseData {
 	1: int base_id,
-	2: list<int> planes_id,
-	3: int ai_id
+	/* marked as neutral (= 0) if the base is neither neutral nor owned */
+	2: int ai_id,
+	/* visible only if it belongs to the AI : */
+	3: list<int> planes_id,
+	4: int militarRessource,
+	5: int fuelRessource
 }
 
 struct BaseInitData {
 	1: int base_id,
 	2: CoordData posit
+}
+
+struct ProgressAxeInitData {
+	1: int base1_id,
+	2: int base2_id
+}
+
+struct ProgressAxeData {
+	/* These are percentage */
+	1: double progressBase1, 
+	2: double progressBase2 
+}
+
+struct CountryInitData {
+	1: CoordData country1,
+	2: CoordData country2
+}
+
+struct CountryData {
+	/* This is sent only for one AI and list */
+	1: list<int> PlanesIdInProductionChain
 }
 
 struct ConnectionData {
@@ -57,13 +85,20 @@ struct ConnectionData {
 struct InitData {
 	1: list<BaseInitData> bases,
 	2: int mapWidth,
-	3: int mapHeight
+	3: int mapHeight,
+	4: list<ProgressAxeInitData> progressAxes,
+	5: CountryInitData myCountry,
+	6: list<CountryInitData> othersCountry,
+	7: int initMoney
 }
 
 struct Data {
 	1: int numFrame,
 	2: list<PlaneData> planes,
-	3: list<BaseData> bases
+	3: list<BaseData> bases,
+	4: list<ProgressAxeData> progressAxes,
+	5: CountryData myCountry,
+	6: int currentMoney
 }
 
 # Bridge is like a bridge on the network, between PlaneSimProxy.proxy.Proxy (Bridge.Client) 
