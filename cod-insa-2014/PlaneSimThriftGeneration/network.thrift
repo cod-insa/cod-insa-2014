@@ -141,6 +141,16 @@ struct LandCommandData {
 	2: int idBase
 }
 
+struct AttackCommandData {
+	1: PlaneCommandData pc,
+	2: int idTarget
+}
+
+struct FollowCommandData {
+	1: PlaneCommandData pc,
+	2: int idTarget
+}
+
 struct Response {
 	1: int code, # 0 : Success, -1 : Error on command, -2 : Error timeout
 	2: string message # empty if success
