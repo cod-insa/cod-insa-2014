@@ -84,8 +84,8 @@ struct ConnectionData {
 
 struct InitData {
 	1: list<BaseInitData> bases,
-	2: int mapWidth,
-	3: int mapHeight,
+	2: double mapWidth,
+	3: double mapHeight,
 	4: list<ProgressAxeInitData> progressAxes,
 	5: CountryInitData myCountry,
 	6: list<CountryInitData> othersCountry,
