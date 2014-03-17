@@ -181,7 +181,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		}
 		@Override
 		public double y() {
-			return object.x;
+			return object.y;
 		}
 		@Override
 		public Coord opposite() {

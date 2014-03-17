@@ -14,19 +14,37 @@ public class CoordConverter {
 	private double min_lat; // min y
 	private double max_lat; // max y
 
+	private double latAmplitude;
+	private double longAmplitude;
+	
+	private double widthWorld;
+	private double heightWorld;
+	
 	public CoordConverter(double minla, double maxla, double minlo, double maxlo) {
 		min_lat = minla;
 		max_lat = maxla;
 		min_long = minlo;
 		max_long = maxlo;
+		
+		widthWorld = 1;
+		heightWorld = 1;
+		
+		latAmplitude = max_lat - min_lat;
+		longAmplitude = max_long - min_long;
+	}
+	
+	public void setWorldDimensions(double width, double height)
+	{
+		widthWorld = width;
+		heightWorld = height;
 	}
 
 	public double getWidth() {
-		return max_long - min_long;
+		return longAmplitude;
 	}
 
 	public double getHeight() {
-		return max_lat - min_lat;
+		return latAmplitude;
 	}
 
 	public Coord toDegrees(double longitude, double latitude) {
@@ -45,6 +63,11 @@ public class CoordConverter {
 
 	public Coord toCartesian(double longitude, double latitude) {
 		return new Coord(longitude - min_long, latitude - min_lat);
+	}
+	
+	public Coord.Unique toCartesianUnique(double longitude, double latitude) {
+		
+		return new Coord.Unique(((longitude - min_long)/longAmplitude)*widthWorld, heightWorld*((latitude - min_lat)/latAmplitude));
 	}
 
 	public Coord toCartesian(Coord degreesCoord) {
