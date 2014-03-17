@@ -156,6 +156,16 @@ public class World implements Viewable<World.View> {
 		}
 		
 	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+	
+	
 	
 }
 

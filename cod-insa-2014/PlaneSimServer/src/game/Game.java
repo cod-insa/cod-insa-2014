@@ -1,15 +1,16 @@
 package game;
 
+import game.MapLoader.MapInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Coord;
-
+import common.CoordConverter;
 import common.ListView;
 import common.Util;
-
 import control.Controller;
 import display.Displayer;
 
@@ -31,6 +32,10 @@ public class Game {
 	public ListView<GamePlane> planes = Util.shallowView(world.planes);
 	public ListView<GameBase> bases;
 	
+	public MapLoader mapLoader;
+	public String mapName;
+	public CoordConverter converter;
+	public MapInfo mapInfo;
 	
 	//final Timer updateTimer = new Timer();
 	//final Timer updateTimer = null;
@@ -51,10 +56,15 @@ public class Game {
 	}
 	*/ 
 	
-	public Game (Displayer disp, int nbplay) {
-		this.disp = disp;
+	public Game (Displayer disp, int nbplay, String mapName) {
 		
+		this.disp = disp;
 		this.nbPlayers = nbplay;
+		this.mapLoader = new MapLoader(this, mapName);
+		this.converter = mapLoader.getConverter();
+		this.mapInfo = mapLoader.getM();
+				
+		
 		//this.stepUpdate = new Controller(update_period);
 		
 //		this.world = new World(this);    // [no more true:] also sets this.world... to avoid NPE..

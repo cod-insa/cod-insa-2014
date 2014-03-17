@@ -1,13 +1,12 @@
 import game.Game;
+import game.MapLoader;
 
 import org.apache.thrift.transport.TTransportException;
 
 import players.NetworkPlayer;
 import players.NetworkPlayerManager;
-
 import common.Event;
 import common.Function;
-
 import control.Controller;
 import display.ConnectionWindow;
 import display.Displayer;
@@ -33,7 +32,7 @@ public class Main {
 		
 		try {
 		
-			if (args.length < 1 || args.length%2 != 0)
+			if (args.length < 1 || args.length%2 != 1)
 				printUsageAndExit(-1);
 			
 			if (args.length == 1 && args[0].equals("help") || args[0].equals("--help") || args[0].equals("-h"))
@@ -43,14 +42,14 @@ public class Main {
 			
 			new Controller(50);
 			
-			int nbplay = args.length/2;
+			int nbplay = (args.length-1)/2;
 			
 			final Displayer disp = new Displayer();
-			final Game planeSim = new Game(disp, nbplay);
+			final Game planeSim = new Game(disp, nbplay, args[0]);
 			
 			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
 			
-			for (int i = 0; i < args.length; i+= 2) {
+			for (int i = 1; i < args.length; i+= 2) {
 	//			String[] ip_port = args[i+1].split(":");
 	//			try { npm.addPlayer(args[i], ip_port[0], Integer.parseInt(ip_port[1])); }
 	//			catch (NumberFormatException | ArrayIndexOutOfBoundsException e)
@@ -248,7 +247,7 @@ public class Main {
 	public static void printUsageAndExit(int exitCode) {
 		(exitCode==0? System.out: System.err).println("Usage:\n" +
 //				"\tjava Main playerName1 ip:port playerName2 ip:port ..."
-				"\tjava Main playerName1 port1 playerName2 port2 ..."
+				"\tjava Main mapName playerName1 port1 playerName2 port2 ..."
 			);
 		System.exit(exitCode);
 	}
