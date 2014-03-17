@@ -7,7 +7,6 @@
 *	get map info from server
 *	add planes and bases images
 *	lock map position
-*
 **/
 
 //Map info
