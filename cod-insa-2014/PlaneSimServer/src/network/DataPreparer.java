@@ -67,7 +67,7 @@ public abstract class DataPreparer {
 				for (Plane.View p : b.getPlanes())
 					id_planes.add(p.id());
 			}
-			tobeSent.bases.add(new BaseData(b.id(),id_planes,b.ownerId()));
+			tobeSent.bases.add(new BaseData(b.id(),b.ownerId(),id_planes,0,0)); // FIXME Fix the ressources
 		}
 		
 		
@@ -78,7 +78,7 @@ public abstract class DataPreparer {
 				tobeSent.planes.add(
 						new PlaneData(p.id(), 
 						new CoordData(p.position().x(),p.position().y()), 
-						p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
+						p.ownerId(), p.health(), -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
 				ai_entities.add(p);
 			}
 		
@@ -90,7 +90,7 @@ public abstract class DataPreparer {
 					tobeSent.planes.add(
 							new PlaneData(p.id(), 
 							new CoordData(p.position().x(),p.position().y()), 
-							p.ownerId(), p.health(), -1, DataStateConverter.make(p.state())));
+							p.ownerId(), p.health(), -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
 		
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		

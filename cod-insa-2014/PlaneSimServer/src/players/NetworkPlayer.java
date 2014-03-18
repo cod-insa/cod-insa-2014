@@ -2,10 +2,12 @@ package players;
 
 import game.World;
 import game.World.Snapshot;
+import genbridge.AttackCommandData;
 import genbridge.Bridge;
 import genbridge.CommandReceiver;
 import genbridge.ConnectionData;
 import genbridge.Data;
+import genbridge.FollowCommandData;
 import genbridge.InitData;
 import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
@@ -34,7 +36,6 @@ import command.LandCommand;
 import command.MoveCommand;
 import command.WaitCommand;
 import common.Nullable;
-
 import control.CommandMaker;
 
 /**
@@ -205,6 +206,20 @@ public class NetworkPlayer extends Player {
 			// 		log ?
 
 			return r;
+		}
+
+		@Override
+		public Response sendFollowCommand(FollowCommandData cmd,
+				int idConnection) throws TException {
+			// TODO Implements the command
+			return null;
+		}
+
+		@Override
+		public Response sendAttackCommand(AttackCommandData cmd,
+				int idConnection) throws TException {
+			// TODO Implements the command
+			return null;
 		}
 		
 	}

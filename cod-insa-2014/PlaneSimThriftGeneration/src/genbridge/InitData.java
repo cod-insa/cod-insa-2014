@@ -36,8 +36,12 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("InitData");
 
   private static final org.apache.thrift.protocol.TField BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("bases", org.apache.thrift.protocol.TType.LIST, (short)1);
-  private static final org.apache.thrift.protocol.TField MAP_WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("mapWidth", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField MAP_HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("mapHeight", org.apache.thrift.protocol.TType.I32, (short)3);
+  private static final org.apache.thrift.protocol.TField MAP_WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("mapWidth", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
+  private static final org.apache.thrift.protocol.TField MAP_HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("mapHeight", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField PROGRESS_AXISS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxiss", org.apache.thrift.protocol.TType.LIST, (short)4);
+  private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)5);
+  private static final org.apache.thrift.protocol.TField OTHERS_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("othersCountry", org.apache.thrift.protocol.TType.LIST, (short)6);
+  private static final org.apache.thrift.protocol.TField INIT_MONEY_FIELD_DESC = new org.apache.thrift.protocol.TField("initMoney", org.apache.thrift.protocol.TType.I32, (short)7);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -46,14 +50,22 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   }
 
   public List<BaseInitData> bases; // required
-  public int mapWidth; // required
-  public int mapHeight; // required
+  public double mapWidth; // required
+  public double mapHeight; // required
+  public List<ProgressAxisInitData> progressAxiss; // required
+  public CountryInitData myCountry; // required
+  public List<CountryInitData> othersCountry; // required
+  public int initMoney; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     BASES((short)1, "bases"),
     MAP_WIDTH((short)2, "mapWidth"),
-    MAP_HEIGHT((short)3, "mapHeight");
+    MAP_HEIGHT((short)3, "mapHeight"),
+    PROGRESS_AXISS((short)4, "progressAxiss"),
+    MY_COUNTRY((short)5, "myCountry"),
+    OTHERS_COUNTRY((short)6, "othersCountry"),
+    INIT_MONEY((short)7, "initMoney");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -74,6 +86,14 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
           return MAP_WIDTH;
         case 3: // MAP_HEIGHT
           return MAP_HEIGHT;
+        case 4: // PROGRESS_AXISS
+          return PROGRESS_AXISS;
+        case 5: // MY_COUNTRY
+          return MY_COUNTRY;
+        case 6: // OTHERS_COUNTRY
+          return OTHERS_COUNTRY;
+        case 7: // INIT_MONEY
+          return INIT_MONEY;
         default:
           return null;
       }
@@ -116,6 +136,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   // isset id assignments
   private static final int __MAPWIDTH_ISSET_ID = 0;
   private static final int __MAPHEIGHT_ISSET_ID = 1;
+  private static final int __INITMONEY_ISSET_ID = 2;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -124,8 +145,18 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseInitData.class))));
     tmpMap.put(_Fields.MAP_WIDTH, new org.apache.thrift.meta_data.FieldMetaData("mapWidth", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.MAP_HEIGHT, new org.apache.thrift.meta_data.FieldMetaData("mapHeight", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.PROGRESS_AXISS, new org.apache.thrift.meta_data.FieldMetaData("progressAxiss", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ProgressAxisInitData.class))));
+    tmpMap.put(_Fields.MY_COUNTRY, new org.apache.thrift.meta_data.FieldMetaData("myCountry", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CountryInitData.class)));
+    tmpMap.put(_Fields.OTHERS_COUNTRY, new org.apache.thrift.meta_data.FieldMetaData("othersCountry", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CountryInitData.class))));
+    tmpMap.put(_Fields.INIT_MONEY, new org.apache.thrift.meta_data.FieldMetaData("initMoney", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(InitData.class, metaDataMap);
@@ -136,8 +167,12 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
 
   public InitData(
     List<BaseInitData> bases,
-    int mapWidth,
-    int mapHeight)
+    double mapWidth,
+    double mapHeight,
+    List<ProgressAxisInitData> progressAxiss,
+    CountryInitData myCountry,
+    List<CountryInitData> othersCountry,
+    int initMoney)
   {
     this();
     this.bases = bases;
@@ -145,6 +180,11 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     setMapWidthIsSet(true);
     this.mapHeight = mapHeight;
     setMapHeightIsSet(true);
+    this.progressAxiss = progressAxiss;
+    this.myCountry = myCountry;
+    this.othersCountry = othersCountry;
+    this.initMoney = initMoney;
+    setInitMoneyIsSet(true);
   }
 
   /**
@@ -161,6 +201,24 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     }
     this.mapWidth = other.mapWidth;
     this.mapHeight = other.mapHeight;
+    if (other.isSetProgressAxiss()) {
+      List<ProgressAxisInitData> __this__progressAxiss = new ArrayList<ProgressAxisInitData>(other.progressAxiss.size());
+      for (ProgressAxisInitData other_element : other.progressAxiss) {
+        __this__progressAxiss.add(new ProgressAxisInitData(other_element));
+      }
+      this.progressAxiss = __this__progressAxiss;
+    }
+    if (other.isSetMyCountry()) {
+      this.myCountry = new CountryInitData(other.myCountry);
+    }
+    if (other.isSetOthersCountry()) {
+      List<CountryInitData> __this__othersCountry = new ArrayList<CountryInitData>(other.othersCountry.size());
+      for (CountryInitData other_element : other.othersCountry) {
+        __this__othersCountry.add(new CountryInitData(other_element));
+      }
+      this.othersCountry = __this__othersCountry;
+    }
+    this.initMoney = other.initMoney;
   }
 
   public InitData deepCopy() {
@@ -171,9 +229,14 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   public void clear() {
     this.bases = null;
     setMapWidthIsSet(false);
-    this.mapWidth = 0;
+    this.mapWidth = 0.0;
     setMapHeightIsSet(false);
-    this.mapHeight = 0;
+    this.mapHeight = 0.0;
+    this.progressAxiss = null;
+    this.myCountry = null;
+    this.othersCountry = null;
+    setInitMoneyIsSet(false);
+    this.initMoney = 0;
   }
 
   public int getBasesSize() {
@@ -215,11 +278,11 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     }
   }
 
-  public int getMapWidth() {
+  public double getMapWidth() {
     return this.mapWidth;
   }
 
-  public InitData setMapWidth(int mapWidth) {
+  public InitData setMapWidth(double mapWidth) {
     this.mapWidth = mapWidth;
     setMapWidthIsSet(true);
     return this;
@@ -238,11 +301,11 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MAPWIDTH_ISSET_ID, value);
   }
 
-  public int getMapHeight() {
+  public double getMapHeight() {
     return this.mapHeight;
   }
 
-  public InitData setMapHeight(int mapHeight) {
+  public InitData setMapHeight(double mapHeight) {
     this.mapHeight = mapHeight;
     setMapHeightIsSet(true);
     return this;
@@ -261,6 +324,131 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MAPHEIGHT_ISSET_ID, value);
   }
 
+  public int getProgressAxissSize() {
+    return (this.progressAxiss == null) ? 0 : this.progressAxiss.size();
+  }
+
+  public java.util.Iterator<ProgressAxisInitData> getProgressAxissIterator() {
+    return (this.progressAxiss == null) ? null : this.progressAxiss.iterator();
+  }
+
+  public void addToProgressAxiss(ProgressAxisInitData elem) {
+    if (this.progressAxiss == null) {
+      this.progressAxiss = new ArrayList<ProgressAxisInitData>();
+    }
+    this.progressAxiss.add(elem);
+  }
+
+  public List<ProgressAxisInitData> getProgressAxiss() {
+    return this.progressAxiss;
+  }
+
+  public InitData setProgressAxiss(List<ProgressAxisInitData> progressAxiss) {
+    this.progressAxiss = progressAxiss;
+    return this;
+  }
+
+  public void unsetProgressAxiss() {
+    this.progressAxiss = null;
+  }
+
+  /** Returns true if field progressAxiss is set (has been assigned a value) and false otherwise */
+  public boolean isSetProgressAxiss() {
+    return this.progressAxiss != null;
+  }
+
+  public void setProgressAxissIsSet(boolean value) {
+    if (!value) {
+      this.progressAxiss = null;
+    }
+  }
+
+  public CountryInitData getMyCountry() {
+    return this.myCountry;
+  }
+
+  public InitData setMyCountry(CountryInitData myCountry) {
+    this.myCountry = myCountry;
+    return this;
+  }
+
+  public void unsetMyCountry() {
+    this.myCountry = null;
+  }
+
+  /** Returns true if field myCountry is set (has been assigned a value) and false otherwise */
+  public boolean isSetMyCountry() {
+    return this.myCountry != null;
+  }
+
+  public void setMyCountryIsSet(boolean value) {
+    if (!value) {
+      this.myCountry = null;
+    }
+  }
+
+  public int getOthersCountrySize() {
+    return (this.othersCountry == null) ? 0 : this.othersCountry.size();
+  }
+
+  public java.util.Iterator<CountryInitData> getOthersCountryIterator() {
+    return (this.othersCountry == null) ? null : this.othersCountry.iterator();
+  }
+
+  public void addToOthersCountry(CountryInitData elem) {
+    if (this.othersCountry == null) {
+      this.othersCountry = new ArrayList<CountryInitData>();
+    }
+    this.othersCountry.add(elem);
+  }
+
+  public List<CountryInitData> getOthersCountry() {
+    return this.othersCountry;
+  }
+
+  public InitData setOthersCountry(List<CountryInitData> othersCountry) {
+    this.othersCountry = othersCountry;
+    return this;
+  }
+
+  public void unsetOthersCountry() {
+    this.othersCountry = null;
+  }
+
+  /** Returns true if field othersCountry is set (has been assigned a value) and false otherwise */
+  public boolean isSetOthersCountry() {
+    return this.othersCountry != null;
+  }
+
+  public void setOthersCountryIsSet(boolean value) {
+    if (!value) {
+      this.othersCountry = null;
+    }
+  }
+
+  public int getInitMoney() {
+    return this.initMoney;
+  }
+
+  public InitData setInitMoney(int initMoney) {
+    this.initMoney = initMoney;
+    setInitMoneyIsSet(true);
+    return this;
+  }
+
+  public void unsetInitMoney() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __INITMONEY_ISSET_ID);
+  }
+
+  /** Returns true if field initMoney is set (has been assigned a value) and false otherwise */
+  public boolean isSetInitMoney() {
+    return EncodingUtils.testBit(__isset_bitfield, __INITMONEY_ISSET_ID);
+  }
+
+  public void setInitMoneyIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __INITMONEY_ISSET_ID, value);
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case BASES:
@@ -275,7 +463,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (value == null) {
         unsetMapWidth();
       } else {
-        setMapWidth((Integer)value);
+        setMapWidth((Double)value);
       }
       break;
 
@@ -283,7 +471,39 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (value == null) {
         unsetMapHeight();
       } else {
-        setMapHeight((Integer)value);
+        setMapHeight((Double)value);
+      }
+      break;
+
+    case PROGRESS_AXISS:
+      if (value == null) {
+        unsetProgressAxiss();
+      } else {
+        setProgressAxiss((List<ProgressAxisInitData>)value);
+      }
+      break;
+
+    case MY_COUNTRY:
+      if (value == null) {
+        unsetMyCountry();
+      } else {
+        setMyCountry((CountryInitData)value);
+      }
+      break;
+
+    case OTHERS_COUNTRY:
+      if (value == null) {
+        unsetOthersCountry();
+      } else {
+        setOthersCountry((List<CountryInitData>)value);
+      }
+      break;
+
+    case INIT_MONEY:
+      if (value == null) {
+        unsetInitMoney();
+      } else {
+        setInitMoney((Integer)value);
       }
       break;
 
@@ -296,10 +516,22 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       return getBases();
 
     case MAP_WIDTH:
-      return Integer.valueOf(getMapWidth());
+      return Double.valueOf(getMapWidth());
 
     case MAP_HEIGHT:
-      return Integer.valueOf(getMapHeight());
+      return Double.valueOf(getMapHeight());
+
+    case PROGRESS_AXISS:
+      return getProgressAxiss();
+
+    case MY_COUNTRY:
+      return getMyCountry();
+
+    case OTHERS_COUNTRY:
+      return getOthersCountry();
+
+    case INIT_MONEY:
+      return Integer.valueOf(getInitMoney());
 
     }
     throw new IllegalStateException();
@@ -318,6 +550,14 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       return isSetMapWidth();
     case MAP_HEIGHT:
       return isSetMapHeight();
+    case PROGRESS_AXISS:
+      return isSetProgressAxiss();
+    case MY_COUNTRY:
+      return isSetMyCountry();
+    case OTHERS_COUNTRY:
+      return isSetOthersCountry();
+    case INIT_MONEY:
+      return isSetInitMoney();
     }
     throw new IllegalStateException();
   }
@@ -359,6 +599,42 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (!(this_present_mapHeight && that_present_mapHeight))
         return false;
       if (this.mapHeight != that.mapHeight)
+        return false;
+    }
+
+    boolean this_present_progressAxiss = true && this.isSetProgressAxiss();
+    boolean that_present_progressAxiss = true && that.isSetProgressAxiss();
+    if (this_present_progressAxiss || that_present_progressAxiss) {
+      if (!(this_present_progressAxiss && that_present_progressAxiss))
+        return false;
+      if (!this.progressAxiss.equals(that.progressAxiss))
+        return false;
+    }
+
+    boolean this_present_myCountry = true && this.isSetMyCountry();
+    boolean that_present_myCountry = true && that.isSetMyCountry();
+    if (this_present_myCountry || that_present_myCountry) {
+      if (!(this_present_myCountry && that_present_myCountry))
+        return false;
+      if (!this.myCountry.equals(that.myCountry))
+        return false;
+    }
+
+    boolean this_present_othersCountry = true && this.isSetOthersCountry();
+    boolean that_present_othersCountry = true && that.isSetOthersCountry();
+    if (this_present_othersCountry || that_present_othersCountry) {
+      if (!(this_present_othersCountry && that_present_othersCountry))
+        return false;
+      if (!this.othersCountry.equals(that.othersCountry))
+        return false;
+    }
+
+    boolean this_present_initMoney = true;
+    boolean that_present_initMoney = true;
+    if (this_present_initMoney || that_present_initMoney) {
+      if (!(this_present_initMoney && that_present_initMoney))
+        return false;
+      if (this.initMoney != that.initMoney)
         return false;
     }
 
@@ -408,6 +684,46 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetProgressAxiss()).compareTo(other.isSetProgressAxiss());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetProgressAxiss()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.progressAxiss, other.progressAxiss);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetMyCountry()).compareTo(other.isSetMyCountry());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetMyCountry()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.myCountry, other.myCountry);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetOthersCountry()).compareTo(other.isSetOthersCountry());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetOthersCountry()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.othersCountry, other.othersCountry);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetInitMoney()).compareTo(other.isSetInitMoney());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetInitMoney()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.initMoney, other.initMoney);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -443,6 +759,34 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     sb.append("mapHeight:");
     sb.append(this.mapHeight);
     first = false;
+    if (!first) sb.append(", ");
+    sb.append("progressAxiss:");
+    if (this.progressAxiss == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.progressAxiss);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("myCountry:");
+    if (this.myCountry == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.myCountry);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("othersCountry:");
+    if (this.othersCountry == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.othersCountry);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("initMoney:");
+    sb.append(this.initMoney);
+    first = false;
     sb.append(")");
     return sb.toString();
   }
@@ -450,6 +794,9 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
     // check for sub-struct validity
+    if (myCountry != null) {
+      myCountry.validate();
+    }
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -491,14 +838,14 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
           case 1: // BASES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
-                struct.bases = new ArrayList<BaseInitData>(_list8.size);
-                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
+                org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
+                struct.bases = new ArrayList<BaseInitData>(_list16.size);
+                for (int _i17 = 0; _i17 < _list16.size; ++_i17)
                 {
-                  BaseInitData _elem10;
-                  _elem10 = new BaseInitData();
-                  _elem10.read(iprot);
-                  struct.bases.add(_elem10);
+                  BaseInitData _elem18;
+                  _elem18 = new BaseInitData();
+                  _elem18.read(iprot);
+                  struct.bases.add(_elem18);
                 }
                 iprot.readListEnd();
               }
@@ -508,17 +855,72 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
             }
             break;
           case 2: // MAP_WIDTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.mapWidth = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.mapWidth = iprot.readDouble();
               struct.setMapWidthIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // MAP_HEIGHT
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.mapHeight = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.mapHeight = iprot.readDouble();
               struct.setMapHeightIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 4: // PROGRESS_AXISS
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list19 = iprot.readListBegin();
+                struct.progressAxiss = new ArrayList<ProgressAxisInitData>(_list19.size);
+                for (int _i20 = 0; _i20 < _list19.size; ++_i20)
+                {
+                  ProgressAxisInitData _elem21;
+                  _elem21 = new ProgressAxisInitData();
+                  _elem21.read(iprot);
+                  struct.progressAxiss.add(_elem21);
+                }
+                iprot.readListEnd();
+              }
+              struct.setProgressAxissIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 5: // MY_COUNTRY
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+              struct.myCountry = new CountryInitData();
+              struct.myCountry.read(iprot);
+              struct.setMyCountryIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 6: // OTHERS_COUNTRY
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list22 = iprot.readListBegin();
+                struct.othersCountry = new ArrayList<CountryInitData>(_list22.size);
+                for (int _i23 = 0; _i23 < _list22.size; ++_i23)
+                {
+                  CountryInitData _elem24;
+                  _elem24 = new CountryInitData();
+                  _elem24.read(iprot);
+                  struct.othersCountry.add(_elem24);
+                }
+                iprot.readListEnd();
+              }
+              struct.setOthersCountryIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 7: // INIT_MONEY
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.initMoney = iprot.readI32();
+              struct.setInitMoneyIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -542,19 +944,51 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         oprot.writeFieldBegin(BASES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.bases.size()));
-          for (BaseInitData _iter11 : struct.bases)
+          for (BaseInitData _iter25 : struct.bases)
           {
-            _iter11.write(oprot);
+            _iter25.write(oprot);
           }
           oprot.writeListEnd();
         }
         oprot.writeFieldEnd();
       }
       oprot.writeFieldBegin(MAP_WIDTH_FIELD_DESC);
-      oprot.writeI32(struct.mapWidth);
+      oprot.writeDouble(struct.mapWidth);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(MAP_HEIGHT_FIELD_DESC);
-      oprot.writeI32(struct.mapHeight);
+      oprot.writeDouble(struct.mapHeight);
+      oprot.writeFieldEnd();
+      if (struct.progressAxiss != null) {
+        oprot.writeFieldBegin(PROGRESS_AXISS_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.progressAxiss.size()));
+          for (ProgressAxisInitData _iter26 : struct.progressAxiss)
+          {
+            _iter26.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
+      if (struct.myCountry != null) {
+        oprot.writeFieldBegin(MY_COUNTRY_FIELD_DESC);
+        struct.myCountry.write(oprot);
+        oprot.writeFieldEnd();
+      }
+      if (struct.othersCountry != null) {
+        oprot.writeFieldBegin(OTHERS_COUNTRY_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.othersCountry.size()));
+          for (CountryInitData _iter27 : struct.othersCountry)
+          {
+            _iter27.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldBegin(INIT_MONEY_FIELD_DESC);
+      oprot.writeI32(struct.initMoney);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -583,49 +1017,122 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (struct.isSetMapHeight()) {
         optionals.set(2);
       }
-      oprot.writeBitSet(optionals, 3);
+      if (struct.isSetProgressAxiss()) {
+        optionals.set(3);
+      }
+      if (struct.isSetMyCountry()) {
+        optionals.set(4);
+      }
+      if (struct.isSetOthersCountry()) {
+        optionals.set(5);
+      }
+      if (struct.isSetInitMoney()) {
+        optionals.set(6);
+      }
+      oprot.writeBitSet(optionals, 7);
       if (struct.isSetBases()) {
         {
           oprot.writeI32(struct.bases.size());
-          for (BaseInitData _iter12 : struct.bases)
+          for (BaseInitData _iter28 : struct.bases)
           {
-            _iter12.write(oprot);
+            _iter28.write(oprot);
           }
         }
       }
       if (struct.isSetMapWidth()) {
-        oprot.writeI32(struct.mapWidth);
+        oprot.writeDouble(struct.mapWidth);
       }
       if (struct.isSetMapHeight()) {
-        oprot.writeI32(struct.mapHeight);
+        oprot.writeDouble(struct.mapHeight);
+      }
+      if (struct.isSetProgressAxiss()) {
+        {
+          oprot.writeI32(struct.progressAxiss.size());
+          for (ProgressAxisInitData _iter29 : struct.progressAxiss)
+          {
+            _iter29.write(oprot);
+          }
+        }
+      }
+      if (struct.isSetMyCountry()) {
+        struct.myCountry.write(oprot);
+      }
+      if (struct.isSetOthersCountry()) {
+        {
+          oprot.writeI32(struct.othersCountry.size());
+          for (CountryInitData _iter30 : struct.othersCountry)
+          {
+            _iter30.write(oprot);
+          }
+        }
+      }
+      if (struct.isSetInitMoney()) {
+        oprot.writeI32(struct.initMoney);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, InitData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(3);
+      BitSet incoming = iprot.readBitSet(7);
       if (incoming.get(0)) {
         {
-          org.apache.thrift.protocol.TList _list13 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.bases = new ArrayList<BaseInitData>(_list13.size);
-          for (int _i14 = 0; _i14 < _list13.size; ++_i14)
+          org.apache.thrift.protocol.TList _list31 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.bases = new ArrayList<BaseInitData>(_list31.size);
+          for (int _i32 = 0; _i32 < _list31.size; ++_i32)
           {
-            BaseInitData _elem15;
-            _elem15 = new BaseInitData();
-            _elem15.read(iprot);
-            struct.bases.add(_elem15);
+            BaseInitData _elem33;
+            _elem33 = new BaseInitData();
+            _elem33.read(iprot);
+            struct.bases.add(_elem33);
           }
         }
         struct.setBasesIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.mapWidth = iprot.readI32();
+        struct.mapWidth = iprot.readDouble();
         struct.setMapWidthIsSet(true);
       }
       if (incoming.get(2)) {
-        struct.mapHeight = iprot.readI32();
+        struct.mapHeight = iprot.readDouble();
         struct.setMapHeightIsSet(true);
+      }
+      if (incoming.get(3)) {
+        {
+          org.apache.thrift.protocol.TList _list34 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.progressAxiss = new ArrayList<ProgressAxisInitData>(_list34.size);
+          for (int _i35 = 0; _i35 < _list34.size; ++_i35)
+          {
+            ProgressAxisInitData _elem36;
+            _elem36 = new ProgressAxisInitData();
+            _elem36.read(iprot);
+            struct.progressAxiss.add(_elem36);
+          }
+        }
+        struct.setProgressAxissIsSet(true);
+      }
+      if (incoming.get(4)) {
+        struct.myCountry = new CountryInitData();
+        struct.myCountry.read(iprot);
+        struct.setMyCountryIsSet(true);
+      }
+      if (incoming.get(5)) {
+        {
+          org.apache.thrift.protocol.TList _list37 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.othersCountry = new ArrayList<CountryInitData>(_list37.size);
+          for (int _i38 = 0; _i38 < _list37.size; ++_i38)
+          {
+            CountryInitData _elem39;
+            _elem39 = new CountryInitData();
+            _elem39.read(iprot);
+            struct.othersCountry.add(_elem39);
+          }
+        }
+        struct.setOthersCountryIsSet(true);
+      }
+      if (incoming.get(6)) {
+        struct.initMoney = iprot.readI32();
+        struct.setInitMoneyIsSet(true);
       }
     }
   }
