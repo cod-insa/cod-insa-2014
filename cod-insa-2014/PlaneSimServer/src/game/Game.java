@@ -13,8 +13,12 @@ import common.ListView;
 import common.Util;
 import control.Controller;
 import display.Displayer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Game {
+	
+	public static final Logger log = LoggerFactory.getLogger(Game.class);
 	
 	public final long update_period = 30;
 	public final long world_snapshot_frame_period = 50;
@@ -148,7 +152,7 @@ public class Game {
 		
 		//if (updateTimer == null) return;
 		
-		System.out.println("Stopping simulation");
+		log.info("Stopping simulation");
 		
 		updateTimer.cancel();
 		updateTimer.purge();

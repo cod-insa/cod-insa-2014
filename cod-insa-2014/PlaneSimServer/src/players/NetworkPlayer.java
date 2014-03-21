@@ -20,6 +20,7 @@ import java.util.Queue;
 
 import network.CommandChecker;
 import network.DataPreparer;
+import static network.NetworkSettings.log;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
@@ -126,7 +127,8 @@ public class NetworkPlayer extends Player {
 					try {
 						world.wait();
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+//						e.printStackTrace();
+						log.error("Snapshot waiting interrupted!", e);
 					}
 				}
 				
@@ -291,7 +293,7 @@ public class NetworkPlayer extends Player {
 		dataSenderThread = new Thread() {
 			public void run() {
 				dataSender.serve();
-				System.out.println("Player "+name+" data sender terminated");
+				log.debug("Player "+name+" data sender terminated");
 				disconnect();
 			};
 		};
@@ -300,7 +302,7 @@ public class NetworkPlayer extends Player {
 		commandsReceiverThread = new Thread() {
 			public void run() {
 				commandsReceiver.serve();
-				System.out.println("Player "+name+" com receiver terminated");
+				log.debug("Player "+name+" com receiver terminated");
 				disconnect();
 			}
 		};
@@ -351,7 +353,8 @@ public class NetworkPlayer extends Player {
 				dataSenderThread.join();
 				commandsReceiverThread.join();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				log.error("Joining interrupted!", e);
 			}
 		
 	}

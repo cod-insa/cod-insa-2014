@@ -11,6 +11,8 @@ import control.Controller;
 import display.ConnectionWindow;
 import display.Displayer;
 import display.MainWindow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
 	
@@ -20,6 +22,8 @@ public class Main {
 		offline = true;
 		synchronized(Main.class) { Main.class.notify(); };
 	}
+	
+	static final Logger log = LoggerFactory.getLogger(Main.class);
 	
 	/**
 	 * @param args
@@ -38,7 +42,8 @@ public class Main {
 			if (args.length == 1 && args[0].equals("help") || args[0].equals("--help") || args[0].equals("-h"))
 				printUsageAndExit(0);
 			
-			System.out.println("--- CODINSA 2014 --- Plane simulation server ---");
+//			System.out.println("--- CODINSA 2014 --- Plane simulation server ---");
+			log.info("--- CODINSA 2014 --- Plane simulation server ---");
 			
 			new Controller(50);
 			
@@ -232,12 +237,13 @@ public class Main {
 	////				e.printStackTrace();
 	////			}
 	//		}
-		
-				System.out.println("Gracefully exiting the program...");
+			
+			log.info("Gracefully exiting the program...");
 		}
 		catch (Exception e) {
-			System.err.println("Uncaught exception in PlaneSimServer.Main:");
-			e.printStackTrace(System.err);
+//			System.err.println("Uncaught exception in PlaneSimServer.Main:");
+			log.error("Uncaught exception in PlaneSimServer.Main", e);
+//			e.printStackTrace(System.err);
 			//throw e;
 			System.exit(-1);
 		}

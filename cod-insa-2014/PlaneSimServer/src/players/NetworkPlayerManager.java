@@ -18,6 +18,7 @@ import common.ListView;
 import common.Util;
 
 import control.Controller;
+import static network.NetworkSettings.log;
 
 /**
  * PlayerManager creates player, receiving this order from the bridge 
@@ -118,7 +119,8 @@ public class NetworkPlayerManager {
 	
 	@SuppressWarnings("unused")
 	public void waitForConnections(Event onDone) {
-		System.out.println("Waiting for "+players.size()+" player(s) to connect...");
+//		System.out.println("Waiting for "+players.size()+" player(s) to connect...");
+		log.info("Waiting for "+players.size()+" player(s) to connect...");
 		
 		//this.onConnect = onConnect;
 		
@@ -135,10 +137,11 @@ public class NetworkPlayerManager {
 				synchronized(this){ wait(); }
 				
 			} catch (InterruptedException e) {
-				System.err.println("Interrupted while waiting for player connections, resuming waiting. Exception was:");
-				e.printStackTrace(System.err);
+//				System.err.println("Interrupted while waiting for player connections, resuming waiting. Exception was:");
+				log.error("Interrupted while waiting for player connections, resuming waiting ", e);
+//				e.printStackTrace(System.err);
 			}
-			if (!waiting_for_cons) System.out.println("NetworkManager exiting");
+			if (!waiting_for_cons) log.info("NetworkManager exiting");
 			if (!waiting_for_cons)
 				return;
 		}
@@ -148,13 +151,13 @@ public class NetworkPlayerManager {
 	
 	public synchronized void cancelWaitForConnections() {
 		waiting_for_cons = false;
-		System.out.println("HEY!!");
+//		System.out.println("HEY!!");
 		notify(); // FIXME working?
 	}
 	
 	public void disconnect() {
 
-		System.out.println("Disconnecting players...");
+		log.info("Disconnecting players...");
 		
 		for (NetworkPlayer p: players)
 			p.disconnect();
@@ -163,14 +166,14 @@ public class NetworkPlayerManager {
 
 		for (NetworkPlayer p: players)
 			p.join();
-		
-		System.out.println("Players disconnected.");
+
+		log.info("Players disconnected.");
 		
 		
 	}
 	
 	synchronized void notifyDisconnect (NetworkPlayer p) {
-		System.out.println("Player "+p.name+" (id "+p.connectionId+") disconnected.");
+		log.info("Player "+p.name+" (id "+p.connectionId+") disconnected.");
 		
 //		if (onDisconnect != null)
 //			onDisconnect.apply(p);
@@ -179,11 +182,11 @@ public class NetworkPlayerManager {
 	}
 	
 	synchronized void notifyConnect (NetworkPlayer p) {
-		
-		System.out.println("Player "+p.name+" (id "+p.connectionId+") connected.");
+
+		log.info("Player "+p.name+" (id "+p.connectionId+") connected.");
 		
 		if (connectedPlayersById.containsKey(p.connectionId))
-			System.err.println("Warning: player of id "+p.connectionId+" tried to connect more than once.");
+			log.warn("Warning: player of id "+p.connectionId+" tried to connect more than once.");
 		
 		connectedPlayersById.put(p.connectionId, p);
 		

@@ -77,7 +77,8 @@ public class MapLoader {
 		}
 		else
 		{
-			System.err.println("Map not found");
+			//System.err.println("Map not found");
+			Game.log.error("Map not found");
 		}
 	}
 
@@ -101,8 +102,8 @@ public class MapLoader {
 			m.max_lat = Double.parseDouble(init_line_sep[6]);
 			m.max_long = Double.parseDouble(init_line_sep[7]);
 			m.web_zoom = Integer.parseInt(init_line_sep[8]);
-
-			System.out.println("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
+			
+			Game.log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
 			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long);
 			this.converter.setWorldDimensions(w.getWidth(),w.getHeight());
 			//to fit the admin interface (if not called, 1 is used to multiply values).

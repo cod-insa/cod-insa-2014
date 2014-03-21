@@ -61,7 +61,8 @@ public class Controller {
 		catch (MoveCommand mc) {
 			GamePlane p = s.getPlane(mc.planeId);
 			if (p == null)
-				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
+//				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
+				Game.log.error("Cannot find the plane of id "+mc.planeId); // FIXME command verif
 			else p.autoPilot.goTo(mc.destination, Mode.IGNORE); // FIXME get the right mode
 		}
 		catch (LandCommand lc) {
