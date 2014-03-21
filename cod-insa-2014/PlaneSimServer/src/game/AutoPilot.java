@@ -10,8 +10,9 @@ public final class AutoPilot {
 
 	public enum Mode {
 		ATTACK_ON_SIGHT,
+		DEFEND_LOCATION, // not implemented yey
 		IGNORE,
-		FLEE,
+		FLEE, // not implemented yey
 	}
 	
 //	enum AttackMode {
@@ -41,8 +42,10 @@ public final class AutoPilot {
 	//Action current_action = Action.NONE;
 	State state = State.IDLE;
 
-	public Mode default_mode = Mode.ATTACK_ON_SIGHT;
+	public Mode default_mode = Mode.ATTACK_ON_SIGHT; // mode used when goingTo action is complete
+	// ^ TODO when other actions are complete too!
 	public Mode mode = default_mode; // Mode.ATTACK_ON_SIGHT;
+	//public Mode onCompleteMode = default_mode;
 	
 //	AttackMode attacking_mode = AttackMode.NONE;
 	

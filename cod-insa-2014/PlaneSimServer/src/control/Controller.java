@@ -62,7 +62,7 @@ public class Controller {
 			GamePlane p = s.getPlane(mc.planeId);
 			if (p == null)
 				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
-			else p.autoPilot.goTo(mc.destination, Mode.ATTACK_ON_SIGHT); // FIXME get the right mode
+			else p.autoPilot.goTo(mc.destination, Mode.IGNORE); // FIXME get the right mode
 		}
 		catch (LandCommand lc) {
 			s.getPlane(lc.planeId).autoPilot.landAt(s.getBase(lc.baseId));
