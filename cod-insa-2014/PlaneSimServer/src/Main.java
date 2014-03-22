@@ -1,12 +1,8 @@
 import game.Game;
-import game.MapLoader;
-
 import org.apache.thrift.transport.TTransportException;
-
 import players.NetworkPlayer;
 import players.NetworkPlayerManager;
 import common.Event;
-import common.Function;
 import control.Controller;
 import display.ConnectionWindow;
 import display.Displayer;

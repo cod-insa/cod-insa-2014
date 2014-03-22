@@ -1,7 +1,8 @@
+
 var initServerConnection = function () {
 
- 	var input = $('#input');
- 
+    var input = $('#input');
+
     // if user is running mozilla then use its built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 
@@ -30,6 +31,7 @@ var initServerConnection = function () {
             return;
         }
         console.log("message received");
+	console.log(message.data);
         // handle incoming message
     };
     
@@ -41,10 +43,4 @@ var initServerConnection = function () {
     
 };
 
-//initServerConnection();
-
-
-
-
-
-
+initServerConnection();

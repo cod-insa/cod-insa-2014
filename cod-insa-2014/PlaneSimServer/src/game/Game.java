@@ -77,9 +77,9 @@ public class Game {
 //		world.bases.add(new Base(this, new Coord.Unique(.1,.2)));
 //		world.bases.add(new Base(this, new Coord.Unique(.2,.5)));
 //		world.bases.add(new Base(this, new Coord.Unique(.7,.6)));
-		world.bases.add(new GameBase(this, new Coord.Unique(.3,.2)));
-		world.bases.add(new GameBase(this, new Coord.Unique(.4,.5)));
-		world.bases.add(new GameBase(this, new Coord.Unique(.9,.6)));
+//		world.bases.add(new GameBase(this, new Coord.Unique(.3,.2),"debugbase"));
+//		world.bases.add(new GameBase(this, new Coord.Unique(.4,.5),"debugbase"));
+//		world.bases.add(new GameBase(this, new Coord.Unique(.9,.6),"debugbase"));
 		
 		bases = Util.shallowView(world.bases);
 		

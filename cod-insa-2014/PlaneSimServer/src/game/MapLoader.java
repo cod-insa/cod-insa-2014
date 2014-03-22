@@ -124,11 +124,17 @@ public class MapLoader {
 				longit = Double.parseDouble(coord[2]);
 
 				//System.out.println("New Base : "+name+" at "+latid+" "+longit);
+				Game.log.debug("New Base : "+name+" at "+latid+" "+longit);
 				
 				newBaseCoord = converter.toCartesianUnique(longit, latid);
+				this.w.bases.add(new GameBase(g, newBaseCoord,name));
 				
 				//System.out.println("New Base : "+newBaseCoord.x()+" "+ newBaseCoord.y());
-				this.w.bases.add(new GameBase(g, newBaseCoord));
+				//Game.log.debug("New Base : "+newBaseCoord.x()+" "+ newBaseCoord.y());
+				//Game.log.debug("New Base : "+latid+" "+longit);
+				//Game.log.debug("New Base : "+converter.getLatFromUnique(newBaseCoord)+" "+ converter.getLongFromUnique(newBaseCoord));
+				
+				
 			}
 		}
 		else

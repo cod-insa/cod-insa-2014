@@ -47,7 +47,7 @@ public class CoordConverter {
 		return latAmplitude;
 	}
 
-	public Coord toDegrees(double longitude, double latitude) {
+	/*public Coord toDegrees(double longitude, double latitude) {
 		return new Coord(longitude + min_long, latitude + min_lat);
 	}
 
@@ -63,19 +63,28 @@ public class CoordConverter {
 
 	public Coord toCartesian(double longitude, double latitude) {
 		return new Coord(longitude - min_long, latitude - min_lat);
-	}
+	}*/
 	
 	public Coord.Unique toCartesianUnique(double longitude, double latitude) {
 		
-		return new Coord.Unique(((longitude - min_long)/longAmplitude)*widthWorld, heightWorld*((latitude - min_lat)/latAmplitude));
+		return new Coord.Unique(((longitude - min_long)/longAmplitude)*widthWorld, heightWorld-(heightWorld*((latitude - min_lat)/latAmplitude)));
+	}
+	
+	public double getLatFromUnique(Coord.Unique coord) {
+		return (((heightWorld - coord.y()) / heightWorld) * latAmplitude)+min_lat;
+	}
+	
+	public double getLongFromUnique(Coord.Unique coord) {
+		return ((coord.x() / widthWorld) * longAmplitude)+min_long;
 	}
 
-	public Coord toCartesian(Coord degreesCoord) {
+	/*public Coord toCartesian(Coord degreesCoord) {
 		return new Coord(degreesCoord.x - min_long, degreesCoord.y - min_lat);
 	}
 
 	public Coord.View toCartesian(Coord.View degreesCoord) {
 		return new Coord(degreesCoord.x() - min_long, degreesCoord.y()
 				- min_lat).view();
-	}
+	}*/
+	
 }
