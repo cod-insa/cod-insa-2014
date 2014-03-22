@@ -13,6 +13,10 @@ public class NetworkSettings {
 	
 	public static final Logger log = LoggerFactory.getLogger("Network");
 	
+	//Settings for WebInterface connection
+	public static String webip = "192.168.1.89";
+	public static int webport = 14588;
+	
 	
 	
 }

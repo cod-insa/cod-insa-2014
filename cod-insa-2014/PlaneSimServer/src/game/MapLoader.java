@@ -4,6 +4,11 @@ import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
+import network.WebInterface;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import model.Coord;
 import common.CoordConverter;
 
@@ -15,13 +20,15 @@ import common.CoordConverter;
  */
 public class MapLoader {
 
+	static final Logger log = LoggerFactory.getLogger(MapLoader.class);
+	
 	//IO
 	private Scanner scanner;
 	private String path_file;
 
 	//path
 	private String location = "/rsc/maps/";
-	public static String[] maps = {"france","usa"};//,"europe","asia","africa"};
+	public static String[] maps = {"france","usa","europe","middleeast"};
 
 	//Object for the game
 	private World w;
@@ -80,7 +87,7 @@ public class MapLoader {
 		else
 		{
 			//System.err.println("Map not found");
-			Game.log.error("Map not found "+mapName);
+			log.error("Map not found "+mapName);
 		}
 	}
 
@@ -105,7 +112,7 @@ public class MapLoader {
 			m.max_long = Double.parseDouble(init_line_sep[7]);
 			m.web_zoom = Integer.parseInt(init_line_sep[8]);
 			
-			Game.log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
+			log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
 			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long);
 			this.converter.setWorldDimensions(w.getWidth(),w.getHeight());
 			//to fit the admin interface (if not called, 1 is used to multiply values).
@@ -126,7 +133,7 @@ public class MapLoader {
 				longit = Double.parseDouble(coord[2]);
 
 				//System.out.println("New Base : "+name+" at "+latid+" "+longit);
-				Game.log.debug("New Base : "+name+" at "+latid+" "+longit);
+				log.debug("New Base : "+name+" at "+latid+" "+longit);
 				
 				newBaseCoord = converter.toCartesianUnique(longit, latid);
 				this.w.bases.add(new GameBase(g, newBaseCoord,name));
