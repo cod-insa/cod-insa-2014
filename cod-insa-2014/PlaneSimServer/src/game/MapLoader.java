@@ -1,6 +1,7 @@
 package game;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 import model.Coord;
@@ -19,7 +20,7 @@ public class MapLoader {
 	private String path_file;
 
 	//path
-	private String location = "maps/";
+	private String location = "/rsc/maps/";
 	public static String[] maps = {"france","usa"};//,"europe","asia","africa"};
 
 	//Object for the game
@@ -66,10 +67,11 @@ public class MapLoader {
 		if(checkMapName(mapName))
 		{
 			path_file = location+mapName+".map";
-			
+			System.out.println(MapLoader.class.getResource(location+mapName+".map"));
 			try {
-				scanner = new Scanner(new File(path_file));
-			} catch (FileNotFoundException e) {
+//				scanner = new Scanner(new File(path_file));
+				scanner = new Scanner(new File(MapLoader.class.getResource(location+mapName+".map").toURI()));
+			} catch (FileNotFoundException | URISyntaxException e) {
 				throw new Error(e);
 			}
 			
