@@ -188,11 +188,11 @@ public class Proxy
 		return planesToReturn;
 	}
 	
-	public ArrayList<Plane.FullView> getEnnemyPlanes()
+	public ArrayList<Plane.BasicView> getEnnemyPlanes()
 	{
-		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
+		ArrayList<Plane.BasicView> planesToReturn = new ArrayList<Plane.BasicView>();
 		for (model.Plane p : ennemy_planes.values())
-			planesToReturn.add(p.view());
+			planesToReturn.add(p.restrictedView());
 		return planesToReturn;
 	}
 	
