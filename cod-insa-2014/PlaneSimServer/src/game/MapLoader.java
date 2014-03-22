@@ -54,31 +54,31 @@ public class MapLoader {
 
 	/**
 	 * Specify here the map you want to load
-	 * @param mapname, from enum AvailableMaps
+	 * @param mapName, from enum AvailableMaps
 	 */
-	public MapLoader(Game game, String mapname) 
+	public MapLoader(Game game, String mapName) 
 	{
 		this.g = game;
 		this.w = game.getWorld();
 		this.m = new MapInfo();
-
-
-		if(checkMapName(mapname))
+		
+		
+		if(checkMapName(mapName))
 		{
-			path_file = location+mapname+".map";
-
+			path_file = location+mapName+".map";
+			
 			try {
 				scanner = new Scanner(new File(path_file));
 			} catch (FileNotFoundException e) {
 				throw new Error(e);
 			}
-
+			
 			readFile();
 		}
 		else
 		{
 			//System.err.println("Map not found");
-			Game.log.error("Map not found");
+			Game.log.error("Map not found "+mapName);
 		}
 	}
 
