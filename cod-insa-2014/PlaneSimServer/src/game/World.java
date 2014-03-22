@@ -72,7 +72,7 @@ public class World implements Viewable<World.View> {
 		public final int id;
 		
 		public final Immutable<ListView<Base.View>> bases;
-		public final Immutable<ListView<Plane.View>> planes;
+		public final Immutable<ListView<Plane.FullView>> planes;
 		
 		public final double width, height;
 		
@@ -119,7 +119,7 @@ public class World implements Viewable<World.View> {
 
 			// Get a safe immutable list view for this unique list
 			
-			planes = new Immutable<ListView<Plane.View>>(uplanes, Util.<Plane, Plane.View>getListViewer());
+			planes = new Immutable<ListView<Plane.FullView>>(uplanes, Util.<Plane, Plane.FullView>getListViewer());
 			
 		}
 	}

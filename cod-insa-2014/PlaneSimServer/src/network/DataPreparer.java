@@ -68,7 +68,7 @@ public abstract class DataPreparer {
 		}
 		
 		
-		for (Plane.View p : snapshot.planes.view)
+		for (Plane.FullView p : snapshot.planes.view)
 			if (p.ownerId() == ai_id)
 			{
 				int baseId = -1;
@@ -82,7 +82,7 @@ public abstract class DataPreparer {
 				ai_entities.add(p);
 			}
 		
-		for (Plane.View p : snapshot.planes.view) // For each plane 
+		for (Plane.FullView p : snapshot.planes.view) // For each plane 
 			if (p.ownerId() != ai_id) // That is not belonging to the ai 
 				for (Entity.View e : ai_entities)
 					if (e.canSee(p))

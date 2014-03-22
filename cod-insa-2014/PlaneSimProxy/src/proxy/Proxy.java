@@ -37,7 +37,7 @@ public class Proxy
 	private int player_id;
 	private int numFrame;
 	
-	static final Logger log = LoggerFactory.getLogger(Proxy.class);
+	public static final Logger log = LoggerFactory.getLogger(Proxy.class);
 	
 	
 	public Proxy(String ip, int port, AbstractAI ai)
@@ -57,7 +57,7 @@ public class Proxy
 	}
 	
 
-	public void setInitData(InitData d) {
+	void setInitData(InitData d) {
 		
 		for (genbridge.BaseInitData b : d.bases)
 		{
@@ -71,7 +71,7 @@ public class Proxy
 		
 	}
 	
-	public void updateProxyData(Data d)
+	void updateProxyData(Data d)
 	{
 		//log.debug("Updating data...");
 		
@@ -100,16 +100,14 @@ public class Proxy
 		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
-		Map<Integer,Plane> nextFrameEnnemyUnits = new HashMap<Integer,Plane>();
-		ennemy_planes.clear();
 		
 		
 		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
 		for (genbridge.PlaneData p : d.planes)
 		{
-			if (p.ai_id == player_id) // unit belong to the ai
+			if (p.ai_id == player_id) // unit belongs to the ai
 			{
-				if (killed_planes.containsKey(p.plane_id)) // So this plane is still alive finally
+				if (killed_planes.containsKey(p.plane_id)) // So this plane is alive
 				{
 					Plane plane = killed_planes.remove(p.plane_id);
 					ai_planes.put(p.plane_id, plane); // We move it from killed plane to ai_planes
@@ -123,13 +121,12 @@ public class Proxy
 					
 
 					plane.state = StateConverter.make(p.state);
-					if (plane.state == State.AT_AIRPORT)
+					if (plane.state == State.AT_AIRPORT) // Update the plane 
 						plane.assignTo(bases.get(p.base_id));
 					else
 						plane.unassign();
 						
 					// plane._rot = p.rotation; // Ajouter au thrift plus tard
-					// plane.health = p.energy; // Not necessary for now
 				}
 				else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 				{
@@ -141,8 +138,7 @@ public class Proxy
 			{
 				if (ennemy_planes.containsKey(p.plane_id)) // the unit already exists, we just update it
 				{
-					Plane plane = ennemy_planes.get(p.plane_id);
-					nextFrameEnnemyUnits.put(p.plane_id, plane);
+					Plane plane = ennemy_planes.get(p.plane_id); // We update the plane
 					
 					plane.position.x = p.posit.x;
 					plane.position.y = p.posit.y;
@@ -155,11 +151,10 @@ public class Proxy
 					Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
 					ennemy_planes.put(plane.id, plane);
 				}
+				// For ennemy_planes which were not in the data, they are not visible. We can use 
+				
 			}
 		}
-		// erase the ennemy_planes, now, all the ennemy planes are in the nextFrameEnnemyUnits
-		
-		ennemy_planes = nextFrameEnnemyUnits;
 		
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
@@ -177,25 +172,25 @@ public class Proxy
 		return mapHeight;
 	}
 	
-	public ArrayList<Plane.View> getKilledPlanes()
+	public ArrayList<Plane.FullView> getKilledPlanes()
 	{
-		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
 		for (model.Plane p : killed_planes.values())
 			planesToReturn.add(p.view());
 		return planesToReturn;
 	}
 
-	public ArrayList<Plane.View> getMyPlanes()
+	public ArrayList<Plane.FullView> getMyPlanes()
 	{
-		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
 		for (model.Plane p : ai_planes.values())
 			planesToReturn.add(p.view());
 		return planesToReturn;
 	}
 	
-	public ArrayList<Plane.View> getEnnemyPlanes()
+	public ArrayList<Plane.FullView> getEnnemyPlanes()
 	{
-		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
 		for (model.Plane p : ennemy_planes.values())
 			planesToReturn.add(p.view());
 		return planesToReturn;
@@ -223,7 +218,7 @@ public class Proxy
 		cm.sendCommand(c);
 	}
 
-	public void quit(int code)
+	void quit(int code)
 	{
 		if (idm != null)
 			idm.terminate();
@@ -242,7 +237,7 @@ public class Proxy
 		System.exit(code);
 	}
 	
-	public static class StateConverter {
+	static class StateConverter {
 		public static Plane.State make(PlaneStateData sd)
 		{
 			Plane.State s = null;

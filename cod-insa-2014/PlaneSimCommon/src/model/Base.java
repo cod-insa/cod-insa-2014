@@ -27,7 +27,7 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 			return Base.this.position;
 		}
 
-		public ListView<Plane.View> getPlanes() {
+		public ListView<Plane.FullView> getPlanes() {
 			return Util.view(planes);
 		}
 
@@ -36,8 +36,8 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 		// }
 		@Override
 		public boolean canSee(Entity.View e) {
-			if (e instanceof Plane.View
-					&& ((Plane.View) e).state() == State.AT_AIRPORT
+			if (e instanceof Plane.FullView
+					&& ((Plane.FullView) e).state() == State.AT_AIRPORT
 					&& isFriend(e))
 				// FIXME should return true if e is a plane and is in the
 				// current base
@@ -75,7 +75,7 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 		// planes = Util.copy(src.copied().planes);
 		// planes = Util.copy(src.getPlanes());
 		planes = new ArrayList<Plane>();
-		for (Plane.View p : src.getPlanes())
+		for (Plane.FullView p : src.getPlanes())
 			// planes.add(Util.copy(p, context));
 			planes.add(p.copied(context));
 		position = src.getPosition(); // Immutable state can be shared

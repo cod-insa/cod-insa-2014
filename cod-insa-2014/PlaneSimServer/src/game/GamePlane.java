@@ -60,7 +60,7 @@ public final class GamePlane extends GameEntity {
 	Plane model() { return (Plane) model; }
 	
 	@Override
-	public Plane.View modelView() { return model().view(); }
+	public Plane.FullView modelView() { return model().view(); }
 	
 	
 	public void fire (double angle) {

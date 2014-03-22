@@ -18,7 +18,7 @@ public abstract class CommandChecker {
 	{
 		boolean planeFound = false;
 		int i = 0;
-		ListView<Plane.View> planes = s.planes.view();
+		ListView<Plane.FullView> planes = s.planes.view();
 		while (!planeFound && i < planes.size())
 			if (planes.get(i++).id() == mc.planeId)
 				planeFound = true;
@@ -39,7 +39,7 @@ public abstract class CommandChecker {
 	{
 		boolean planeFound = false;
 		int i = 0;
-		ListView<Plane.View> planes = s.planes.view();
+		ListView<Plane.FullView> planes = s.planes.view();
 		while (!planeFound && i < planes.size())
 			if (planes.get(i++).id() == wc.planeId)
 				planeFound = true;
@@ -53,7 +53,7 @@ public abstract class CommandChecker {
 	{
 		boolean planeFound = false;
 		int i = 0;
-		ListView<Plane.View> planes = s.planes.view();
+		ListView<Plane.FullView> planes = s.planes.view();
 		while (!planeFound && i < planes.size())
 			if (planes.get(i++).id() == lc.planeId)
 				planeFound = true;

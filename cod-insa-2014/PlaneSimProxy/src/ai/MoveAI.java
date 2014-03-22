@@ -25,7 +25,7 @@ public class MoveAI extends AbstractAI
 			game.updateSimFrame();
 			ArrayList<Base.View> bases = game.getBases();
 			
-			for (Plane.View p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {

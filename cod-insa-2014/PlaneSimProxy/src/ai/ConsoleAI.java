@@ -35,7 +35,7 @@ public class ConsoleAI extends AbstractAI
 			
 			Base.View b = bases.get(i);
 			
-			for (Plane.View p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes())
 			{
 				MoveCommand mc = new MoveCommand(p.id(), b.position());
 				

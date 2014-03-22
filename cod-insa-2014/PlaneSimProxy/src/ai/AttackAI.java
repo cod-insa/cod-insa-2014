@@ -24,9 +24,9 @@ public class AttackAI extends AbstractAI
 		while (true) {
 			game.updateSimFrame();
 			ArrayList<Base.View> bases = game.getBases();
-			ArrayList<Plane.View> ennemy_planes = game.getEnnemyPlanes();
+			ArrayList<Plane.FullView> ennemy_planes = game.getEnnemyPlanes();
 			
-			for (Plane.View p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {

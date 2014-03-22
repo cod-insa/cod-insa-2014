@@ -6,7 +6,7 @@ import java.util.Set;
 import common.Unique;
 import common.Viewable;
 
-public class Plane extends MovingEntity implements Serializable, Viewable<Plane.View> {
+public class Plane extends MovingEntity implements Serializable, Viewable<Plane.FullView> {
 	
 	private static final long serialVersionUID = 1L;
 	//private static final double DEFAULT_RANGE = 0.7;
@@ -16,21 +16,15 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public Base curBase; // no sense if state != State.AT_AIRPORT
 	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
 
-	public class View extends MovingEntity.View {
-		public double health() { return health; }
+	// Basically, FullView is a BasicView plus some additional things that are visible
+	public class FullView extends BasicView {
 		public State state() { return state; }
 		public Base.View curBase() { return curBase == null ? null : curBase.view(); }
-		@Override
-		public boolean canSee(Entity.View e) {
-			if (e instanceof Plane.View && ((Plane.View)e).state() == State.AT_AIRPORT)
-				return false;
-			return isWithinRadar(e.position);
-		}
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
-		
+
 		public Plane copied(Set<Object> context) {
 //			if (context.contains(PlaneModel.this)) return PlaneModel.this;
 //			return new BaseModel(BaseModel.this);
@@ -43,9 +37,22 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			return isFriend(e) || canSee(e);
 		}
 
-		public boolean canAttack(Plane.View e) {
+		public boolean canAttack(Plane.FullView e) {
 			return isEnemy(e) && canSee(e);
 		}
+	}
+	
+	// This is what an AI will see for an ennemy plane
+	public class BasicView extends MovingEntity.View {
+		public double health() { return health; }
+		
+		@Override
+		public boolean canSee(Entity.View e) {
+			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
+				return false;
+			return isWithinRadar(e.position);
+		}
+		
 	}
 	
 	public enum State {
@@ -58,8 +65,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		DEAD, // FIXME use it
 	}
 	
-	@Override public View view() {
-		return new View();
+	@Override public FullView view() {
+		return new FullView();
+	}
+	
+	public BasicView restrictedView() {
+		return new BasicView();
 	}
 	
 //	public final View view = new View();
@@ -73,7 +84,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 	}
 	
-	public Plane (Plane.View p, Set<Object> context) {
+	public Plane (Plane.FullView p, Set<Object> context) {
 		super(p);
 		context.add(this);
 		health = p.health();
