@@ -100,7 +100,7 @@ public final class AutoPilot {
 	
 	
 	public void landAt(GameBase b) {
-		if (b.model().planes.contains(plane)) {
+		if (b.model().view().getPlanes().contains(plane)) {
 			assert state == State.AT_AIRPORT;
 			return;
 		}
@@ -111,13 +111,14 @@ public final class AutoPilot {
 	}
 	void land(GameBase b) {
 		state = State.AT_AIRPORT;
-		b.model().planes.add(plane.model()); //addPlane();
+		plane.model().assignTo(b.model());//addPlane();
 		//plane.model.speed = 0;
 	}
 	void unland() {
 		if (state == State.AT_AIRPORT) {
 			state = State.IDLE;
-			((GameBase)entityAim).model().planes.remove(plane);
+			//((GameBase)entityAim).model().planes.remove(plane);
+			plane.model().unassign();
 		}
 	}
 	public void takeOff() {

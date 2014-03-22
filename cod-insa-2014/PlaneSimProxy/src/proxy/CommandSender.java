@@ -1,8 +1,10 @@
 package proxy;
 
+import genbridge.AttackCommandData;
 import genbridge.CommandData;
 import genbridge.CommandReceiver;
 import genbridge.CoordData;
+import genbridge.FollowCommandData;
 import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
@@ -21,7 +23,9 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
+import command.AttackCommand;
 import command.Command;
+import command.FollowCommand;
 import command.LandCommand;
 import command.MoveCommand;
 import command.WaitCommand;
@@ -132,6 +136,12 @@ public class CommandSender extends Thread {
 				// Call server method
 				r = client.sendLandCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (AttackCommand c) {
+				r = client.sendAttackCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (FollowCommand c) {
+				r = client.sendFollowCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			}
 //			catch (TakeOffCommand e) {
 //				
@@ -186,6 +196,16 @@ public class CommandSender extends Thread {
 					numFrame), cmd.planeId), cmd.baseId);
 		}
 
+		static AttackCommandData make(AttackCommand cmd, int numFrame) {
+			return new AttackCommandData(new PlaneCommandData(new CommandData(
+					numFrame), cmd.planeSrcId), cmd.planeTargetId);
+		}
+		
+		static FollowCommandData make(FollowCommand cmd, int numFrame) {
+			return new FollowCommandData(new PlaneCommandData(new CommandData(
+					numFrame), cmd.planeSrcId), cmd.planeTargetId);
+		}
+		
 		static MoveCommandData make(MoveCommand cmd, int numFrame) {
 			return new MoveCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId), make(cmd.destination));

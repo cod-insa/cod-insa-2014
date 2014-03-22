@@ -19,6 +19,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public class View extends MovingEntity.View {
 		public double health() { return health; }
 		public State state() { return state; }
+		public Base.View curBase() { return curBase == null ? null : curBase.view(); }
 		@Override
 		public boolean canSee(Entity.View e) {
 			if (e instanceof Plane.View && ((Plane.View)e).state() == State.AT_AIRPORT)
@@ -72,16 +73,20 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 	}
 	
-	public Plane (Plane.View p) {
+	public Plane (Plane.View p, Set<Object> context) {
 		super(p);
+		context.add(this);
 		health = p.health();
 		state = p.state();
+		if (p.curBase() != null)
+			curBase = p.curBase().copied(context);
 	}
 	
 	@Override
 	public Plane copy (Set<Object> context) {
-		if (context.contains(this)) return this;
-		Plane ret = new Plane(view());
+		if (context.contains(this)) 
+			return this;
+		Plane ret = new Plane(view(),context);
 		return ret;
 	}
 
@@ -89,7 +94,20 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		return state != State.AT_AIRPORT && state != State.DEAD;
 	}
 	
+	public void assignTo(Base b)
+	{
+		this.curBase = b;
+		b.planes.add(this);
+	}
 	
+	public void unassign()
+	{
+		if (curBase != null)
+		{
+			curBase.planes.remove(this);
+			this.curBase = null;
+		}
+	}
 	
 }
 

@@ -60,25 +60,25 @@ public abstract class DataPreparer {
 		
 		for (Base.View b : snapshot.bases.view) // Convert game model objects to thrift objects
 		{
-			List<Integer> id_planes = new ArrayList<Integer>();
 			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
 			{
 				ai_entities.add(b);
-				for (Plane.View p : b.getPlanes())
-					id_planes.add(p.id());
 			}
-			tobeSent.bases.add(new BaseData(b.id(),b.ownerId(),id_planes,0,0)); // FIXME Fix the ressources
+			tobeSent.bases.add(new BaseData(b.id(),b.ownerId(),0,0)); // FIXME Fix the ressources
 		}
 		
 		
 		for (Plane.View p : snapshot.planes.view)
 			if (p.ownerId() == ai_id)
 			{
+				int baseId = -1;
+				if (p.curBase() != null)
+					baseId = p.curBase().id();
 				// FIXME Fix gaz 
 				tobeSent.planes.add(
 						new PlaneData(p.id(), 
 						new CoordData(p.position().x(),p.position().y()), 
-						p.ownerId(), p.health(), -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
+						p.ownerId(), p.health(), baseId, -1, DataStateConverter.make(p.state()),-1,-1));// FIXME Fix the ressources
 				ai_entities.add(p);
 			}
 		
@@ -86,12 +86,16 @@ public abstract class DataPreparer {
 			if (p.ownerId() != ai_id) // That is not belonging to the ai 
 				for (Entity.View e : ai_entities)
 					if (e.canSee(p))
-					// FIXME Fix gaz
-					tobeSent.planes.add(
-							new PlaneData(p.id(), 
-							new CoordData(p.position().x(),p.position().y()), 
-							p.ownerId(), p.health(), -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
-		
+					{
+						int baseId = -1;
+						if (p.curBase() != null)
+							baseId = p.curBase().id();
+							// FIXME Fix gaz
+							tobeSent.planes.add(
+									new PlaneData(p.id(), 
+									new CoordData(p.position().x(),p.position().y()), 
+									p.ownerId(), p.health(), baseId, -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
+					}
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		
 		return tobeSent;

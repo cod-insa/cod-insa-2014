@@ -11,6 +11,7 @@ import java.util.Map;
 import model.Base;
 import model.Coord;
 import model.Plane;
+import model.Plane.State;
 import ai.AbstractAI;
 
 import org.slf4j.Logger;
@@ -86,22 +87,16 @@ public class Proxy
 			{
 				model.Base base = bases.get(b.base_id); // get the base in the map
 
-				if (b.ai_id == player_id)
-				{
-					base.planes.clear();
-					for (int i : b.planes_id) // Only the planes from the ai are in the list
-						base.planes.add(ai_planes.get(i));
-				}
 			}
 			else // There is a base which is not in the bases created at the beginning
 			{
-				log.error("An unexpected error : The base id received is unknown");
+				log.warn("The base id received is unknown. Ignoring the base. The model may be incoherent.");
 			}
 		}
 		
 		// Update avions
 		
-		log.debug("Looking for "+d.planes.size()+" planes");
+		//log.debug("Looking for "+d.planes.size()+" planes");
 		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
@@ -124,8 +119,15 @@ public class Proxy
 					plane.position.x = p.posit.x;
 					plane.position.y = p.posit.y;
 					plane.health = p.health;
+					plane.ownerId = p.ai_id;
+					
 
 					plane.state = StateConverter.make(p.state);
+					if (plane.state == State.AT_AIRPORT)
+						plane.assignTo(bases.get(p.base_id));
+					else
+						plane.unassign();
+						
 					// plane._rot = p.rotation; // Ajouter au thrift plus tard
 					// plane.health = p.energy; // Not necessary for now
 				}
@@ -191,6 +193,14 @@ public class Proxy
 		return planesToReturn;
 	}
 	
+	public ArrayList<Plane.View> getEnnemyPlanes()
+	{
+		ArrayList<Plane.View> planesToReturn = new ArrayList<Plane.View>();
+		for (model.Plane p : ennemy_planes.values())
+			planesToReturn.add(p.view());
+		return planesToReturn;
+	}
+	
 	public ArrayList<Base.View> getBases()
 	{
 		ArrayList<Base.View> basesToReturn = new ArrayList<Base.View>();
@@ -198,6 +208,7 @@ public class Proxy
 			basesToReturn.add(b.view());
 		return basesToReturn;
 	}
+	
 	public List<String> getErrors()
 	{
 		return cm.getErrors();

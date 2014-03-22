@@ -35,10 +35,11 @@ struct PlaneData {
 	3: int ai_id,
 	4: double health,
 	/* visible only if it belongs to the AI : */
-	5: int remainingGaz, 
-	6: PlaneStateData state,
-	7: int militarRessourceCarried,
-	8: int fuelRessourceCarried
+	5: int base_id,
+	6: int remainingGaz, 
+	7: PlaneStateData state,
+	8: int militarRessourceCarried,
+	9: int fuelRessourceCarried
 }
 
 struct BaseData {
@@ -46,9 +47,8 @@ struct BaseData {
 	/* marked as neutral (= 0) if the base is neither neutral nor owned */
 	2: int ai_id,
 	/* visible only if it belongs to the AI : */
-	3: list<int> planes_id,
-	4: int militarRessource,
-	5: int fuelRessource
+	3: int militarRessource,
+	4: int fuelRessource
 }
 
 struct BaseInitData {
@@ -159,7 +159,9 @@ struct Response {
 service CommandReceiver {
 	Response sendMoveCommand(1: MoveCommandData cmd, 2: int idConnection),
 	Response sendWaitCommand(1: WaitCommandData cmd, 2: int idConnection),
-	Response sendLandCommand(1: LandCommandData cmd, 2: int idConnection)
+	Response sendLandCommand(1: LandCommandData cmd, 2: int idConnection),
+	Response sendFollowCommand(1: FollowCommandData cmd, 2: int idConnection),
+	Response sendAttackCommand(1: AttackCommandData cmd, 2: int idConnection)
 }
 
 # Tuto

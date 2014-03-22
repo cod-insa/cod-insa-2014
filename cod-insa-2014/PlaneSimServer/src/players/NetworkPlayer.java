@@ -213,15 +213,15 @@ public class NetworkPlayer extends Player {
 		@Override
 		public Response sendFollowCommand(FollowCommandData cmd,
 				int idConnection) throws TException {
-			// TODO Implements the command
-			return null;
+			
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
 
 		@Override
 		public Response sendAttackCommand(AttackCommandData cmd,
 				int idConnection) throws TException {
-			// TODO Implements the command
-			return null;
+			
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
 		
 	}
