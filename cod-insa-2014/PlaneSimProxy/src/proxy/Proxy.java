@@ -13,6 +13,9 @@ import model.Coord;
 import model.Plane;
 import ai.AbstractAI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import command.Command;
 
 
@@ -33,6 +36,7 @@ public class Proxy
 	private int player_id;
 	private int numFrame;
 	
+	static final Logger log = LoggerFactory.getLogger(Proxy.class);
 	
 	
 	public Proxy(String ip, int port, AbstractAI ai)
@@ -58,8 +62,8 @@ public class Proxy
 		{
 			model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
 			bases.put(base.id, base);
-			//System.out.println("Created base "+base.id);
-			//System.out.println(base.id+": "+base._pos.x+" -> "+b.posit.x);
+			//log.debug("Created base "+base.id);
+			//log.debug(base.id+": "+base._pos.x+" -> "+b.posit.x);
 		}
 		mapWidth = d.mapWidth;
 		mapHeight = d.mapHeight;
@@ -68,12 +72,12 @@ public class Proxy
 	
 	public void updateProxyData(Data d)
 	{
-		//System.out.println("Updating data...");
+		//log.debug("Updating data...");
 		
 		// Update numFrame
 		numFrame = d.numFrame;
 		
-		//System.out.println("<< "+d.bases.get(0).posit.latid);
+		//log.debug("<< "+d.bases.get(0).posit.latid);
 		
 		// Update bases 
 		for (genbridge.BaseData b : d.bases)
@@ -89,15 +93,15 @@ public class Proxy
 						base.planes.add(ai_planes.get(i));
 				}
 			}
-			else // There is a base which is not in the bases created at the beginning, pretty weird
+			else // There is a base which is not in the bases created at the beginning
 			{
-				System.err.println("Unexpected error : The base id received is unknown");
+				log.error("An unexpected error : The base id received is unknown");
 			}
 		}
 		
 		// Update avions
 		
-		System.out.println("Looking for "+d.planes.size()+" planes");
+		log.debug("Looking for "+d.planes.size()+" planes");
 		
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
@@ -223,7 +227,7 @@ public class Proxy
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Gracefully terminated the client");
+		log.debug("Gracefully terminated the client");
 		System.exit(code);
 	}
 	

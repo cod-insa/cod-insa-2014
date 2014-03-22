@@ -58,11 +58,8 @@ public class CommandSender extends Thread {
 			client = new CommandReceiver.Client(protocol);
 
 		} catch (Exception e) {
-			System.err
-					.println("Error while connecting to the server. Message: "
-							+ e.getMessage());
-			System.err
-					.println("Cause : The server is not running, the game may have ended or, the port or the ip may be not good");
+			Proxy.log.error("Error while connecting to the server. Message: "
+							+ e.getMessage() + "\nCause : The server is not running, the game may have ended or, the port or the ip may be not good");
 			proxy.quit(1);
 		}
 	}
@@ -92,9 +89,9 @@ public class CommandSender extends Thread {
 			synchronized (this) {
 				while (waitingList.isEmpty() && running) {
 					try {
-						// System.out.println(">> waiting");
+						// Proxy.log.debug(">> waiting");
 						wait();
-						// System.out.println(">> notified");
+						// Proxy.log.debug(">> notified");
 					} catch (InterruptedException ie) {
 						ie.printStackTrace();
 					}
@@ -102,7 +99,7 @@ public class CommandSender extends Thread {
 				while (!waitingList.isEmpty() && running) {
 					currentCmd = waitingList.remove();
 					sendThriftCommand(currentCmd);
-					// System.out.println(">> sent");
+					// Proxy.log.debug(">> sent");
 				}
 			}
 		}
@@ -118,7 +115,7 @@ public class CommandSender extends Thread {
 	}
 
 	private void sendThriftCommand(Command cmd) {
-		System.out.println("Sending command...");
+		Proxy.log.debug("Sending command...");
 		Response r = null;
 		try {
 			try { // match the command
@@ -157,15 +154,15 @@ public class CommandSender extends Thread {
 
 		switch (r.code) {
 		case Command.SUCCESS:
-			System.out.println("Command sent successfully !");
+			Proxy.log.debug("Command sent successfully !");
 			break;
 		case Command.ERROR_TIME_OUT:
 			isTimeOut = true;
-			System.out.println("command is time out !");
+			Proxy.log.warn("command is time out !");
 			break;
 		default:
 			addError(r.message);
-			System.out.println("WARNING : Error on command ! code:" + r.code + ", message: "
+			Proxy.log.warn("WARNING : Error on command ! code:" + r.code + ", message: "
 					+ r.message);
 		}
 	}

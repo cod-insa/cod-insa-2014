@@ -35,8 +35,7 @@ public class IncomingData {
 	    	client = new Bridge.Client(protocol);
 	      
 	    } catch (Exception e) {
-	    	System.err.println("Error while connecting to the server. Message: " + e.getMessage());
-	    	System.err.println("Cause : The server is not running, the game may have begun, ended or, the port or the ip could be wrong");
+	    	Proxy.log.error("Error while connecting to the server. Message: " + e.getMessage() + "\nCause : The server is not running, the game may have begun, ended or, the port or the ip could be wrong");
 	    	proxy.quit(1);
 	    } 
 	}
@@ -59,24 +58,22 @@ public class IncomingData {
 			
 			if (connection_id < 0)
 			{
-				System.err.println("Error while connecting to the server.");
-				System.err.println("Cause : Id returned by server is invalid.");
+				Proxy.log.error("Error while connecting to the server.\nCause : Id returned by server is invalid.");
 				proxy.quit(2);
 			}
 			else
-				System.out.println("Connected with id: " + connection_id + ". You are player n°" + player_id);
+				Proxy.log.debug("Connected with id: " + connection_id + ". You are player n°" + player_id);
 			
-			System.out.println("Retrieving initial data");
+			Proxy.log.debug("Retrieving initial data");
 			InitData d = client.retrieveInitData(connection_id);
 			
 			proxy.setInitData(d);
 			
 		} catch (TException e) {
-			System.err.println("Unexpected error while retrieving initial data from server. Message: " + e.getMessage());
+			Proxy.log.error("Unexpected error while retrieving initial data from server. Message: " + e.getMessage());
 			
 			proxy.quit(3);
 		}
-		System.out.println("lol");
 	}
 	
 	public void updateData()
@@ -87,19 +84,20 @@ public class IncomingData {
 			{
 				if (d.numFrame == -1)
 				{
-					System.out.println("Received an end-of-game frame id (-1), stopping.");
+					Proxy.log.debug("Received an end-of-game frame id (-1), stopping.");
 					proxy.quit(0);
 				}
 				else 
 				{
-					System.err.println("Error: frame sent by the server is not valid (number "+d.numFrame+").");
+					Proxy.log.warn("Error: frame sent by the server is not valid (number "+d.numFrame+"). Ignoring");
 					proxy.quit(4); 
 				}
 			}
-			proxy.updateProxyData(d);
+			else
+				proxy.updateProxyData(d);
 
 		} catch (TException e) {
-			System.err.println("Unexpected error while retrieving data from server. Message: " + e.getMessage());
+			Proxy.log.error("Unexpected error while retrieving data from server. Message: " + e.getMessage());
 			proxy.quit(3);
 		}
 	}
