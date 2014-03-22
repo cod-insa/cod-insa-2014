@@ -14,6 +14,11 @@ public class WaitCommand extends Command {
 	}
 
 	@Override
+	public String toString() {
+		return "wait "+planeId;
+	}
+	
+	@Override
 	public void match() throws WaitCommand {
 		throw this;
 	}
