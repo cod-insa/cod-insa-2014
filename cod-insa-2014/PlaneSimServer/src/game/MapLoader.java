@@ -67,7 +67,7 @@ public class MapLoader {
 		if(checkMapName(mapName))
 		{
 			path_file = location+mapName+".map";
-			System.out.println(MapLoader.class.getResource(location+mapName+".map"));
+			//System.out.println(MapLoader.class.getResource(location+mapName+".map"));
 			try {
 //				scanner = new Scanner(new File(path_file));
 				scanner = new Scanner(new File(MapLoader.class.getResource(location+mapName+".map").toURI()));
