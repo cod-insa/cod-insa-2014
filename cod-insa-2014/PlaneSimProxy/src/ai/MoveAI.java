@@ -44,9 +44,8 @@ public class MoveAI extends AbstractAI
 //					System.out.println("Sending command "+mc);
 //					
 //					game.sendCommand(mc);
-					if (p.state() == State.IDLE)
-						// Make and send a MoveCommand with the plane to the random base
-						game.sendCommand(new MoveCommand(p.id(), b.position()));
+					// Make and send a MoveCommand with the plane to the random base
+					game.sendCommand(new MoveCommand(p.id(), b.position()));
 					
 				}
 			}

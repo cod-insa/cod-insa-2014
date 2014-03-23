@@ -48,6 +48,7 @@ public abstract class DataPreparer {
 		return tobeSent;
 	}
 	
+	// Could be improved a little if we know all the plane that belong the AI or not
 	public static Data prepareData(Snapshot snapshot, int ai_id)
 	{
 		Data tobeSent;
@@ -58,16 +59,18 @@ public abstract class DataPreparer {
 		
 		List<Entity.View> ai_entities = new ArrayList<Entity.View>();
 		
+
+		// We search every planes that belong to the ai
 		for (Base.View b : snapshot.bases.view) // Convert game model objects to thrift objects
 		{
 			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
 			{
 				ai_entities.add(b);
+				tobeSent.bases.add(new BaseData(b.id(),b.ownerId(),0,0)); // FIXME Fix the ressources
 			}
-			tobeSent.bases.add(new BaseData(b.id(),b.ownerId(),0,0)); // FIXME Fix the ressources
 		}
 		
-		
+		// Then we search every planes that belong to the ai
 		for (Plane.FullView p : snapshot.planes.view)
 			if (p.ownerId() == ai_id)
 			{
@@ -82,6 +85,26 @@ public abstract class DataPreparer {
 				ai_entities.add(p);
 			}
 		
+		// We look for every bases that are not seen by the AI
+		for (Base.View b : snapshot.bases.view)
+			if (b.ownerId() != ai_id) // The base is not belonging to the current AI
+			{
+				int baseID = 0; // By default, let's  say this base is neutral
+				if (b.ownerId() != 0) // If the base is not neutral, we need to know if the AI see it
+				{
+					boolean isSeen = false;
+					for (int i = 0; i < ai_entities.size() && !isSeen;i++) // If the AI don't see it, we display the base as neutral
+						if (ai_entities.get(i).canSee(b))
+						{
+							baseID = b.ownerId(); // The AI see it, so we show the true value of the owner
+							isSeen = true;
+						}
+				}
+				tobeSent.bases.add(new BaseData(b.id(),baseID,0,0)); // FIXME Fix the ressources
+			}
+		
+		
+		
 		for (Plane.FullView p : snapshot.planes.view) // For each plane 
 			if (p.ownerId() != ai_id) // That is not belonging to the ai 
 				for (Entity.View e : ai_entities)
@@ -90,11 +113,12 @@ public abstract class DataPreparer {
 						int baseId = -1;
 						if (p.curBase() != null)
 							baseId = p.curBase().id();
-							// FIXME Fix gaz
-							tobeSent.planes.add(
-									new PlaneData(p.id(), 
-									new CoordData(p.position().x(),p.position().y()), 
-									p.ownerId(), p.health(), baseId, -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
+						// FIXME Fix gaz
+						tobeSent.planes.add(
+								new PlaneData(p.id(), 
+								new CoordData(p.position().x(),p.position().y()), 
+								p.ownerId(), p.health(), baseId, -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
+						break;
 					}
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);
 		

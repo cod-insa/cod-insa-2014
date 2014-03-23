@@ -203,10 +203,10 @@ public class Proxy
 			basesToReturn.add(b.view());
 		return basesToReturn;
 	}
-	
-	public List<String> getErrors()
+
+	public boolean isTimeOut()
 	{
-		return cm.getErrors();
+		return cm.isTimeOut();
 	}
 	
 	public void updateSimFrame()
