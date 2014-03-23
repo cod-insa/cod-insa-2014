@@ -25,7 +25,7 @@ public class MoveAI extends AbstractAI
 			game.updateSimFrame();
 			ArrayList<Base.View> bases = game.getBases();
 			
-			for (Plane.View p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {
@@ -44,9 +44,8 @@ public class MoveAI extends AbstractAI
 //					System.out.println("Sending command "+mc);
 //					
 //					game.sendCommand(mc);
-					if (p.state() == State.IDLE)
-						// Make and send a MoveCommand with the plane to the random base
-						game.sendCommand(new MoveCommand(p.id(), b.position()));
+					// Make and send a MoveCommand with the plane to the random base
+					game.sendCommand(new MoveCommand(p.id(), b.position()));
 					
 				}
 			}

@@ -13,7 +13,7 @@
 var map;
 
 //France
-var center_lat = 48.0;
+var center_lat = 48.138;
 var center_long = 2.0;
 var zoom_level = 6;
 

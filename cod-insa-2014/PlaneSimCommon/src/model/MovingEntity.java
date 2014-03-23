@@ -45,7 +45,7 @@ public class MovingEntity extends Entity {
 	public MovingEntity copy (Context context) {
 		if (context.containsKey(this)) return (MovingEntity) context.get(this);
 		MovingEntity ret = new MovingEntity(new View());
-		context.put(this, ret);
+		context.putSafe(this, ret);
 		return ret;
 	}
 	

@@ -11,7 +11,6 @@ import genbridge.PlaneCommandData;
 import genbridge.Response;
 import genbridge.WaitCommandData;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,7 +32,6 @@ import command.WaitCommand;
 public class CommandSender extends Thread {
 
 	private CommandReceiver.Client client;
-	private ArrayList<String> errors;
 	private boolean isTimeOut;
 	private int idConnection;
 	private Proxy proxy;
@@ -44,7 +42,6 @@ public class CommandSender extends Thread {
 	public CommandSender(String ip, int port, int idC, Proxy p) {
 		proxy = p;
 		running = false;
-		errors = new ArrayList<String>();
 		waitingList = new LinkedList<Command>();
 		isTimeOut = false;
 		idConnection = idC;
@@ -68,20 +65,11 @@ public class CommandSender extends Thread {
 		}
 	}
 
-	public synchronized void addError(String errorMessage) {
-		errors.add(errorMessage);
-	}
-
-	@SuppressWarnings("unchecked")
-	public synchronized ArrayList<String> getErrors() {
-		return (ArrayList<String>) errors.clone();
-	}
-
-	public boolean isTimeOut() {
+	public synchronized boolean isTimeOut() {
 		return isTimeOut;
 	}
 
-	public void newFrame() {
+	public synchronized void newFrame() {
 		isTimeOut = false;
 	}
 
@@ -119,7 +107,7 @@ public class CommandSender extends Thread {
 	}
 
 	private void sendThriftCommand(Command cmd) {
-		Proxy.log.debug("Sending command...");
+		Proxy.log.debug("Sending command : " + cmd);
 		Response r = null;
 		try {
 			try { // match the command
@@ -171,8 +159,7 @@ public class CommandSender extends Thread {
 			Proxy.log.warn("command is time out !");
 			break;
 		default:
-			addError(r.message);
-			Proxy.log.warn("WARNING : Error on command ! code:" + r.code + ", message: "
+			Proxy.log.warn("The command has been ignored ! code:" + r.code + ", message: "
 					+ r.message);
 		}
 	}

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Base;
+import model.Entity.View;
 import model.Plane;
+import model.Plane.BasicView;
 import model.Plane.State;
 import command.AttackCommand;
 import command.MoveCommand;
@@ -24,9 +26,9 @@ public class AttackAI extends AbstractAI
 		while (true) {
 			game.updateSimFrame();
 			ArrayList<Base.View> bases = game.getBases();
-			ArrayList<Plane.View> ennemy_planes = game.getEnnemyPlanes();
+			ArrayList<BasicView> ennemy_planes = game.getEnnemyPlanes();
 			
-			for (Plane.View p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {
