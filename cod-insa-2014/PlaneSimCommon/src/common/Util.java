@@ -2,13 +2,10 @@ package common;
 
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import common.Copyable.Copier;
+import common.Copyable.Context;
 
 
 public class Util {
@@ -38,10 +35,10 @@ public class Util {
 	// COPYING
 	///////////////////////////////////////////////////////////////////////////
 
-	static Set<Object> getContext(Set<Object> context) {
-		return context == null? new HashSet<Object>(): context;
+	static Context getContext(Context context) {
+		return context == null? new Context(): context;
 	}
-	static Set<Object> getContext() { return getContext(null); }
+	static Context getContext() { return getContext(null); }
 	
 	/**
 	 * A copy() utility based on the requirement that any Copyable's copy() result
@@ -51,7 +48,7 @@ public class Util {
 	@SuppressWarnings("unchecked")
 	public static<T extends Copyable>
 	T
-		copy(T src, Set<Object> context)
+		copy(T src, Context context)
 	{
 		return (T) src.copy(context);
 	}
@@ -81,7 +78,7 @@ public class Util {
 	{
 		return new Copyable.Copier<List<T>>(){
 			@Override
-			public List<T> copy(List<T> src, Set<Object> context) {
+			public List<T> copy(List<T> src, Context context) {
 				return Util.copy(src, context);
 			}
 		};
@@ -96,7 +93,7 @@ public class Util {
 	{
 		return new Copyable.Copier<List<T>>(){
 			@Override
-			public List<T> copy(List<T> src, Set<Object> context) {
+			public List<T> copy(List<T> src, Context context) {
 				return Util.copy(src, elementCopier, context);
 			}
 		};
@@ -111,7 +108,7 @@ public class Util {
 	@SuppressWarnings("unchecked")
 	public static<T, CT extends Collection<T>>
 	CT
-		copy (CT src, Copier<T> elemeCopier, Set<Object> context)
+		copy (CT src, Copier<T> elemeCopier, Context context)
 	{
 		
 		Collection<?> realCollectionSrc = src;
@@ -147,11 +144,11 @@ public class Util {
 
 	public static<T extends Copyable, CT extends Collection<T>>
 	CT
-		copy (CT src, Set<Object> context)
+		copy (CT src, Context context)
 	{
 		return copy(src, new Copier<T>() {
 			@Override
-			public T copy(T src, Set<Object> context) {
+			public T copy(T src, Context context) {
 				return Util.copy(src, context);
 			}
 		}, context);

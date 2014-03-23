@@ -31,7 +31,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
 		
-		public Plane copied(Set<Object> context) {
+		public Plane copied(Context context) {
 //			if (context.contains(PlaneModel.this)) return PlaneModel.this;
 //			return new BaseModel(BaseModel.this);
 			return copy(context);
@@ -46,6 +46,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		public boolean canAttack(Plane.View e) {
 			return isEnemy(e) && canSee(e);
 		}
+		
+		private Plane getModel() { return Plane.this; }
 	}
 	
 	public enum State {
@@ -73,19 +75,19 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 	}
 	
-	public Plane (Plane.View p, Set<Object> context) {
-		super(p);
-		context.add(this);
-		health = p.health();
-		state = p.state();
-		if (p.curBase() != null)
-			curBase = p.curBase().copied(context);
+	public Plane (Plane.View src, Context context) {
+		super(src);
+		context.putSafe(src.getModel(), this);
+		health = src.health();
+		state = src.state();
+		if (src.curBase() != null)
+			curBase = src.curBase().copied(context);
 	}
 	
 	@Override
-	public Plane copy (Set<Object> context) {
-		if (context.contains(this)) 
-			return this;
+	public Plane copy (Context context) {
+		if (context.containsKey(this))
+			return (Plane) context.get(this);
 		Plane ret = new Plane(view(),context);
 		return ret;
 	}

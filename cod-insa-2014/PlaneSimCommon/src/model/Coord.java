@@ -83,7 +83,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 			
 			public View view();
 			
-			public Coord copy (Set<Object> context);
+			public Coord copy (Context context);
 			
 			public void set (View cv);
 	
@@ -224,7 +224,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 			return object.y = value;
 		}
 		@Override
-		public Coord copy(Set<Object> context) {
+		public Coord copy(Context context) {
 			return object.copy(context);
 		}
 		@Override
@@ -268,7 +268,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		//return new View();
 	}
 	@Override
-	public Coord copy (Set<Object> context) {
+	public Coord copy (Context context) {
 		//if (context.contains(this)) return this; // No! cf: hashCode/equals overloaded
 		return new Coord(this);
 	}

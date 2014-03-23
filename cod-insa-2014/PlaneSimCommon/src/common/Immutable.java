@@ -45,7 +45,7 @@ implements
 	}
 	
 	@Override
-	public Immutable<V> copy (Set<Object> context) {
+	public Immutable<V> copy (Context context) {
 		return this;
 	}
 	

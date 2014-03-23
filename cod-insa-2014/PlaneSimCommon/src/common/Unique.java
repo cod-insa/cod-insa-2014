@@ -2,6 +2,7 @@ package common;
 
 import java.util.HashSet;
 import java.util.Set;
+import common.Copyable.Context;
 
 /*
  * A class implementing the Unique concept, which is a "deep" concept (sub-objects of Unique object are also Unique).
@@ -59,10 +60,10 @@ public class Unique<T> {
 		 * 
 		 */
 		public Copy (T original, Copyable.Copier<T> copier) {
-			super(copier.copy(original, new HashSet<Object>()));
+			super(copier.copy(original, new Context()));
 		}
 		
-		public Copy (T original, Copyable.Copier<T> copier, Set<Object> context) {
+		public Copy (T original, Copyable.Copier<T> copier, Context context) {
 			super(copier.copy(original, context));
 		}
 		
@@ -80,7 +81,7 @@ public class Unique<T> {
 		public static<T extends Copyable> Copy<T> make (T src) {
 			return new Copy<>(Util.copy(src));
 		}
-		public static<T extends Copyable> Copy<T> make (T src, Set<Object> context) {
+		public static<T extends Copyable> Copy<T> make (T src, Context context) {
 			return new Copy<>(Util.copy(src, context));
 		}
 		

@@ -50,9 +50,11 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 			return position.squareDistanceTo(pos) <= radarRange * radarRange;
 		}
 
-		public Base copied(Set<Object> context) {
+		public Base copied(Context context) {
 			return copy(context);
 		}
+		
+		public Base getModel() { return Base.this; }
 	}
 
 	@Override
@@ -69,9 +71,9 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 		this.radarRange = DEFAULT_BASE_RADAR_RANGE;
 	}
 
-	public Base(Base.View src, Set<Object> context) {
+	public Base(Base.View src, Context context) {
 		super(src.id());
-		context.add(this);
+		context.putSafe(src.getModel(), this);
 		// planes = Util.copy(src.copied().planes);
 		// planes = Util.copy(src.getPlanes());
 		planes = new ArrayList<Plane>();
@@ -90,9 +92,9 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 	// }
 
 	@Override
-	public Base copy(Set<Object> context) {
-		if (context.contains(this))
-			return this;
+	public Base copy(Context context) {
+		if (context.containsKey(this))
+			return (Base) context.get(this);
 		Base ret = new Base(view(), context);
 		return ret;
 	}

@@ -42,10 +42,10 @@ public class MovingEntity extends Entity {
 	}
 
 	@Override
-	public MovingEntity copy (Set<Object> context) {
-		if (context.contains(this)) return this;
+	public MovingEntity copy (Context context) {
+		if (context.containsKey(this)) return (MovingEntity) context.get(this);
 		MovingEntity ret = new MovingEntity(new View());
-		context.add(ret);
+		context.put(this, ret);
 		return ret;
 	}
 	

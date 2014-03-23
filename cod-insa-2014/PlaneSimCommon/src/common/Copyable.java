@@ -1,5 +1,7 @@
 package common;
 
+import java.util.IdentityHashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -24,8 +26,34 @@ public interface Copyable {
 	}
 	*/
 	
+	/**
+	 * Invariant: this should only contain key/value pairs of the same type, or so that the value's type can be casted
+	 * to the key's type.
+	 */
+	public static class Context extends IdentityHashMap<Object,Object> {
+		@Override
+		@Deprecated
+		public Object put(Object key, Object value) {
+			if (!key.getClass().isInstance(key))
+				throw new Error("Value must be an instance of the key's class.");
+			return super.put(key, value);
+		}
+//		@Override
+//		@Deprecated
+//		public Object get(Object key) {
+//			return super.get(key);
+//		}
+		public <K, V extends K> void putSafe(K key, V value) {
+			super.put(key, value);
+		}
+		@SuppressWarnings("unchecked")
+		public <K> K getSafe(K t) {
+			return (K) super.get(t);
+		}
+	}
+	
 	public interface Copier<T> {
-		public T copy (T src, Set<Object> context);
+		public T copy (T src, Context context);
 	}
 	
 	/**
@@ -48,7 +76,7 @@ public interface Copyable {
 	 * another (the handlers don't override equals and hashCode).
 	 * 
 	 */
-	Object copy (Set<Object> context);
+	Object copy (Context context);
 	
 	
 //	//public interface Collection<T extends Copyable> extends java.util.Collection<T>, Copyable { }
