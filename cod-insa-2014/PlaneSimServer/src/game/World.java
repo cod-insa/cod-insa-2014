@@ -25,7 +25,7 @@ public class World implements Viewable<World.View> {
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
 	
-	List<GameBase> bases = new ArrayList<>();
+	public List<GameBase> bases = new ArrayList<>();
 	
 	// All the current entities of the game
 	List<GameEntity> entities = new ArrayList<>();

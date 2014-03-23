@@ -39,6 +39,7 @@ public class MapLoader {
 
 	public class MapInfo{
 		//general information about the map
+		String name;
 		int basesCount;
 		double center_lat;
 		double center_long;
@@ -47,6 +48,23 @@ public class MapLoader {
 		double max_lat;
 		double max_long;
 		int web_zoom;
+		
+		public int getBasesCount() {
+			return basesCount;
+		}
+		public double getCenter_lat() {
+			return center_lat;
+		}
+		public double getCenter_long() {
+			return center_long;
+		}
+		public int getWeb_zoom() {
+			return web_zoom;
+		}
+		public String getName() {
+			return name;
+		}
+		
 	}
 
 	/**
@@ -69,7 +87,7 @@ public class MapLoader {
 		this.g = game;
 		this.w = game.getWorld();
 		this.m = new MapInfo();
-		
+		this.m.name = mapName;
 		
 		if(checkMapName(mapName))
 		{

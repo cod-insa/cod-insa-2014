@@ -12,7 +12,7 @@ import display.EntityDisplay;
 public class GameBase extends GameEntity {
 	
 	public static final double RADIUS = .04; // .05;
-	protected String cityname;
+	public final String cityname;
 	
 	public GameBase(Game sim, Unique<Coord> pos, String name) {
 		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);

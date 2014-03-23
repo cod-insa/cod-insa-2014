@@ -1,5 +1,9 @@
 import game.Game;
+import game.World;
+import network.WebInterface;
+
 import org.apache.thrift.transport.TTransportException;
+
 import players.NetworkPlayer;
 import players.NetworkPlayerManager;
 import common.Event;
@@ -7,6 +11,7 @@ import control.Controller;
 import display.ConnectionWindow;
 import display.Displayer;
 import display.MainWindow;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +53,7 @@ public class Main {
 			final Displayer disp = new Displayer();
 			final Game planeSim = new Game(disp, nbplay, args[0]);
 			
+			final WebInterface wi = WebInterface.startWebInterface(planeSim);
 			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
 			
 			for (int i = 1; i < args.length; i+= 2) {
@@ -177,7 +183,7 @@ public class Main {
 				synchronized(Main.class) { Main.class.wait(); };
 			
 			cw.close();
-			
+			wi.stopWebInterface();
 			//System.out.println(Thread.getAllStackTraces().size());
 			
 			//System.out.println(Frame.getFrames().length);

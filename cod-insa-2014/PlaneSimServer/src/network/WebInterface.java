@@ -1,9 +1,16 @@
 package network;
 
+import game.Game;
+import game.GameBase;
+import game.GamePlane;
+import game.MapLoader.MapInfo;
+import game.World;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import org.java_websocket.WebSocket;
@@ -15,20 +22,30 @@ import org.json.JSONStringer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import common.CoordConverter;
+
 public class WebInterface extends WebSocketServer {
-	
+
 	static final Logger log = LoggerFactory.getLogger(WebInterface.class);
+
+	private ArrayList<WebSocket> authorized;
+	private MapInfo mapInfo;
+	private CoordConverter converter;
+	private World world;
+	private AutoSender autoSender;
 	
 	private WebInterface( InetSocketAddress address, Draft d) {
 		super(address,Collections.singletonList(d));
+		authorized = new ArrayList<WebSocket>();
+		autoSender = new AutoSender();
 	}
-	
+
 	/**
 	 * Call this method to start the web interface server
 	 * Settings are in NetworkSettings.java
 	 * It does not like "localhost"
 	 */
-	public static WebInterface startWebInterface()
+	public static WebInterface startWebInterface(Game game)
 	{
 		WebInterface wi = null;
 		try {
@@ -42,71 +59,219 @@ public class WebInterface extends WebSocketServer {
 		} catch (UnknownHostException e) {
 			log.error("WebSocketServer cannot start");
 		}
+
+		wi.mapInfo = game.mapInfo;
+		wi.world = game.getWorld();
+		wi.converter = game.converter;
+
 		return wi;
 	}
-	
-	
+
+	public void sendMapInfo(WebSocket conn)
+	{
+		JSONStringer str = new JSONStringer();
+		str.object()
+		.key("map")
+		.object()
+		.key("name")
+		.value(mapInfo.getName())
+		.key("basecount")
+		.value(mapInfo.getBasesCount())
+		.key("latitude")
+		.value(mapInfo.getCenter_lat())
+		.key("longitude")
+		.value(mapInfo.getCenter_long())
+		.key("zoom")
+		.value(mapInfo.getWeb_zoom());
+
+		//Bases
+		str.key("bases").array();
+		for (GameBase b : world.bases) {
+			str.object();
+
+			str.key("id");
+			str.value(b.id());
+			str.key("cityname");
+			str.value(b.cityname);
+			str.key("latitude");
+			str.value(converter.getLatFromY(b.lastPosition.y()));
+			str.key("longitude");
+			str.value(converter.getLongFromX(b.lastPosition.x()));
+			str.key("ownerid");
+			str.value(b.modelView().ownerId());
+
+			str.endObject();
+		}
+
+		str.endArray().endObject().endObject();
+		String mapInfoString = str.toString();
+		log.debug("Sending map info to client: "+mapInfoString);
+		conn.send(mapInfoString);
+	}
+
+	public void sendGameInfoToAll()
+	{
+		JSONStringer stringer = new JSONStringer();
+		stringer.object().key("snap");
+		stringer.object();
+
+		//Bases
+		stringer.key("bases").array();
+		for (GameBase b : world.bases) {
+			stringer.object();
+			stringer.key("id");
+			stringer.value(b.id());
+			stringer.key("ownerid");
+			stringer.value(b.modelView().ownerId());
+			stringer.endObject();
+		}
+		stringer.endArray();
+
+		//Planes
+		stringer.key("planes").array();
+		for (GamePlane p : world.planes) {
+			stringer.object();
+
+			stringer.key("id");
+			stringer.value(p.id());
+
+			stringer.key("latitude");
+			stringer.value(converter.getLatFromY(p.lastPosition.y()));
+
+			stringer.key("longitude");
+			stringer.value(converter.getLongFromX(p.lastPosition.x()));
+
+			stringer.key("ownerid");
+			stringer.value(p.modelView().ownerId());
+
+			stringer.key("health");
+			stringer.value(p.modelView().health());
+
+			stringer.key("radar");
+			stringer.value(p.modelView().radarRange());
+
+			stringer.key("rotation");
+			stringer.value(p.modelView().rotation());
+
+			stringer.key("speed");
+			stringer.value(p.modelView().speed());
+
+			stringer.key("state");
+			stringer.value(p.modelView().state());
+
+			stringer.endObject();
+		}
+
+		stringer.endArray().endObject().endObject();
+
+		String gameInfoString = stringer.toString();
+		log.debug("Sending snapshot to clients: "+gameInfoString);
+		for (WebSocket ws : authorized) 
+			ws.send(gameInfoString);
+	}
+
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
-		log.info("Opening connection for "+conn.getRemoteSocketAddress().toString());
-		log.info("Authentication is required! Send me your ID/pass!");
+
+		if(authorized.size() > NetworkSettings.maxConnection)
+		{
+			log.error("Connection refused for "+conn.getRemoteSocketAddress().toString()+" : too many clients");
+			conn.send(new JSONStringer()
+			.object()
+			.key("error")
+			.value("Too many clients connected to the server")
+			.endObject()
+			.toString());
+			conn.close();
+		}
+		else
+		{
+			if(!authorized.contains(conn))
+			{
+				log.info("Opening web connection for "+conn.getRemoteSocketAddress().toString());
+				authorized.add(conn);
+				conn.send(new JSONStringer()
+				.object()
+				.key("error")
+				.value("You are connected")
+				.endObject()
+				.toString());
+				log.debug("Sending map info to client "+conn.getRemoteSocketAddress().toString());
+				sendMapInfo(conn);
+				sendGameInfoToAll();
+			}
+		}
 	}
-	
+
+	private class AutoSender extends Thread
+	{
+		boolean running = true;
+		
+		public AutoSender()
+		{
+			start();
+		}
+		
+		@Override
+		public void run() {
+			super.run();
+			while(running)
+			{
+				if(authorized.size() > 0)
+					sendGameInfoToAll();
+				try {
+					sleep(NetworkSettings.timeUpdate);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		public void stopAS()
+		{
+			log.debug("Shutting down auto sender thread...");
+			running = false;
+		}
+	}
+
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-		log.info("Connection with "+ conn.getRemoteSocketAddress().toString()+" is now closed");
+		authorized.remove(conn);
+		log.debug("Connection with "+ conn.getRemoteSocketAddress().toString()+" is now closed");
 	}
-	
+
 	@Override
 	public void onError( WebSocket conn, Exception ex ) {
+		autoSender.stopAS();
 		log.error("Error:" );
 		ex.printStackTrace();
 	}
-	
+
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-		conn.send( message );
-		log.debug("Message: "+message);
-		
-		
-		 String myString = new JSONStringer()
-	     .object()
-	         .key("JSON")
-	         .value("Hello, World!")
-	     .endObject()
-	     .toString();
-		 
-		 
-		//parse int on message
-		
-		//if 10 : connect info is coming
-		
-		//if 20 : asking for fresh info
-		
-		//if 30 : disconnect
-		
-		
-		/*
-		  int basesCount;
-			double center_lat;
-			double center_long;
-			int web_zoom;
-		 */
-		
+		log.debug("Message from "+conn.getRemoteSocketAddress()+" : "+message);
 	}
-	
+
 	@Override
 	public void onMessage( WebSocket conn, ByteBuffer blob ) {
-		log.debug("Message: "+blob);
+		log.debug("Message from "+conn.getRemoteSocketAddress()+" : "+blob);
+	}
+
+	public void stopWebInterface()
+	{
+		log.debug("Shutting down web interface...");
+		autoSender.stopAS();
+		try {
+			this.stop();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	
-	
-	public static void main(String[] args) {
-		WebInterface ww = startWebInterface();
-	}
-	
-	
-	
+	/*public static void main(String[] args) {
+		Game mapInfo = null;
+		World world = null;
+		WebInterface ww = startWebInterface(mapInfo);
+	}*/
+
 }
 

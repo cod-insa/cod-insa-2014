@@ -74,8 +74,16 @@ public class CoordConverter {
 		return (((heightWorld - coord.y()) / heightWorld) * latAmplitude)+min_lat;
 	}
 	
+	public double getLatFromY(double y) {
+		return (((heightWorld - y) / heightWorld) * latAmplitude)+min_lat;
+	}
+	
 	public double getLongFromUnique(Coord.Unique coord) {
 		return ((coord.x() / widthWorld) * longAmplitude)+min_long;
+	}
+	
+	public double getLongFromX(double x) {
+		return ((x / widthWorld) * longAmplitude)+min_long;
 	}
 
 	/*public Coord toCartesian(Coord degreesCoord) {
