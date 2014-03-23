@@ -72,6 +72,7 @@ public final class AutoPilot {
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		unland();
 		entityAim = e;
+		_aim.set(entityAim.model.position());
 //		plane.model.state = State.FOLLOWING;
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
