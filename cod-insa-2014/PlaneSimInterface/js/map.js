@@ -54,7 +54,7 @@ function initialisationMaps(){
 
 		 // Map creation with options
 		map = new google.maps.Map(document.getElementById("mapcontain"), myOptions);
-		map.setOptions({draggable: false, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
+		map.setOptions({draggable: true, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
 		google.maps.event.clearInstanceListeners(map);
 		
 		// To add the marker to the map, use the 'map' property

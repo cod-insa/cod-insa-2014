@@ -1,8 +1,13 @@
 body{
-	background-color:black;
-	color:white;
-	margin:0;
-    padding:0;
+background-color:black;
+color:white;
+margin:0;
+padding:0;
+}
+
+h3,h6{
+text-align:center;
+margin-right:10px;
 }
 
 a
@@ -20,6 +25,9 @@ cursor:pointer;
 #logobutton
 {
 cursor:pointer;
+width:50px;
+margin-right:20px;
+margin-left:20px;
 }
 
 .container-fluid{
@@ -33,11 +41,11 @@ cursor:pointer;
 }
 
 #topcontain{
-	background-color: #007FFF;
+    background-color: #007FFF;
     margin:0px;
     padding:0px;
     position: relative;
-    border-radius:0 0 25px 25px;
+    border-radius:0 0 25px 0px;
 }
 
 #leftcontain{
@@ -51,11 +59,11 @@ cursor:pointer;
 }
 
 #bottomcontain{
-	background-color: #007FFF;
-    margin:0px;
-    padding:0 0 20px 50px;
-    position: relative;
-    border-radius:25px 25px 0 0;
+background-color: #007FFF;
+margin:0px;
+padding:0 0 20px 20px;
+   position: relative;
+    border-radius:0px 25px 0 0;
 }
 
 #mapcontain{
@@ -69,23 +77,32 @@ cursor:pointer;
 
 
 /* Medium Displays: 641px and up */
-@media only screen and (min-width: 40.063em) {}
+@media only screen and (max-width: 768px) {
+#topcontain{
+    border-radius:0;
+}
+#bottomcontain{
+    border-radius:0;
+}
+}
+
+
+
 /* Large Displays: 1024px and up */
-@media only screen and (min-width: 64.063em) {}
+@media only screen and (max-width: 64.063em) {
+
+}
 /* X-Large Displays: 1441 and up */
 @media only screen and (min-width: 90.063em) {}
 /* XX-Large Displays: 1920 and up */
-@media only screen and (min-width: 120.063em) {
-   	#topcontain{   
-	   /* height: 20px;
-	    left: 25%;
-	    top: 0;
-	    width: 50%;*/
-    }
-}
+@media only screen and (min-width: 120.063em) {}
 
 /* landscape mode */
 @media only screen and (orientation: landscape) {}
 
 /* portrait mode */
-@media only screen and (orientation: portrait) {}
+@media only screen and (orientation: portrait) {
+#topcontain{
+    border-radius:0 0 0px 0px;
+}
+}
