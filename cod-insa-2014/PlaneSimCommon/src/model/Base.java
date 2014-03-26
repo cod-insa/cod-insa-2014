@@ -19,10 +19,15 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 	public final Immutable<Coord.View> position;
 
 	final List<Plane> planes;
+	
+	public double militarResourcesStock;
+	public double fuelResourcesStock;
 
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
 	public class View extends Entity.View {
+		public double militarResourcesStock() { return militarResourcesStock; }
+		public double fuelResourcesStock() { return fuelResourcesStock; }
 		public Immutable<Coord.View> getPosition() {
 			return Base.this.position;
 		}
@@ -31,9 +36,6 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 			return Util.view(planes);
 		}
 
-		// public BaseModel copied() {
-		// return new BaseModel(BaseModel.this);
-		// }
 		@Override
 		public boolean canSee(Entity.View e) {
 			if (e instanceof Plane.FullView
@@ -68,7 +70,9 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 		super(id);
 		planes = new ArrayList<Plane>();
 		position = new Immutable<>(pos);
-		this.radarRange = DEFAULT_BASE_RADAR_RANGE;
+		radarRange = DEFAULT_BASE_RADAR_RANGE;
+		fuelResourcesStock = 0;
+		militarResourcesStock = 0;
 	}
 
 	public Base(Base.View src, Context context) {
@@ -82,6 +86,8 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 			planes.add(p.copied(context));
 		position = src.getPosition(); // Immutable state can be shared
 		radarRange = src.radarRange();
+		militarResourcesStock = src.militarResourcesStock();
+		fuelResourcesStock = src.fuelResourcesStock();
 	}
 
 	// private BaseModel(BaseModel src)

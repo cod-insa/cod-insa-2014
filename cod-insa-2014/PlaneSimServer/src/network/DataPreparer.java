@@ -81,7 +81,8 @@ public abstract class DataPreparer {
 				tobeSent.planes.add(
 						new PlaneData(p.id(), 
 						new CoordData(p.position().x(),p.position().y()), 
-						p.ownerId(), p.health(), baseId, -1, DataStateConverter.make(p.state()),-1,-1));// FIXME Fix the ressources
+						p.ownerId(), p.health(), baseId, p.remainingGaz(), 
+						DataStateConverter.make(p.state()),p.militarResourceCarried(),p.fuelResourceCarried(),p.capacity()));// FIXME Fix the ressources
 				ai_entities.add(p);
 			}
 		
@@ -117,7 +118,8 @@ public abstract class DataPreparer {
 						tobeSent.planes.add(
 								new PlaneData(p.id(), 
 								new CoordData(p.position().x(),p.position().y()), 
-								p.ownerId(), p.health(), baseId, -1, DataStateConverter.make(p.state()),0,0));// FIXME Fix the ressources
+								p.ownerId(), p.health(), baseId, p.remainingGaz(), DataStateConverter.make(p.state()),
+								p.militarResourceCarried(),p.fuelResourceCarried(),p.capacity()));
 						break;
 					}
 		//System.out.println(">> ("+tobeSent.bases.get(0).base_id+")"+tobeSent.bases.get(0).posit.latid);

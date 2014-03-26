@@ -13,8 +13,8 @@ typedef i32 int
 # Utils data
 
 struct CoordData {
-1: double x,
-2: double y
+	1: double x,
+	2: double y
 }
 
 # Data used for the client to retrieve the Data from the server
@@ -36,10 +36,11 @@ struct PlaneData {
 	4: double health,
 	/* visible only if it belongs to the AI : */
 	5: int base_id,
-	6: int remainingGaz, 
+	6: double remainingGaz, 
 	7: PlaneStateData state,
-	8: int militarRessourceCarried,
-	9: int fuelRessourceCarried
+	8: double militarResourceCarried,
+	9: double fuelResourceCarried,
+	10: double capacity
 }
 
 struct BaseData {
@@ -47,8 +48,8 @@ struct BaseData {
 	/* marked as neutral (= 0) if the base is neither neutral nor owned */
 	2: int ai_id,
 	/* visible only if it belongs to the AI : */
-	3: int militarRessource,
-	4: int fuelRessource
+	3: double militarRessource,
+	4: double fuelRessource
 }
 
 struct BaseInitData {

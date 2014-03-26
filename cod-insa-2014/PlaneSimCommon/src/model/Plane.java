@@ -14,12 +14,23 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public double health; // = 1;
 	public State state; // don't try to modify this: it is controlled by the autoPilot
 	public Base curBase; // no sense if state != State.AT_AIRPORT
+	public double militarResourceCarried;
+	public double fuelResourceCarried;
+	public double remainingGaz;
+	public double capacity;
+	
+	private static final double DEFAULT_CAPACITY = 10;
 	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
+	private static final double DEFAULT_INIT_GAZ = 100;
 
 	// Basically, FullView is a BasicView plus some additional things that are visible
 	public class FullView extends BasicView {
 		public State state() { return state; }
 		public Base.View curBase() { return curBase == null ? null : curBase.view(); }
+		public double militarResourceCarried() { return militarResourceCarried; }
+		public double fuelResourceCarried() { return fuelResourceCarried; }
+		public double remainingGaz() { return remainingGaz; }
+		public double capacity() { return capacity; }
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
@@ -84,6 +95,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		this.health = health;
 		this.state = state;
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
+		this.capacity = DEFAULT_CAPACITY;
+		this.remainingGaz = DEFAULT_INIT_GAZ;
+		fuelResourceCarried = militarResourceCarried = 0;
 	}
 	
 	public Plane (Plane.FullView src, Context context) {

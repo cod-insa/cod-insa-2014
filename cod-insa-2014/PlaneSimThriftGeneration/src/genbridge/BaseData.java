@@ -37,8 +37,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField MILITAR_RESSOURCE_FIELD_DESC = new org.apache.thrift.protocol.TField("militarRessource", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField FUEL_RESSOURCE_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelRessource", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField MILITAR_RESSOURCE_FIELD_DESC = new org.apache.thrift.protocol.TField("militarRessource", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField FUEL_RESSOURCE_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelRessource", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -48,8 +48,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
 
   public int base_id; // required
   public int ai_id; // required
-  public int militarRessource; // required
-  public int fuelRessource; // required
+  public double militarRessource; // required
+  public double fuelRessource; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -132,9 +132,9 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
     tmpMap.put(_Fields.AI_ID, new org.apache.thrift.meta_data.FieldMetaData("ai_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.MILITAR_RESSOURCE, new org.apache.thrift.meta_data.FieldMetaData("militarRessource", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.FUEL_RESSOURCE, new org.apache.thrift.meta_data.FieldMetaData("fuelRessource", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BaseData.class, metaDataMap);
   }
@@ -145,8 +145,8 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
   public BaseData(
     int base_id,
     int ai_id,
-    int militarRessource,
-    int fuelRessource)
+    double militarRessource,
+    double fuelRessource)
   {
     this();
     this.base_id = base_id;
@@ -181,9 +181,9 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
     setAi_idIsSet(false);
     this.ai_id = 0;
     setMilitarRessourceIsSet(false);
-    this.militarRessource = 0;
+    this.militarRessource = 0.0;
     setFuelRessourceIsSet(false);
-    this.fuelRessource = 0;
+    this.fuelRessource = 0.0;
   }
 
   public int getBase_id() {
@@ -232,11 +232,11 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __AI_ID_ISSET_ID, value);
   }
 
-  public int getMilitarRessource() {
+  public double getMilitarRessource() {
     return this.militarRessource;
   }
 
-  public BaseData setMilitarRessource(int militarRessource) {
+  public BaseData setMilitarRessource(double militarRessource) {
     this.militarRessource = militarRessource;
     setMilitarRessourceIsSet(true);
     return this;
@@ -255,11 +255,11 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MILITARRESSOURCE_ISSET_ID, value);
   }
 
-  public int getFuelRessource() {
+  public double getFuelRessource() {
     return this.fuelRessource;
   }
 
-  public BaseData setFuelRessource(int fuelRessource) {
+  public BaseData setFuelRessource(double fuelRessource) {
     this.fuelRessource = fuelRessource;
     setFuelRessourceIsSet(true);
     return this;
@@ -300,7 +300,7 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
       if (value == null) {
         unsetMilitarRessource();
       } else {
-        setMilitarRessource((Integer)value);
+        setMilitarRessource((Double)value);
       }
       break;
 
@@ -308,7 +308,7 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
       if (value == null) {
         unsetFuelRessource();
       } else {
-        setFuelRessource((Integer)value);
+        setFuelRessource((Double)value);
       }
       break;
 
@@ -324,10 +324,10 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
       return Integer.valueOf(getAi_id());
 
     case MILITAR_RESSOURCE:
-      return Integer.valueOf(getMilitarRessource());
+      return Double.valueOf(getMilitarRessource());
 
     case FUEL_RESSOURCE:
-      return Integer.valueOf(getFuelRessource());
+      return Double.valueOf(getFuelRessource());
 
     }
     throw new IllegalStateException();
@@ -554,16 +554,16 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
             }
             break;
           case 3: // MILITAR_RESSOURCE
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.militarRessource = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.militarRessource = iprot.readDouble();
               struct.setMilitarRessourceIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 4: // FUEL_RESSOURCE
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.fuelRessource = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.fuelRessource = iprot.readDouble();
               struct.setFuelRessourceIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -591,10 +591,10 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
       oprot.writeI32(struct.ai_id);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(MILITAR_RESSOURCE_FIELD_DESC);
-      oprot.writeI32(struct.militarRessource);
+      oprot.writeDouble(struct.militarRessource);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(FUEL_RESSOURCE_FIELD_DESC);
-      oprot.writeI32(struct.fuelRessource);
+      oprot.writeDouble(struct.fuelRessource);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -634,10 +634,10 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
         oprot.writeI32(struct.ai_id);
       }
       if (struct.isSetMilitarRessource()) {
-        oprot.writeI32(struct.militarRessource);
+        oprot.writeDouble(struct.militarRessource);
       }
       if (struct.isSetFuelRessource()) {
-        oprot.writeI32(struct.fuelRessource);
+        oprot.writeDouble(struct.fuelRessource);
       }
     }
 
@@ -654,11 +654,11 @@ public class BaseData implements org.apache.thrift.TBase<BaseData, BaseData._Fie
         struct.setAi_idIsSet(true);
       }
       if (incoming.get(2)) {
-        struct.militarRessource = iprot.readI32();
+        struct.militarRessource = iprot.readDouble();
         struct.setMilitarRessourceIsSet(true);
       }
       if (incoming.get(3)) {
-        struct.fuelRessource = iprot.readI32();
+        struct.fuelRessource = iprot.readDouble();
         struct.setFuelRessourceIsSet(true);
       }
     }

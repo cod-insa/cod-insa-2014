@@ -40,10 +40,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)3);
   private static final org.apache.thrift.protocol.TField HEALTH_FIELD_DESC = new org.apache.thrift.protocol.TField("health", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
   private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)5);
-  private static final org.apache.thrift.protocol.TField REMAINING_GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("remainingGaz", org.apache.thrift.protocol.TType.I32, (short)6);
+  private static final org.apache.thrift.protocol.TField REMAINING_GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("remainingGaz", org.apache.thrift.protocol.TType.DOUBLE, (short)6);
   private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)7);
-  private static final org.apache.thrift.protocol.TField MILITAR_RESSOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("militarRessourceCarried", org.apache.thrift.protocol.TType.I32, (short)8);
-  private static final org.apache.thrift.protocol.TField FUEL_RESSOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelRessourceCarried", org.apache.thrift.protocol.TType.I32, (short)9);
+  private static final org.apache.thrift.protocol.TField MILITAR_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("militarResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)8);
+  private static final org.apache.thrift.protocol.TField FUEL_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)9);
+  private static final org.apache.thrift.protocol.TField CAPACITY_FIELD_DESC = new org.apache.thrift.protocol.TField("capacity", org.apache.thrift.protocol.TType.DOUBLE, (short)10);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -56,14 +57,15 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   public int ai_id; // required
   public double health; // required
   public int base_id; // required
-  public int remainingGaz; // required
+  public double remainingGaz; // required
   /**
    * 
    * @see PlaneStateData
    */
   public PlaneStateData state; // required
-  public int militarRessourceCarried; // required
-  public int fuelRessourceCarried; // required
+  public double militarResourceCarried; // required
+  public double fuelResourceCarried; // required
+  public double capacity; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -78,8 +80,9 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
      * @see PlaneStateData
      */
     STATE((short)7, "state"),
-    MILITAR_RESSOURCE_CARRIED((short)8, "militarRessourceCarried"),
-    FUEL_RESSOURCE_CARRIED((short)9, "fuelRessourceCarried");
+    MILITAR_RESOURCE_CARRIED((short)8, "militarResourceCarried"),
+    FUEL_RESOURCE_CARRIED((short)9, "fuelResourceCarried"),
+    CAPACITY((short)10, "capacity");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -108,10 +111,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
           return REMAINING_GAZ;
         case 7: // STATE
           return STATE;
-        case 8: // MILITAR_RESSOURCE_CARRIED
-          return MILITAR_RESSOURCE_CARRIED;
-        case 9: // FUEL_RESSOURCE_CARRIED
-          return FUEL_RESSOURCE_CARRIED;
+        case 8: // MILITAR_RESOURCE_CARRIED
+          return MILITAR_RESOURCE_CARRIED;
+        case 9: // FUEL_RESOURCE_CARRIED
+          return FUEL_RESOURCE_CARRIED;
+        case 10: // CAPACITY
+          return CAPACITY;
         default:
           return null;
       }
@@ -157,8 +162,9 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   private static final int __HEALTH_ISSET_ID = 2;
   private static final int __BASE_ID_ISSET_ID = 3;
   private static final int __REMAININGGAZ_ISSET_ID = 4;
-  private static final int __MILITARRESSOURCECARRIED_ISSET_ID = 5;
-  private static final int __FUELRESSOURCECARRIED_ISSET_ID = 6;
+  private static final int __MILITARRESOURCECARRIED_ISSET_ID = 5;
+  private static final int __FUELRESOURCECARRIED_ISSET_ID = 6;
+  private static final int __CAPACITY_ISSET_ID = 7;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -174,13 +180,15 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     tmpMap.put(_Fields.BASE_ID, new org.apache.thrift.meta_data.FieldMetaData("base_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.REMAINING_GAZ, new org.apache.thrift.meta_data.FieldMetaData("remainingGaz", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.STATE, new org.apache.thrift.meta_data.FieldMetaData("state", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, PlaneStateData.class)));
-    tmpMap.put(_Fields.MILITAR_RESSOURCE_CARRIED, new org.apache.thrift.meta_data.FieldMetaData("militarRessourceCarried", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.FUEL_RESSOURCE_CARRIED, new org.apache.thrift.meta_data.FieldMetaData("fuelRessourceCarried", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
+    tmpMap.put(_Fields.MILITAR_RESOURCE_CARRIED, new org.apache.thrift.meta_data.FieldMetaData("militarResourceCarried", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.FUEL_RESOURCE_CARRIED, new org.apache.thrift.meta_data.FieldMetaData("fuelResourceCarried", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.CAPACITY, new org.apache.thrift.meta_data.FieldMetaData("capacity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneData.class, metaDataMap);
   }
@@ -194,10 +202,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     int ai_id,
     double health,
     int base_id,
-    int remainingGaz,
+    double remainingGaz,
     PlaneStateData state,
-    int militarRessourceCarried,
-    int fuelRessourceCarried)
+    double militarResourceCarried,
+    double fuelResourceCarried,
+    double capacity)
   {
     this();
     this.plane_id = plane_id;
@@ -212,10 +221,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.remainingGaz = remainingGaz;
     setRemainingGazIsSet(true);
     this.state = state;
-    this.militarRessourceCarried = militarRessourceCarried;
-    setMilitarRessourceCarriedIsSet(true);
-    this.fuelRessourceCarried = fuelRessourceCarried;
-    setFuelRessourceCarriedIsSet(true);
+    this.militarResourceCarried = militarResourceCarried;
+    setMilitarResourceCarriedIsSet(true);
+    this.fuelResourceCarried = fuelResourceCarried;
+    setFuelResourceCarriedIsSet(true);
+    this.capacity = capacity;
+    setCapacityIsSet(true);
   }
 
   /**
@@ -234,8 +245,9 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     if (other.isSetState()) {
       this.state = other.state;
     }
-    this.militarRessourceCarried = other.militarRessourceCarried;
-    this.fuelRessourceCarried = other.fuelRessourceCarried;
+    this.militarResourceCarried = other.militarResourceCarried;
+    this.fuelResourceCarried = other.fuelResourceCarried;
+    this.capacity = other.capacity;
   }
 
   public PlaneData deepCopy() {
@@ -254,12 +266,14 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     setBase_idIsSet(false);
     this.base_id = 0;
     setRemainingGazIsSet(false);
-    this.remainingGaz = 0;
+    this.remainingGaz = 0.0;
     this.state = null;
-    setMilitarRessourceCarriedIsSet(false);
-    this.militarRessourceCarried = 0;
-    setFuelRessourceCarriedIsSet(false);
-    this.fuelRessourceCarried = 0;
+    setMilitarResourceCarriedIsSet(false);
+    this.militarResourceCarried = 0.0;
+    setFuelResourceCarriedIsSet(false);
+    this.fuelResourceCarried = 0.0;
+    setCapacityIsSet(false);
+    this.capacity = 0.0;
   }
 
   public int getPlane_id() {
@@ -378,11 +392,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __BASE_ID_ISSET_ID, value);
   }
 
-  public int getRemainingGaz() {
+  public double getRemainingGaz() {
     return this.remainingGaz;
   }
 
-  public PlaneData setRemainingGaz(int remainingGaz) {
+  public PlaneData setRemainingGaz(double remainingGaz) {
     this.remainingGaz = remainingGaz;
     setRemainingGazIsSet(true);
     return this;
@@ -433,50 +447,73 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     }
   }
 
-  public int getMilitarRessourceCarried() {
-    return this.militarRessourceCarried;
+  public double getMilitarResourceCarried() {
+    return this.militarResourceCarried;
   }
 
-  public PlaneData setMilitarRessourceCarried(int militarRessourceCarried) {
-    this.militarRessourceCarried = militarRessourceCarried;
-    setMilitarRessourceCarriedIsSet(true);
+  public PlaneData setMilitarResourceCarried(double militarResourceCarried) {
+    this.militarResourceCarried = militarResourceCarried;
+    setMilitarResourceCarriedIsSet(true);
     return this;
   }
 
-  public void unsetMilitarRessourceCarried() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __MILITARRESSOURCECARRIED_ISSET_ID);
+  public void unsetMilitarResourceCarried() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __MILITARRESOURCECARRIED_ISSET_ID);
   }
 
-  /** Returns true if field militarRessourceCarried is set (has been assigned a value) and false otherwise */
-  public boolean isSetMilitarRessourceCarried() {
-    return EncodingUtils.testBit(__isset_bitfield, __MILITARRESSOURCECARRIED_ISSET_ID);
+  /** Returns true if field militarResourceCarried is set (has been assigned a value) and false otherwise */
+  public boolean isSetMilitarResourceCarried() {
+    return EncodingUtils.testBit(__isset_bitfield, __MILITARRESOURCECARRIED_ISSET_ID);
   }
 
-  public void setMilitarRessourceCarriedIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MILITARRESSOURCECARRIED_ISSET_ID, value);
+  public void setMilitarResourceCarriedIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MILITARRESOURCECARRIED_ISSET_ID, value);
   }
 
-  public int getFuelRessourceCarried() {
-    return this.fuelRessourceCarried;
+  public double getFuelResourceCarried() {
+    return this.fuelResourceCarried;
   }
 
-  public PlaneData setFuelRessourceCarried(int fuelRessourceCarried) {
-    this.fuelRessourceCarried = fuelRessourceCarried;
-    setFuelRessourceCarriedIsSet(true);
+  public PlaneData setFuelResourceCarried(double fuelResourceCarried) {
+    this.fuelResourceCarried = fuelResourceCarried;
+    setFuelResourceCarriedIsSet(true);
     return this;
   }
 
-  public void unsetFuelRessourceCarried() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __FUELRESSOURCECARRIED_ISSET_ID);
+  public void unsetFuelResourceCarried() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __FUELRESOURCECARRIED_ISSET_ID);
   }
 
-  /** Returns true if field fuelRessourceCarried is set (has been assigned a value) and false otherwise */
-  public boolean isSetFuelRessourceCarried() {
-    return EncodingUtils.testBit(__isset_bitfield, __FUELRESSOURCECARRIED_ISSET_ID);
+  /** Returns true if field fuelResourceCarried is set (has been assigned a value) and false otherwise */
+  public boolean isSetFuelResourceCarried() {
+    return EncodingUtils.testBit(__isset_bitfield, __FUELRESOURCECARRIED_ISSET_ID);
   }
 
-  public void setFuelRessourceCarriedIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __FUELRESSOURCECARRIED_ISSET_ID, value);
+  public void setFuelResourceCarriedIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __FUELRESOURCECARRIED_ISSET_ID, value);
+  }
+
+  public double getCapacity() {
+    return this.capacity;
+  }
+
+  public PlaneData setCapacity(double capacity) {
+    this.capacity = capacity;
+    setCapacityIsSet(true);
+    return this;
+  }
+
+  public void unsetCapacity() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CAPACITY_ISSET_ID);
+  }
+
+  /** Returns true if field capacity is set (has been assigned a value) and false otherwise */
+  public boolean isSetCapacity() {
+    return EncodingUtils.testBit(__isset_bitfield, __CAPACITY_ISSET_ID);
+  }
+
+  public void setCapacityIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CAPACITY_ISSET_ID, value);
   }
 
   public void setFieldValue(_Fields field, Object value) {
@@ -525,7 +562,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       if (value == null) {
         unsetRemainingGaz();
       } else {
-        setRemainingGaz((Integer)value);
+        setRemainingGaz((Double)value);
       }
       break;
 
@@ -537,19 +574,27 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       }
       break;
 
-    case MILITAR_RESSOURCE_CARRIED:
+    case MILITAR_RESOURCE_CARRIED:
       if (value == null) {
-        unsetMilitarRessourceCarried();
+        unsetMilitarResourceCarried();
       } else {
-        setMilitarRessourceCarried((Integer)value);
+        setMilitarResourceCarried((Double)value);
       }
       break;
 
-    case FUEL_RESSOURCE_CARRIED:
+    case FUEL_RESOURCE_CARRIED:
       if (value == null) {
-        unsetFuelRessourceCarried();
+        unsetFuelResourceCarried();
       } else {
-        setFuelRessourceCarried((Integer)value);
+        setFuelResourceCarried((Double)value);
+      }
+      break;
+
+    case CAPACITY:
+      if (value == null) {
+        unsetCapacity();
+      } else {
+        setCapacity((Double)value);
       }
       break;
 
@@ -574,16 +619,19 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       return Integer.valueOf(getBase_id());
 
     case REMAINING_GAZ:
-      return Integer.valueOf(getRemainingGaz());
+      return Double.valueOf(getRemainingGaz());
 
     case STATE:
       return getState();
 
-    case MILITAR_RESSOURCE_CARRIED:
-      return Integer.valueOf(getMilitarRessourceCarried());
+    case MILITAR_RESOURCE_CARRIED:
+      return Double.valueOf(getMilitarResourceCarried());
 
-    case FUEL_RESSOURCE_CARRIED:
-      return Integer.valueOf(getFuelRessourceCarried());
+    case FUEL_RESOURCE_CARRIED:
+      return Double.valueOf(getFuelResourceCarried());
+
+    case CAPACITY:
+      return Double.valueOf(getCapacity());
 
     }
     throw new IllegalStateException();
@@ -610,10 +658,12 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       return isSetRemainingGaz();
     case STATE:
       return isSetState();
-    case MILITAR_RESSOURCE_CARRIED:
-      return isSetMilitarRessourceCarried();
-    case FUEL_RESSOURCE_CARRIED:
-      return isSetFuelRessourceCarried();
+    case MILITAR_RESOURCE_CARRIED:
+      return isSetMilitarResourceCarried();
+    case FUEL_RESOURCE_CARRIED:
+      return isSetFuelResourceCarried();
+    case CAPACITY:
+      return isSetCapacity();
     }
     throw new IllegalStateException();
   }
@@ -694,21 +744,30 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         return false;
     }
 
-    boolean this_present_militarRessourceCarried = true;
-    boolean that_present_militarRessourceCarried = true;
-    if (this_present_militarRessourceCarried || that_present_militarRessourceCarried) {
-      if (!(this_present_militarRessourceCarried && that_present_militarRessourceCarried))
+    boolean this_present_militarResourceCarried = true;
+    boolean that_present_militarResourceCarried = true;
+    if (this_present_militarResourceCarried || that_present_militarResourceCarried) {
+      if (!(this_present_militarResourceCarried && that_present_militarResourceCarried))
         return false;
-      if (this.militarRessourceCarried != that.militarRessourceCarried)
+      if (this.militarResourceCarried != that.militarResourceCarried)
         return false;
     }
 
-    boolean this_present_fuelRessourceCarried = true;
-    boolean that_present_fuelRessourceCarried = true;
-    if (this_present_fuelRessourceCarried || that_present_fuelRessourceCarried) {
-      if (!(this_present_fuelRessourceCarried && that_present_fuelRessourceCarried))
+    boolean this_present_fuelResourceCarried = true;
+    boolean that_present_fuelResourceCarried = true;
+    if (this_present_fuelResourceCarried || that_present_fuelResourceCarried) {
+      if (!(this_present_fuelResourceCarried && that_present_fuelResourceCarried))
         return false;
-      if (this.fuelRessourceCarried != that.fuelRessourceCarried)
+      if (this.fuelResourceCarried != that.fuelResourceCarried)
+        return false;
+    }
+
+    boolean this_present_capacity = true;
+    boolean that_present_capacity = true;
+    if (this_present_capacity || that_present_capacity) {
+      if (!(this_present_capacity && that_present_capacity))
+        return false;
+      if (this.capacity != that.capacity)
         return false;
     }
 
@@ -798,22 +857,32 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetMilitarRessourceCarried()).compareTo(other.isSetMilitarRessourceCarried());
+    lastComparison = Boolean.valueOf(isSetMilitarResourceCarried()).compareTo(other.isSetMilitarResourceCarried());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetMilitarRessourceCarried()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.militarRessourceCarried, other.militarRessourceCarried);
+    if (isSetMilitarResourceCarried()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.militarResourceCarried, other.militarResourceCarried);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetFuelRessourceCarried()).compareTo(other.isSetFuelRessourceCarried());
+    lastComparison = Boolean.valueOf(isSetFuelResourceCarried()).compareTo(other.isSetFuelResourceCarried());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetFuelRessourceCarried()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.fuelRessourceCarried, other.fuelRessourceCarried);
+    if (isSetFuelResourceCarried()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.fuelResourceCarried, other.fuelResourceCarried);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetCapacity()).compareTo(other.isSetCapacity());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetCapacity()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.capacity, other.capacity);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -874,12 +943,16 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("militarRessourceCarried:");
-    sb.append(this.militarRessourceCarried);
+    sb.append("militarResourceCarried:");
+    sb.append(this.militarResourceCarried);
     first = false;
     if (!first) sb.append(", ");
-    sb.append("fuelRessourceCarried:");
-    sb.append(this.fuelRessourceCarried);
+    sb.append("fuelResourceCarried:");
+    sb.append(this.fuelResourceCarried);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("capacity:");
+    sb.append(this.capacity);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -971,8 +1044,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
             }
             break;
           case 6: // REMAINING_GAZ
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.remainingGaz = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.remainingGaz = iprot.readDouble();
               struct.setRemainingGazIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -986,18 +1059,26 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 8: // MILITAR_RESSOURCE_CARRIED
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.militarRessourceCarried = iprot.readI32();
-              struct.setMilitarRessourceCarriedIsSet(true);
+          case 8: // MILITAR_RESOURCE_CARRIED
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.militarResourceCarried = iprot.readDouble();
+              struct.setMilitarResourceCarriedIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 9: // FUEL_RESSOURCE_CARRIED
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.fuelRessourceCarried = iprot.readI32();
-              struct.setFuelRessourceCarriedIsSet(true);
+          case 9: // FUEL_RESOURCE_CARRIED
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.fuelResourceCarried = iprot.readDouble();
+              struct.setFuelResourceCarriedIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 10: // CAPACITY
+            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+              struct.capacity = iprot.readDouble();
+              struct.setCapacityIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -1035,18 +1116,21 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       oprot.writeI32(struct.base_id);
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(REMAINING_GAZ_FIELD_DESC);
-      oprot.writeI32(struct.remainingGaz);
+      oprot.writeDouble(struct.remainingGaz);
       oprot.writeFieldEnd();
       if (struct.state != null) {
         oprot.writeFieldBegin(STATE_FIELD_DESC);
         oprot.writeI32(struct.state.getValue());
         oprot.writeFieldEnd();
       }
-      oprot.writeFieldBegin(MILITAR_RESSOURCE_CARRIED_FIELD_DESC);
-      oprot.writeI32(struct.militarRessourceCarried);
+      oprot.writeFieldBegin(MILITAR_RESOURCE_CARRIED_FIELD_DESC);
+      oprot.writeDouble(struct.militarResourceCarried);
       oprot.writeFieldEnd();
-      oprot.writeFieldBegin(FUEL_RESSOURCE_CARRIED_FIELD_DESC);
-      oprot.writeI32(struct.fuelRessourceCarried);
+      oprot.writeFieldBegin(FUEL_RESOURCE_CARRIED_FIELD_DESC);
+      oprot.writeDouble(struct.fuelResourceCarried);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(CAPACITY_FIELD_DESC);
+      oprot.writeDouble(struct.capacity);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -1087,13 +1171,16 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       if (struct.isSetState()) {
         optionals.set(6);
       }
-      if (struct.isSetMilitarRessourceCarried()) {
+      if (struct.isSetMilitarResourceCarried()) {
         optionals.set(7);
       }
-      if (struct.isSetFuelRessourceCarried()) {
+      if (struct.isSetFuelResourceCarried()) {
         optionals.set(8);
       }
-      oprot.writeBitSet(optionals, 9);
+      if (struct.isSetCapacity()) {
+        optionals.set(9);
+      }
+      oprot.writeBitSet(optionals, 10);
       if (struct.isSetPlane_id()) {
         oprot.writeI32(struct.plane_id);
       }
@@ -1110,23 +1197,26 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         oprot.writeI32(struct.base_id);
       }
       if (struct.isSetRemainingGaz()) {
-        oprot.writeI32(struct.remainingGaz);
+        oprot.writeDouble(struct.remainingGaz);
       }
       if (struct.isSetState()) {
         oprot.writeI32(struct.state.getValue());
       }
-      if (struct.isSetMilitarRessourceCarried()) {
-        oprot.writeI32(struct.militarRessourceCarried);
+      if (struct.isSetMilitarResourceCarried()) {
+        oprot.writeDouble(struct.militarResourceCarried);
       }
-      if (struct.isSetFuelRessourceCarried()) {
-        oprot.writeI32(struct.fuelRessourceCarried);
+      if (struct.isSetFuelResourceCarried()) {
+        oprot.writeDouble(struct.fuelResourceCarried);
+      }
+      if (struct.isSetCapacity()) {
+        oprot.writeDouble(struct.capacity);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, PlaneData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(9);
+      BitSet incoming = iprot.readBitSet(10);
       if (incoming.get(0)) {
         struct.plane_id = iprot.readI32();
         struct.setPlane_idIsSet(true);
@@ -1149,7 +1239,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         struct.setBase_idIsSet(true);
       }
       if (incoming.get(5)) {
-        struct.remainingGaz = iprot.readI32();
+        struct.remainingGaz = iprot.readDouble();
         struct.setRemainingGazIsSet(true);
       }
       if (incoming.get(6)) {
@@ -1157,12 +1247,16 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
         struct.setStateIsSet(true);
       }
       if (incoming.get(7)) {
-        struct.militarRessourceCarried = iprot.readI32();
-        struct.setMilitarRessourceCarriedIsSet(true);
+        struct.militarResourceCarried = iprot.readDouble();
+        struct.setMilitarResourceCarriedIsSet(true);
       }
       if (incoming.get(8)) {
-        struct.fuelRessourceCarried = iprot.readI32();
-        struct.setFuelRessourceCarriedIsSet(true);
+        struct.fuelResourceCarried = iprot.readDouble();
+        struct.setFuelResourceCarriedIsSet(true);
+      }
+      if (incoming.get(9)) {
+        struct.capacity = iprot.readDouble();
+        struct.setCapacityIsSet(true);
       }
     }
   }
