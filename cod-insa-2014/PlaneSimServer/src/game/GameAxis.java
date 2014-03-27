@@ -1,6 +1,7 @@
 package game;
 
 import display.EntityDisplay;
+import model.Base;
 import model.Entity;
 import model.ProgressAxis;
 
@@ -9,8 +10,8 @@ import model.ProgressAxis;
  */
 public class GameAxis extends GameEntity {
 
-	public GameAxis() {
-		super(null, null, null); // FIXME
+	public GameAxis(Game sim, Base.View base1, Base.View base2) {
+		super(new ProgressAxis(makeNextId(), base1, base2), sim, Altitude.GROUND);
 	}
 	
 //	public GameAxis(Game sim, Unique<Coord> pos, String name) {
