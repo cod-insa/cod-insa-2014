@@ -30,6 +30,7 @@ public class World implements Viewable<World.View> {
 	// All the current entities of the game
 	List<GameEntity> entities = new ArrayList<>();
 	public List<GamePlane> planes = new ArrayList<>();
+//	public List<GameAxis> axes = new ArrayList<>();
 	
 	public World (Game sim) {
 		//sim.world = this;

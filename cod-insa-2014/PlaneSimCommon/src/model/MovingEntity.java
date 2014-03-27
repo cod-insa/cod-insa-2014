@@ -5,14 +5,14 @@ import java.util.Set;
 import common.Unique;
 
 
-public class MovingEntity extends Entity {
+public class MovingEntity extends MaterialEntity {
 	
 	public final Coord position, inertia;
 	
 	public double speed = 0; // TODO add to ctor
 	
 	
-	public class View extends Entity.View {
+	public class View extends MaterialEntity.View {
 		public double speed() { return speed; }
 		public Coord.View inertia() { return inertia.view(); }
 	}

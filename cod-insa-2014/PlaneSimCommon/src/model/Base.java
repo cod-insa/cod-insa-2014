@@ -12,7 +12,7 @@ import common.Unique;
 import common.Util;
 import common.Viewable;
 
-public class Base extends Entity implements Serializable, Viewable<Base.View> {
+public class Base extends MaterialEntity implements Serializable, Viewable<Base.View> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class Base extends Entity implements Serializable, Viewable<Base.View> {
 
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
-	public class View extends Entity.View {
+	public class View extends MaterialEntity.View {
 		public double militarResourcesStock() { return militarResourcesStock; }
 		public double fuelResourcesStock() { return fuelResourcesStock; }
 		public Immutable<Coord.View> getPosition() {

@@ -183,7 +183,7 @@ public final class AutoPilot {
 			double angleToAim = plane.model().position.angleWith(_aim.view());
 			
 			//aimAngle = Math.atan2(_aim.y-plane.model.position().y(), _aim.x-plane.model.position().x()) + Math.PI*2 - plane.model.rotation;
-			aimAngle = angleToAim + Math.PI*2 - plane.model.rotation();
+			aimAngle = angleToAim + Math.PI*2 - plane.model().rotation();
 			
 			double oldA = aimAngle;
 			
@@ -313,7 +313,7 @@ public final class AutoPilot {
 		double delta = aimAngle > mrs? mrs: aimAngle;
 		delta = delta < -mrs? -mrs: delta;
 		
-		plane.model.rotate(delta);
+		plane.model().rotate(delta);
 	}
 	
 	private void adjustSpeed(double period)
