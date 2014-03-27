@@ -2,6 +2,8 @@ package game;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import network.WebInterface;
@@ -9,6 +11,7 @@ import network.WebInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import model.Base;
 import model.Coord;
 import common.CoordConverter;
 
@@ -41,6 +44,7 @@ public class MapLoader {
 		//general information about the map
 		String name;
 		int basesCount;
+		int axisCount;
 		double center_lat;
 		double center_long;
 		double min_lat;
@@ -51,6 +55,9 @@ public class MapLoader {
 		
 		public int getBasesCount() {
 			return basesCount;
+		}
+		public int getAxisCount() {
+			return axisCount;
 		}
 		public double getCenter_lat() {
 			return center_lat;
@@ -118,7 +125,7 @@ public class MapLoader {
 		String[] init_line_sep = init_line.split(",");
 		String name;
 
-		if(init_line_sep.length == 9)
+		if(init_line_sep.length == 10)
 		{
 			name = init_line_sep[0];
 			m.basesCount = Integer.parseInt(init_line_sep[1]);
@@ -129,6 +136,7 @@ public class MapLoader {
 			m.max_lat = Double.parseDouble(init_line_sep[6]);
 			m.max_long = Double.parseDouble(init_line_sep[7]);
 			m.web_zoom = Integer.parseInt(init_line_sep[8]);
+			m.axisCount = Integer.parseInt(init_line_sep[9]);
 			
 			log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
 			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long);
@@ -141,6 +149,7 @@ public class MapLoader {
 			Double latid;
 			Double longit;
 			Coord.Unique newBaseCoord;
+			Map<String,Base> basesByName = new HashMap<String,Base>();
 			
 			for(int i = 0 ; i < m.basesCount ; i++)
 			{
@@ -154,14 +163,25 @@ public class MapLoader {
 				log.debug("New Base : "+name+" at "+latid+" "+longit);
 				
 				newBaseCoord = converter.toCartesianUnique(longit, latid);
-				this.w.bases.add(new GameBase(g, newBaseCoord,name));
+				GameBase gb = new GameBase(g, newBaseCoord,name);
+				
+				this.w.bases.add(gb);
+				basesByName.put(name, gb.model());
 				
 				//System.out.println("New Base : "+newBaseCoord.x()+" "+ newBaseCoord.y());
 				//Game.log.debug("New Base : "+newBaseCoord.x()+" "+ newBaseCoord.y());
 				//Game.log.debug("New Base : "+latid+" "+longit);
 				//Game.log.debug("New Base : "+converter.getLatFromUnique(newBaseCoord)+" "+ converter.getLongFromUnique(newBaseCoord));
-				
-				
+			}
+			
+			String[] axis;
+			for (int i = 0; i < m.axisCount; i++) {
+				line = scanner.nextLine();
+				axis = line.split(",");
+				/*
+				baseName1 = axis[0];
+				baseName2 = axis[1];
+				*/
 			}
 		}
 		else
