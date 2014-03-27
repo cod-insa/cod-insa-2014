@@ -47,7 +47,15 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				return true;
 			return isFriend(e) || canSee(e);
 		}
-
+		
+		@Override
+//		public boolean canSee(Entity.View e) {
+		public boolean canSee(MaterialEntity.View e) {
+			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
+				return false;
+			return isWithinRadar(e.position);
+		}
+		
 		public boolean canAttack(Plane.FullView e) {
 			return isEnemy(e) && canSee(e);
 		}
@@ -58,14 +66,6 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	// This is what an AI will see for an ennemy plane
 	public class BasicView extends MovingEntity.View {
 		public double health() { return health; }
-		
-		@Override
-//		public boolean canSee(Entity.View e) {
-		public boolean canSee(MaterialEntity.View e) {
-			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
-				return false;
-			return isWithinRadar(e.position);
-		}
 		
 	}
 	
