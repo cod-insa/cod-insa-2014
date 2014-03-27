@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import model.Plane.State;
 import common.Immutable;
@@ -58,7 +57,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			return copy(context);
 		}
 		
-		private Base getModel() { return Base.this; }
+//		private Base model() { return Base.this; }
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 
 	public Base(Base.View src, Context context) {
 		super(src.id());
-		context.putSafe(src.getModel(), this);
+		context.putSafe(src.model(), this);
 		// planes = Util.copy(src.copied().planes);
 		// planes = Util.copy(src.getPlanes());
 		planes = new ArrayList<Plane>();

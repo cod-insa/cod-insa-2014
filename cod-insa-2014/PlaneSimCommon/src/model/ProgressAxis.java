@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 
 import common.Viewable;
-import common.Copyable.Context;
 
 public class ProgressAxis extends Entity implements Serializable, Viewable<ProgressAxis.View> {
 
@@ -36,7 +35,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	public class View extends Entity.View {
 		public Base.View base1() { return base1; }
 		public Base.View base2() { return base2; }
-		private ProgressAxis getModel() { return ProgressAxis.this; }
+//		private ProgressAxis model() { return ProgressAxis.this; }
 	}
 	
 	@Override
@@ -46,7 +45,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	
 	public ProgressAxis(ProgressAxis.View src, Context context) {
 		super(src.id());
-		context.putSafe(src.getModel(), this);
+		context.putSafe(src.model(), this);
 		base1 = src.base1();
 		base2 = src.base2();
 	}

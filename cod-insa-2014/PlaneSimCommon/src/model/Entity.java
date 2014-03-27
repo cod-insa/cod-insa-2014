@@ -34,6 +34,8 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		public final boolean isEnemy(Entity.View e) {
 			return ownerId > 0 && ownerId != e.ownerId();
 		}
+		
+		protected Entity model() { return Entity.this; }
 	}
 	
 	//public Entity(int id, Coord.Unique pos) {

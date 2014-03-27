@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import common.Unique;
 import common.Viewable;
@@ -60,7 +59,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			return isEnemy(e) && canSee(e);
 		}
 		
-		private Plane getModel() { return Plane.this; }
+//		private Plane model() { return Plane.this; }
 	}
 	
 	// This is what an AI will see for an ennemy plane
@@ -103,7 +102,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	public Plane (Plane.FullView src, Context context) {
 		super(src);
-		context.putSafe(src.getModel(), this);
+		context.putSafe(src.model(), this);
 		health = src.health();
 		state = src.state();
 		if (src.curBase() != null)
