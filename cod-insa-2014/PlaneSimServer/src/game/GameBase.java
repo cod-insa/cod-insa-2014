@@ -9,7 +9,7 @@ import display.BaseDisplay;
 import display.EntityDisplay;
 
 
-public class GameBase extends GameEntity {
+public class GameBase extends MaterialGameEntity {
 	
 	public static final double RADIUS = .04; // .05;
 	public final String cityname;
@@ -23,6 +23,7 @@ public class GameBase extends GameEntity {
 	
 	@Override
 	public void updateSpecialized(double period) {
+		super.updateSpecialized(period);
 		// TODO Auto-generated method stub
 	}
 	

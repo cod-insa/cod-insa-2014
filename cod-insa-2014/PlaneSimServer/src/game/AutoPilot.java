@@ -36,7 +36,7 @@ public final class AutoPilot {
 	
 	private double targetSpeed = GamePlane.MAX_SPEED;
 	
-	private GameEntity entityAim = null;
+	private MaterialGameEntity entityAim = null;
 	//boolean specifically_attacking = false;
 	//boolean attacking = false;
 	//Action current_action = Action.NONE;
@@ -67,12 +67,12 @@ public final class AutoPilot {
 		
 //		System.out.println(plane.model.position.angleWith(_aim.view()));
 	}
-	public void goTo(GameEntity e, Mode m) {
+	public void goTo(MaterialGameEntity e, Mode m) {
 		if (e == plane)
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		unland();
 		entityAim = e;
-		_aim.set(entityAim.model.position());
+		_aim.set(entityAim.model().position());
 //		plane.model.state = State.FOLLOWING;
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
@@ -81,7 +81,7 @@ public final class AutoPilot {
 		mode = m;
 	}
 
-	public void attackSpecific(GameEntity e) {
+	public void attackSpecific(MaterialGameEntity e) {
 		unland();
 		goTo(e, Mode.IGNORE);
 		//specifically_attacking = true;
@@ -90,7 +90,7 @@ public final class AutoPilot {
 		state = State.ATTACKING;
 //		mode = Mode.IGNORE;
 	}
-	void attack(GameEntity e) {
+	void attack(MaterialGameEntity e) {
 		unland();
 		goTo(e, Mode.ATTACK_ON_SIGHT);
 //		attacking_mode = AttackMode.ANY;
@@ -158,7 +158,7 @@ public final class AutoPilot {
 			if (entityAim != null) {
 				//if (entityAim.model.exists && ( plane.canSee(entityAim) || (state != State.FOLLOWING || plane.isFriend(entityAim)) ))
 				if (entityAim.model.exists && /*plane.knowsPositionOf(entityAim)*/ plane.model().view().knowsPositionOf(entityAim.model().view()))
-					 _aim.set(entityAim.model.position());
+					 _aim.set(entityAim.model().position());
 				else resetEntityAim();
 			}
 			
@@ -174,7 +174,7 @@ public final class AutoPilot {
 			
 			if (mode == Mode.ATTACK_ON_SIGHT) {
 	//			if (attacking_mode != AttackMode.SPECIFIC) {
-				GameEntity e = seekNearestEnemy();
+				MaterialGameEntity e = seekNearestEnemy();
 				if (e != null) {
 					attack(e);
 				}
@@ -276,9 +276,9 @@ public final class AutoPilot {
 	
 	
 	
-	private GameEntity seekNearestEnemy() {
+	private MaterialGameEntity seekNearestEnemy() {
 		Double minSDist = null;
-		GameEntity ret = null;
+		MaterialGameEntity ret = null;
 //		for (Entity<?> e: sim.entities)
 //		//	if (e.model.ownerId != plane.model.ownerId && e.altitude == plane.altitude)
 //			if (plane.isEnemy(e) && e.altitude == plane.altitude) {
@@ -339,10 +339,10 @@ public final class AutoPilot {
 	
 	
 	public Coord.View pos() {
-		return plane.model.position();
+		return plane.model().position();
 	}
 	public Coord.View aimPos() {
-		return entityAim.model.position();
+		return entityAim.model().position();
 	}
 	
 	

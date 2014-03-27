@@ -34,7 +34,10 @@ public abstract class MaterialEntity extends Entity{
 		
 		public double rotation() { return rotation; }
 		public double radarRange() { return radarRange; }
-		
+
+		public boolean canSee(MaterialEntity.View e) {
+			return false;
+		}
 	}
 	
 	public double rotation () {

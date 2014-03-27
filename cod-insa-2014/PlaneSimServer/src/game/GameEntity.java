@@ -2,6 +2,7 @@ package game;
 
 import model.Coord;
 import model.Entity;
+import model.MaterialEntity;
 import model.MovingEntity;
 import display.EntityDisplay;
 
@@ -32,14 +33,12 @@ public abstract class GameEntity {
 	
 	
 	// Then "model" refers to the entity, and model() to its view.
-	private final Coord _lastPosition; // = new Coord(0,0);
-	public final Coord.View lastPosition; // = _lastPosition.view();
+//	private final Coord _lastPosition; // = new Coord(0,0);
+//	public final Coord.View lastPosition; // = _lastPosition.view();
 	
 	public final Altitude altitude;
 	
 	protected final Game sim;
-	
-	protected double radius = 0;
 	
 	/*
 	final Coord _pos;// = new Coord(0,0);
@@ -77,8 +76,13 @@ public abstract class GameEntity {
 //		modelView = model.view();
 		this.sim = sim;
 		
-		_lastPosition = model.position().copied();
-		lastPosition = _lastPosition.view();
+//		if (model instanceof MaterialEntity) {
+//			_lastPosition = ((MaterialEntity)model).position().copied();
+//			lastPosition = _lastPosition.view();
+//		} else {
+//			_lastPosition = null;
+//			lastPosition = null;
+//		}
 		
 		this.altitude = alt;
 		sim.addEntity(this);
@@ -100,9 +104,9 @@ public abstract class GameEntity {
 		sim.removeEntity(this);
 	}
 	
-	public final double radius() {
-		return radius;
-	}
+//	public final double radius() {
+//		return radius;
+//	}
 	
 	
 	
@@ -110,42 +114,43 @@ public abstract class GameEntity {
 //		model.position.x += Math.cos(model.rotation)*model.speed;
 //		model.position.y += Math.sin(model.rotation)*model.speed;
 		
-		_lastPosition.set(model.position());
+//		if (model instanceof MaterialEntity)
+//			_lastPosition.set(((MaterialEntity)model).position());
 		
-		if (model instanceof MovingEntity) {
-			
-			MovingEntity model = (MovingEntity) this.model;
-			
-//			model.position.x += Math.cos(model.rotation())*model.speed;
-//			model.position.y += Math.sin(model.rotation())*model.speed;
-			
-			Coord speedVec = model.speedVector().take();
-			model.position.x += speedVec.x;
-			model.position.y += speedVec.y;
-			
-			
-			if (World.WORLD_WRAP)
-			{
-				World w = sim.getWorld();
-				if (model.position.x < 0) {
-					model.position.x += w.width; // World.WIDTH;
-					_lastPosition.x += w.width;
-				}
-				else if (model.position.x > w.width) {
-					model.position.x -= w.width;
-					_lastPosition.x -= w.width;
-				}
-				if (model.position.y < 0) {
-					model.position.y += w.height; // World.HEIGHT;
-					_lastPosition.y += w.height;
-				}
-				else if (model.position.y > w.height) {
-					model.position.y -= w.height;
-					_lastPosition.y -= w.height;
-				}
-			}
-			
-		}
+//		if (model instanceof MovingEntity) {
+//			
+//			MovingEntity model = (MovingEntity) this.model;
+//			
+////			model.position.x += Math.cos(model.rotation())*model.speed;
+////			model.position.y += Math.sin(model.rotation())*model.speed;
+//			
+//			Coord speedVec = model.speedVector().take();
+//			model.position.x += speedVec.x;
+//			model.position.y += speedVec.y;
+//			
+//			
+//			if (World.WORLD_WRAP)
+//			{
+//				World w = sim.getWorld();
+//				if (model.position.x < 0) {
+//					model.position.x += w.width; // World.WIDTH;
+//					_lastPosition.x += w.width;
+//				}
+//				else if (model.position.x > w.width) {
+//					model.position.x -= w.width;
+//					_lastPosition.x -= w.width;
+//				}
+//				if (model.position.y < 0) {
+//					model.position.y += w.height; // World.HEIGHT;
+//					_lastPosition.y += w.height;
+//				}
+//				else if (model.position.y > w.height) {
+//					model.position.y -= w.height;
+//					_lastPosition.y -= w.height;
+//				}
+//			}
+//			
+//		}
 		
 		updateSpecialized(period);
 	}

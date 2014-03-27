@@ -1,6 +1,5 @@
 package network;
 
-import game.World;
 import game.World.Snapshot;
 import genbridge.BaseData;
 import genbridge.BaseInitData;
@@ -15,9 +14,8 @@ import java.util.List;
 
 import model.Base;
 import model.Entity;
-import model.Entity.View;
+import model.MaterialEntity;
 import model.Plane;
-import common.ListView;
 import common.Nullable;
 
 
@@ -57,9 +55,9 @@ public abstract class DataPreparer {
 		tobeSent.bases = new ArrayList<BaseData>();
 		tobeSent.planes = new ArrayList<PlaneData>();
 		
-		List<Entity.View> ai_entities = new ArrayList<Entity.View>();
+		List<MaterialEntity.View> ai_entities = new ArrayList<>();
 		
-
+		
 		// We search every planes that belong to the ai
 		for (Base.View b : snapshot.bases.view) // Convert game model objects to thrift objects
 		{
@@ -108,7 +106,7 @@ public abstract class DataPreparer {
 		
 		for (Plane.FullView p : snapshot.planes.view) // For each plane 
 			if (p.ownerId() != ai_id) // That is not belonging to the ai 
-				for (Entity.View e : ai_entities)
+				for (MaterialEntity.View e : ai_entities)
 					if (e.canSee(p))
 					{
 						int baseId = -1;

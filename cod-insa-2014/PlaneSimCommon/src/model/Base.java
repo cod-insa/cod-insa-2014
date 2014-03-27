@@ -37,14 +37,16 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		}
 
 		@Override
-		public boolean canSee(Entity.View e) {
+		public boolean canSee(MaterialEntity.View e) {
 			if (e instanceof Plane.FullView
 					&& ((Plane.FullView) e).state() == State.AT_AIRPORT
 					&& isFriend(e))
 				// FIXME should return true if e is a plane and is in the
 				// current base
 				return false;
-			return isWithinRadar(e.position);
+			if (e instanceof MaterialEntity.View)
+				return isWithinRadar(((MaterialEntity.View)e).position);
+			else return false;
 		}
 
 		@Override
@@ -56,7 +58,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			return copy(context);
 		}
 		
-		public Base getModel() { return Base.this; }
+		private Base getModel() { return Base.this; }
 	}
 
 	@Override

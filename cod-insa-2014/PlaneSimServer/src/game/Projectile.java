@@ -9,7 +9,7 @@ import common.Util;
 import display.EntityDisplay;
 import display.ProjectileDisplay;
 
-public class Projectile extends GameEntity {
+public class Projectile extends MaterialGameEntity {
 	
 	public static double
 		SPEED = .1,
@@ -36,7 +36,8 @@ public class Projectile extends GameEntity {
 	
 	@Override
 	public final void updateSpecialized (double period) {
-		distToCover -= model.position().distanceTo(lastPosition); // FIXME useless calculations...
+		super.updateSpecialized(period);
+		distToCover -= model().position().distanceTo(lastPosition); // FIXME useless calculations...
 //		distToCover -= SPEED; // FIXME WorldWrap hack
 		
 		if (distToCover < 0) {
@@ -53,7 +54,7 @@ public class Projectile extends GameEntity {
 //			}
 //		}
 		for (GamePlane p : sim.planes) {
-			if (p.isFlying() && model.position().distanceTo(p.model.position()) < radius + p.radius) {
+			if (p.isFlying() && model().position().distanceTo(p.model().position()) < radius + p.radius) {
 				
 			}
 		}

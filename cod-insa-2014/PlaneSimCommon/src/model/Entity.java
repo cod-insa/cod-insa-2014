@@ -18,16 +18,13 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	
 	
 	public class View implements Viewable.View {
-//		public Coord.View position() { return EntityModel.this.position(); }
-		public final Coord.View position = Entity.this.position();
-		public Coord.View position() { return position; }
 		
 		public int id() { return id; }
 		public boolean exists() { return exists; }
 		public int ownerId() { return ownerId; }
-		public boolean canSee(Entity.View e) {
-			return false;
-		}
+//		public boolean canSee(Entity.View e) {
+//			return false;
+//		}
 		public boolean isWithinRadar(Coord.View pos) {
 			return false;
 		}
@@ -38,8 +35,6 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 			return ownerId > 0 && ownerId != e.ownerId();
 		}
 	}
-	
-	public abstract Coord.View position();
 	
 	//public Entity(int id, Coord.Unique pos) {
 //	public EntityModel(int id, Unique<Coord> pos) {

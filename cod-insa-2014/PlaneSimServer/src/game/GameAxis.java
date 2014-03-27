@@ -10,7 +10,7 @@ import model.ProgressAxis;
 public class GameAxis extends GameEntity {
 
 	public GameAxis() {
-		super(null, null, null);
+		super(null, null, null); // FIXME
 	}
 	
 //	public GameAxis(Game sim, Unique<Coord> pos, String name) {

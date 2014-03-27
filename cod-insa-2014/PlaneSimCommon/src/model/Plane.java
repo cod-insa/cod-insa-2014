@@ -42,7 +42,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			return copy(context);
 		}
 
-		public boolean knowsPositionOf(Entity.View e) {
+		public boolean knowsPositionOf(MaterialEntity.View e) {
 			if (e instanceof Base.View)
 				return true;
 			return isFriend(e) || canSee(e);
@@ -60,7 +60,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		public double health() { return health; }
 		
 		@Override
-		public boolean canSee(Entity.View e) {
+//		public boolean canSee(Entity.View e) {
+		public boolean canSee(MaterialEntity.View e) {
 			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
 				return false;
 			return isWithinRadar(e.position);
