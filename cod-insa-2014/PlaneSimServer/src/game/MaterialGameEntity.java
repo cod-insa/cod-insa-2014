@@ -45,8 +45,8 @@ public abstract class MaterialGameEntity extends GameEntity {
 //			model.position.y += Math.sin(model.rotation())*model.speed;
 
 			Coord speedVec = model.speedVector().take();
-			model.position.x += speedVec.x;
-			model.position.y += speedVec.y;
+			model.position.x += speedVec.x * period;
+			model.position.y += speedVec.y * period;
 
 
 			if (World.WORLD_WRAP)
