@@ -178,10 +178,12 @@ public class MapLoader {
 			for (int i = 0; i < m.axisCount; i++) {
 				line = scanner.nextLine();
 				axis = line.split(",");
-				/*
-				baseName1 = axis[0];
-				baseName2 = axis[1];
-				*/
+				// axis[0] : base1
+				// axis[1] : base2
+				
+				log.debug("Link between " + axis[0] + " and " + axis[1]); // FIXME Replace this
+				// new GameProgressAxis(basesByName.get(axis[0],axis[1]);
+				
 			}
 		}
 		else
