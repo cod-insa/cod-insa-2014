@@ -149,7 +149,7 @@ public class MapLoader {
 			Double latid;
 			Double longit;
 			Coord.Unique newBaseCoord;
-			Map<String,Base> basesByName = new HashMap<String,Base>();
+			Map<String,GameBase> basesByName = new HashMap<String,GameBase>();
 			
 			for(int i = 0 ; i < m.basesCount ; i++)
 			{
@@ -166,7 +166,7 @@ public class MapLoader {
 				GameBase gb = new GameBase(g, newBaseCoord,name);
 				
 				this.w.bases.add(gb);
-				basesByName.put(name, gb.model());
+				basesByName.put(name, gb);
 				
 				//System.out.println("New Base : "+newBaseCoord.x()+" "+ newBaseCoord.y());
 				//Game.log.debug("New Base : "+newBaseCoord.x()+" "+ newBaseCoord.y());
@@ -181,9 +181,10 @@ public class MapLoader {
 				// axis[0] : base1
 				// axis[1] : base2
 				
-				log.debug("Link between " + axis[0] + " and " + axis[1]); // FIXME Replace this
-				// new GameProgressAxis(basesByName.get(axis[0],axis[1]);
-				
+				if (basesByName.containsKey(axis[0]) && basesByName.containsKey(axis[1]))
+					new GameAxis(g, basesByName.get(axis[0]).model().view(), basesByName.get(axis[1]).model().view());
+				else
+					throw new Error("Base name is unknown");
 			}
 		}
 		else
