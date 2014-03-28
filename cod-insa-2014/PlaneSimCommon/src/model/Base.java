@@ -2,22 +2,22 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import common.*;
 import model.Plane.State;
-import common.Immutable;
-import common.ListView;
-import common.Unique;
-import common.Util;
-import common.Viewable;
 
 public class Base extends MaterialEntity implements Serializable, Viewable<Base.View> {
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	public final Immutable<Coord.View> position;
-
+	
 	final List<Plane> planes;
+	
+	final Set<ProgressAxis.Oriented> axes;
 	
 	public double militarResourcesStock;
 	public double fuelResourcesStock;
@@ -31,10 +31,16 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			return Base.this.position;
 		}
 
-		public ListView<Plane.FullView> getPlanes() {
+		public ListView<Plane.FullView> planes() {
 			return Util.view(planes);
 		}
-
+//		public SetView<ProgressAxis.Oriented> axes() {
+//			return Util.view(axes);
+//		}
+		public SetView<ProgressAxis.Oriented> axes() {
+			return Util.shallowView(axes);
+		}
+		
 		@Override
 		public boolean canSee(MaterialEntity.View e) {
 			if (e instanceof Plane.FullView
@@ -69,7 +75,8 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		// super(new View(),id,pos);
 		// super(id, pos);
 		super(id);
-		planes = new ArrayList<Plane>();
+		planes = new ArrayList<>();
+		axes = new HashSet<>();
 		position = new Immutable<>(pos);
 		radarRange = DEFAULT_BASE_RADAR_RANGE;
 		fuelResourcesStock = 0;
@@ -80,11 +87,15 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		super(src.id());
 		context.putSafe(src.model(), this);
 		// planes = Util.copy(src.copied().planes);
-		// planes = Util.copy(src.getPlanes());
-		planes = new ArrayList<Plane>();
-		for (Plane.FullView p : src.getPlanes())
+		// planes = Util.copy(src.planes());
+		planes = new ArrayList<>();
+		for (Plane.FullView p : src.planes())
 			// planes.add(Util.copy(p, context));
 			planes.add(p.copied(context));
+		axes = new HashSet<>();
+		for (ProgressAxis.Oriented oa: src.axes())
+			//axes.add(a.copied(context));
+			axes.add(oa.copy(context));
 		position = src.getPosition(); // Immutable state can be shared
 		radarRange = src.radarRange();
 		militarResourcesStock = src.militarResourcesStock();
@@ -101,7 +112,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 	@Override
 	public Base copy(Context context) {
 		if (context.containsKey(this))
-			return (Base) context.get(this);
+			return context.getSafe(this);
 		Base ret = new Base(view(), context);
 		return ret;
 	}

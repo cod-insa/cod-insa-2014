@@ -319,7 +319,14 @@ public class Util {
 	{
 		return new CollectionView.Of<>(src);
 	}
-	
+
+	public static <V extends Viewable.View, T extends Viewable<V>>
+	SetView<V>
+		view (Set<T> src)
+	{
+		return new SetView.Of<>(src);
+	}
+
 	public static <V extends Viewable.View, T extends Viewable<V>>
 	ListView<V>
 		view (List<T> src)
@@ -348,7 +355,14 @@ public class Util {
 	{
 		return new CollectionView.ShallowOf<>(src);
 	}
-	
+
+	public static <T>
+	SetView<T>
+		shallowView(Set<T> src)
+	{
+		return new SetView.ShallowOf<>(src);
+	}
+
 	public static <T>
 	ListView<T>
 		shallowView(List<T> src)

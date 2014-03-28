@@ -10,7 +10,7 @@ import model.ProgressAxis;
  */
 public class GameAxis extends GameEntity {
 
-	public GameAxis(Game sim, Base.View base1, Base.View base2) {
+	public GameAxis(Game sim, Base base1, Base base2) {
 		super(new ProgressAxis(makeNextId(), base1, base2), sim, Altitude.GROUND);
 	}
 	

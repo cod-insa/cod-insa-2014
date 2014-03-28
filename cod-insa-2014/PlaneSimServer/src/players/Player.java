@@ -19,7 +19,7 @@ public abstract class Player {
 //    String getTeamName();
 //    int getFrameNumber();
 //    List<BaseModel> getBases();
-//    List<PlaneModel> getPlanes();
+//    List<PlaneModel> planes();
 //	boolean isWaitingDataUpdate();
 //	void setWaitingDataUpdate(boolean isWaitingDataUpdate);
 //	Object getWaitData();

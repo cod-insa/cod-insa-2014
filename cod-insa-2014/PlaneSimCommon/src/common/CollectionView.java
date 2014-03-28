@@ -2,6 +2,7 @@ package common;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import common.Util.Converter;
@@ -54,7 +55,9 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 		*/
 		
 		@Override public Iterator<T> iterator() {
-			return asUnmodifiableCollection().iterator(); // FIXME test
+//			return asUnmodifiableCollection().iterator(); // FIXEDME test
+//			return Collections.unmodifiableCollection(delegate).iterator(); // FIXME test
+			return delegate.iterator(); // FIXME test
 			/*
 			final Iterator<T> ite = delegate.iterator();
 			return new Iterator<T>(){

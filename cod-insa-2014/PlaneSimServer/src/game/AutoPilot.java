@@ -101,7 +101,7 @@ public final class AutoPilot {
 	
 	
 	public void landAt(GameBase b) {
-		if (b.model().view().getPlanes().contains(plane)) {
+		if (b.model().view().planes().contains(plane)) {
 			assert state == State.AT_AIRPORT;
 			return;
 		}
