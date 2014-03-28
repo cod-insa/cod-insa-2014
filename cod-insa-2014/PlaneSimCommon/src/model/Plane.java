@@ -112,7 +112,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	@Override
 	public Plane copy (Context context) {
 		if (context.containsKey(this))
-			return (Plane) context.get(this);
+//			return (Plane) context.get(this);
+			return (Plane) context.getSafe(this);
 		Plane ret = new Plane(view(),context);
 		return ret;
 	}

@@ -30,7 +30,7 @@ public class LocalHumanPlayer
 	}
 
 	@Override
-	public List<PlaneModel> getPlanes() {
+	public List<PlaneModel> planes() {
 		// TODO Auto-generated method stub
 		return null;
 	}

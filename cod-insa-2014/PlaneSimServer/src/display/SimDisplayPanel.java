@@ -242,9 +242,9 @@ public class SimDisplayPanel extends JPanel {
                 		
                 		
 //           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
-                	//else if (p.model().state() == State.AT_AIRPORT && b.model().getPlanes().contains(p.modelView))
+                	//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
                 	}
-                    else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().getPlanes().size() > 0 && b.modelView().getPlanes().get(0).id() == p.modelView().id()) // ugly hack
+                    else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().planes().size() > 0 && b.modelView().planes().get(0).id() == p.modelView().id()) // ugly hack
                 		{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
                 	else pls.get(0).autoPilot.landAt(b);
                 	

@@ -43,7 +43,8 @@ public class MovingEntity extends MaterialEntity {
 
 	@Override
 	public MovingEntity copy (Context context) {
-		if (context.containsKey(this)) return (MovingEntity) context.get(this);
+//		if (context.containsKey(this)) return (MovingEntity) context.get(this);
+		if (context.containsKey(this)) return context.getSafe(this);
 		MovingEntity ret = new MovingEntity(new View());
 		context.putSafe(this, ret);
 		return ret;

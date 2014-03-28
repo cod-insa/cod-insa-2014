@@ -38,11 +38,11 @@ public interface Copyable {
 				throw new Error("Value must be an instance of the key's class.");
 			return super.put(key, value);
 		}
-//		@Override
-//		@Deprecated
-//		public Object get(Object key) {
-//			return super.get(key);
-//		}
+		@Override
+		@Deprecated
+		public Object get(Object key) {
+			return super.get(key);
+		}
 		public <K, V extends K> void putSafe(K key, V value) {
 			super.put(key, value);
 		}
