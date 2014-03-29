@@ -22,11 +22,16 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import command.AttackCommand;
 import command.Command;
+import command.DropMilitarsCommand;
+import command.FillFuelTankCommand;
 import command.FollowCommand;
 import command.LandCommand;
+import command.LoadResourcesCommand;
 import command.MoveCommand;
+import command.StoreFuelCommand;
 import command.WaitCommand;
 
 public class CommandSender extends Thread {
@@ -130,15 +135,16 @@ public class CommandSender extends Thread {
 			} catch (FollowCommand c) {
 				r = client.sendFollowCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (DropMilitarsCommand c) {
+				throw new NotImplementedException();
+			} catch (StoreFuelCommand c) {
+				throw new NotImplementedException();
+			} catch (FillFuelTankCommand c) {
+				throw new NotImplementedException();
+			} catch (LoadResourcesCommand c) {
+				throw new NotImplementedException();
 			}
-//			catch (TakeOffCommand e) {
-//				
-//				
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//				
-//				
-//			}
+			
 			treatResult(r);
 		} catch (TException e) {
 			System.err

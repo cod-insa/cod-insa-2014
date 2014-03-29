@@ -18,9 +18,22 @@ public abstract class Command extends Throwable {
 		LandCommand,
 		WaitCommand, 
 		AttackCommand,
-		FollowCommand
+		FollowCommand, 
+		DropMilitarsCommand, 
+		StoreFuelCommand, 
+		FillFuelTankCommand, 
+		LoadResourcesCommand
 	;
 	
 }
+
+/*
+ * Reste des commandes à implémenter :
+ * Décharger Carburant
+ * Remplir réservoir
+ * Charger ressources (militaires/carburant)
+ * Créer avion
+ * Mode expansion On/Off
+ */
 
 

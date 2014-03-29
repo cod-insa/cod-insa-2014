@@ -170,7 +170,7 @@ public abstract class DataPreparer {
 
 		// Fill the progressAxis
 		
-		// FIXME need ratio1, ratio2 and axis in snapshot
+		// FIXME need ratio1, ratio2 in ProgressAxis and axis in snapshot
 		/*
 		for (ProgressAxis a : snapshot.axis.view)
 			tobeSent.progressAxis.add(new ProgressAxisData(a.id(),a.ratio1(), a.ratio2()));
