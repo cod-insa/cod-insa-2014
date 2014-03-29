@@ -35,7 +35,8 @@ public final class GamePlane extends MaterialGameEntity {
 	//model.Plane.View model() { return null; }
 	
 	public GamePlane (Game sim, Unique<Coord> pos, int ownerId) {
-		super(new Plane(makeNextId(), pos, 1, State.IDLE), sim, Altitude.SKY);
+		super(new Plane(makeNextId(), pos, 1), sim, Altitude.SKY);
+		model().state = State.IDLE;
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
 		//model.speed = 1E-2;

@@ -89,7 +89,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //	public final View view = new View();
 	
 	
-	public Plane (int id, Unique<Coord> pos, double health, State state) {
+	public Plane (int id, Unique<Coord> pos, double health) {
 		//super(id,pos);
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;

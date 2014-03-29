@@ -36,11 +36,13 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Data");
 
   private static final org.apache.thrift.protocol.TField NUM_FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("numFrame", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField PLANES_FIELD_DESC = new org.apache.thrift.protocol.TField("planes", org.apache.thrift.protocol.TType.LIST, (short)2);
-  private static final org.apache.thrift.protocol.TField BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("bases", org.apache.thrift.protocol.TType.LIST, (short)3);
-  private static final org.apache.thrift.protocol.TField PROGRESS_AXIS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxis", org.apache.thrift.protocol.TType.LIST, (short)4);
-  private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)5);
-  private static final org.apache.thrift.protocol.TField CURRENT_MONEY_FIELD_DESC = new org.apache.thrift.protocol.TField("currentMoney", org.apache.thrift.protocol.TType.I32, (short)6);
+  private static final org.apache.thrift.protocol.TField OWNED_PLANES_FIELD_DESC = new org.apache.thrift.protocol.TField("owned_planes", org.apache.thrift.protocol.TType.LIST, (short)2);
+  private static final org.apache.thrift.protocol.TField NOT_OWNED_PLANES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_planes", org.apache.thrift.protocol.TType.LIST, (short)3);
+  private static final org.apache.thrift.protocol.TField OWNED_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("owned_bases", org.apache.thrift.protocol.TType.LIST, (short)4);
+  private static final org.apache.thrift.protocol.TField NOT_OWNED_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_bases", org.apache.thrift.protocol.TType.LIST, (short)5);
+  private static final org.apache.thrift.protocol.TField PROGRESS_AXIS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxis", org.apache.thrift.protocol.TType.LIST, (short)6);
+  private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)7);
+  private static final org.apache.thrift.protocol.TField CURRENT_MONEY_FIELD_DESC = new org.apache.thrift.protocol.TField("currentMoney", org.apache.thrift.protocol.TType.I32, (short)8);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -49,8 +51,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   }
 
   public int numFrame; // required
-  public List<PlaneData> planes; // required
-  public List<BaseData> bases; // required
+  public List<PlaneFullData> owned_planes; // required
+  public List<PlaneBasicData> not_owned_planes; // required
+  public List<BaseFullData> owned_bases; // required
+  public List<BaseBasicData> not_owned_bases; // required
   public List<ProgressAxisData> progressAxis; // required
   public CountryData myCountry; // required
   public int currentMoney; // required
@@ -58,11 +62,13 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     NUM_FRAME((short)1, "numFrame"),
-    PLANES((short)2, "planes"),
-    BASES((short)3, "bases"),
-    PROGRESS_AXIS((short)4, "progressAxis"),
-    MY_COUNTRY((short)5, "myCountry"),
-    CURRENT_MONEY((short)6, "currentMoney");
+    OWNED_PLANES((short)2, "owned_planes"),
+    NOT_OWNED_PLANES((short)3, "not_owned_planes"),
+    OWNED_BASES((short)4, "owned_bases"),
+    NOT_OWNED_BASES((short)5, "not_owned_bases"),
+    PROGRESS_AXIS((short)6, "progressAxis"),
+    MY_COUNTRY((short)7, "myCountry"),
+    CURRENT_MONEY((short)8, "currentMoney");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -79,15 +85,19 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       switch(fieldId) {
         case 1: // NUM_FRAME
           return NUM_FRAME;
-        case 2: // PLANES
-          return PLANES;
-        case 3: // BASES
-          return BASES;
-        case 4: // PROGRESS_AXIS
+        case 2: // OWNED_PLANES
+          return OWNED_PLANES;
+        case 3: // NOT_OWNED_PLANES
+          return NOT_OWNED_PLANES;
+        case 4: // OWNED_BASES
+          return OWNED_BASES;
+        case 5: // NOT_OWNED_BASES
+          return NOT_OWNED_BASES;
+        case 6: // PROGRESS_AXIS
           return PROGRESS_AXIS;
-        case 5: // MY_COUNTRY
+        case 7: // MY_COUNTRY
           return MY_COUNTRY;
-        case 6: // CURRENT_MONEY
+        case 8: // CURRENT_MONEY
           return CURRENT_MONEY;
         default:
           return null;
@@ -137,12 +147,18 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.NUM_FRAME, new org.apache.thrift.meta_data.FieldMetaData("numFrame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.PLANES, new org.apache.thrift.meta_data.FieldMetaData("planes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.OWNED_PLANES, new org.apache.thrift.meta_data.FieldMetaData("owned_planes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PlaneData.class))));
-    tmpMap.put(_Fields.BASES, new org.apache.thrift.meta_data.FieldMetaData("bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PlaneFullData.class))));
+    tmpMap.put(_Fields.NOT_OWNED_PLANES, new org.apache.thrift.meta_data.FieldMetaData("not_owned_planes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseData.class))));
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PlaneBasicData.class))));
+    tmpMap.put(_Fields.OWNED_BASES, new org.apache.thrift.meta_data.FieldMetaData("owned_bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseFullData.class))));
+    tmpMap.put(_Fields.NOT_OWNED_BASES, new org.apache.thrift.meta_data.FieldMetaData("not_owned_bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseBasicData.class))));
     tmpMap.put(_Fields.PROGRESS_AXIS, new org.apache.thrift.meta_data.FieldMetaData("progressAxis", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ProgressAxisData.class))));
@@ -159,8 +175,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
 
   public Data(
     int numFrame,
-    List<PlaneData> planes,
-    List<BaseData> bases,
+    List<PlaneFullData> owned_planes,
+    List<PlaneBasicData> not_owned_planes,
+    List<BaseFullData> owned_bases,
+    List<BaseBasicData> not_owned_bases,
     List<ProgressAxisData> progressAxis,
     CountryData myCountry,
     int currentMoney)
@@ -168,8 +186,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     this();
     this.numFrame = numFrame;
     setNumFrameIsSet(true);
-    this.planes = planes;
-    this.bases = bases;
+    this.owned_planes = owned_planes;
+    this.not_owned_planes = not_owned_planes;
+    this.owned_bases = owned_bases;
+    this.not_owned_bases = not_owned_bases;
     this.progressAxis = progressAxis;
     this.myCountry = myCountry;
     this.currentMoney = currentMoney;
@@ -182,19 +202,33 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   public Data(Data other) {
     __isset_bitfield = other.__isset_bitfield;
     this.numFrame = other.numFrame;
-    if (other.isSetPlanes()) {
-      List<PlaneData> __this__planes = new ArrayList<PlaneData>(other.planes.size());
-      for (PlaneData other_element : other.planes) {
-        __this__planes.add(new PlaneData(other_element));
+    if (other.isSetOwned_planes()) {
+      List<PlaneFullData> __this__owned_planes = new ArrayList<PlaneFullData>(other.owned_planes.size());
+      for (PlaneFullData other_element : other.owned_planes) {
+        __this__owned_planes.add(new PlaneFullData(other_element));
       }
-      this.planes = __this__planes;
+      this.owned_planes = __this__owned_planes;
     }
-    if (other.isSetBases()) {
-      List<BaseData> __this__bases = new ArrayList<BaseData>(other.bases.size());
-      for (BaseData other_element : other.bases) {
-        __this__bases.add(new BaseData(other_element));
+    if (other.isSetNot_owned_planes()) {
+      List<PlaneBasicData> __this__not_owned_planes = new ArrayList<PlaneBasicData>(other.not_owned_planes.size());
+      for (PlaneBasicData other_element : other.not_owned_planes) {
+        __this__not_owned_planes.add(new PlaneBasicData(other_element));
       }
-      this.bases = __this__bases;
+      this.not_owned_planes = __this__not_owned_planes;
+    }
+    if (other.isSetOwned_bases()) {
+      List<BaseFullData> __this__owned_bases = new ArrayList<BaseFullData>(other.owned_bases.size());
+      for (BaseFullData other_element : other.owned_bases) {
+        __this__owned_bases.add(new BaseFullData(other_element));
+      }
+      this.owned_bases = __this__owned_bases;
+    }
+    if (other.isSetNot_owned_bases()) {
+      List<BaseBasicData> __this__not_owned_bases = new ArrayList<BaseBasicData>(other.not_owned_bases.size());
+      for (BaseBasicData other_element : other.not_owned_bases) {
+        __this__not_owned_bases.add(new BaseBasicData(other_element));
+      }
+      this.not_owned_bases = __this__not_owned_bases;
     }
     if (other.isSetProgressAxis()) {
       List<ProgressAxisData> __this__progressAxis = new ArrayList<ProgressAxisData>(other.progressAxis.size());
@@ -217,8 +251,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   public void clear() {
     setNumFrameIsSet(false);
     this.numFrame = 0;
-    this.planes = null;
-    this.bases = null;
+    this.owned_planes = null;
+    this.not_owned_planes = null;
+    this.owned_bases = null;
+    this.not_owned_bases = null;
     this.progressAxis = null;
     this.myCountry = null;
     setCurrentMoneyIsSet(false);
@@ -248,81 +284,159 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __NUMFRAME_ISSET_ID, value);
   }
 
-  public int getPlanesSize() {
-    return (this.planes == null) ? 0 : this.planes.size();
+  public int getOwned_planesSize() {
+    return (this.owned_planes == null) ? 0 : this.owned_planes.size();
   }
 
-  public java.util.Iterator<PlaneData> getPlanesIterator() {
-    return (this.planes == null) ? null : this.planes.iterator();
+  public java.util.Iterator<PlaneFullData> getOwned_planesIterator() {
+    return (this.owned_planes == null) ? null : this.owned_planes.iterator();
   }
 
-  public void addToPlanes(PlaneData elem) {
-    if (this.planes == null) {
-      this.planes = new ArrayList<PlaneData>();
+  public void addToOwned_planes(PlaneFullData elem) {
+    if (this.owned_planes == null) {
+      this.owned_planes = new ArrayList<PlaneFullData>();
     }
-    this.planes.add(elem);
+    this.owned_planes.add(elem);
   }
 
-  public List<PlaneData> getPlanes() {
-    return this.planes;
+  public List<PlaneFullData> getOwned_planes() {
+    return this.owned_planes;
   }
 
-  public Data setPlanes(List<PlaneData> planes) {
-    this.planes = planes;
+  public Data setOwned_planes(List<PlaneFullData> owned_planes) {
+    this.owned_planes = owned_planes;
     return this;
   }
 
-  public void unsetPlanes() {
-    this.planes = null;
+  public void unsetOwned_planes() {
+    this.owned_planes = null;
   }
 
-  /** Returns true if field planes is set (has been assigned a value) and false otherwise */
-  public boolean isSetPlanes() {
-    return this.planes != null;
+  /** Returns true if field owned_planes is set (has been assigned a value) and false otherwise */
+  public boolean isSetOwned_planes() {
+    return this.owned_planes != null;
   }
 
-  public void setPlanesIsSet(boolean value) {
+  public void setOwned_planesIsSet(boolean value) {
     if (!value) {
-      this.planes = null;
+      this.owned_planes = null;
     }
   }
 
-  public int getBasesSize() {
-    return (this.bases == null) ? 0 : this.bases.size();
+  public int getNot_owned_planesSize() {
+    return (this.not_owned_planes == null) ? 0 : this.not_owned_planes.size();
   }
 
-  public java.util.Iterator<BaseData> getBasesIterator() {
-    return (this.bases == null) ? null : this.bases.iterator();
+  public java.util.Iterator<PlaneBasicData> getNot_owned_planesIterator() {
+    return (this.not_owned_planes == null) ? null : this.not_owned_planes.iterator();
   }
 
-  public void addToBases(BaseData elem) {
-    if (this.bases == null) {
-      this.bases = new ArrayList<BaseData>();
+  public void addToNot_owned_planes(PlaneBasicData elem) {
+    if (this.not_owned_planes == null) {
+      this.not_owned_planes = new ArrayList<PlaneBasicData>();
     }
-    this.bases.add(elem);
+    this.not_owned_planes.add(elem);
   }
 
-  public List<BaseData> getBases() {
-    return this.bases;
+  public List<PlaneBasicData> getNot_owned_planes() {
+    return this.not_owned_planes;
   }
 
-  public Data setBases(List<BaseData> bases) {
-    this.bases = bases;
+  public Data setNot_owned_planes(List<PlaneBasicData> not_owned_planes) {
+    this.not_owned_planes = not_owned_planes;
     return this;
   }
 
-  public void unsetBases() {
-    this.bases = null;
+  public void unsetNot_owned_planes() {
+    this.not_owned_planes = null;
   }
 
-  /** Returns true if field bases is set (has been assigned a value) and false otherwise */
-  public boolean isSetBases() {
-    return this.bases != null;
+  /** Returns true if field not_owned_planes is set (has been assigned a value) and false otherwise */
+  public boolean isSetNot_owned_planes() {
+    return this.not_owned_planes != null;
   }
 
-  public void setBasesIsSet(boolean value) {
+  public void setNot_owned_planesIsSet(boolean value) {
     if (!value) {
-      this.bases = null;
+      this.not_owned_planes = null;
+    }
+  }
+
+  public int getOwned_basesSize() {
+    return (this.owned_bases == null) ? 0 : this.owned_bases.size();
+  }
+
+  public java.util.Iterator<BaseFullData> getOwned_basesIterator() {
+    return (this.owned_bases == null) ? null : this.owned_bases.iterator();
+  }
+
+  public void addToOwned_bases(BaseFullData elem) {
+    if (this.owned_bases == null) {
+      this.owned_bases = new ArrayList<BaseFullData>();
+    }
+    this.owned_bases.add(elem);
+  }
+
+  public List<BaseFullData> getOwned_bases() {
+    return this.owned_bases;
+  }
+
+  public Data setOwned_bases(List<BaseFullData> owned_bases) {
+    this.owned_bases = owned_bases;
+    return this;
+  }
+
+  public void unsetOwned_bases() {
+    this.owned_bases = null;
+  }
+
+  /** Returns true if field owned_bases is set (has been assigned a value) and false otherwise */
+  public boolean isSetOwned_bases() {
+    return this.owned_bases != null;
+  }
+
+  public void setOwned_basesIsSet(boolean value) {
+    if (!value) {
+      this.owned_bases = null;
+    }
+  }
+
+  public int getNot_owned_basesSize() {
+    return (this.not_owned_bases == null) ? 0 : this.not_owned_bases.size();
+  }
+
+  public java.util.Iterator<BaseBasicData> getNot_owned_basesIterator() {
+    return (this.not_owned_bases == null) ? null : this.not_owned_bases.iterator();
+  }
+
+  public void addToNot_owned_bases(BaseBasicData elem) {
+    if (this.not_owned_bases == null) {
+      this.not_owned_bases = new ArrayList<BaseBasicData>();
+    }
+    this.not_owned_bases.add(elem);
+  }
+
+  public List<BaseBasicData> getNot_owned_bases() {
+    return this.not_owned_bases;
+  }
+
+  public Data setNot_owned_bases(List<BaseBasicData> not_owned_bases) {
+    this.not_owned_bases = not_owned_bases;
+    return this;
+  }
+
+  public void unsetNot_owned_bases() {
+    this.not_owned_bases = null;
+  }
+
+  /** Returns true if field not_owned_bases is set (has been assigned a value) and false otherwise */
+  public boolean isSetNot_owned_bases() {
+    return this.not_owned_bases != null;
+  }
+
+  public void setNot_owned_basesIsSet(boolean value) {
+    if (!value) {
+      this.not_owned_bases = null;
     }
   }
 
@@ -422,19 +536,35 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       }
       break;
 
-    case PLANES:
+    case OWNED_PLANES:
       if (value == null) {
-        unsetPlanes();
+        unsetOwned_planes();
       } else {
-        setPlanes((List<PlaneData>)value);
+        setOwned_planes((List<PlaneFullData>)value);
       }
       break;
 
-    case BASES:
+    case NOT_OWNED_PLANES:
       if (value == null) {
-        unsetBases();
+        unsetNot_owned_planes();
       } else {
-        setBases((List<BaseData>)value);
+        setNot_owned_planes((List<PlaneBasicData>)value);
+      }
+      break;
+
+    case OWNED_BASES:
+      if (value == null) {
+        unsetOwned_bases();
+      } else {
+        setOwned_bases((List<BaseFullData>)value);
+      }
+      break;
+
+    case NOT_OWNED_BASES:
+      if (value == null) {
+        unsetNot_owned_bases();
+      } else {
+        setNot_owned_bases((List<BaseBasicData>)value);
       }
       break;
 
@@ -470,11 +600,17 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     case NUM_FRAME:
       return Integer.valueOf(getNumFrame());
 
-    case PLANES:
-      return getPlanes();
+    case OWNED_PLANES:
+      return getOwned_planes();
 
-    case BASES:
-      return getBases();
+    case NOT_OWNED_PLANES:
+      return getNot_owned_planes();
+
+    case OWNED_BASES:
+      return getOwned_bases();
+
+    case NOT_OWNED_BASES:
+      return getNot_owned_bases();
 
     case PROGRESS_AXIS:
       return getProgressAxis();
@@ -498,10 +634,14 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     switch (field) {
     case NUM_FRAME:
       return isSetNumFrame();
-    case PLANES:
-      return isSetPlanes();
-    case BASES:
-      return isSetBases();
+    case OWNED_PLANES:
+      return isSetOwned_planes();
+    case NOT_OWNED_PLANES:
+      return isSetNot_owned_planes();
+    case OWNED_BASES:
+      return isSetOwned_bases();
+    case NOT_OWNED_BASES:
+      return isSetNot_owned_bases();
     case PROGRESS_AXIS:
       return isSetProgressAxis();
     case MY_COUNTRY:
@@ -534,21 +674,39 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         return false;
     }
 
-    boolean this_present_planes = true && this.isSetPlanes();
-    boolean that_present_planes = true && that.isSetPlanes();
-    if (this_present_planes || that_present_planes) {
-      if (!(this_present_planes && that_present_planes))
+    boolean this_present_owned_planes = true && this.isSetOwned_planes();
+    boolean that_present_owned_planes = true && that.isSetOwned_planes();
+    if (this_present_owned_planes || that_present_owned_planes) {
+      if (!(this_present_owned_planes && that_present_owned_planes))
         return false;
-      if (!this.planes.equals(that.planes))
+      if (!this.owned_planes.equals(that.owned_planes))
         return false;
     }
 
-    boolean this_present_bases = true && this.isSetBases();
-    boolean that_present_bases = true && that.isSetBases();
-    if (this_present_bases || that_present_bases) {
-      if (!(this_present_bases && that_present_bases))
+    boolean this_present_not_owned_planes = true && this.isSetNot_owned_planes();
+    boolean that_present_not_owned_planes = true && that.isSetNot_owned_planes();
+    if (this_present_not_owned_planes || that_present_not_owned_planes) {
+      if (!(this_present_not_owned_planes && that_present_not_owned_planes))
         return false;
-      if (!this.bases.equals(that.bases))
+      if (!this.not_owned_planes.equals(that.not_owned_planes))
+        return false;
+    }
+
+    boolean this_present_owned_bases = true && this.isSetOwned_bases();
+    boolean that_present_owned_bases = true && that.isSetOwned_bases();
+    if (this_present_owned_bases || that_present_owned_bases) {
+      if (!(this_present_owned_bases && that_present_owned_bases))
+        return false;
+      if (!this.owned_bases.equals(that.owned_bases))
+        return false;
+    }
+
+    boolean this_present_not_owned_bases = true && this.isSetNot_owned_bases();
+    boolean that_present_not_owned_bases = true && that.isSetNot_owned_bases();
+    if (this_present_not_owned_bases || that_present_not_owned_bases) {
+      if (!(this_present_not_owned_bases && that_present_not_owned_bases))
+        return false;
+      if (!this.not_owned_bases.equals(that.not_owned_bases))
         return false;
     }
 
@@ -605,22 +763,42 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetPlanes()).compareTo(other.isSetPlanes());
+    lastComparison = Boolean.valueOf(isSetOwned_planes()).compareTo(other.isSetOwned_planes());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetPlanes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.planes, other.planes);
+    if (isSetOwned_planes()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.owned_planes, other.owned_planes);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetBases()).compareTo(other.isSetBases());
+    lastComparison = Boolean.valueOf(isSetNot_owned_planes()).compareTo(other.isSetNot_owned_planes());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetBases()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bases, other.bases);
+    if (isSetNot_owned_planes()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.not_owned_planes, other.not_owned_planes);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetOwned_bases()).compareTo(other.isSetOwned_bases());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetOwned_bases()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.owned_bases, other.owned_bases);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetNot_owned_bases()).compareTo(other.isSetNot_owned_bases());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetNot_owned_bases()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.not_owned_bases, other.not_owned_bases);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -679,19 +857,35 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     sb.append(this.numFrame);
     first = false;
     if (!first) sb.append(", ");
-    sb.append("planes:");
-    if (this.planes == null) {
+    sb.append("owned_planes:");
+    if (this.owned_planes == null) {
       sb.append("null");
     } else {
-      sb.append(this.planes);
+      sb.append(this.owned_planes);
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("bases:");
-    if (this.bases == null) {
+    sb.append("not_owned_planes:");
+    if (this.not_owned_planes == null) {
       sb.append("null");
     } else {
-      sb.append(this.bases);
+      sb.append(this.not_owned_planes);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("owned_bases:");
+    if (this.owned_bases == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.owned_bases);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("not_owned_bases:");
+    if (this.not_owned_bases == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.not_owned_bases);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -770,55 +964,93 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // PLANES
+          case 2: // OWNED_PLANES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list32 = iprot.readListBegin();
-                struct.planes = new ArrayList<PlaneData>(_list32.size);
+                struct.owned_planes = new ArrayList<PlaneFullData>(_list32.size);
                 for (int _i33 = 0; _i33 < _list32.size; ++_i33)
                 {
-                  PlaneData _elem34;
-                  _elem34 = new PlaneData();
+                  PlaneFullData _elem34;
+                  _elem34 = new PlaneFullData();
                   _elem34.read(iprot);
-                  struct.planes.add(_elem34);
+                  struct.owned_planes.add(_elem34);
                 }
                 iprot.readListEnd();
               }
-              struct.setPlanesIsSet(true);
+              struct.setOwned_planesIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // BASES
+          case 3: // NOT_OWNED_PLANES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list35 = iprot.readListBegin();
-                struct.bases = new ArrayList<BaseData>(_list35.size);
+                struct.not_owned_planes = new ArrayList<PlaneBasicData>(_list35.size);
                 for (int _i36 = 0; _i36 < _list35.size; ++_i36)
                 {
-                  BaseData _elem37;
-                  _elem37 = new BaseData();
+                  PlaneBasicData _elem37;
+                  _elem37 = new PlaneBasicData();
                   _elem37.read(iprot);
-                  struct.bases.add(_elem37);
+                  struct.not_owned_planes.add(_elem37);
                 }
                 iprot.readListEnd();
               }
-              struct.setBasesIsSet(true);
+              struct.setNot_owned_planesIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 4: // PROGRESS_AXIS
+          case 4: // OWNED_BASES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list38 = iprot.readListBegin();
-                struct.progressAxis = new ArrayList<ProgressAxisData>(_list38.size);
+                struct.owned_bases = new ArrayList<BaseFullData>(_list38.size);
                 for (int _i39 = 0; _i39 < _list38.size; ++_i39)
                 {
-                  ProgressAxisData _elem40;
-                  _elem40 = new ProgressAxisData();
+                  BaseFullData _elem40;
+                  _elem40 = new BaseFullData();
                   _elem40.read(iprot);
-                  struct.progressAxis.add(_elem40);
+                  struct.owned_bases.add(_elem40);
+                }
+                iprot.readListEnd();
+              }
+              struct.setOwned_basesIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 5: // NOT_OWNED_BASES
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list41 = iprot.readListBegin();
+                struct.not_owned_bases = new ArrayList<BaseBasicData>(_list41.size);
+                for (int _i42 = 0; _i42 < _list41.size; ++_i42)
+                {
+                  BaseBasicData _elem43;
+                  _elem43 = new BaseBasicData();
+                  _elem43.read(iprot);
+                  struct.not_owned_bases.add(_elem43);
+                }
+                iprot.readListEnd();
+              }
+              struct.setNot_owned_basesIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 6: // PROGRESS_AXIS
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list44 = iprot.readListBegin();
+                struct.progressAxis = new ArrayList<ProgressAxisData>(_list44.size);
+                for (int _i45 = 0; _i45 < _list44.size; ++_i45)
+                {
+                  ProgressAxisData _elem46;
+                  _elem46 = new ProgressAxisData();
+                  _elem46.read(iprot);
+                  struct.progressAxis.add(_elem46);
                 }
                 iprot.readListEnd();
               }
@@ -827,7 +1059,7 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 5: // MY_COUNTRY
+          case 7: // MY_COUNTRY
             if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
               struct.myCountry = new CountryData();
               struct.myCountry.read(iprot);
@@ -836,7 +1068,7 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 6: // CURRENT_MONEY
+          case 8: // CURRENT_MONEY
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.currentMoney = iprot.readI32();
               struct.setCurrentMoneyIsSet(true);
@@ -862,25 +1094,49 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       oprot.writeFieldBegin(NUM_FRAME_FIELD_DESC);
       oprot.writeI32(struct.numFrame);
       oprot.writeFieldEnd();
-      if (struct.planes != null) {
-        oprot.writeFieldBegin(PLANES_FIELD_DESC);
+      if (struct.owned_planes != null) {
+        oprot.writeFieldBegin(OWNED_PLANES_FIELD_DESC);
         {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.planes.size()));
-          for (PlaneData _iter41 : struct.planes)
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.owned_planes.size()));
+          for (PlaneFullData _iter47 : struct.owned_planes)
           {
-            _iter41.write(oprot);
+            _iter47.write(oprot);
           }
           oprot.writeListEnd();
         }
         oprot.writeFieldEnd();
       }
-      if (struct.bases != null) {
-        oprot.writeFieldBegin(BASES_FIELD_DESC);
+      if (struct.not_owned_planes != null) {
+        oprot.writeFieldBegin(NOT_OWNED_PLANES_FIELD_DESC);
         {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.bases.size()));
-          for (BaseData _iter42 : struct.bases)
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.not_owned_planes.size()));
+          for (PlaneBasicData _iter48 : struct.not_owned_planes)
           {
-            _iter42.write(oprot);
+            _iter48.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
+      if (struct.owned_bases != null) {
+        oprot.writeFieldBegin(OWNED_BASES_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.owned_bases.size()));
+          for (BaseFullData _iter49 : struct.owned_bases)
+          {
+            _iter49.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
+      if (struct.not_owned_bases != null) {
+        oprot.writeFieldBegin(NOT_OWNED_BASES_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.not_owned_bases.size()));
+          for (BaseBasicData _iter50 : struct.not_owned_bases)
+          {
+            _iter50.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -890,9 +1146,9 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(PROGRESS_AXIS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.progressAxis.size()));
-          for (ProgressAxisData _iter43 : struct.progressAxis)
+          for (ProgressAxisData _iter51 : struct.progressAxis)
           {
-            _iter43.write(oprot);
+            _iter51.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -927,49 +1183,73 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       if (struct.isSetNumFrame()) {
         optionals.set(0);
       }
-      if (struct.isSetPlanes()) {
+      if (struct.isSetOwned_planes()) {
         optionals.set(1);
       }
-      if (struct.isSetBases()) {
+      if (struct.isSetNot_owned_planes()) {
         optionals.set(2);
       }
-      if (struct.isSetProgressAxis()) {
+      if (struct.isSetOwned_bases()) {
         optionals.set(3);
       }
-      if (struct.isSetMyCountry()) {
+      if (struct.isSetNot_owned_bases()) {
         optionals.set(4);
       }
-      if (struct.isSetCurrentMoney()) {
+      if (struct.isSetProgressAxis()) {
         optionals.set(5);
       }
-      oprot.writeBitSet(optionals, 6);
+      if (struct.isSetMyCountry()) {
+        optionals.set(6);
+      }
+      if (struct.isSetCurrentMoney()) {
+        optionals.set(7);
+      }
+      oprot.writeBitSet(optionals, 8);
       if (struct.isSetNumFrame()) {
         oprot.writeI32(struct.numFrame);
       }
-      if (struct.isSetPlanes()) {
+      if (struct.isSetOwned_planes()) {
         {
-          oprot.writeI32(struct.planes.size());
-          for (PlaneData _iter44 : struct.planes)
+          oprot.writeI32(struct.owned_planes.size());
+          for (PlaneFullData _iter52 : struct.owned_planes)
           {
-            _iter44.write(oprot);
+            _iter52.write(oprot);
           }
         }
       }
-      if (struct.isSetBases()) {
+      if (struct.isSetNot_owned_planes()) {
         {
-          oprot.writeI32(struct.bases.size());
-          for (BaseData _iter45 : struct.bases)
+          oprot.writeI32(struct.not_owned_planes.size());
+          for (PlaneBasicData _iter53 : struct.not_owned_planes)
           {
-            _iter45.write(oprot);
+            _iter53.write(oprot);
+          }
+        }
+      }
+      if (struct.isSetOwned_bases()) {
+        {
+          oprot.writeI32(struct.owned_bases.size());
+          for (BaseFullData _iter54 : struct.owned_bases)
+          {
+            _iter54.write(oprot);
+          }
+        }
+      }
+      if (struct.isSetNot_owned_bases()) {
+        {
+          oprot.writeI32(struct.not_owned_bases.size());
+          for (BaseBasicData _iter55 : struct.not_owned_bases)
+          {
+            _iter55.write(oprot);
           }
         }
       }
       if (struct.isSetProgressAxis()) {
         {
           oprot.writeI32(struct.progressAxis.size());
-          for (ProgressAxisData _iter46 : struct.progressAxis)
+          for (ProgressAxisData _iter56 : struct.progressAxis)
           {
-            _iter46.write(oprot);
+            _iter56.write(oprot);
           }
         }
       }
@@ -984,59 +1264,87 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Data struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(6);
+      BitSet incoming = iprot.readBitSet(8);
       if (incoming.get(0)) {
         struct.numFrame = iprot.readI32();
         struct.setNumFrameIsSet(true);
       }
       if (incoming.get(1)) {
         {
-          org.apache.thrift.protocol.TList _list47 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.planes = new ArrayList<PlaneData>(_list47.size);
-          for (int _i48 = 0; _i48 < _list47.size; ++_i48)
+          org.apache.thrift.protocol.TList _list57 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.owned_planes = new ArrayList<PlaneFullData>(_list57.size);
+          for (int _i58 = 0; _i58 < _list57.size; ++_i58)
           {
-            PlaneData _elem49;
-            _elem49 = new PlaneData();
-            _elem49.read(iprot);
-            struct.planes.add(_elem49);
+            PlaneFullData _elem59;
+            _elem59 = new PlaneFullData();
+            _elem59.read(iprot);
+            struct.owned_planes.add(_elem59);
           }
         }
-        struct.setPlanesIsSet(true);
+        struct.setOwned_planesIsSet(true);
       }
       if (incoming.get(2)) {
         {
-          org.apache.thrift.protocol.TList _list50 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.bases = new ArrayList<BaseData>(_list50.size);
-          for (int _i51 = 0; _i51 < _list50.size; ++_i51)
+          org.apache.thrift.protocol.TList _list60 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.not_owned_planes = new ArrayList<PlaneBasicData>(_list60.size);
+          for (int _i61 = 0; _i61 < _list60.size; ++_i61)
           {
-            BaseData _elem52;
-            _elem52 = new BaseData();
-            _elem52.read(iprot);
-            struct.bases.add(_elem52);
+            PlaneBasicData _elem62;
+            _elem62 = new PlaneBasicData();
+            _elem62.read(iprot);
+            struct.not_owned_planes.add(_elem62);
           }
         }
-        struct.setBasesIsSet(true);
+        struct.setNot_owned_planesIsSet(true);
       }
       if (incoming.get(3)) {
         {
-          org.apache.thrift.protocol.TList _list53 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.progressAxis = new ArrayList<ProgressAxisData>(_list53.size);
-          for (int _i54 = 0; _i54 < _list53.size; ++_i54)
+          org.apache.thrift.protocol.TList _list63 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.owned_bases = new ArrayList<BaseFullData>(_list63.size);
+          for (int _i64 = 0; _i64 < _list63.size; ++_i64)
           {
-            ProgressAxisData _elem55;
-            _elem55 = new ProgressAxisData();
-            _elem55.read(iprot);
-            struct.progressAxis.add(_elem55);
+            BaseFullData _elem65;
+            _elem65 = new BaseFullData();
+            _elem65.read(iprot);
+            struct.owned_bases.add(_elem65);
+          }
+        }
+        struct.setOwned_basesIsSet(true);
+      }
+      if (incoming.get(4)) {
+        {
+          org.apache.thrift.protocol.TList _list66 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.not_owned_bases = new ArrayList<BaseBasicData>(_list66.size);
+          for (int _i67 = 0; _i67 < _list66.size; ++_i67)
+          {
+            BaseBasicData _elem68;
+            _elem68 = new BaseBasicData();
+            _elem68.read(iprot);
+            struct.not_owned_bases.add(_elem68);
+          }
+        }
+        struct.setNot_owned_basesIsSet(true);
+      }
+      if (incoming.get(5)) {
+        {
+          org.apache.thrift.protocol.TList _list69 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.progressAxis = new ArrayList<ProgressAxisData>(_list69.size);
+          for (int _i70 = 0; _i70 < _list69.size; ++_i70)
+          {
+            ProgressAxisData _elem71;
+            _elem71 = new ProgressAxisData();
+            _elem71.read(iprot);
+            struct.progressAxis.add(_elem71);
           }
         }
         struct.setProgressAxisIsSet(true);
       }
-      if (incoming.get(4)) {
+      if (incoming.get(6)) {
         struct.myCountry = new CountryData();
         struct.myCountry.read(iprot);
         struct.setMyCountryIsSet(true);
       }
-      if (incoming.get(5)) {
+      if (incoming.get(7)) {
         struct.currentMoney = iprot.readI32();
         struct.setCurrentMoneyIsSet(true);
       }
