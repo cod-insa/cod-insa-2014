@@ -30,7 +30,7 @@ public class Projectile extends MaterialGameEntity {
 //		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
 		model().rotation(direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION);
 		model().speed = SPEED;
-		model().ownerId = ownerId;
+		model().ownerId(ownerId);
 		distToCover = GamePlane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
 	}
 	
@@ -61,7 +61,7 @@ public class Projectile extends MaterialGameEntity {
 	}
 	
 	@Override
-	public EntityDisplay<Projectile> getView() {
+	public EntityDisplay<Projectile> getDisplay() {
 		return disp;
 	}
 	

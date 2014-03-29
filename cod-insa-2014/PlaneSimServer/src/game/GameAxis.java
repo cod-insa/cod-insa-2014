@@ -1,5 +1,6 @@
 package game;
 
+import display.AxisDisplay;
 import display.EntityDisplay;
 import model.Base;
 import model.Entity;
@@ -26,23 +27,23 @@ public class GameAxis extends GameEntity {
 		// TODO Auto-generated method stub
 	}
 //
-//	@Override
-//	public EntityDisplay<GameBase> getView() {
-//		return new BaseDisplay(this);
-//	}
-//
-//	@Override
-//	ProgressAxis model() { return (ProgressAxis) model; }
-//
-//	@Override
-//	public Base.View modelView() { return model().view(); }
-	
 	@Override
-	public EntityDisplay<?> getView() {
-		return null;
+	public EntityDisplay<GameAxis> getDisplay() {
+		return new AxisDisplay(this);
 	}
-	
+
 	@Override
-	Entity model() { return null; }
+	ProgressAxis model() { return (ProgressAxis) model; }
+
+	@Override
+	public ProgressAxis.View modelView() { return model().view(); }
+	
+//	@Override
+//	public EntityDisplay<?> getDisplay() {
+//		return null;
+//	}
+//	
+//	@Override
+//	Entity model() { return null; }
 	
 }

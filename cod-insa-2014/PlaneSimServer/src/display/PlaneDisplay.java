@@ -30,6 +30,7 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
+		super.draw(g2d, vtrans);
 		
 //		if (entity.getState() != State.AT_AIRPORT)
 //		{

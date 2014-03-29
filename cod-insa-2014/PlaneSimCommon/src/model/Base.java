@@ -16,7 +16,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 	public final Immutable<Coord.View> position;
 	
 	final List<Plane> planes;
-	
+
 	final Set<ProgressAxis.Oriented> axes;
 	
 	public double militarResourcesStock;

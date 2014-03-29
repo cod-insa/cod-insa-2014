@@ -347,28 +347,31 @@ class InternalView {
 	public double x() { return model.x; }
 	public double y() { return model.y; }
 	
-	public Coord opposite ()
+	public final Coord opposite ()
 	{ Coord r = new Coord(-model.x, -model.y); return r; }
 	
-	public Coord addedTo (View cv)
+	public final Coord addedTo (View cv)
 	{ Coord r = new Coord(model); r.add(cv); return r; }
-	
+
 	public final Coord addedTo (View cv, double coeff)
 	{ Coord r = new Coord(model); r.shift(cv.x()*coeff, cv.y()*coeff); return r; }
 	
-	public Coord shifted (double shift)
+	public final Coord multipliedBy (double coeff)
+	{ Coord r = new Coord(model); r.mult(coeff); return r; }
+	
+	public final Coord shifted (double shift)
 	{ Coord r = new Coord(model); r.shift(shift); return r; }
 	
-	public Coord rotated (View center, double angle)
+	public final Coord rotated (View center, double angle)
 	{ Coord r = new Coord(model); r.rotate(center, angle); return r; }
 	
-	public double distanceTo (View cv)
+	public final double distanceTo (View cv)
 	{ return Math.sqrt((cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y)); }
 	
-	public double squareDistanceTo (View cv)
+	public final double squareDistanceTo (View cv)
 	{ return (cv.x()-model.x)*(cv.x()-model.x) + (cv.y()-model.y)*(cv.y()-model.y); }
 	
-	public double angleWith (View cv)
+	public final double angleWith (View cv)
 	{ return Math.atan2(cv.y()-model.y, cv.x()-model.x); }
 //	{ return Math.atan((cv.y()-model.y) / (cv.x()-model.x)); }
 	

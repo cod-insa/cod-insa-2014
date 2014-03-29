@@ -14,9 +14,9 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	/**
 	 * Nil (0) if this entity belongs to no one (player ids start at 1)
 	 */
-	public int ownerId = 0;
-	
-	
+	//public int ownerId = 0;
+	private int ownerId = 0;
+
 	public class View implements Viewable.View {
 		
 		public int id() { return id; }
@@ -54,6 +54,9 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 //		rotation = src.rotation();
 //		radarRange = src.radarRange();
 	}
+
+	public int ownerId() { return ownerId; }
+	public void ownerId(int id) { ownerId = id; } // TODO: check >= 0
 	
 //	public EntityModel (EntityModel src) {
 //		//this(src.id, Unique.Copy.make(src.position)));

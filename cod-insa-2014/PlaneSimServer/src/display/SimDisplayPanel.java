@@ -325,7 +325,7 @@ public class SimDisplayPanel extends JPanel {
         	for (GameEntity e: els) {
             	//if (e instanceof Base) System.out.println("ok");
             	
-            	e.getView().draw(g2d, vtrans);
+            	e.getDisplay().draw(g2d, vtrans);
             	
             }
         }

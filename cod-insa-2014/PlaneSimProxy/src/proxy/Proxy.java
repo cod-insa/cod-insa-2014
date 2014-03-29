@@ -117,7 +117,7 @@ public class Proxy
 					plane.position.x = p.posit.x;
 					plane.position.y = p.posit.y;
 					plane.health = p.health;
-					plane.ownerId = p.ai_id;
+					plane.ownerId(p.ai_id);
 					
 
 					plane.state = StateConverter.make(p.state);

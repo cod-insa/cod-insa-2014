@@ -181,13 +181,13 @@ public class MapLoader {
 				// axis[0] : base1
 				// axis[1] : base2
 				
-				/*
+				
 				
 				if (basesByName.containsKey(axis[0]) && basesByName.containsKey(axis[1]))
 					new GameAxis(g, basesByName.get(axis[0]).model(), basesByName.get(axis[1]).model());
 				else
 					throw new Error("Base name is unknown");
-					*/
+					
 			}
 		}
 		else

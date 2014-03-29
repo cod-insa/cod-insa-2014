@@ -17,6 +17,7 @@ public class ProjectileDisplay extends EntityDisplay<Projectile> {
 
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
+		super.draw(g2d, vtrans);
 		
 		float alpha = entity.distToCover() < Projectile.INEFFECTIVE_RANGE?
 				(float)(entity.distToCover() / Projectile.INEFFECTIVE_RANGE) : 1;

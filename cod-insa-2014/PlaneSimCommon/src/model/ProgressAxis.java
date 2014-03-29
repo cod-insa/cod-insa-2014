@@ -12,6 +12,8 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	public final Base.View base1;
 	public final Base.View base2;
 	
+	public double ratio = .5;
+	
 //	public ProgressAxis(Base b1, Base b2) {
 //		base1 = b1.view();
 //		base2 = b2.view();
@@ -87,7 +89,9 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		public Base.View base1() { return base1; }
 		public Base.View base2() { return base2; }
 //		private ProgressAxis model() { return ProgressAxis.this; }
-
+		
+		public double ratio() { return ratio; }
+		
 		public ProgressAxis copied(Context context) {
 			return copy(context);
 		}

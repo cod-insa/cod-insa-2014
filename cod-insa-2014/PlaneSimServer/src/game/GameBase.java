@@ -28,7 +28,7 @@ public class GameBase extends MaterialGameEntity {
 	}
 	
 	@Override
-	public EntityDisplay<GameBase> getView() {
+	public EntityDisplay<GameBase> getDisplay() {
 		return new BaseDisplay(this);
 	}
 	

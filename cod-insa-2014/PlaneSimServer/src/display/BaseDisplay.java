@@ -13,7 +13,7 @@ public class BaseDisplay extends EntityDisplay<GameBase> {
 
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
-		
+		super.draw(g2d, vtrans);
 		
 		/*
 		Pixel corner = vtrans.getViewPos(entity.position);

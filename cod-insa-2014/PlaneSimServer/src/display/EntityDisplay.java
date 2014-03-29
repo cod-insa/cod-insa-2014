@@ -2,8 +2,7 @@ package display;
 
 import game.GameEntity;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 
 public abstract class EntityDisplay<T extends GameEntity> {
@@ -14,8 +13,8 @@ public abstract class EntityDisplay<T extends GameEntity> {
 		this.entity = entity;
 	}
 	
-	public Color getPlayerColor() {
-		switch(entity.modelView().ownerId()) {
+	public static Color getPlayerColor(int ownerId) {
+		switch(ownerId) {
 		case 0:
 			return Color.gray;
 		case 1:
@@ -34,7 +33,22 @@ public abstract class EntityDisplay<T extends GameEntity> {
 			return Color.black;
 		}
 	}
+	public Color getPlayerColor() {
+		return getPlayerColor(entity.modelView().ownerId());
+	}
 	
-	public abstract void draw (Graphics2D g2d, ViewTransform vtrans);
+	public void draw (Graphics2D g2d, ViewTransform vtrans) {
+		init(g2d, vtrans);
+	}
+	
+	//public abstract new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+	
+	public Stroke getStroke(ViewTransform vtrans) {
+		return new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+	}
+	
+	public void init(Graphics2D g2d, ViewTransform vtrans) {
+		g2d.setStroke(getStroke(vtrans));
+	}
 
 }

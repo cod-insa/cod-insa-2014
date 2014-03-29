@@ -42,7 +42,7 @@ public final class GamePlane extends MaterialGameEntity {
 		//model.speed = MIN_SPEED;
 		//model.speed = MAX_SPEED;
 		model().speed = 0;
-		model.ownerId = ownerId;
+		model.ownerId(ownerId);
 		radius = RADIUS;
 	}
 	
@@ -53,7 +53,7 @@ public final class GamePlane extends MaterialGameEntity {
 	}
 
 	@Override
-	public EntityDisplay<GamePlane> getView() {
+	public EntityDisplay<GamePlane> getDisplay() {
 		return disp;
 	}
 	
@@ -67,7 +67,7 @@ public final class GamePlane extends MaterialGameEntity {
 	public void fire (double angle) {
 		//new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
 		assert Math.abs(angle) <= MAX_FIRING_ANGLE;
-		new Projectile(sim, new Coord.Unique(model().position()), model().speedVector(), model.ownerId, angle);
+		new Projectile(sim, new Coord.Unique(model().position()), model().speedVector(), model.ownerId(), angle);
 	}
 	
 	public State getState()
