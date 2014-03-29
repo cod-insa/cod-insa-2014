@@ -1,5 +1,6 @@
 package control;
 
+import command.*;
 import game.AutoPilot.Mode;
 import game.GamePlane;
 import game.Game;
@@ -9,10 +10,6 @@ import java.util.List;
 
 import players.Player;
 
-import command.Command;
-import command.LandCommand;
-import command.MoveCommand;
-import command.WaitCommand;
 import common.NotSupportedException;
 
 public class Controller {
@@ -78,9 +75,15 @@ public class Controller {
 			p.autoPilot.goTo(p.modelView.position, Mode.ATTACK_ON_SIGHT);
 			*/
 		}
-		catch (Command def) {
-			throw new NotSupportedException("Unrecognized command");
+		catch (FollowCommand fc) {
+			s.getPlane(fc.planeSrcId).autoPilot.goTo(s.getPlane(fc.planeTargetId), Mode.IGNORE);
 		}
+		catch (AttackCommand ac) {
+			s.getPlane(ac.planeSrcId).autoPilot.attackSpecific(s.getPlane(ac.planeTargetId));
+		}
+//		catch (Command def) {
+//			throw new NotSupportedException("Unrecognized command");
+//		}
 		
 		
 	}
