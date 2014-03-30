@@ -43,7 +43,12 @@ public class Proxy
 	
 	public static final Logger log = LoggerFactory.getLogger(Proxy.class);
 	
-	
+	/**
+	 * Constructor that initialize the proxy
+	 * @param ip Ip of the serveur
+	 * @param port Port of the client
+	 * @param ai Reference to the AI. Put "this" for this parameter
+	 */
 	public Proxy(String ip, int port, AbstractAI ai)
 	{
 		client_ai = ai;
@@ -61,6 +66,10 @@ public class Proxy
 	}
 	
 
+	/**
+	 * Initialize the model in the client.
+	 * @param d Initial data retrieved from the server
+	 */
 	void setInitData(InitData d) {
 		
 		for (genbridge.BaseInitData b : d.bases)
@@ -84,6 +93,10 @@ public class Proxy
 		// TODO Get the initial amount of money
 	}
 	
+	/**
+	 * Private function to update the bases
+	 * @param d Data retrieved from the server
+	 */
 	private void updateBases(Data d)
 	{
 		// Update owned bases
@@ -118,6 +131,10 @@ public class Proxy
 		}
 	}
 	
+	/**
+	 * Private function to update the planes 
+	 * @param d Data retrieved from the server
+	 */
 	private void updatePlanes(Data d) {
 		
 		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
@@ -188,6 +205,10 @@ public class Proxy
 		}
 	}
 
+	/**
+	 * Private function to update the axis
+	 * @param d Data retrieved from the server
+	 */
 	private void updateAxis(Data d) {
 		
 		for (ProgressAxisData a : d.progressAxis)
@@ -202,6 +223,10 @@ public class Proxy
 		}
 	}
 	
+	/**
+	 * Update the proxy model of the game
+	 * @param d Data retrieved from the server
+	 */
 	void updateProxyData(Data d)
 	{
 		//log.debug("Updating data...");
@@ -219,19 +244,34 @@ public class Proxy
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
 
+	/**
+	 * Get the current frame number
+	 */
 	public int getNumFrame() 
 	{
 		return numFrame;
 	}
-	
+
+	/**
+	 * Get the width of the map
+	 */
 	public double getMapWidth() {
 		return mapWidth;
 	}
 
+	/**
+	 * Get the height of the map
+	 */
 	public double getMapHeight() {
 		return mapHeight;
 	}
-	
+
+	/**
+	 * Get the planes that no longer exists in the game. 
+	 * If a plane is in this list, it means that he has been destroyed.
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
 	public ArrayList<Plane.FullView> getKilledPlanes()
 	{
 		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
@@ -240,6 +280,11 @@ public class Proxy
 		return planesToReturn;
 	}
 
+	/**
+	 * Get the planes that your AI own
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
 	public ArrayList<Plane.FullView> getMyPlanes()
 	{
 		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
@@ -248,6 +293,12 @@ public class Proxy
 		return planesToReturn;
 	}
 	
+	/**
+	 * Get all the visible ennemy planes
+	 * An ennemy plane is visible only if at least one of your entity sees it
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
 	public ArrayList<Plane.BasicView> getEnnemyPlanes()
 	{
 		ArrayList<Plane.BasicView> planesToReturn = new ArrayList<Plane.BasicView>();
@@ -256,6 +307,11 @@ public class Proxy
 		return planesToReturn;
 	}
 	
+	/**
+	 * Get all the bases of the game
+	 * 
+	 * You don't need to call this method more than once per game. Because no bases will be created or destroyed during the game :)
+	 */
 	public ArrayList<Base.View> getBases()
 	{
 		ArrayList<Base.View> basesToReturn = new ArrayList<Base.View>();
@@ -264,20 +320,38 @@ public class Proxy
 		return basesToReturn;
 	}
 
+	/**
+	 * Check if you are out of time.
+	 * If this returns true, it means that your AI is probably too long to send commands
+	 */
 	public boolean isTimeOut()
 	{
 		return cm.isTimeOut();
 	}
-	
+
+	/**
+	 * This function allows you to get the next frame of the game. 
+	 * Calling this function will block you until the next game frame is available on the server
+	 */
 	public void updateSimFrame()
 	{
 		idm.updateData();
 	}
+	
+	/**
+	 * Send a command to the server.
+	 * Calling this function will not block you.
+	 * @param c The command to be sent
+	 */
 	public void sendCommand(Command c)
 	{
 		cm.sendCommand(c);
 	}
 
+	/**
+	 * Quit the proxy
+	 * @param code The code that will be sen
+	 */
 	void quit(int code)
 	{
 		if (idm != null)
