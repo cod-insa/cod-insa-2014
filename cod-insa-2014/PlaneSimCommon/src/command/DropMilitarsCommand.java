@@ -8,18 +8,18 @@ public class DropMilitarsCommand extends Command {
 	
 	public final int baseTargetId;
 	
-	public final double militarResourceDroped;
+	public final double quantity;
 
 	public DropMilitarsCommand(int psid, int btid, double ndrop)
 	{
 		planeSrcId = psid;
 		baseTargetId = btid;
-		militarResourceDroped = ndrop;
+		quantity = ndrop;
 	}
 	
 	@Override
 	public String toString() {
-		return "drop "+planeSrcId+" --("+militarResourceDroped+")--> "+baseTargetId;
+		return "drop "+planeSrcId+" --("+quantity+")--> "+baseTargetId;
 	}
 
 	@Override

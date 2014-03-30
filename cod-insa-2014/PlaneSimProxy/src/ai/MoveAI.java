@@ -6,7 +6,7 @@ import java.util.Random;
 import model.Base;
 import model.Plane;
 import model.Plane.State;
-
+import command.FillFuelTankCommand;
 import command.MoveCommand;
 
 public class MoveAI extends AbstractAI 

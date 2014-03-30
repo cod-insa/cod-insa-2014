@@ -6,19 +6,19 @@ public class LoadResourcesCommand extends Command {
 	//public final Plane plane;
 	public final int planeSrcId;
 	
-	public final double militarResourceToLoad;
-	public final double fuelResourceToLoad;
+	public final double militarQuantity;
+	public final double fuelQuantity;
 	
-	public LoadResourcesCommand(int psid, double mrload, double frload)
+	public LoadResourcesCommand(int psid, double mq, double fq)
 	{
 		planeSrcId = psid;
-		militarResourceToLoad = mrload;
-		fuelResourceToLoad = frload;
+		militarQuantity = mq;
+		fuelQuantity = fq;
 	}
 	
 	@Override
 	public String toString() {
-		return "loadResource "+planeSrcId+" : militar => "+militarResourceToLoad+"; fuel => "+fuelResourceToLoad;
+		return "loadResource "+planeSrcId+" : militar => "+militarQuantity+"; fuel => "+fuelQuantity;
 	}
 
 	@Override

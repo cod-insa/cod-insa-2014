@@ -4,11 +4,15 @@ import genbridge.AttackCommandData;
 import genbridge.CommandData;
 import genbridge.CommandReceiver;
 import genbridge.CoordData;
+import genbridge.DropMilitarsCommandData;
+import genbridge.FillFuelTankCommandData;
 import genbridge.FollowCommandData;
 import genbridge.LandCommandData;
+import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
 import genbridge.Response;
+import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.LinkedList;
@@ -23,6 +27,7 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import command.AttackCommand;
 import command.Command;
 import command.DropMilitarsCommand;
@@ -136,13 +141,17 @@ public class CommandSender extends Thread {
 				r = client.sendFollowCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			} catch (DropMilitarsCommand c) {
-				throw new NotImplementedException();
+				r = client.sendDropMilitarsCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			} catch (StoreFuelCommand c) {
-				throw new NotImplementedException();
+				r = client.sendStoreFuelCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			} catch (FillFuelTankCommand c) {
-				throw new NotImplementedException();
+				r = client.sendFillFuelTankCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			} catch (LoadResourcesCommand c) {
-				throw new NotImplementedException();
+				r = client.sendLoadResourcesCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			}
 			
 			treatResult(r);
@@ -207,6 +216,26 @@ public class CommandSender extends Thread {
 		static WaitCommandData make(WaitCommand cmd, int numFrame) {
 			return new WaitCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId));
+		}
+		
+		static DropMilitarsCommandData make(DropMilitarsCommand cmd, int numFrame) {
+			return new DropMilitarsCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId), cmd.baseTargetId, cmd.quantity);
+		}
+		
+		static StoreFuelCommandData make(StoreFuelCommand cmd, int numFrame) {
+			return new StoreFuelCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId),cmd.quantity); 
+		}
+		
+		static FillFuelTankCommandData make(FillFuelTankCommand cmd, int numFrame) {
+			return new FillFuelTankCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId),cmd.quantity); 
+		}
+		
+		static LoadResourcesCommandData make(LoadResourcesCommand cmd, int numFrame) {
+			return new LoadResourcesCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId),cmd.militarQuantity, cmd.fuelQuantity); 
 		}
 	}
 }

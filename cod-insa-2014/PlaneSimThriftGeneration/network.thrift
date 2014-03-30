@@ -64,14 +64,16 @@ struct BaseInitData {
 }
 
 struct ProgressAxisInitData {
-	1: int base1_id,
-	2: int base2_id
+	1: int id,
+	2: int base1_id,
+	3: int base2_id
 }
 
 struct ProgressAxisData {
 	/* These are percentage, visible by anyone */
-	1: double progressBase1, 
-	2: double progressBase2 
+	1: int id,
+	2: double progressBase1, 
+	3: double progressBase2 
 }
 
 struct CountryInitData {
@@ -160,6 +162,28 @@ struct FollowCommandData {
 	2: int idTarget
 }
 
+struct DropMilitarsCommandData {
+	1: PlaneCommandData pc,
+	2: int base_id,
+	3: double quantity
+}
+
+struct StoreFuelCommandData {
+	1: PlaneCommandData pc,
+	2: double quantity
+}
+
+struct FillFuelTankCommandData {
+	1: PlaneCommandData pc,
+	2: double quantity
+}
+
+struct LoadRessourcesCommandData {
+	1: PlaneCommandData pc,
+	2: double militar_quantity,
+	2: double fuel_quantity
+}
+
 struct Response {
 	1: int code, # 0 : Success, -1 : Error on command, -2 : Error timeout
 	2: string message # empty if success
@@ -170,10 +194,14 @@ service CommandReceiver {
 	Response sendWaitCommand(1: WaitCommandData cmd, 2: int idConnection),
 	Response sendLandCommand(1: LandCommandData cmd, 2: int idConnection),
 	Response sendFollowCommand(1: FollowCommandData cmd, 2: int idConnection),
-	Response sendAttackCommand(1: AttackCommandData cmd, 2: int idConnection)
+	Response sendAttackCommand(1: AttackCommandData cmd, 2: int idConnection),
+	Response sendDropMilitarsCommand(1: DropMilitarsCommandData cmd, 2: int idConnection),
+	Response sendStoreFuelCommand(1: StoreFuelCommandData cmd, 2: int idConnection),
+	Response sendFillFuelTankCommand(1: FillFuelTankCommandData cmd, 2: int idConnection),
+	Response sendLoadRessourcesCommand(1: LoadRessourcesCommandData cmd, 2: int idConnection)
 }
 
-# Tuto
+# Type dispo
 
 /**
  *  bool    	Boolean, one byte

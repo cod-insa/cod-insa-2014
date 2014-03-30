@@ -7,11 +7,15 @@ import genbridge.Bridge;
 import genbridge.CommandReceiver;
 import genbridge.ConnectionData;
 import genbridge.Data;
+import genbridge.DropMilitarsCommandData;
+import genbridge.FillFuelTankCommandData;
 import genbridge.FollowCommandData;
 import genbridge.InitData;
 import genbridge.LandCommandData;
+import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
 import genbridge.Response;
+import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.ArrayDeque;
@@ -220,6 +224,35 @@ public class NetworkPlayer extends Player {
 		@Override
 		public Response sendAttackCommand(AttackCommandData cmd,
 				int idConnection) throws TException {
+			
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+		}
+
+		@Override
+		public Response sendDropMilitarsCommand(DropMilitarsCommandData cmd,
+				int idConnection) throws TException {
+
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+		}
+
+		@Override
+		public Response sendStoreFuelCommand(StoreFuelCommandData cmd,
+				int idConnection) throws TException {
+		
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+		}
+
+		@Override
+		public Response sendFillFuelTankCommand(FillFuelTankCommandData cmd,
+				int idConnection) throws TException {
+			
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+		}
+
+		@Override
+		public Response sendLoadResourcesCommand(
+				LoadResourcesCommandData cmd, int idConnection)
+				throws TException {
 			
 			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
