@@ -2,6 +2,7 @@ package proxy;
 import genbridge.Data;
 import genbridge.InitData;
 import genbridge.PlaneStateData;
+import genbridge.ProgressAxisData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,10 +12,12 @@ import model.Base;
 import model.Coord;
 import model.Plane;
 import model.Plane.State;
-import ai.AbstractAI;
+import model.ProgressAxis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ai.AbstractAI;
 
 import command.Command;
 
@@ -31,6 +34,8 @@ public class Proxy
 	private Map<Integer,Plane> ai_planes;
 	private Map<Integer,Plane> killed_planes;
 	private Map<Integer,Plane> ennemy_planes;
+	private Map<Integer, ProgressAxis> map_axis;
+
 	private double mapWidth, mapHeight;
 	
 	private int player_id;
@@ -38,7 +43,12 @@ public class Proxy
 	
 	public static final Logger log = LoggerFactory.getLogger(Proxy.class);
 	
-	
+	/**
+	 * Constructor that initialize the proxy
+	 * @param ip Ip of the serveur
+	 * @param port Port of the client
+	 * @param ai Reference to the AI. Put "this" for this parameter
+	 */
 	public Proxy(String ip, int port, AbstractAI ai)
 	{
 		client_ai = ai;
@@ -56,6 +66,10 @@ public class Proxy
 	}
 	
 
+	/**
+	 * Initialize the model in the client.
+	 * @param d Initial data retrieved from the server
+	 */
 	void setInitData(InitData d) {
 		
 		for (genbridge.BaseInitData b : d.bases)
@@ -68,109 +82,196 @@ public class Proxy
 		mapWidth = d.mapWidth;
 		mapHeight = d.mapHeight;
 		
+		for (genbridge.ProgressAxisInitData a : d.progressAxis)
+			if (! bases.containsKey(a.base1_id) || ! bases.containsKey(a.base2_id))
+				map_axis.put(a.id,new ProgressAxis(a.id, bases.get(a.base1_id), bases.get(a.base2_id)));
+			else
+				log.error("One or both of the base " + a.base1_id + " and " + a.base2_id + " are unknown. Failed to add the axis");
+		
+		// TODO Get the country
+		// TODO Get the others countries
+		// TODO Get the initial amount of money
 	}
 	
+	/**
+	 * Private function to update the bases
+	 * @param d Data retrieved from the server
+	 */
+	private void updateBases(Data d)
+	{
+		// Update owned bases
+		for (genbridge.BaseFullData b : d.owned_bases)
+		{
+			if (bases.containsKey(b.basic_info.base_id))
+			{
+				model.Base base = bases.get(b.basic_info.base_id); // get the base in the map
+				if (b.basic_info.ai_id != this.player_id)
+					log.warn("A not owned base is in the owned ones: can generate errors");
+				
+				base.ownerId(b.basic_info.ai_id);
+				base.militarResourcesStock = b.militarRessource;
+				base.fuelResourcesStock = b.fuelRessource;
+			}
+			else // There is a base which is not in the bases created at the beginning
+			{
+				log.error("The base id received is unknown. Ignoring the base. The model may be incoherent.");
+			}
+		}
+		
+		// Update not owned bases
+		for (genbridge.BaseBasicData b : d.not_owned_bases) {
+			if (bases.containsKey(b.base_id))
+			{
+				model.Base base = bases.get(b.base_id);
+				if (b.ai_id == this.player_id)
+					log.warn("An owned base is in the not owned base: can generate errors");
+				
+				base.ownerId(b.ai_id);
+			}
+		}
+	}
+	
+	/**
+	 * Private function to update the planes 
+	 * @param d Data retrieved from the server
+	 */
+	private void updatePlanes(Data d) {
+		
+		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
+		// So we begin by doing killed_planes = ai_planes and then ai_planes = empty
+
+		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
+		ai_planes.clear();
+		
+		
+		for (genbridge.PlaneFullData p : d.owned_planes)
+		{
+			if (p.basic_info.ai_id != player_id) // unit belongs to the ai
+				log.warn("A not owned plane is in the owned ones: may generate errors");
+			
+			if (killed_planes.containsKey(p.basic_info.plane_id)) // So this plane is alive
+			{
+				Plane plane = killed_planes.remove(p.basic_info.plane_id);
+				ai_planes.put(p.basic_info.plane_id, plane); // We move it from killed plane to ai_planes
+				
+				// Then we update the plane with the information given by the server :
+				
+				plane.position.x = p.basic_info.posit.x;
+				plane.position.y = p.basic_info.posit.y;
+				plane.health = p.basic_info.health;
+				plane.ownerId(p.basic_info.ai_id);
+				
+				plane.state = StateConverter.make(p.state);
+				if (plane.state == State.AT_AIRPORT) // Update the plane 
+					plane.assignTo(bases.get(p.base_id));
+				else
+					plane.unAssign();
+				
+				plane.remainingGaz = p.remainingGaz;
+				plane.militarResourceCarried = p.militarResourceCarried;
+				plane.fuelResourceCarried = p.fuelResourceCarried;
+				plane.capacity = p.capacity;
+			}
+			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
+			{
+				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x,p.basic_info.posit.y), p.basic_info.health);
+				plane.state = StateConverter.make(p.state);
+				plane.remainingGaz = p.remainingGaz;
+				plane.militarResourceCarried = p.militarResourceCarried;
+				plane.fuelResourceCarried = p.fuelResourceCarried;
+				plane.capacity = p.capacity;
+				ai_planes.put(plane.id, plane);
+			}
+		}
+
+		for (genbridge.PlaneBasicData p : d.not_owned_planes)
+		{
+			if (p.ai_id == player_id)
+				log.warn("An owned plane is in the not owned ones: may generate errors");
+			
+			if (ennemy_planes.containsKey(p.plane_id)) // the unit already exists, we just update it
+			{
+				Plane plane = ennemy_planes.get(p.plane_id); // Get the old plane and update it
+				
+				plane.position.x = p.posit.x;
+				plane.position.y = p.posit.y;
+				plane.health = p.health;
+			}
+			else // First time that the plane appears
+			{
+				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health);
+				ennemy_planes.put(plane.id, plane);
+			}
+		}
+	}
+
+	/**
+	 * Private function to update the axis
+	 * @param d Data retrieved from the server
+	 */
+	private void updateAxis(Data d) {
+		
+		for (ProgressAxisData a : d.progressAxis)
+		{
+			if (map_axis.containsKey(a.id))
+			{
+				ProgressAxis progAxis = map_axis.get(a.id);
+				
+				// progAxis.ratio1(a.progressBase1);
+				// progAxis.ratio2(a.progressBase2);
+			}
+		}
+	}
+	
+	/**
+	 * Update the proxy model of the game
+	 * @param d Data retrieved from the server
+	 */
 	void updateProxyData(Data d)
 	{
 		//log.debug("Updating data...");
 		
 		// Update numFrame
 		numFrame = d.numFrame;
-		
-		//log.debug("<< "+d.bases.get(0).posit.latid);
-		
-		// Update bases 
-		for (genbridge.BaseData b : d.bases)
-		{
-			if (bases.containsKey(b.base_id))
-			{
-				model.Base base = bases.get(b.base_id); // get the base in the map
 
-			}
-			else // There is a base which is not in the bases created at the beginning
-			{
-				log.warn("The base id received is unknown. Ignoring the base. The model may be incoherent.");
-			}
-		}
+		updateBases(d);
+		updatePlanes(d);
+		updateAxis(d);
 		
-		// Update avions
-		
-		//log.debug("Looking for "+d.planes.size()+" planes");
-		
-		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
-		ai_planes.clear();
-		
-		
-		// The goal is to do : killed_planes += ai_planes - planeFromData and ai_planes = planesFromData
-		for (genbridge.PlaneData p : d.planes)
-		{
-			if (p.ai_id == player_id) // unit belongs to the ai
-			{
-				if (killed_planes.containsKey(p.plane_id)) // So this plane is alive
-				{
-					Plane plane = killed_planes.remove(p.plane_id);
-					ai_planes.put(p.plane_id, plane); // We move it from killed plane to ai_planes
-					
-					// Then we update the plane with the information given by the server :
-					
-					plane.position.x = p.posit.x;
-					plane.position.y = p.posit.y;
-					plane.health = p.health;
-					plane.ownerId(p.ai_id);
-					
-
-					plane.state = StateConverter.make(p.state);
-					if (plane.state == State.AT_AIRPORT) // Update the plane 
-						plane.assignTo(bases.get(p.base_id));
-					else
-						plane.unAssign();
-						
-					// plane._rot = p.rotation; // Ajouter au thrift plus tard
-				}
-				else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
-				{
-					Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
-					ai_planes.put(plane.id, plane);
-				}
-			}
-			else // this is an ennemy unit
-			{
-				if (ennemy_planes.containsKey(p.plane_id)) // the unit already exists, we just update it
-				{
-					Plane plane = ennemy_planes.get(p.plane_id); // We update the plane
-					
-					plane.position.x = p.posit.x;
-					plane.position.y = p.posit.y;
-					plane.health = p.health;
-					
-					plane.state = StateConverter.make(p.state);
-				}
-				else // unit just appeared
-				{
-					Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, StateConverter.make(p.state));
-					ennemy_planes.put(plane.id, plane);
-				}
-				// For ennemy_planes which were not in the data, they are not visible. We can use 
-				
-			}
-		}
+		// TODO Update the country (update production line)
+		// TODO Update the current money
 		
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
-	
+
+	/**
+	 * Get the current frame number
+	 */
 	public int getNumFrame() 
 	{
 		return numFrame;
 	}
-	
+
+	/**
+	 * Get the width of the map
+	 */
 	public double getMapWidth() {
 		return mapWidth;
 	}
 
+	/**
+	 * Get the height of the map
+	 */
 	public double getMapHeight() {
 		return mapHeight;
 	}
-	
+
+	/**
+	 * Get the planes that no longer exists in the game. 
+	 * If a plane is in this list, it means that he has been destroyed.
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
 	public ArrayList<Plane.FullView> getKilledPlanes()
 	{
 		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
@@ -179,6 +280,11 @@ public class Proxy
 		return planesToReturn;
 	}
 
+	/**
+	 * Get the planes that your AI own
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
 	public ArrayList<Plane.FullView> getMyPlanes()
 	{
 		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
@@ -187,6 +293,12 @@ public class Proxy
 		return planesToReturn;
 	}
 	
+	/**
+	 * Get all the visible ennemy planes
+	 * An ennemy plane is visible only if at least one of your entity sees it
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
 	public ArrayList<Plane.BasicView> getEnnemyPlanes()
 	{
 		ArrayList<Plane.BasicView> planesToReturn = new ArrayList<Plane.BasicView>();
@@ -195,6 +307,11 @@ public class Proxy
 		return planesToReturn;
 	}
 	
+	/**
+	 * Get all the bases of the game
+	 * 
+	 * You don't need to call this method more than once per game. Because no bases will be created or destroyed during the game :)
+	 */
 	public ArrayList<Base.View> getBases()
 	{
 		ArrayList<Base.View> basesToReturn = new ArrayList<Base.View>();
@@ -203,20 +320,38 @@ public class Proxy
 		return basesToReturn;
 	}
 
+	/**
+	 * Check if you are out of time.
+	 * If this returns true, it means that your AI is probably too long to send commands
+	 */
 	public boolean isTimeOut()
 	{
 		return cm.isTimeOut();
 	}
-	
+
+	/**
+	 * This function allows you to get the next frame of the game. 
+	 * Calling this function will block you until the next game frame is available on the server
+	 */
 	public void updateSimFrame()
 	{
 		idm.updateData();
 	}
+	
+	/**
+	 * Send a command to the server.
+	 * Calling this function will not block you.
+	 * @param c The command to be sent
+	 */
 	public void sendCommand(Command c)
 	{
 		cm.sendCommand(c);
 	}
 
+	/**
+	 * Quit the proxy
+	 * @param code The code that will be sen
+	 */
 	void quit(int code)
 	{
 		if (idm != null)

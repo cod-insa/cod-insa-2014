@@ -29,27 +29,33 @@ enum PlaneStateData {
 	DEAD = 7
 }
 
-struct PlaneData {
+struct PlaneBasicData { // These are the basic information of a plane
 	1: int plane_id,
 	2: CoordData posit,
 	3: int ai_id,
-	4: double health,
-	/* visible only if it belongs to the AI : */
-	5: int base_id,
-	6: double remainingGaz, 
-	7: PlaneStateData state,
-	8: double militarResourceCarried,
-	9: double fuelResourceCarried,
-	10: double capacity
+	4: double health
 }
 
-struct BaseData {
+struct PlaneFullData { // This is when the plane is owned
+	1: PlaneBasicData basic_info,
+	2: int base_id,
+	3: double remainingGaz, 
+	4: PlaneStateData state,
+	5: double militarResourceCarried,
+	6: double fuelResourceCarried,
+	7: double capacity
+}
+
+struct BaseBasicData { // These are the basic information of a base
 	1: int base_id,
 	/* marked as neutral (= 0) if the base is neither neutral nor owned */
-	2: int ai_id,
-	/* visible only if it belongs to the AI : */
-	3: double militarRessource,
-	4: double fuelRessource
+	2: int ai_id
+}
+
+struct BaseFullData { // This is when the base is owned
+	1: BaseBasicData basic_info,
+	2: double militarRessource,
+	3: double fuelRessource
 }
 
 struct BaseInitData {
@@ -58,14 +64,16 @@ struct BaseInitData {
 }
 
 struct ProgressAxisInitData {
-	1: int base1_id,
-	2: int base2_id
+	1: int id,
+	2: int base1_id,
+	3: int base2_id
 }
 
 struct ProgressAxisData {
-	/* These are percentage */
-	1: double progressBase1, 
-	2: double progressBase2 
+	/* These are percentage, visible by anyone */
+	1: int id,
+	2: double progressBase1, 
+	3: double progressBase2 
 }
 
 struct CountryInitData {
@@ -74,7 +82,7 @@ struct CountryInitData {
 }
 
 struct CountryData {
-	/* This is sent only for one AI and list */
+	/* This is sent only for one AI and represents its country */
 	1: list<int> PlanesIdInProductionChain
 }
 
@@ -95,11 +103,13 @@ struct InitData {
 
 struct Data {
 	1: int numFrame,
-	2: list<PlaneData> planes,
-	3: list<BaseData> bases,
-	4: list<ProgressAxisData> progressAxis,
-	5: CountryData myCountry,
-	6: int currentMoney
+	2: list<PlaneFullData> owned_planes,
+	3: list<PlaneBasicData> not_owned_planes,
+	4: list<BaseFullData> owned_bases,
+	5: list<BaseBasicData> not_owned_bases,
+	6: list<ProgressAxisData> progressAxis,
+	7: CountryData myCountry,
+	8: int currentMoney
 }
 
 # Bridge is like a bridge on the network, between PlaneSimProxy.proxy.Proxy (Bridge.Client) 
@@ -152,6 +162,28 @@ struct FollowCommandData {
 	2: int idTarget
 }
 
+struct DropMilitarsCommandData {
+	1: PlaneCommandData pc,
+	2: int base_id,
+	3: double quantity
+}
+
+struct StoreFuelCommandData {
+	1: PlaneCommandData pc,
+	2: double quantity
+}
+
+struct FillFuelTankCommandData {
+	1: PlaneCommandData pc,
+	2: double quantity
+}
+
+struct LoadRessourcesCommandData {
+	1: PlaneCommandData pc,
+	2: double militar_quantity,
+	2: double fuel_quantity
+}
+
 struct Response {
 	1: int code, # 0 : Success, -1 : Error on command, -2 : Error timeout
 	2: string message # empty if success
@@ -162,10 +194,14 @@ service CommandReceiver {
 	Response sendWaitCommand(1: WaitCommandData cmd, 2: int idConnection),
 	Response sendLandCommand(1: LandCommandData cmd, 2: int idConnection),
 	Response sendFollowCommand(1: FollowCommandData cmd, 2: int idConnection),
-	Response sendAttackCommand(1: AttackCommandData cmd, 2: int idConnection)
+	Response sendAttackCommand(1: AttackCommandData cmd, 2: int idConnection),
+	Response sendDropMilitarsCommand(1: DropMilitarsCommandData cmd, 2: int idConnection),
+	Response sendStoreFuelCommand(1: StoreFuelCommandData cmd, 2: int idConnection),
+	Response sendFillFuelTankCommand(1: FillFuelTankCommandData cmd, 2: int idConnection),
+	Response sendLoadRessourcesCommand(1: LoadRessourcesCommandData cmd, 2: int idConnection)
 }
 
-# Tuto
+# Type dispo
 
 /**
  *  bool    	Boolean, one byte

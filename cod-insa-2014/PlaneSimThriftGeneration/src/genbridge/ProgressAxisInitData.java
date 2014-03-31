@@ -35,8 +35,9 @@ import org.slf4j.LoggerFactory;
 public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxisInitData, ProgressAxisInitData._Fields>, java.io.Serializable, Cloneable, Comparable<ProgressAxisInitData> {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ProgressAxisInitData");
 
-  private static final org.apache.thrift.protocol.TField BASE1_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base1_id", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField BASE2_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base2_id", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField BASE1_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base1_id", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField BASE2_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base2_id", org.apache.thrift.protocol.TType.I32, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -44,13 +45,15 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
     schemes.put(TupleScheme.class, new ProgressAxisInitDataTupleSchemeFactory());
   }
 
+  public int id; // required
   public int base1_id; // required
   public int base2_id; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    BASE1_ID((short)1, "base1_id"),
-    BASE2_ID((short)2, "base2_id");
+    ID((short)1, "id"),
+    BASE1_ID((short)2, "base1_id"),
+    BASE2_ID((short)3, "base2_id");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -65,9 +68,11 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // BASE1_ID
+        case 1: // ID
+          return ID;
+        case 2: // BASE1_ID
           return BASE1_ID;
-        case 2: // BASE2_ID
+        case 3: // BASE2_ID
           return BASE2_ID;
         default:
           return null;
@@ -109,12 +114,15 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
   }
 
   // isset id assignments
-  private static final int __BASE1_ID_ISSET_ID = 0;
-  private static final int __BASE2_ID_ISSET_ID = 1;
+  private static final int __ID_ISSET_ID = 0;
+  private static final int __BASE1_ID_ISSET_ID = 1;
+  private static final int __BASE2_ID_ISSET_ID = 2;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.BASE1_ID, new org.apache.thrift.meta_data.FieldMetaData("base1_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.BASE2_ID, new org.apache.thrift.meta_data.FieldMetaData("base2_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -127,10 +135,13 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
   }
 
   public ProgressAxisInitData(
+    int id,
     int base1_id,
     int base2_id)
   {
     this();
+    this.id = id;
+    setIdIsSet(true);
     this.base1_id = base1_id;
     setBase1_idIsSet(true);
     this.base2_id = base2_id;
@@ -142,6 +153,7 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
    */
   public ProgressAxisInitData(ProgressAxisInitData other) {
     __isset_bitfield = other.__isset_bitfield;
+    this.id = other.id;
     this.base1_id = other.base1_id;
     this.base2_id = other.base2_id;
   }
@@ -152,10 +164,35 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
 
   @Override
   public void clear() {
+    setIdIsSet(false);
+    this.id = 0;
     setBase1_idIsSet(false);
     this.base1_id = 0;
     setBase2_idIsSet(false);
     this.base2_id = 0;
+  }
+
+  public int getId() {
+    return this.id;
+  }
+
+  public ProgressAxisInitData setId(int id) {
+    this.id = id;
+    setIdIsSet(true);
+    return this;
+  }
+
+  public void unsetId() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ID_ISSET_ID);
+  }
+
+  /** Returns true if field id is set (has been assigned a value) and false otherwise */
+  public boolean isSetId() {
+    return EncodingUtils.testBit(__isset_bitfield, __ID_ISSET_ID);
+  }
+
+  public void setIdIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ID_ISSET_ID, value);
   }
 
   public int getBase1_id() {
@@ -206,6 +243,14 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
+    case ID:
+      if (value == null) {
+        unsetId();
+      } else {
+        setId((Integer)value);
+      }
+      break;
+
     case BASE1_ID:
       if (value == null) {
         unsetBase1_id();
@@ -227,6 +272,9 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
+    case ID:
+      return Integer.valueOf(getId());
+
     case BASE1_ID:
       return Integer.valueOf(getBase1_id());
 
@@ -244,6 +292,8 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
     }
 
     switch (field) {
+    case ID:
+      return isSetId();
     case BASE1_ID:
       return isSetBase1_id();
     case BASE2_ID:
@@ -264,6 +314,15 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
   public boolean equals(ProgressAxisInitData that) {
     if (that == null)
       return false;
+
+    boolean this_present_id = true;
+    boolean that_present_id = true;
+    if (this_present_id || that_present_id) {
+      if (!(this_present_id && that_present_id))
+        return false;
+      if (this.id != that.id)
+        return false;
+    }
 
     boolean this_present_base1_id = true;
     boolean that_present_base1_id = true;
@@ -299,6 +358,16 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
 
     int lastComparison = 0;
 
+    lastComparison = Boolean.valueOf(isSetId()).compareTo(other.isSetId());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, other.id);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = Boolean.valueOf(isSetBase1_id()).compareTo(other.isSetBase1_id());
     if (lastComparison != 0) {
       return lastComparison;
@@ -339,6 +408,10 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
     StringBuilder sb = new StringBuilder("ProgressAxisInitData(");
     boolean first = true;
 
+    sb.append("id:");
+    sb.append(this.id);
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("base1_id:");
     sb.append(this.base1_id);
     first = false;
@@ -391,7 +464,15 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
           break;
         }
         switch (schemeField.id) {
-          case 1: // BASE1_ID
+          case 1: // ID
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.id = iprot.readI32();
+              struct.setIdIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 2: // BASE1_ID
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.base1_id = iprot.readI32();
               struct.setBase1_idIsSet(true);
@@ -399,7 +480,7 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // BASE2_ID
+          case 3: // BASE2_ID
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.base2_id = iprot.readI32();
               struct.setBase2_idIsSet(true);
@@ -422,6 +503,9 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
+      oprot.writeFieldBegin(ID_FIELD_DESC);
+      oprot.writeI32(struct.id);
+      oprot.writeFieldEnd();
       oprot.writeFieldBegin(BASE1_ID_FIELD_DESC);
       oprot.writeI32(struct.base1_id);
       oprot.writeFieldEnd();
@@ -446,13 +530,19 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
     public void write(org.apache.thrift.protocol.TProtocol prot, ProgressAxisInitData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetBase1_id()) {
+      if (struct.isSetId()) {
         optionals.set(0);
       }
-      if (struct.isSetBase2_id()) {
+      if (struct.isSetBase1_id()) {
         optionals.set(1);
       }
-      oprot.writeBitSet(optionals, 2);
+      if (struct.isSetBase2_id()) {
+        optionals.set(2);
+      }
+      oprot.writeBitSet(optionals, 3);
+      if (struct.isSetId()) {
+        oprot.writeI32(struct.id);
+      }
       if (struct.isSetBase1_id()) {
         oprot.writeI32(struct.base1_id);
       }
@@ -464,12 +554,16 @@ public class ProgressAxisInitData implements org.apache.thrift.TBase<ProgressAxi
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, ProgressAxisInitData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(3);
       if (incoming.get(0)) {
+        struct.id = iprot.readI32();
+        struct.setIdIsSet(true);
+      }
+      if (incoming.get(1)) {
         struct.base1_id = iprot.readI32();
         struct.setBase1_idIsSet(true);
       }
-      if (incoming.get(1)) {
+      if (incoming.get(2)) {
         struct.base2_id = iprot.readI32();
         struct.setBase2_idIsSet(true);
       }

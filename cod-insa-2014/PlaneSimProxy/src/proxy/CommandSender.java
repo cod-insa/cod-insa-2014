@@ -4,11 +4,15 @@ import genbridge.AttackCommandData;
 import genbridge.CommandData;
 import genbridge.CommandReceiver;
 import genbridge.CoordData;
+import genbridge.DropMilitarsCommandData;
+import genbridge.FillFuelTankCommandData;
 import genbridge.FollowCommandData;
 import genbridge.LandCommandData;
+import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
 import genbridge.Response;
+import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.LinkedList;
@@ -22,11 +26,17 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import command.AttackCommand;
 import command.Command;
+import command.DropMilitarsCommand;
+import command.FillFuelTankCommand;
 import command.FollowCommand;
 import command.LandCommand;
+import command.LoadResourcesCommand;
 import command.MoveCommand;
+import command.StoreFuelCommand;
 import command.WaitCommand;
 
 public class CommandSender extends Thread {
@@ -130,15 +140,20 @@ public class CommandSender extends Thread {
 			} catch (FollowCommand c) {
 				r = client.sendFollowCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (DropMilitarsCommand c) {
+				r = client.sendDropMilitarsCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (StoreFuelCommand c) {
+				r = client.sendStoreFuelCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (FillFuelTankCommand c) {
+				r = client.sendFillFuelTankCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (LoadResourcesCommand c) {
+				r = client.sendLoadResourcesCommand(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			}
-//			catch (TakeOffCommand e) {
-//				
-//				
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//				
-//				
-//			}
+			
 			treatResult(r);
 		} catch (TException e) {
 			System.err
@@ -201,6 +216,26 @@ public class CommandSender extends Thread {
 		static WaitCommandData make(WaitCommand cmd, int numFrame) {
 			return new WaitCommandData(new PlaneCommandData(new CommandData(
 					numFrame), cmd.planeId));
+		}
+		
+		static DropMilitarsCommandData make(DropMilitarsCommand cmd, int numFrame) {
+			return new DropMilitarsCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId), cmd.baseTargetId, cmd.quantity);
+		}
+		
+		static StoreFuelCommandData make(StoreFuelCommand cmd, int numFrame) {
+			return new StoreFuelCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId),cmd.quantity); 
+		}
+		
+		static FillFuelTankCommandData make(FillFuelTankCommand cmd, int numFrame) {
+			return new FillFuelTankCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId),cmd.quantity); 
+		}
+		
+		static LoadResourcesCommandData make(LoadResourcesCommand cmd, int numFrame) {
+			return new LoadResourcesCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrcId),cmd.militarQuantity, cmd.fuelQuantity); 
 		}
 	}
 }

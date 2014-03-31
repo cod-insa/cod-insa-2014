@@ -32,30 +32,24 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._Fields>, java.io.Serializable, Cloneable, Comparable<PlaneData> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("PlaneData");
+public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, PlaneFullData._Fields>, java.io.Serializable, Cloneable, Comparable<PlaneFullData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("PlaneFullData");
 
-  private static final org.apache.thrift.protocol.TField PLANE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("plane_id", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField POSIT_FIELD_DESC = new org.apache.thrift.protocol.TField("posit", org.apache.thrift.protocol.TType.STRUCT, (short)2);
-  private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField HEALTH_FIELD_DESC = new org.apache.thrift.protocol.TField("health", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
-  private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)5);
-  private static final org.apache.thrift.protocol.TField REMAINING_GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("remainingGaz", org.apache.thrift.protocol.TType.DOUBLE, (short)6);
-  private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)7);
-  private static final org.apache.thrift.protocol.TField MILITAR_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("militarResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)8);
-  private static final org.apache.thrift.protocol.TField FUEL_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)9);
-  private static final org.apache.thrift.protocol.TField CAPACITY_FIELD_DESC = new org.apache.thrift.protocol.TField("capacity", org.apache.thrift.protocol.TType.DOUBLE, (short)10);
+  private static final org.apache.thrift.protocol.TField BASIC_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("basic_info", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+  private static final org.apache.thrift.protocol.TField BASE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("base_id", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField REMAINING_GAZ_FIELD_DESC = new org.apache.thrift.protocol.TField("remainingGaz", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField MILITAR_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("militarResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)5);
+  private static final org.apache.thrift.protocol.TField FUEL_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)6);
+  private static final org.apache.thrift.protocol.TField CAPACITY_FIELD_DESC = new org.apache.thrift.protocol.TField("capacity", org.apache.thrift.protocol.TType.DOUBLE, (short)7);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new PlaneDataStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new PlaneDataTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new PlaneFullDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new PlaneFullDataTupleSchemeFactory());
   }
 
-  public int plane_id; // required
-  public CoordData posit; // required
-  public int ai_id; // required
-  public double health; // required
+  public PlaneBasicData basic_info; // required
   public int base_id; // required
   public double remainingGaz; // required
   /**
@@ -69,20 +63,17 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    PLANE_ID((short)1, "plane_id"),
-    POSIT((short)2, "posit"),
-    AI_ID((short)3, "ai_id"),
-    HEALTH((short)4, "health"),
-    BASE_ID((short)5, "base_id"),
-    REMAINING_GAZ((short)6, "remainingGaz"),
+    BASIC_INFO((short)1, "basic_info"),
+    BASE_ID((short)2, "base_id"),
+    REMAINING_GAZ((short)3, "remainingGaz"),
     /**
      * 
      * @see PlaneStateData
      */
-    STATE((short)7, "state"),
-    MILITAR_RESOURCE_CARRIED((short)8, "militarResourceCarried"),
-    FUEL_RESOURCE_CARRIED((short)9, "fuelResourceCarried"),
-    CAPACITY((short)10, "capacity");
+    STATE((short)4, "state"),
+    MILITAR_RESOURCE_CARRIED((short)5, "militarResourceCarried"),
+    FUEL_RESOURCE_CARRIED((short)6, "fuelResourceCarried"),
+    CAPACITY((short)7, "capacity");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -97,25 +88,19 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // PLANE_ID
-          return PLANE_ID;
-        case 2: // POSIT
-          return POSIT;
-        case 3: // AI_ID
-          return AI_ID;
-        case 4: // HEALTH
-          return HEALTH;
-        case 5: // BASE_ID
+        case 1: // BASIC_INFO
+          return BASIC_INFO;
+        case 2: // BASE_ID
           return BASE_ID;
-        case 6: // REMAINING_GAZ
+        case 3: // REMAINING_GAZ
           return REMAINING_GAZ;
-        case 7: // STATE
+        case 4: // STATE
           return STATE;
-        case 8: // MILITAR_RESOURCE_CARRIED
+        case 5: // MILITAR_RESOURCE_CARRIED
           return MILITAR_RESOURCE_CARRIED;
-        case 9: // FUEL_RESOURCE_CARRIED
+        case 6: // FUEL_RESOURCE_CARRIED
           return FUEL_RESOURCE_CARRIED;
-        case 10: // CAPACITY
+        case 7: // CAPACITY
           return CAPACITY;
         default:
           return null;
@@ -157,26 +142,17 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   }
 
   // isset id assignments
-  private static final int __PLANE_ID_ISSET_ID = 0;
-  private static final int __AI_ID_ISSET_ID = 1;
-  private static final int __HEALTH_ISSET_ID = 2;
-  private static final int __BASE_ID_ISSET_ID = 3;
-  private static final int __REMAININGGAZ_ISSET_ID = 4;
-  private static final int __MILITARRESOURCECARRIED_ISSET_ID = 5;
-  private static final int __FUELRESOURCECARRIED_ISSET_ID = 6;
-  private static final int __CAPACITY_ISSET_ID = 7;
+  private static final int __BASE_ID_ISSET_ID = 0;
+  private static final int __REMAININGGAZ_ISSET_ID = 1;
+  private static final int __MILITARRESOURCECARRIED_ISSET_ID = 2;
+  private static final int __FUELRESOURCECARRIED_ISSET_ID = 3;
+  private static final int __CAPACITY_ISSET_ID = 4;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.PLANE_ID, new org.apache.thrift.meta_data.FieldMetaData("plane_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.POSIT, new org.apache.thrift.meta_data.FieldMetaData("posit", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CoordData.class)));
-    tmpMap.put(_Fields.AI_ID, new org.apache.thrift.meta_data.FieldMetaData("ai_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
-    tmpMap.put(_Fields.HEALTH, new org.apache.thrift.meta_data.FieldMetaData("health", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.BASIC_INFO, new org.apache.thrift.meta_data.FieldMetaData("basic_info", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PlaneBasicData.class)));
     tmpMap.put(_Fields.BASE_ID, new org.apache.thrift.meta_data.FieldMetaData("base_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.REMAINING_GAZ, new org.apache.thrift.meta_data.FieldMetaData("remainingGaz", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -190,17 +166,14 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     tmpMap.put(_Fields.CAPACITY, new org.apache.thrift.meta_data.FieldMetaData("capacity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneData.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneFullData.class, metaDataMap);
   }
 
-  public PlaneData() {
+  public PlaneFullData() {
   }
 
-  public PlaneData(
-    int plane_id,
-    CoordData posit,
-    int ai_id,
-    double health,
+  public PlaneFullData(
+    PlaneBasicData basic_info,
     int base_id,
     double remainingGaz,
     PlaneStateData state,
@@ -209,13 +182,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     double capacity)
   {
     this();
-    this.plane_id = plane_id;
-    setPlane_idIsSet(true);
-    this.posit = posit;
-    this.ai_id = ai_id;
-    setAi_idIsSet(true);
-    this.health = health;
-    setHealthIsSet(true);
+    this.basic_info = basic_info;
     this.base_id = base_id;
     setBase_idIsSet(true);
     this.remainingGaz = remainingGaz;
@@ -232,14 +199,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public PlaneData(PlaneData other) {
+  public PlaneFullData(PlaneFullData other) {
     __isset_bitfield = other.__isset_bitfield;
-    this.plane_id = other.plane_id;
-    if (other.isSetPosit()) {
-      this.posit = new CoordData(other.posit);
+    if (other.isSetBasic_info()) {
+      this.basic_info = new PlaneBasicData(other.basic_info);
     }
-    this.ai_id = other.ai_id;
-    this.health = other.health;
     this.base_id = other.base_id;
     this.remainingGaz = other.remainingGaz;
     if (other.isSetState()) {
@@ -250,19 +214,13 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.capacity = other.capacity;
   }
 
-  public PlaneData deepCopy() {
-    return new PlaneData(this);
+  public PlaneFullData deepCopy() {
+    return new PlaneFullData(this);
   }
 
   @Override
   public void clear() {
-    setPlane_idIsSet(false);
-    this.plane_id = 0;
-    this.posit = null;
-    setAi_idIsSet(false);
-    this.ai_id = 0;
-    setHealthIsSet(false);
-    this.health = 0.0;
+    this.basic_info = null;
     setBase_idIsSet(false);
     this.base_id = 0;
     setRemainingGazIsSet(false);
@@ -276,104 +234,35 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     this.capacity = 0.0;
   }
 
-  public int getPlane_id() {
-    return this.plane_id;
+  public PlaneBasicData getBasic_info() {
+    return this.basic_info;
   }
 
-  public PlaneData setPlane_id(int plane_id) {
-    this.plane_id = plane_id;
-    setPlane_idIsSet(true);
+  public PlaneFullData setBasic_info(PlaneBasicData basic_info) {
+    this.basic_info = basic_info;
     return this;
   }
 
-  public void unsetPlane_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __PLANE_ID_ISSET_ID);
+  public void unsetBasic_info() {
+    this.basic_info = null;
   }
 
-  /** Returns true if field plane_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetPlane_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __PLANE_ID_ISSET_ID);
+  /** Returns true if field basic_info is set (has been assigned a value) and false otherwise */
+  public boolean isSetBasic_info() {
+    return this.basic_info != null;
   }
 
-  public void setPlane_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __PLANE_ID_ISSET_ID, value);
-  }
-
-  public CoordData getPosit() {
-    return this.posit;
-  }
-
-  public PlaneData setPosit(CoordData posit) {
-    this.posit = posit;
-    return this;
-  }
-
-  public void unsetPosit() {
-    this.posit = null;
-  }
-
-  /** Returns true if field posit is set (has been assigned a value) and false otherwise */
-  public boolean isSetPosit() {
-    return this.posit != null;
-  }
-
-  public void setPositIsSet(boolean value) {
+  public void setBasic_infoIsSet(boolean value) {
     if (!value) {
-      this.posit = null;
+      this.basic_info = null;
     }
-  }
-
-  public int getAi_id() {
-    return this.ai_id;
-  }
-
-  public PlaneData setAi_id(int ai_id) {
-    this.ai_id = ai_id;
-    setAi_idIsSet(true);
-    return this;
-  }
-
-  public void unsetAi_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __AI_ID_ISSET_ID);
-  }
-
-  /** Returns true if field ai_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetAi_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __AI_ID_ISSET_ID);
-  }
-
-  public void setAi_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __AI_ID_ISSET_ID, value);
-  }
-
-  public double getHealth() {
-    return this.health;
-  }
-
-  public PlaneData setHealth(double health) {
-    this.health = health;
-    setHealthIsSet(true);
-    return this;
-  }
-
-  public void unsetHealth() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __HEALTH_ISSET_ID);
-  }
-
-  /** Returns true if field health is set (has been assigned a value) and false otherwise */
-  public boolean isSetHealth() {
-    return EncodingUtils.testBit(__isset_bitfield, __HEALTH_ISSET_ID);
-  }
-
-  public void setHealthIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __HEALTH_ISSET_ID, value);
   }
 
   public int getBase_id() {
     return this.base_id;
   }
 
-  public PlaneData setBase_id(int base_id) {
+  public PlaneFullData setBase_id(int base_id) {
     this.base_id = base_id;
     setBase_idIsSet(true);
     return this;
@@ -396,7 +285,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     return this.remainingGaz;
   }
 
-  public PlaneData setRemainingGaz(double remainingGaz) {
+  public PlaneFullData setRemainingGaz(double remainingGaz) {
     this.remainingGaz = remainingGaz;
     setRemainingGazIsSet(true);
     return this;
@@ -427,7 +316,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
    * 
    * @see PlaneStateData
    */
-  public PlaneData setState(PlaneStateData state) {
+  public PlaneFullData setState(PlaneStateData state) {
     this.state = state;
     return this;
   }
@@ -451,7 +340,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     return this.militarResourceCarried;
   }
 
-  public PlaneData setMilitarResourceCarried(double militarResourceCarried) {
+  public PlaneFullData setMilitarResourceCarried(double militarResourceCarried) {
     this.militarResourceCarried = militarResourceCarried;
     setMilitarResourceCarriedIsSet(true);
     return this;
@@ -474,7 +363,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     return this.fuelResourceCarried;
   }
 
-  public PlaneData setFuelResourceCarried(double fuelResourceCarried) {
+  public PlaneFullData setFuelResourceCarried(double fuelResourceCarried) {
     this.fuelResourceCarried = fuelResourceCarried;
     setFuelResourceCarriedIsSet(true);
     return this;
@@ -497,7 +386,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     return this.capacity;
   }
 
-  public PlaneData setCapacity(double capacity) {
+  public PlaneFullData setCapacity(double capacity) {
     this.capacity = capacity;
     setCapacityIsSet(true);
     return this;
@@ -518,35 +407,11 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case PLANE_ID:
+    case BASIC_INFO:
       if (value == null) {
-        unsetPlane_id();
+        unsetBasic_info();
       } else {
-        setPlane_id((Integer)value);
-      }
-      break;
-
-    case POSIT:
-      if (value == null) {
-        unsetPosit();
-      } else {
-        setPosit((CoordData)value);
-      }
-      break;
-
-    case AI_ID:
-      if (value == null) {
-        unsetAi_id();
-      } else {
-        setAi_id((Integer)value);
-      }
-      break;
-
-    case HEALTH:
-      if (value == null) {
-        unsetHealth();
-      } else {
-        setHealth((Double)value);
+        setBasic_info((PlaneBasicData)value);
       }
       break;
 
@@ -603,17 +468,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case PLANE_ID:
-      return Integer.valueOf(getPlane_id());
-
-    case POSIT:
-      return getPosit();
-
-    case AI_ID:
-      return Integer.valueOf(getAi_id());
-
-    case HEALTH:
-      return Double.valueOf(getHealth());
+    case BASIC_INFO:
+      return getBasic_info();
 
     case BASE_ID:
       return Integer.valueOf(getBase_id());
@@ -644,14 +500,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     }
 
     switch (field) {
-    case PLANE_ID:
-      return isSetPlane_id();
-    case POSIT:
-      return isSetPosit();
-    case AI_ID:
-      return isSetAi_id();
-    case HEALTH:
-      return isSetHealth();
+    case BASIC_INFO:
+      return isSetBasic_info();
     case BASE_ID:
       return isSetBase_id();
     case REMAINING_GAZ:
@@ -672,48 +522,21 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof PlaneData)
-      return this.equals((PlaneData)that);
+    if (that instanceof PlaneFullData)
+      return this.equals((PlaneFullData)that);
     return false;
   }
 
-  public boolean equals(PlaneData that) {
+  public boolean equals(PlaneFullData that) {
     if (that == null)
       return false;
 
-    boolean this_present_plane_id = true;
-    boolean that_present_plane_id = true;
-    if (this_present_plane_id || that_present_plane_id) {
-      if (!(this_present_plane_id && that_present_plane_id))
+    boolean this_present_basic_info = true && this.isSetBasic_info();
+    boolean that_present_basic_info = true && that.isSetBasic_info();
+    if (this_present_basic_info || that_present_basic_info) {
+      if (!(this_present_basic_info && that_present_basic_info))
         return false;
-      if (this.plane_id != that.plane_id)
-        return false;
-    }
-
-    boolean this_present_posit = true && this.isSetPosit();
-    boolean that_present_posit = true && that.isSetPosit();
-    if (this_present_posit || that_present_posit) {
-      if (!(this_present_posit && that_present_posit))
-        return false;
-      if (!this.posit.equals(that.posit))
-        return false;
-    }
-
-    boolean this_present_ai_id = true;
-    boolean that_present_ai_id = true;
-    if (this_present_ai_id || that_present_ai_id) {
-      if (!(this_present_ai_id && that_present_ai_id))
-        return false;
-      if (this.ai_id != that.ai_id)
-        return false;
-    }
-
-    boolean this_present_health = true;
-    boolean that_present_health = true;
-    if (this_present_health || that_present_health) {
-      if (!(this_present_health && that_present_health))
-        return false;
-      if (this.health != that.health)
+      if (!this.basic_info.equals(that.basic_info))
         return false;
     }
 
@@ -780,49 +603,19 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   }
 
   @Override
-  public int compareTo(PlaneData other) {
+  public int compareTo(PlaneFullData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetPlane_id()).compareTo(other.isSetPlane_id());
+    lastComparison = Boolean.valueOf(isSetBasic_info()).compareTo(other.isSetBasic_info());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetPlane_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.plane_id, other.plane_id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetPosit()).compareTo(other.isSetPosit());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetPosit()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.posit, other.posit);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetAi_id()).compareTo(other.isSetAi_id());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetAi_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ai_id, other.ai_id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetHealth()).compareTo(other.isSetHealth());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetHealth()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.health, other.health);
+    if (isSetBasic_info()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.basic_info, other.basic_info);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -904,27 +697,15 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("PlaneData(");
+    StringBuilder sb = new StringBuilder("PlaneFullData(");
     boolean first = true;
 
-    sb.append("plane_id:");
-    sb.append(this.plane_id);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("posit:");
-    if (this.posit == null) {
+    sb.append("basic_info:");
+    if (this.basic_info == null) {
       sb.append("null");
     } else {
-      sb.append(this.posit);
+      sb.append(this.basic_info);
     }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("ai_id:");
-    sb.append(this.ai_id);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("health:");
-    sb.append(this.health);
     first = false;
     if (!first) sb.append(", ");
     sb.append("base_id:");
@@ -961,8 +742,8 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
     // check for sub-struct validity
-    if (posit != null) {
-      posit.validate();
+    if (basic_info != null) {
+      basic_info.validate();
     }
   }
 
@@ -984,15 +765,15 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     }
   }
 
-  private static class PlaneDataStandardSchemeFactory implements SchemeFactory {
-    public PlaneDataStandardScheme getScheme() {
-      return new PlaneDataStandardScheme();
+  private static class PlaneFullDataStandardSchemeFactory implements SchemeFactory {
+    public PlaneFullDataStandardScheme getScheme() {
+      return new PlaneFullDataStandardScheme();
     }
   }
 
-  private static class PlaneDataStandardScheme extends StandardScheme<PlaneData> {
+  private static class PlaneFullDataStandardScheme extends StandardScheme<PlaneFullData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, PlaneData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, PlaneFullData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -1002,40 +783,16 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
           break;
         }
         switch (schemeField.id) {
-          case 1: // PLANE_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.plane_id = iprot.readI32();
-              struct.setPlane_idIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 2: // POSIT
+          case 1: // BASIC_INFO
             if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-              struct.posit = new CoordData();
-              struct.posit.read(iprot);
-              struct.setPositIsSet(true);
+              struct.basic_info = new PlaneBasicData();
+              struct.basic_info.read(iprot);
+              struct.setBasic_infoIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // AI_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.ai_id = iprot.readI32();
-              struct.setAi_idIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 4: // HEALTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.health = iprot.readDouble();
-              struct.setHealthIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 5: // BASE_ID
+          case 2: // BASE_ID
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.base_id = iprot.readI32();
               struct.setBase_idIsSet(true);
@@ -1043,7 +800,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 6: // REMAINING_GAZ
+          case 3: // REMAINING_GAZ
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
               struct.remainingGaz = iprot.readDouble();
               struct.setRemainingGazIsSet(true);
@@ -1051,7 +808,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 7: // STATE
+          case 4: // STATE
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.state = PlaneStateData.findByValue(iprot.readI32());
               struct.setStateIsSet(true);
@@ -1059,7 +816,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 8: // MILITAR_RESOURCE_CARRIED
+          case 5: // MILITAR_RESOURCE_CARRIED
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
               struct.militarResourceCarried = iprot.readDouble();
               struct.setMilitarResourceCarriedIsSet(true);
@@ -1067,7 +824,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 9: // FUEL_RESOURCE_CARRIED
+          case 6: // FUEL_RESOURCE_CARRIED
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
               struct.fuelResourceCarried = iprot.readDouble();
               struct.setFuelResourceCarriedIsSet(true);
@@ -1075,7 +832,7 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 10: // CAPACITY
+          case 7: // CAPACITY
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
               struct.capacity = iprot.readDouble();
               struct.setCapacityIsSet(true);
@@ -1094,24 +851,15 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, PlaneData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, PlaneFullData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(PLANE_ID_FIELD_DESC);
-      oprot.writeI32(struct.plane_id);
-      oprot.writeFieldEnd();
-      if (struct.posit != null) {
-        oprot.writeFieldBegin(POSIT_FIELD_DESC);
-        struct.posit.write(oprot);
+      if (struct.basic_info != null) {
+        oprot.writeFieldBegin(BASIC_INFO_FIELD_DESC);
+        struct.basic_info.write(oprot);
         oprot.writeFieldEnd();
       }
-      oprot.writeFieldBegin(AI_ID_FIELD_DESC);
-      oprot.writeI32(struct.ai_id);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(HEALTH_FIELD_DESC);
-      oprot.writeDouble(struct.health);
-      oprot.writeFieldEnd();
       oprot.writeFieldBegin(BASE_ID_FIELD_DESC);
       oprot.writeI32(struct.base_id);
       oprot.writeFieldEnd();
@@ -1138,60 +886,42 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
 
   }
 
-  private static class PlaneDataTupleSchemeFactory implements SchemeFactory {
-    public PlaneDataTupleScheme getScheme() {
-      return new PlaneDataTupleScheme();
+  private static class PlaneFullDataTupleSchemeFactory implements SchemeFactory {
+    public PlaneFullDataTupleScheme getScheme() {
+      return new PlaneFullDataTupleScheme();
     }
   }
 
-  private static class PlaneDataTupleScheme extends TupleScheme<PlaneData> {
+  private static class PlaneFullDataTupleScheme extends TupleScheme<PlaneFullData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, PlaneData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, PlaneFullData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetPlane_id()) {
+      if (struct.isSetBasic_info()) {
         optionals.set(0);
       }
-      if (struct.isSetPosit()) {
+      if (struct.isSetBase_id()) {
         optionals.set(1);
       }
-      if (struct.isSetAi_id()) {
+      if (struct.isSetRemainingGaz()) {
         optionals.set(2);
       }
-      if (struct.isSetHealth()) {
+      if (struct.isSetState()) {
         optionals.set(3);
       }
-      if (struct.isSetBase_id()) {
+      if (struct.isSetMilitarResourceCarried()) {
         optionals.set(4);
       }
-      if (struct.isSetRemainingGaz()) {
+      if (struct.isSetFuelResourceCarried()) {
         optionals.set(5);
       }
-      if (struct.isSetState()) {
+      if (struct.isSetCapacity()) {
         optionals.set(6);
       }
-      if (struct.isSetMilitarResourceCarried()) {
-        optionals.set(7);
-      }
-      if (struct.isSetFuelResourceCarried()) {
-        optionals.set(8);
-      }
-      if (struct.isSetCapacity()) {
-        optionals.set(9);
-      }
-      oprot.writeBitSet(optionals, 10);
-      if (struct.isSetPlane_id()) {
-        oprot.writeI32(struct.plane_id);
-      }
-      if (struct.isSetPosit()) {
-        struct.posit.write(oprot);
-      }
-      if (struct.isSetAi_id()) {
-        oprot.writeI32(struct.ai_id);
-      }
-      if (struct.isSetHealth()) {
-        oprot.writeDouble(struct.health);
+      oprot.writeBitSet(optionals, 7);
+      if (struct.isSetBasic_info()) {
+        struct.basic_info.write(oprot);
       }
       if (struct.isSetBase_id()) {
         oprot.writeI32(struct.base_id);
@@ -1214,47 +944,35 @@ public class PlaneData implements org.apache.thrift.TBase<PlaneData, PlaneData._
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, PlaneData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, PlaneFullData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(10);
+      BitSet incoming = iprot.readBitSet(7);
       if (incoming.get(0)) {
-        struct.plane_id = iprot.readI32();
-        struct.setPlane_idIsSet(true);
+        struct.basic_info = new PlaneBasicData();
+        struct.basic_info.read(iprot);
+        struct.setBasic_infoIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.posit = new CoordData();
-        struct.posit.read(iprot);
-        struct.setPositIsSet(true);
-      }
-      if (incoming.get(2)) {
-        struct.ai_id = iprot.readI32();
-        struct.setAi_idIsSet(true);
-      }
-      if (incoming.get(3)) {
-        struct.health = iprot.readDouble();
-        struct.setHealthIsSet(true);
-      }
-      if (incoming.get(4)) {
         struct.base_id = iprot.readI32();
         struct.setBase_idIsSet(true);
       }
-      if (incoming.get(5)) {
+      if (incoming.get(2)) {
         struct.remainingGaz = iprot.readDouble();
         struct.setRemainingGazIsSet(true);
       }
-      if (incoming.get(6)) {
+      if (incoming.get(3)) {
         struct.state = PlaneStateData.findByValue(iprot.readI32());
         struct.setStateIsSet(true);
       }
-      if (incoming.get(7)) {
+      if (incoming.get(4)) {
         struct.militarResourceCarried = iprot.readDouble();
         struct.setMilitarResourceCarriedIsSet(true);
       }
-      if (incoming.get(8)) {
+      if (incoming.get(5)) {
         struct.fuelResourceCarried = iprot.readDouble();
         struct.setFuelResourceCarriedIsSet(true);
       }
-      if (incoming.get(9)) {
+      if (incoming.get(6)) {
         struct.capacity = iprot.readDouble();
         struct.setCapacityIsSet(true);
       }
