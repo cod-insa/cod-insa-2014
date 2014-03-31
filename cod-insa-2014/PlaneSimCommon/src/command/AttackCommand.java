@@ -1,6 +1,8 @@
 package command;
 
 
+import model.Plane;
+
 public class AttackCommand extends Command {
 
 	//public final Plane plane;
@@ -9,11 +11,12 @@ public class AttackCommand extends Command {
 	public final int planeTargetId;
 
 	//public MoveCommand(Plane p, Coord d)
-	public AttackCommand(int psid, int ptid)
+//	public AttackCommand(int psid, int ptid)
+	public AttackCommand(Plane.FullView self, Plane.BasicView target)
 	{
 		//plane = p;
-		planeSrcId = psid;
-		planeTargetId = ptid;
+		planeSrcId = self.id();
+		planeTargetId = target.id();
 	}
 	
 	@Override

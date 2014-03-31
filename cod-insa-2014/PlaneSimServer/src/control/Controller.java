@@ -14,7 +14,7 @@ import common.NotSupportedException;
 
 public class Controller {
 	
-	static Controller single;
+	static private Controller single;
 	public static Controller get() { return single; }
 	
 	long period;
@@ -56,11 +56,7 @@ public class Controller {
 //		}
 		try { c.match(); }
 		catch (MoveCommand mc) {
-			GamePlane p = s.getPlane(mc.planeId);
-			if (p == null)
-//				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
-				Game.log.error("Cannot find the plane of id "+mc.planeId); // FIXME command verif
-			else p.autoPilot.goTo(mc.destination, Mode.IGNORE); // FIXME get the right mode
+			s.getPlane(mc.plane.id()).autoPilot.goTo(mc.destination.view, Mode.IGNORE); // FIXME get the right mode
 		}
 		catch (LandCommand lc) {
 			s.getPlane(lc.planeId).autoPilot.landAt(s.getBase(lc.baseId));
@@ -69,6 +65,7 @@ public class Controller {
 //			s.getPlane(toc.planeId).autoPilot.takeOff();
 //		}
 		catch (WaitCommand wc) {
+			// TODO
 			// should be something like 
 			/*
 			Plane p = s.getPlane(wc.planeId);

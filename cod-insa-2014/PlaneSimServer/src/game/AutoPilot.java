@@ -2,7 +2,6 @@ package game;
 
 import model.Coord;
 import model.Plane.State;
-import model.ProgressAxis;
 
 
 public final class AutoPilot {
@@ -123,7 +122,7 @@ public final class AutoPilot {
 		if (state == State.AT_AIRPORT) {
 			state = State.IDLE;
 			//((GameBase)entityAim).model().planes.remove(plane);
-			plane.model().unassign();
+			plane.model().unAssign();
 		}
 	}
 	public void takeOff() {

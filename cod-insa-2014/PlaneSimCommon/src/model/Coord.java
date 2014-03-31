@@ -161,6 +161,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 //			super(original.copy(null));
 //		}
 		public Unique(Coord.View original) {
+			// -- EDIT: we don't pass a context at all anymore
 			// passing null here is not an error only because we know we don't use a context in this class' copy():
 			// FIXME: this may change
 			super(original.copied());

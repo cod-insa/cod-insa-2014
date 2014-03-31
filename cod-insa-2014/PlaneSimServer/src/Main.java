@@ -54,7 +54,8 @@ public class Main {
 			final Game planeSim = new Game(disp, nbplay, args[0]);
 			
 			final WebInterface wi = WebInterface.startWebInterface(planeSim);
-			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
+//			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
+			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim);
 			
 			for (int i = 1; i < args.length; i+= 2) {
 	//			String[] ip_port = args[i+1].split(":");

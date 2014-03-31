@@ -1,5 +1,6 @@
 package players;
 
+import game.Game;
 import game.Settings;
 import game.World;
 
@@ -49,7 +50,10 @@ public class NetworkPlayerManager {
 	
 	private Map<Integer, NetworkPlayer> connectedPlayersById = new HashMap<>();
 	private Set<Integer> usedIds = new HashSet<>();
-	private final World world;
+
+	//private final World world;
+	private final Game game;
+	
 	//private Function<NetworkPlayer, Void> onConnect = null, onDisconnect = null;
 	Listener listener = new Listener() {
 		public void onConnect(NetworkPlayer player) { }
@@ -57,7 +61,7 @@ public class NetworkPlayerManager {
 		public void onTimeoutStatusUpdate(NetworkPlayer player, boolean timingOut) { }
 	};
 	
-	public NetworkPlayerManager (World world)
+	public NetworkPlayerManager (Game game)
 	{
 		/*
 		this.usedNames = new ArrayList<String>();
@@ -74,7 +78,7 @@ public class NetworkPlayerManager {
 		authorizedNames.add("team_admin_729");
 		authorizedNames.add("team_admin_554");
 		*/
-		this.world = world;
+		this.game = game;
 	}
 
 	/**
@@ -96,7 +100,7 @@ public class NetworkPlayerManager {
 		
 		usedIds.add(id);
 		
-		NetworkPlayer p = new NetworkPlayer(this, id, name, port, port+1, world);
+		NetworkPlayer p = new NetworkPlayer(this, id, name, port, port+1, game);
 //		players.add(p);
 //		usedNames.add(name);
 //		authorizedIds.add(p.getPlayerID());
@@ -162,7 +166,7 @@ public class NetworkPlayerManager {
 		for (NetworkPlayer p: players)
 			p.disconnect();
 		
-		synchronized(world) { world.notifyAll(); } // unblock network players still waiting for a frame
+		synchronized(game.getWorld()) { game.getWorld().notifyAll(); } // unblock network players still waiting for a frame
 
 		for (NetworkPlayer p: players)
 			p.join();

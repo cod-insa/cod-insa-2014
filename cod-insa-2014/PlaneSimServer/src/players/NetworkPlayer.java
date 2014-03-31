@@ -1,5 +1,7 @@
 package players;
 
+import common.Couple;
+import game.Game;
 import game.World;
 import game.World.Snapshot;
 import genbridge.AttackCommandData;
@@ -75,6 +77,7 @@ public class NetworkPlayer extends Player {
 
 	NetworkPlayerManager manager;
 	
+	Game game;
 	World world;
 	
 	volatile boolean disconnected = false;
@@ -169,64 +172,92 @@ public class NetworkPlayer extends Player {
 	
 	class CommandsHandler implements CommandReceiver.Iface {
 		
-		@Override
-		public Response sendMoveCommand(MoveCommandData cmd, int idConnection) throws TException {
-			
-			MoveCommand mc = (MoveCommand) CommandMaker.make(cmd);
-			Response r = CommandChecker.checkMoveCommand(mc,world.getCurrentSnapshot());
-			
-			if (r.code == 0)
-				addCommand(mc);
-			// else
-			// 		log ?
-
-			return r;
+		public Response process(Couple<Nullable<Command>,Response> cmd_r) {
+			if (cmd_r.first.hasSome())
+				addCommand(cmd_r.first.get());
+			else
+				log.warn("Invalid command. Checking failed with response: " + cmd_r.second);
+			return cmd_r.second;
 		}
 		
 		@Override
-		public Response sendWaitCommand(WaitCommandData cmd, int idConnection) throws TException {
-			WaitCommand wc = (WaitCommand) CommandMaker.make(cmd);
-			Response r = CommandChecker.checkWaitCommand(wc,world.getCurrentSnapshot());
+		public Response sendMoveCommand(MoveCommandData cmdDat, int idConnection) throws TException {
+//			MoveCommand mc = (MoveCommand) CommandMaker.make(cmdDat);
+//			Response r = CommandChecker.checkMoveCommand(mc,world.getCurrentSnapshot());
+//			
+//			if (r.code == 0)
+//				addCommand(mc);
+//			// else
+//			// 		log ?
+//
+//			return r;
 			
-			if (r.code == 0)
-				addCommand(wc);
-			// else
-			// 		log ?
+			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
+			
+		}
+		
+		@Override
+		public Response sendWaitCommand(WaitCommandData cmdDat, int idConnection) throws TException {
 
-			return r;
+			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
+
 		}
 
 		@Override
-		public Response sendLandCommand(LandCommandData cmd, int idConnection)
-				throws TException {
-			LandCommand lc = (LandCommand) CommandMaker.make(cmd);
-			Response r = CommandChecker.checkLandCommand(lc,world.getCurrentSnapshot());
-			
-			if (r.code == 0)
-				addCommand(lc);
-			// else
-			// 		log ?
+		public Response sendLandCommand(LandCommandData cmdDat, int idConnection) throws TException {
 
-			return r;
+			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
+
 		}
 
 		@Override
-		public Response sendFollowCommand(FollowCommandData cmd,
-				int idConnection) throws TException {
+		public Response sendFollowCommand(FollowCommandData cmdDat, int idConnection) throws TException {
+
+			//CommandMaker.make(cmdDat);
+
+			//Couple<Nullable<Command>,Response> c;
 			
-			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+			// TODO
+			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
+			return null;
+			
+//			Either<Command,Response> r = ...;
+//			
+//			try { r.match(); }
+//			catch (Either<Command, ?>.Alt1 alt)
+//			{
+//				System.out.println(alt.value);
+//			}
+//			catch (Either<?, Response>.Alt2 alt)
+//			{
+//				System.out.println(alt.value.code);
+//			}
+//			
+//			if (r.isAlt1())
+//			{
+//				System.out.println(r.alt1().value);
+//			} else if (r.isAlt2())
+//			{
+//				System.out.println(r.alt2().value);
+//			}
+			
+			//return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
 
 		@Override
-		public Response sendAttackCommand(AttackCommandData cmd,
-				int idConnection) throws TException {
-			
-			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+		public Response sendAttackCommand(AttackCommandData cmdDat, int idConnection) throws TException {
+
+			// TODO
+			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
+			return null;
+
+			//return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
 		
 	}
 	
-	public NetworkPlayer(NetworkPlayerManager manager, int id, String name, int dataSenderPort, int commandsReceiverPort, World world)
+	public NetworkPlayer(NetworkPlayerManager manager, int id, String name, int dataSenderPort,
+						 int commandsReceiverPort, Game game)
 			throws TTransportException
 	{
 //		this.teamName = name;
@@ -239,7 +270,8 @@ public class NetworkPlayer extends Player {
 		
 		this.manager = manager;
 		this.name = name;
-		this.world = world;
+		this.game = game;
+		this.world = game.getWorld();
 		//this.id = Util.rand.nextInt();
 		this.connectionId = id;
 		

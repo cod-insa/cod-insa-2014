@@ -128,7 +128,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		b.planes.add(this);
 	}
 	
-	public void unassign()
+	public void unAssign()
 	{
 		if (curBase != null)
 		{

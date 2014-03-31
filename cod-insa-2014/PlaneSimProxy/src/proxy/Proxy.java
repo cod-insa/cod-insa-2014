@@ -5,7 +5,6 @@ import genbridge.PlaneStateData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import model.Base;
@@ -124,7 +123,7 @@ public class Proxy
 					if (plane.state == State.AT_AIRPORT) // Update the plane 
 						plane.assignTo(bases.get(p.base_id));
 					else
-						plane.unassign();
+						plane.unAssign();
 						
 					// plane._rot = p.rotation; // Ajouter au thrift plus tard
 				}

@@ -1,6 +1,8 @@
 package command;
 
 
+import model.Base;
+
 public class LandCommand extends Command {
 
 	//public final Plane plane;
@@ -11,10 +13,11 @@ public class LandCommand extends Command {
 	//public MoveCommand(Plane p, Coord d)
 	public LandCommand(int pid, int bid)
 	{
-		//plane = p;
 		planeId = pid;
 		baseId = bid;
 	}
+	// TODO: use this
+	//public LandCommand(Plane.FullView p, Base.View b)
 	
 	@Override
 	public String toString() {
