@@ -49,7 +49,7 @@ public class AttackAI extends AbstractAI
 //					game.sendCommand(mc);
 					if (p.state() == State.IDLE && ennemy_planes.size() != 0)
 						// Make and send a MoveCommand with the plane to the random base
-						game.sendCommand(new AttackCommand(p.id(), ennemy_planes.get(0).id()));
+						game.sendCommand(new AttackCommand(p, ennemy_planes.get(0)));
 					
 				}
 			}
