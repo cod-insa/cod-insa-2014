@@ -7,9 +7,9 @@ var mymap;
 //Map Info from server
 var map_name;
 var base_count;
-var center_lat;
-var center_long;
-var zoom_level;
+var center_lat = 48.0;
+var center_long = 2.0;
+var zoom_level = 5;
 
 //Objects to draw
 var basesArray = new Array();	
@@ -70,4 +70,12 @@ function initialisationMaps(){
 		mymap.setOptions({draggable: true, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
 		google.maps.event.clearInstanceListeners(mymap);
 }
+
+
+//function doMove(latitudeFrom, longitudeFrom, latitudeTo, longitudeTo) {
+//foo.style.left = (foo.style.left+10)+'px';
+//setTimeout(doMove,20);
+//} 
+
+
 

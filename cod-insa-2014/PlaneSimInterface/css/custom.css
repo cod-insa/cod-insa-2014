@@ -45,17 +45,20 @@ margin-left:20px;
     margin:0px;
     padding:0px;
     position: relative;
-    border-radius:0 0 25px 0px;
+    border-radius:0 0 5px 0px;
 }
 
-#leftcontain{
-	background-color: #007FFF;
+#topright
+{
+    background-color: #007FFF;
     margin:0px;
     padding:0px;
-    border-radius:0 25px 25px 0;
-    position:fixed;
-	left:0;
-	height:700px;
+    padding-left:50px;
+    padding-bottom:12px;
+    padding-right:25px;  
+    border-radius:0 0 0 5px;
+    position:fixed; 
+    right:0;
 }
 
 #bottomcontain{
@@ -63,7 +66,7 @@ background-color: #007FFF;
 margin:0px;
 padding:0 0 20px 20px;
    position: relative;
-    border-radius:0px 25px 0 0;
+    border-radius:0px 5px 0 0;
 }
 
 #mapcontain{
@@ -76,12 +79,34 @@ padding:0 0 20px 20px;
 }
 
 
+#t1,#t2,#t3,#t4,#t5,#t6
+{
+	/*visibility:hidden;*/
+	margin:0;
+	padding:0;
+	text-align:center;
+	padding-top:5px;
+	min-width:70px;
+}
+
+#t1{background-color:red;}
+#t2{background-color:green;}
+#t3{background-color:blue;}
+#t4{background-color:yellow;color:black;}
+#t5{background-color:#AA44AA;}
+#t6{background-color:black;}
+
+
+
 /* Medium Displays: 641px and up */
 @media only screen and (max-width: 768px) {
 #topcontain{
     border-radius:0;
 }
 #bottomcontain{
+    border-radius:0;
+}
+#topright{
     border-radius:0;
 }
 }
@@ -101,8 +126,5 @@ padding:0 0 20px 20px;
 @media only screen and (orientation: landscape) {}
 
 /* portrait mode */
-@media only screen and (orientation: portrait) {
-#topcontain{
-    border-radius:0 0 0px 0px;
-}
+@media only screen and (orientation: portrait) {}
 }

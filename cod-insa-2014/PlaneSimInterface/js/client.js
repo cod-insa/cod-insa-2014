@@ -9,12 +9,16 @@ var nextSnap;
 //last JSON received from the server
 var json;
 
+//URL server
+var urlserver = "localhost:14588";
+
 //Connect to the server and handle messages coming from it
 var initServerConnection = function () {
 
     // if user is running mozilla then use its built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
-    var connection = new WebSocket('ws://localhost:14588');
+    var connection = new WebSocket('ws://'+urlserver);
+
 
     connection.onopen = function () {
         // connection is opened and ready to use
@@ -24,10 +28,14 @@ var initServerConnection = function () {
     connection.onerror = function (error) {
         // an error occurred when sending/receiving data
         console.log("error: "+error);
+	window.alert("Oops "+urlserver+" does not respond!");
+	initialisationMaps();
     };
     
     connection.onclose = function (error) {
         console.log("connection closed");
+	window.alert("Connection with "+urlserver+" has been closed!");
+	clearTimeout(timeout);
     };
 
     connection.onmessage = function (message) {
