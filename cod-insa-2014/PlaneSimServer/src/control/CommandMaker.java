@@ -5,16 +5,17 @@ import genbridge.CommandData;
 import genbridge.CoordData;
 import genbridge.LandCommandData;
 import genbridge.MoveCommandData;
+import genbridge.PlaneCommandData;
 import genbridge.Response;
 import genbridge.WaitCommandData;
 import model.Coord;
 import model.Plane;
-
 import command.Command;
 import command.LandCommand;
 import command.MoveCommand;
 import command.WaitCommand;
 import common.Couple;
+import common.ListView;
 import common.Nullable;
 
 /**
@@ -29,6 +30,18 @@ public class CommandMaker {
 	public static boolean checkFrameId(CommandData data, World.Snapshot s) {
 		return data.numFrame == s.id;
 	}
+	public static boolean checkIdPlane(int idPlane, World.Snapshot s) {
+		return idPlane < s.planes.view.size() && idPlane > 0;
+	}
+	public static boolean checkCoord(CoordData coord, World.Snapshot s)
+	{
+		return coord.x > 0 && 
+				coord.x < s.width &&
+				coord.y > 0 &&
+				coord.y < s.height;
+	}
+	
+	
 	static Couple<Nullable<Command>, Response> frameIdError(CommandData data, World.Snapshot s) {
 		return new Couple<>(
 				new Nullable<Command>(),
@@ -36,33 +49,32 @@ public class CommandMaker {
 		);
 	}
 	
+	static Couple<Nullable<Command>, Response> planeIdError(int idPlane, World.Snapshot s) {
+		return new Couple<>(
+				new Nullable<Command>(),
+				new Response(Command.ERROR_COMMAND, "Cannot find plane of id "+idPlane)
+		);
+	}
+	
+	static Couple<Nullable<Command>, Response> coordError(CoordData coord, World.Snapshot s) {
+		return new Couple<>(
+				new Nullable<Command>(),
+				new Response(Command.ERROR_COMMAND,"The coord ("+coord.x+","+coord.y+") are not valid."));
+	}
+	
 	static public Couple<Nullable<Command>, Response> make(MoveCommandData data, World.Snapshot s) {
 	
 		if (!checkFrameId(data.pc.c, s))
-			return frameIdError(data.pc.c, s);
-		
-//		try {
-//			get plane using data.pc.idPlane;
-//		} catch() { // when plane is not found
-//			return error
-//		}
+			return frameIdError(data.pc.c, s);		
 
-//		Plane.FullView p = s.planes.view.get(data.pc.idPlane);
-//		if (p == null)
-//			return new Couple<>(
-//					new Nullable<Command>(),
-//					new Response(Command.ERROR_COMMAND, "Cannot find plane of id "+data.pc.idPlane)
-//				);
+		if (!checkIdPlane(data.pc.idPlane, s))
+			return planeIdError(data.pc.idPlane, s);
 		
-		if (data.pc.idPlane > s.planes.view.size())
-			return new Couple<>(
-					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND, "Cannot find plane of id "+data.pc.idPlane)
-				);
 		Plane.FullView p = s.planes.view.get(data.pc.idPlane);
 		
-		// TODO migrate other checks from CommandChecker here
-
+		if (!checkCoord(data.posDest, s))
+			return coordError(data.posDest, s);
+		
 		return new Couple<>(
 			new Nullable<Command>(new MoveCommand(p, make(data.posDest).view())),
 			new Response(Command.SUCCESS, "")
@@ -74,7 +86,8 @@ public class CommandMaker {
 		if (!checkFrameId(data.pc.c, s))
 			return frameIdError(data.pc.c, s);
 
-		// TODO checks
+		if (!checkIdPlane(data.pc.idPlane, s))
+			return planeIdError(data.pc.idPlane, s);
 
 		return new Couple<>(
 				new Nullable<Command>(new WaitCommand(data.pc.idPlane)),

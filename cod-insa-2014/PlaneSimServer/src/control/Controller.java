@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
-
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import common.NotSupportedException;
 
 public class Controller {
@@ -81,6 +81,15 @@ public class Controller {
 //		catch (Command def) {
 //			throw new NotSupportedException("Unrecognized command");
 //		}
+		catch (DropMilitarsCommand e) {
+			throw new NotImplementedException();
+		} catch (StoreFuelCommand e) {
+			throw new NotImplementedException();
+		} catch (FillFuelTankCommand e) {
+			throw new NotImplementedException();
+		} catch (LoadResourcesCommand e) {
+			throw new NotImplementedException();
+		}
 		
 		
 	}

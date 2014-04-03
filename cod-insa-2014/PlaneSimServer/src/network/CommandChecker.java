@@ -12,24 +12,12 @@ import command.MoveCommand;
 import command.WaitCommand;
 import common.ListView;
 
+@Deprecated
 public abstract class CommandChecker {
 
+	
 	public static Response checkMoveCommand(MoveCommand mc, Snapshot s)
 	{
-		boolean planeFound = false;
-		int i = 0;
-		ListView<Plane.FullView> planes = s.planes.view();
-		while (!planeFound && i < planes.size())
-			if (planes.get(i++).id() == mc.planeId)
-				planeFound = true;
-		if (!planeFound)
-			return new Response(Command.ERROR_COMMAND,"The plane n�"+mc.planeId+" doesn't exist. Command ignored.");
-		
-		if (mc.destination.x() < 0 || 
-				mc.destination.x() > s.width ||
-				mc.destination.y() < 0 ||
-				mc.destination.y() > s.height)
-			return new Response(Command.ERROR_COMMAND,"The coord ("+mc.destination.x()+","+mc.destination.y()+") is not valid. Command ignored.");
 		
 		// plane id is ok, coords are ok
 		return new Response(Command.SUCCESS,"");
