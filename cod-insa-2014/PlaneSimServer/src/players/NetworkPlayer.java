@@ -24,7 +24,6 @@ import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import network.CommandChecker;
 import network.DataPreparer;
 import static network.NetworkSettings.log;
 

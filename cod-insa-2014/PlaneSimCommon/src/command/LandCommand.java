@@ -2,26 +2,22 @@ package command;
 
 
 import model.Base;
+import model.Plane;
 
 public class LandCommand extends Command {
 
-	//public final Plane plane;
-	public final int planeId;
-	
-	public final int baseId;
+	public Plane.FullView plane;
+	public Base.View base;
 
-	//public MoveCommand(Plane p, Coord d)
-	public LandCommand(int pid, int bid)
+	public LandCommand(Plane.FullView p, Base.View b)
 	{
-		planeId = pid;
-		baseId = bid;
+		plane = p;
+		base = b;
 	}
-	// TODO: use this
-	//public LandCommand(Plane.FullView p, Base.View b)
 	
 	@Override
 	public String toString() {
-		return "land "+planeId+" -> "+baseId;
+		return "land "+plane.id()+" -> "+base.id();
 	}
 
 	@Override

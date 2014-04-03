@@ -87,7 +87,7 @@ public class ConsoleAI extends AbstractAI
 				case "land": {
 					Base.View b = bases.get(Integer.parseInt(cmd[1]));
 					for (Plane.FullView p : planes)
-						coms.add(new LandCommand(p.id(), b.id()));
+						coms.add(new LandCommand(p, b));
 					break;
 				}
 				case "attk":
