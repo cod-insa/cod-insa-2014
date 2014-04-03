@@ -15,6 +15,9 @@ var zoom_level = 5;
 var basesArray = new Array();	
 var planesArray = new HashMap();
 
+//Moving planes
+var pas = 0.3
+var refreshtime = 20;
 
 //Images
 
@@ -69,13 +72,76 @@ function initialisationMaps(){
 		mymap = new google.maps.Map(document.getElementById("mapcontain"), myOptions);
 		mymap.setOptions({draggable: true, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
 		google.maps.event.clearInstanceListeners(mymap);
+
+
+		//testMove();
 }
 
 
-//function doMove(latitudeFrom, longitudeFrom, latitudeTo, longitudeTo) {
-//foo.style.left = (foo.style.left+10)+'px';
-//setTimeout(doMove,20);
-//} 
+function doMovePlane(index,latitudeTo, longitudeTo) {
+	var currentplane = planesArray.get(index);
+
+	if(currentplane === undefined){}else{
+
+	var latitudeFrom = currentplane.position.lat();
+	var longitudeFrom = currentplane.position.lng();
+	
+	//console.log("MovePlane: ("+latitudeFrom+":"+longitudeFrom+") to ("+latitudeTo+":"+longitudeTo+")");
+
+	var newlat = 0;
+	var newlong = 0;
+
+	if(latitudeTo > latitudeFrom)
+	{
+		newlat = latitudeFrom + pas;
+	}
+	else
+	{
+		newlat = latitudeFrom - pas;
+	}
+
+	if(longitudeTo > longitudeFrom)
+	{
+		newlong = longitudeFrom + pas;
+	}
+	else
+	{
+		newlong = longitudeFrom - pas;
+	}
+
+	if(Math.abs(latitudeFrom - latitudeTo) < pas)
+	{
+		newlat = latitudeTo;
+	}
+
+	if(Math.abs(longitudeFrom - longitudeTo) < pas)
+	{
+		newlong = longitudeTo;
+	}	
+
+	currentplane.position = new google.maps.LatLng(newlat,newlong);
+	currentplane.setMap(mymap);
+
+	if( (newlat-latitudeTo) > pas || (newlong-longitudeTo) > pas)
+	{
+	setTimeout(function(){doMovePlane(index,latitudeTo,longitudeTo);},refreshtime);
+	} 
+	}
+}
 
 
+function testMove()
+{
+
+	planesArray.put("0",new google.maps.Marker({
+		position: new google.maps.LatLng(48.0,2.0),
+		map: mymap,
+		icon:fighter_icon[4],
+		title:"plane attacking"
+		}));
+
+	doMovePlane("0",40.0,-2.0);
+
+
+}
 

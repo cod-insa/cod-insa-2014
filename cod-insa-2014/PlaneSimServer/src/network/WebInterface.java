@@ -165,7 +165,7 @@ public class WebInterface extends WebSocketServer {
 		stringer.endArray().endObject().endObject();
 
 		String gameInfoString = stringer.toString();
-		log.debug("Sending snapshot to clients: "+gameInfoString);
+		//log.debug("Sending snapshot to clients: "+gameInfoString);
 		for (WebSocket ws : authorized) 
 			ws.send(gameInfoString);
 	}

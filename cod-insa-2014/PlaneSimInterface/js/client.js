@@ -12,6 +12,19 @@ var json;
 //URL server
 var urlserver = "localhost:14588";
 
+//Plane object: containing more info about each plane
+function Plane(health,radar,rotation,speed,state)
+{
+	this.health = health;
+	this.radar = radar;
+	this.rotation = rotation;
+	this.speed = speed;
+	this.state = state;
+}
+
+//Hasmap of planes info : key = id
+var planesInfo = new HashMap();
+
 //Connect to the server and handle messages coming from it
 var initServerConnection = function () {
 
@@ -127,13 +140,23 @@ var initServerConnection = function () {
 		    			title:"plane attacking"
 					}));
 
+					planesInfo.put(key,new Plane(current_plane.health,current_plane.radar,current_plane.rotation,current_plane.speed,current_plane.state));
+
 				}
 				else
 				{
 					//console.log("updating");
-					getExisting.position = new google.maps.LatLng(current_plane.latitude,current_plane.longitude);
+					/*getExisting.position = new google.maps.LatLng(current_plane.latitude,current_plane.longitude);
 					getExisting.title = "plane updated";
-					getExisting.setMap(mymap);
+					getExisting.setMap(mymap);*/
+					doMovePlane(key,current_plane.latitude, current_plane.longitude)
+
+					infoToUpdate = planesInfo.get(key);
+					infoToUpdate.state = current_plane.state;
+					infoToUpdate.speed = current_plane.speed;
+					infoToUpdate.rotation = current_plane.rotation;
+					infoToUpdate.radar = current_plane.radar;
+					infoToUpdate.health = current_plane.health;
 				}
 
 			}
