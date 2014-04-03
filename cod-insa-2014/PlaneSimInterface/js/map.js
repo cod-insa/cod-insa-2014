@@ -16,8 +16,8 @@ var basesArray = new Array();
 var planesArray = new HashMap();
 
 //Moving planes
-var pas = 0.3
-var refreshtime = 20;
+var pas = 0.2;
+var refreshtime = 40;	//~25fps
 
 //Images
 
