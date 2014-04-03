@@ -30,8 +30,19 @@ public class CommandMaker {
 	public static boolean checkFrameId(CommandData data, World.Snapshot s) {
 		return data.numFrame == s.id;
 	}
-	public static boolean checkIdPlane(int idPlane, World.Snapshot s) {
-		return idPlane < s.planes.view.size() && idPlane > 0;
+	
+	
+	public static Plane.FullView findPlaneById(int idPlane, World.Snapshot s) {
+		Plane.FullView planeFound = null;
+		int i = 0;
+		ListView<Plane.FullView> planes = s.planes.view();
+		while (planeFound == null && i < planes.size())
+		{
+			Plane.FullView curPlane = planes.get(i);
+			if (curPlane.id() == idPlane)
+				planeFound = curPlane;
+		}
+		return planeFound;
 	}
 	public static boolean checkCoord(CoordData coord, World.Snapshot s)
 	{
@@ -67,10 +78,10 @@ public class CommandMaker {
 		if (!checkFrameId(data.pc.c, s))
 			return frameIdError(data.pc.c, s);		
 
-		if (!checkIdPlane(data.pc.idPlane, s))
+		Plane.FullView p = findPlaneById(data.pc.idPlane, s);
+
+		if (p == null)
 			return planeIdError(data.pc.idPlane, s);
-		
-		Plane.FullView p = s.planes.view.get(data.pc.idPlane);
 		
 		if (!checkCoord(data.posDest, s))
 			return coordError(data.posDest, s);
@@ -86,11 +97,13 @@ public class CommandMaker {
 		if (!checkFrameId(data.pc.c, s))
 			return frameIdError(data.pc.c, s);
 
-		if (!checkIdPlane(data.pc.idPlane, s))
-			return planeIdError(data.pc.idPlane, s);
+		Plane.FullView p = findPlaneById(data.pc.idPlane, s);
 
+		if (p == null)
+			return planeIdError(data.pc.idPlane, s);
+		
 		return new Couple<>(
-				new Nullable<Command>(new WaitCommand(data.pc.idPlane)),
+				new Nullable<Command>(new WaitCommand(p)),
 				new Response(Command.SUCCESS, "")
 		);
 	}

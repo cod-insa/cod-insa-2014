@@ -215,7 +215,7 @@ public class CommandSender extends Thread {
 
 		static WaitCommandData make(WaitCommand cmd, int numFrame) {
 			return new WaitCommandData(new PlaneCommandData(new CommandData(
-					numFrame), cmd.planeId));
+					numFrame), cmd.plane.id()));
 		}
 		
 		static DropMilitarsCommandData make(DropMilitarsCommand cmd, int numFrame) {

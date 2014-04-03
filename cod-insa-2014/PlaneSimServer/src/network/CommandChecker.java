@@ -25,6 +25,8 @@ public abstract class CommandChecker {
 	
 	public static Response checkWaitCommand(WaitCommand wc, Snapshot s)
 	{
+		/* See CommandMaker
+		
 		boolean planeFound = false;
 		int i = 0;
 		ListView<Plane.FullView> planes = s.planes.view();
@@ -33,7 +35,7 @@ public abstract class CommandChecker {
 				planeFound = true;
 		if (!planeFound)
 			return new Response(Command.ERROR_COMMAND,"The plane n�"+wc.planeId+" doesn't exist. Command ignored.");
-		
+		*/
 		return new Response(Command.SUCCESS,"");
 	}
 	

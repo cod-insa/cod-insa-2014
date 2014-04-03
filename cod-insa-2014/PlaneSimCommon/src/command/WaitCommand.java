@@ -1,21 +1,20 @@
 package command;
 
+import model.Plane;
+
 
 public class WaitCommand extends Command {
 
-	//public final Plane plane;
-	public final int planeId;
+	public final Plane.FullView plane;
 	
-	//public MoveCommand(Plane p, Coord d)
-	public WaitCommand(int pid)
+	public WaitCommand(Plane.FullView p) 
 	{
-		//plane = p;
-		planeId = pid;
+		plane = p;
 	}
 
 	@Override
 	public String toString() {
-		return "wait "+planeId;
+		return "wait "+plane.id();
 	}
 	
 	@Override
