@@ -10,5 +10,9 @@ public class NotSupportedException extends RuntimeException { //Exception {
 	public NotSupportedException(String msg) {
 		super(msg);
 	}
+	
+	public static NotSupportedException notImplementedYet() {
+		return new NotSupportedException("Not implemented yet!");
+	}
 
 }

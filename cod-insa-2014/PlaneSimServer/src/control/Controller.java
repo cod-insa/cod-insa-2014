@@ -1,15 +1,23 @@
 package control;
 
-import command.*;
 import game.AutoPilot.Mode;
-import game.GamePlane;
 import game.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import command.AttackCommand;
+import command.Command;
+import command.DropMilitarsCommand;
+import command.FillFuelTankCommand;
+import command.FollowCommand;
+import command.LandCommand;
+import command.LoadResourcesCommand;
+import command.MoveCommand;
+import command.StoreFuelCommand;
+import command.WaitCommand;
 import common.NotSupportedException;
 
 public class Controller {
@@ -81,14 +89,14 @@ public class Controller {
 //		catch (Command def) {
 //			throw new NotSupportedException("Unrecognized command");
 //		}
-		catch (DropMilitarsCommand e) {
-			throw new NotImplementedException();
-		} catch (StoreFuelCommand e) {
-			throw new NotImplementedException();
-		} catch (FillFuelTankCommand e) {
-			throw new NotImplementedException();
-		} catch (LoadResourcesCommand e) {
-			throw new NotImplementedException();
+		catch (DropMilitarsCommand | StoreFuelCommand | FillFuelTankCommand | LoadResourcesCommand e) {
+			throw NotSupportedException.notImplementedYet();
+//		} catch (StoreFuelCommand e) {
+//			throw NotSupportedException.notImplementedYet();
+//		} catch (FillFuelTankCommand e) {
+//			throw NotSupportedException.notImplementedYet();
+//		} catch (LoadResourcesCommand e) {
+//			throw NotSupportedException.notImplementedYet();
 		}
 		
 		
