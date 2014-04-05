@@ -2,10 +2,14 @@ package common;
 
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
-import common.Copyable.Copier;
 import common.Copyable.Context;
+import common.Copyable.Copier;
 
 
 public class Util {
@@ -319,14 +323,21 @@ public class Util {
 	{
 		return new CollectionView.Of<>(src);
 	}
-
+	
 	public static <V extends Viewable.View, T extends Viewable<V>>
 	SetView<V>
 		view (Set<T> src)
 	{
 		return new SetView.Of<>(src);
 	}
-
+	
+	public static <K, V extends Viewable.View, T extends Viewable<V>>
+	MapView<K,V>
+		view(Map<K,T> src)
+	{
+		return new MapView.Of<>(src);
+	}
+	
 	public static <V extends Viewable.View, T extends Viewable<V>>
 	ListView<V>
 		view (List<T> src)
