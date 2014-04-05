@@ -156,9 +156,10 @@ public class CommandSender extends Thread {
 			
 			treatResult(r);
 		} catch (TException e) {
-			System.err
-					.println("Unexpected error received while sending a command. Message: "
+			Proxy.log
+					.error("Unexpected error received while sending a command. Message: "
 							+ e.getMessage());
+			e.printStackTrace();
 			proxy.quit(1);
 		}
 	}

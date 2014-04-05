@@ -3,6 +3,7 @@ package ai;
 import java.util.ArrayList;
 import java.util.Random;
 
+import proxy.Proxy;
 import model.Base;
 import model.Entity.View;
 import model.Plane;
@@ -47,7 +48,7 @@ public class AttackAI extends AbstractAI
 //					System.out.println("Sending command "+mc);
 //					
 //					game.sendCommand(mc);
-					if (p.state() == State.IDLE && ennemy_planes.size() != 0)
+//					if (p.state() == State.IDLE && ennemy_planes.size() != 0)
 						// Make and send a MoveCommand with the plane to the random base
 						game.sendCommand(new AttackCommand(p, ennemy_planes.get(0)));
 					
