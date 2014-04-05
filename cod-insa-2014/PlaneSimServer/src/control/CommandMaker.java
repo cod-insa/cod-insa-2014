@@ -54,16 +54,10 @@ public class CommandMaker {
 
 	// Plane checking
 	public static Plane.FullView findPlaneById(int idPlane, World.Snapshot s) {
-		Plane.FullView plane = null;
-		int i = 0;
-		ListView<Plane.FullView> planes = s.planes.view();
-		while (plane == null && i < planes.size())
-		{
-			Plane.FullView curPlane = planes.get(i);
-			if (curPlane.id() == idPlane)
-				plane = curPlane;
-		}
-		return plane;
+		for (Plane.FullView p : s.planes.view())
+			if (p.id() == idPlane)
+				return p;
+		return null;
 	}
 	static Couple<Nullable<Command>, Response> planeIdError(int idPlane, World.Snapshot s) {
 		return new Couple<>(
@@ -74,16 +68,10 @@ public class CommandMaker {
 	
 	// Base checking
 	public static Base.View findBaseById(int idBase, World.Snapshot s) {
-		Base.View base = null;
-		int i = 0;
-		ListView<Base.View> bases = s.bases.view();
-		while (base == null && i < bases.size())
-		{
-			Base.View curBase = bases.get(i);
-			if (curBase.id() == idBase)
-				base = curBase;
-		}
-		return base;
+		for (Base.View b : s.bases.view())
+			if (b.id() == idBase)
+				return b;
+		return null;
 	}
 	static Couple<Nullable<Command>, Response> baseIdError(int idBase, World.Snapshot s) {
 		return new Couple<>(

@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.Base;
+import model.Base.View;
 import model.Plane;
-
+import model.Plane.BasicView;
+import model.Plane.FullView;
 import command.AttackCommand;
 import command.Command;
 import command.LandCommand;
 import command.MoveCommand;
+import common.MapView;
 
 public class ConsoleAI extends AbstractAI 
 {
@@ -125,9 +128,9 @@ public class ConsoleAI extends AbstractAI
 			
 			String[] cmd = in.nextLine().split(" ");
 
-			ArrayList<Base.View> bases;
-			ArrayList<Plane.FullView> planes;
-			ArrayList<Plane.BasicView> ennemy_planes;
+			MapView<Integer, View> bases;
+			MapView<Integer, FullView> planes;
+			MapView<Integer, BasicView> ennemy_planes;
 
 //			System.out.println("waiting");
 			
@@ -147,18 +150,18 @@ public class ConsoleAI extends AbstractAI
 					break main_loop;
 				case "move": {
 					Base.View b = bases.get(Integer.parseInt(cmd[1]));
-					for (Plane.FullView p: planes)
+					for (Plane.FullView p: planes.valuesView())
 						coms.add(new MoveCommand(p, b.position()));
 					break;
 				}
 				case "land": {
 					Base.View b = bases.get(Integer.parseInt(cmd[1]));
-					for (Plane.FullView p : planes)
+					for (Plane.FullView p : planes.valuesView())
 						coms.add(new LandCommand(p, b));
 					break;
 				}
 				case "attk":
-					for (Plane.FullView p : planes)
+					for (Plane.FullView p : planes.valuesView())
 						coms.add(new AttackCommand(p, ennemy_planes.get(Integer.parseInt(cmd[1]))));
 					break;
 				default:

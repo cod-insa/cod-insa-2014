@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Base;
+import model.Base.View;
 import model.Plane;
 import model.Plane.State;
 import command.FillFuelTankCommand;
 import command.MoveCommand;
+import common.MapView;
 
 public class MoveAI extends AbstractAI 
 {
@@ -23,9 +25,9 @@ public class MoveAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			ArrayList<Base.View> bases = game.getBases();
+			MapView<Integer, View> bases = game.getBases();
 			
-			for (Plane.FullView p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes().valuesView())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {

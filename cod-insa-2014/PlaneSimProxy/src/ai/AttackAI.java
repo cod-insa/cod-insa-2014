@@ -11,6 +11,7 @@ import model.Plane.BasicView;
 import model.Plane.State;
 import command.AttackCommand;
 import command.MoveCommand;
+import common.MapView;
 
 public class AttackAI extends AbstractAI 
 {
@@ -26,10 +27,10 @@ public class AttackAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			ArrayList<Base.View> bases = game.getBases();
-			ArrayList<BasicView> ennemy_planes = game.getEnnemyPlanes();
+			MapView<Integer, model.Base.View> bases = game.getBases();
+			MapView<Integer, BasicView> ennemy_planes = game.getEnnemyPlanes();
 			
-			for (Plane.FullView p : game.getMyPlanes())
+			for (Plane.FullView p : game.getMyPlanes().valuesView())
 			{
 				// Get a random base :
 				if(bases.size() > 0) {

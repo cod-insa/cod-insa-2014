@@ -11,6 +11,7 @@ import java.util.Map;
 import model.Base;
 import model.Coord;
 import model.Plane;
+import model.Plane.BasicView;
 import model.Plane.State;
 import model.ProgressAxis;
 
@@ -18,8 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.AbstractAI;
-
 import command.Command;
+import common.MapView;
+import common.Util;
 
 
 public class Proxy 
@@ -272,12 +274,9 @@ public class Proxy
 	 * 
 	 * Warning : You should call this method only once per frame
 	 */
-	public ArrayList<Plane.FullView> getKilledPlanes()
+	public MapView<Integer, Plane.FullView> getKilledPlanes()
 	{
-		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
-		for (model.Plane p : killed_planes.values())
-			planesToReturn.add(p.view());
-		return planesToReturn;
+		return Util.view(killed_planes);
 	}
 
 	/**
@@ -285,12 +284,9 @@ public class Proxy
 	 * 
 	 * Warning : You should call this method only once per frame
 	 */
-	public ArrayList<Plane.FullView> getMyPlanes()
+	public MapView<Integer, Plane.FullView> getMyPlanes()
 	{
-		ArrayList<Plane.FullView> planesToReturn = new ArrayList<Plane.FullView>();
-		for (model.Plane p : ai_planes.values())
-			planesToReturn.add(p.view());
-		return planesToReturn;
+		return Util.view(ai_planes);
 	}
 	
 	/**
@@ -299,12 +295,14 @@ public class Proxy
 	 * 
 	 * Warning : You should call this method only once per frame
 	 */
-	public ArrayList<Plane.BasicView> getEnnemyPlanes()
+	public MapView<Integer, Plane.BasicView> getEnnemyPlanes()
 	{
-		ArrayList<Plane.BasicView> planesToReturn = new ArrayList<Plane.BasicView>();
-		for (model.Plane p : ennemy_planes.values())
-			planesToReturn.add(p.restrictedView());
-		return planesToReturn;
+		return new MapView.Transform<>(ennemy_planes,new Util.Converter<Plane,Plane.BasicView>(){
+			@Override
+			public BasicView convert(Plane src) {
+				return src.restrictedView();
+			}
+		});
 	}
 	
 	/**
@@ -312,12 +310,9 @@ public class Proxy
 	 * 
 	 * You don't need to call this method more than once per game. Because no bases will be created or destroyed during the game :)
 	 */
-	public ArrayList<Base.View> getBases()
+	public MapView<Integer,Base.View> getBases()
 	{
-		ArrayList<Base.View> basesToReturn = new ArrayList<Base.View>();
-		for (model.Base b : bases.values())
-			basesToReturn.add(b.view());
-		return basesToReturn;
+		return Util.view(bases);
 	}
 
 	/**
