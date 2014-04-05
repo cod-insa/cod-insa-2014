@@ -222,7 +222,8 @@ public class NetworkPlayer extends Player {
 			
 			// TODO
 			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
-			return null;
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+
 			
 //			Either<Command,Response> r = ...;
 //			
@@ -252,7 +253,7 @@ public class NetworkPlayer extends Player {
 
 			// TODO
 			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
-			return null;
+			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 
 			//return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
