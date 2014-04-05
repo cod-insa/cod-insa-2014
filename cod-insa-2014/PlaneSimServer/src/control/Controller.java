@@ -73,10 +73,10 @@ public class Controller {
 			*/
 		}
 		catch (FollowCommand fc) {
-			s.getPlane(fc.planeSrcId).autoPilot.goTo(s.getPlane(fc.planeTargetId), Mode.IGNORE);
+			s.getPlane(fc.planeSrc.id()).autoPilot.goTo(s.getPlane(fc.planeTarget.id()), Mode.IGNORE);
 		}
 		catch (AttackCommand ac) {
-			s.getPlane(ac.planeSrcId).autoPilot.attackSpecific(s.getPlane(ac.planeTargetId));
+			s.getPlane(ac.planeSrc.id()).autoPilot.attackSpecific(s.getPlane(ac.planeTarget.id()));
 		}
 //		catch (Command def) {
 //			throw new NotSupportedException("Unrecognized command");

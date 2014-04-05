@@ -1,24 +1,23 @@
 package command;
 
+import model.Plane;
+
 
 public class FollowCommand extends Command {
 
 	//public final Plane plane;
-	public final int planeSrcId;
-	
-	public final int planeTargetId;
+	public final Plane.FullView planeSrc;
+	public final Plane.BasicView planeTarget;
 
-	//public MoveCommand(Plane p, Coord d)
-	public FollowCommand(int psid, int ptid)
+	public FollowCommand(Plane.FullView psid, Plane.BasicView ptid)
 	{
-		//plane = p;
-		planeSrcId = psid;
-		planeTargetId = ptid;
+		planeSrc = psid;
+		planeTarget = ptid;
 	}
 	
 	@Override
 	public String toString() {
-		return "follow "+planeSrcId+" -> "+planeTargetId;
+		return "follow "+planeSrc.id()+" -> "+planeTarget.id();
 	}
 
 	@Override

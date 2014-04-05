@@ -6,22 +6,23 @@ import model.Plane;
 public class AttackCommand extends Command {
 
 	//public final Plane plane;
-	public final int planeSrcId;
+	 
+	public final Plane.FullView planeSrc;
 	
-	public final int planeTargetId;
+	public final Plane.BasicView planeTarget;
 
 	//public MoveCommand(Plane p, Coord d)
 //	public AttackCommand(int psid, int ptid)
 	public AttackCommand(Plane.FullView self, Plane.BasicView target)
 	{
 		//plane = p;
-		planeSrcId = self.id();
-		planeTargetId = target.id();
+		planeSrc = self;
+		planeTarget = target;
 	}
 	
 	@Override
 	public String toString() {
-		return "attack "+planeSrcId+" -> "+planeTargetId;
+		return "attack "+planeSrc.id()+" -> "+planeTarget.id();
 	}
 
 	@Override

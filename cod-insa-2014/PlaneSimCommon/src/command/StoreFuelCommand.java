@@ -1,21 +1,22 @@
 package command;
 
+import model.Plane;
+
 
 public class StoreFuelCommand extends Command {
 
-	//public final Plane plane;
-	public final int planeSrcId;
+	public final Plane.FullView planeSrc;
 	public final double quantity;
 
-	public StoreFuelCommand(int psid, double fstore)
+	public StoreFuelCommand(Plane.FullView p, double fstore)
 	{
-		planeSrcId = psid;
+		planeSrc = p;
 		quantity = fstore;
 	}
 	
 	@Override
 	public String toString() {
-		return "store "+planeSrcId+" :> "+quantity;
+		return "store "+planeSrc.id()+" :> "+quantity;
 	}
 
 	@Override

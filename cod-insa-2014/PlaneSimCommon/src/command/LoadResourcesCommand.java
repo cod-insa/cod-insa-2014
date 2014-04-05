@@ -1,24 +1,26 @@
 package command;
 
+import model.Plane;
+
 
 public class LoadResourcesCommand extends Command {
 
 	//public final Plane plane;
-	public final int planeSrcId;
+	public final Plane.FullView planeSrc;
 	
 	public final double militarQuantity;
 	public final double fuelQuantity;
 	
-	public LoadResourcesCommand(int psid, double mq, double fq)
+	public LoadResourcesCommand(Plane.FullView p, double mq, double fq)
 	{
-		planeSrcId = psid;
+		planeSrc = p;
 		militarQuantity = mq;
 		fuelQuantity = fq;
 	}
 	
 	@Override
 	public String toString() {
-		return "loadResource "+planeSrcId+" : militar => "+militarQuantity+"; fuel => "+fuelQuantity;
+		return "loadResource "+planeSrc.id()+" : militar => "+militarQuantity+"; fuel => "+fuelQuantity;
 	}
 
 	@Override

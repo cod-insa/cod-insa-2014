@@ -200,12 +200,12 @@ public class CommandSender extends Thread {
 
 		static AttackCommandData make(AttackCommand cmd, int numFrame) {
 			return new AttackCommandData(new PlaneCommandData(new CommandData(
-					numFrame), cmd.planeSrcId), cmd.planeTargetId);
+					numFrame), cmd.planeSrc.id()), cmd.planeTarget.id());
 		}
 		
 		static FollowCommandData make(FollowCommand cmd, int numFrame) {
 			return new FollowCommandData(new PlaneCommandData(new CommandData(
-					numFrame), cmd.planeSrcId), cmd.planeTargetId);
+					numFrame), cmd.planeSrc.id()), cmd.planeTarget.id());
 		}
 		
 		static MoveCommandData make(MoveCommand cmd, int numFrame) {
@@ -220,22 +220,22 @@ public class CommandSender extends Thread {
 		
 		static DropMilitarsCommandData make(DropMilitarsCommand cmd, int numFrame) {
 			return new DropMilitarsCommandData(new PlaneCommandData(new CommandData(
-					numFrame),cmd.planeSrcId), cmd.baseTargetId, cmd.quantity);
+					numFrame),cmd.planeSrc.id()), cmd.baseTarget.id(), cmd.quantity);
 		}
 		
 		static StoreFuelCommandData make(StoreFuelCommand cmd, int numFrame) {
 			return new StoreFuelCommandData(new PlaneCommandData(new CommandData(
-					numFrame),cmd.planeSrcId),cmd.quantity); 
+					numFrame),cmd.planeSrc.id()),cmd.quantity); 
 		}
 		
 		static FillFuelTankCommandData make(FillFuelTankCommand cmd, int numFrame) {
 			return new FillFuelTankCommandData(new PlaneCommandData(new CommandData(
-					numFrame),cmd.planeSrcId),cmd.quantity); 
+					numFrame),cmd.planeSrc.id()),cmd.quantity); 
 		}
 		
 		static LoadResourcesCommandData make(LoadResourcesCommand cmd, int numFrame) {
 			return new LoadResourcesCommandData(new PlaneCommandData(new CommandData(
-					numFrame),cmd.planeSrcId),cmd.militarQuantity, cmd.fuelQuantity); 
+					numFrame),cmd.planeSrc.id()),cmd.militarQuantity, cmd.fuelQuantity); 
 		}
 	}
 }
