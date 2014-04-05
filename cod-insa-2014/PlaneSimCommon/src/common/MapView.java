@@ -180,7 +180,7 @@ public interface MapView<K,T> extends Viewable.View {
 	
 	
 	
-	public static class Of <K, V extends Viewable.View> extends Transform<K,V> implements MapView<K,V>
+	public static class Of <K, V extends Viewable.View> extends Transform<K,V> //implements MapView<K,V>
 	{
 		
 		public <T extends Viewable<V>> Of (Map<K,T> src) {

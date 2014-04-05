@@ -22,6 +22,73 @@ public class ConsoleAI extends AbstractAI
 
 	@Override
 	public void think() {
+		think_blocking();
+	}
+	
+	public void think_blocking() {
+		Scanner in = new Scanner(System.in);
+		
+		main_loop:
+		while (true) {
+
+			System.out.print("Next action ([move|land|attk] id; exit to quit): ");
+			
+			String[] cmd = in.nextLine().split(" ");
+
+			System.out.print("Sending command... ");
+			System.out.flush();
+			
+			game.updateSimFrame();
+			
+
+			ArrayList<Base.View> bases;
+			ArrayList<Plane.FullView> planes;
+			ArrayList<Plane.BasicView> ennemy_planes;
+
+			bases = game.getBases();
+			planes = game.getMyPlanes();
+			ennemy_planes = game.getEnnemyPlanes();
+			
+			List<Command> coms = new ArrayList<>();
+			
+			try {
+				switch(cmd[0]) {
+					case "exit":
+						break main_loop;
+					case "move": {
+						Base.View b = bases.get(Integer.parseInt(cmd[1]));
+						for (Plane.FullView p: planes)
+							coms.add(new MoveCommand(p, b.position()));
+						break;
+					}
+					case "land": {
+						Base.View b = bases.get(Integer.parseInt(cmd[1]));
+						for (Plane.FullView p : planes)
+							coms.add(new LandCommand(p, b));
+						break;
+					}
+					case "attk":
+						for (Plane.FullView p : planes)
+							coms.add(new AttackCommand(p, ennemy_planes.get(Integer.parseInt(cmd[1]))));
+						break;
+					default:
+						System.err.println("Unrecognized command!");
+				}
+				System.out.println("Sent");
+			}
+			catch(IndexOutOfBoundsException iob) {
+				System.err.println("Command failed: "+iob);
+			}
+			
+			for (Command c: coms)
+				game.sendCommand(c);
+			
+		}
+		exit:
+		in.close();
+	}
+	
+	public void think_async() {
 		Scanner in = new Scanner(System.in);
 		//int lastNumFrame = -1;
 
