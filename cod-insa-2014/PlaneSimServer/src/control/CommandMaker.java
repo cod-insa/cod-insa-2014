@@ -279,11 +279,11 @@ public class CommandMaker {
 		
 		
 		// check quantity
-		if (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried() > p.capacity())
+		if (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried() > p.capacityHold())
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Too much resources to load. Maximum is " + 
-							(p.capacity() - (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried()))
+							(p.capacityHold() - (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried()))
 					));
 		
 		// Everything all right

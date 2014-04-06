@@ -151,8 +151,10 @@ public class Proxy
 			plane.remainingGaz = p.remainingGaz;
 			plane.militarResourceCarried = p.militarResourceCarried;
 			plane.fuelResourceCarried = p.fuelResourceCarried;
-			plane.capacity = p.capacity;
+			plane.capacityHold = p.capacityHold;
+			plane.capacityTank = p.capacityTank;
 			plane.ownerId(p.basic_info.ai_id);
+			// fireRange and radarRange not updated
 
 			plane.state = StateConverter.make(p.state);
 			if (plane.state == State.AT_AIRPORT) // Update the plane 
@@ -195,8 +197,9 @@ public class Proxy
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
-				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), p.basic_info.health);
+				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), p.basic_info.health, true);
 				plane.state = StateConverter.make(p.state);
+
 				
 //				plane.remainingGaz = p.remainingGaz;
 //				plane.militarResourceCarried = p.militarResourceCarried;
@@ -225,7 +228,7 @@ public class Proxy
 			}
 			else // First time that the plane appears
 			{
-				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health);
+				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, p.canAttack);
 				plane.ownerId(p.ai_id);
 				ennemy_planes.put(plane.id, plane);
 			}
