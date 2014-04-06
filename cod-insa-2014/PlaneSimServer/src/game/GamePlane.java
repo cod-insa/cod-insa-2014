@@ -59,7 +59,7 @@ public final class GamePlane extends MaterialGameEntity {
 	}
 	
 	@Override
-	Plane model() { return (Plane) model; }
+	public Plane model() { return (Plane) model; }
 	
 	@Override
 	public Plane.FullView modelView() { return model().view(); }
