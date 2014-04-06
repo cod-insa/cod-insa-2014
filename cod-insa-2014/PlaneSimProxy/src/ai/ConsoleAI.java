@@ -44,9 +44,9 @@ public class ConsoleAI extends AbstractAI
 			game.updateSimFrame();
 			
 
-			ArrayList<Base.View> bases;
-			ArrayList<Plane.FullView> planes;
-			ArrayList<Plane.BasicView> ennemy_planes;
+			MapView<Integer, View> bases;
+			MapView<Integer, FullView> planes;
+			MapView<Integer, BasicView> ennemy_planes;
 
 			bases = game.getBases();
 			planes = game.getMyPlanes();
@@ -60,18 +60,18 @@ public class ConsoleAI extends AbstractAI
 						break main_loop;
 					case "move": {
 						Base.View b = bases.get(Integer.parseInt(cmd[1]));
-						for (Plane.FullView p: planes)
+						for (Plane.FullView p: planes.valuesView())
 							coms.add(new MoveCommand(p, b.position()));
 						break;
 					}
 					case "land": {
 						Base.View b = bases.get(Integer.parseInt(cmd[1]));
-						for (Plane.FullView p : planes)
+						for (Plane.FullView p : planes.valuesView())
 							coms.add(new LandCommand(p, b));
 						break;
 					}
 					case "attk":
-						for (Plane.FullView p : planes)
+						for (Plane.FullView p : planes.valuesView())
 							coms.add(new AttackCommand(p, ennemy_planes.get(Integer.parseInt(cmd[1]))));
 						break;
 					default:
