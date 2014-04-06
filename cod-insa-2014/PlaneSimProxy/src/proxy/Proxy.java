@@ -172,7 +172,7 @@ public class Proxy
 				plane.remainingGaz = p.remainingGaz;
 				plane.militarResourceCarried = p.militarResourceCarried;
 				plane.fuelResourceCarried = p.fuelResourceCarried;
-				plane.capacity = p.capacity;
+				plane.capacityHold = p.capacity;
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
@@ -181,7 +181,7 @@ public class Proxy
 				plane.remainingGaz = p.remainingGaz;
 				plane.militarResourceCarried = p.militarResourceCarried;
 				plane.fuelResourceCarried = p.fuelResourceCarried;
-				plane.capacity = p.capacity;
+				plane.capacityHold = p.capacity;
 				ai_planes.put(plane.id, plane);
 			}
 		}

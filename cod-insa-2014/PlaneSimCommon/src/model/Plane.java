@@ -13,12 +13,18 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public double health; // = 1;
 	public State state; // don't try to modify this: it is controlled by the autoPilot
 	public Base curBase; // no sense if state != State.AT_AIRPORT
+	
+	// Hold
 	public double militarResourceCarried;
 	public double fuelResourceCarried;
-	public double remainingGaz;
-	public double capacity;
+	public double capacityHold;
 	
-	private static final double DEFAULT_CAPACITY = 10;
+	// Tank
+	public double remainingGaz;
+	public double capacityTank;
+	
+	private static final double DEFAULT_CAPACITY_HOLD = 10;
+	private static final double DEFAULT_CAPACITY_TANK = 10;
 	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
 	private static final double DEFAULT_INIT_GAZ = 100;
 
@@ -29,7 +35,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		public double militarResourceCarried() { return militarResourceCarried; }
 		public double fuelResourceCarried() { return fuelResourceCarried; }
 		public double remainingGaz() { return remainingGaz; }
-		public double capacity() { return capacity; }
+		public double capacityHold() { return capacityHold; }
+		public double capacityTank() { return capacityTank; }
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
@@ -95,7 +102,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		this.health = health;
 		this.state = state;
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
-		this.capacity = DEFAULT_CAPACITY;
+		this.capacityHold = DEFAULT_CAPACITY_HOLD;
+		this.capacityTank = DEFAULT_CAPACITY_TANK;
 		this.remainingGaz = DEFAULT_INIT_GAZ;
 		fuelResourceCarried = militarResourceCarried = 0;
 	}
@@ -105,6 +113,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		context.putSafe(src.model(), this);
 		health = src.health();
 		state = src.state();
+		radarRange = src.radarRange();
+		capacityHold = src.capacityHold();
+		capacityTank = src.capacityTank();
+		remainingGaz = src.remainingGaz();
+		fuelResourceCarried = src.fuelResourceCarried();
+		militarResourceCarried = src.militarResourceCarried();
 		if (src.curBase() != null)
 			curBase = src.curBase().copied(context);
 	}

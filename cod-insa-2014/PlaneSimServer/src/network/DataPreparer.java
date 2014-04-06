@@ -128,7 +128,7 @@ public abstract class DataPreparer {
 						DataStateConverter.make(p.state()),
 						p.militarResourceCarried(),
 						p.fuelResourceCarried(),
-						p.capacity()
+						p.capacityHold()
 					)
 				);
 				
