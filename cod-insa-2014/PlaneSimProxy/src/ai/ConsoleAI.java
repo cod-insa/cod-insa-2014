@@ -35,11 +35,11 @@ public class ConsoleAI extends AbstractAI
 		main_loop:
 		while (true) {
 
-			System.out.print("Next action ([move|land|attk] id; exit to quit): ");
+			System.out.print("Next action ([move|land|attk] id; list; exit): ");
 			
 			String[] cmd = in.nextLine().split(" ");
 
-			System.out.print("Sending command... ");
+			System.out.print("Processing command... ");
 			System.out.flush();
 			
 			game.updateSimFrame();
@@ -56,6 +56,7 @@ public class ConsoleAI extends AbstractAI
 			List<Command> coms = new ArrayList<>();
 			
 			try {
+				boolean recognized = true;
 				switch(cmd[0]) {
 					case "exit":
 						break main_loop;
@@ -75,12 +76,24 @@ public class ConsoleAI extends AbstractAI
 						for (Plane.FullView p : planes.valuesView())
 							coms.add(new AttackCommand(p, ennemy_planes.get(Integer.parseInt(cmd[1]))));
 						break;
+					case "list":
+						System.out.println();
+						System.out.println(">> My planes:");
+						for (Plane.FullView p : planes.valuesView())
+							System.out.println(p);
+						System.out.println(">> Ennemy planes:");
+						for (Plane.BasicView p : ennemy_planes.valuesView())
+							System.out.println(p);
+						break;
 					default:
+						recognized = false;
 						System.err.println("Unrecognized command!");
 				}
-				System.out.println("Sent");
+				if (recognized)
+					System.out.println("Processed");
 			}
 			catch(IllegalArgumentException e) {
+				System.out.println("Command failed: "+e);
 				System.err.println("Command failed: "+e);
 			}
 			
