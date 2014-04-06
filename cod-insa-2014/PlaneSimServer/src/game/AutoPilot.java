@@ -1,7 +1,11 @@
 package game;
 
 import model.Coord;
+import model.Plane;
 import model.Plane.State;
+
+import common.Util;
+import common.Util.Predicate;
 
 
 public final class AutoPilot {
@@ -101,8 +105,18 @@ public final class AutoPilot {
 	
 	
 	public void landAt(GameBase b) {
-		if (b.model().view().planes().contains(plane)) {
-			assert state == State.AT_AIRPORT;
+//		System.out.println("land");
+//		if (b.model().view().planes().containsTypeSafe(plane.modelView())) {
+//			assert state == State.AT_AIRPORT;
+//			System.out.println("already at airp");
+//			return;
+//		}
+		if (state == State.AT_AIRPORT) {
+			assert Util.findFirst(b.model().view().planes(), new Predicate<Plane.FullView>(){
+				public Boolean convert(Plane.FullView src) {
+					return src.id() == plane.id();
+				}}).hasSome();
+//			System.out.println("already at airp");
 			return;
 		}
 		unland();

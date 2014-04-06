@@ -21,7 +21,7 @@ import java.util.List;
 import model.Base;
 import model.MaterialEntity;
 import model.Plane;
-import model.ProgressAxis;
+
 import common.Nullable;
 
 
@@ -116,7 +116,9 @@ public abstract class DataPreparer {
 				int baseId = -1;
 				if (p.curBase() != null)
 					baseId = p.curBase().id();
-
+				if (p.state() == Plane.State.AT_AIRPORT)
+					baseId = p.curBase().id();
+				
 				tobeSent.owned_planes.add(
 					new PlaneFullData(
 						new PlaneBasicData(p.id(), 

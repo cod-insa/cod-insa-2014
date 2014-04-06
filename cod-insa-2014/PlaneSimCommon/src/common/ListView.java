@@ -86,7 +86,16 @@ public interface ListView<T>
 //		}
 		
 		
-		
+
+		@Override
+		public boolean containsTypeSafe(T arg) {
+			return contains(arg);
+		}
+
+		@Override
+		public <U extends T> boolean containsTypeSafe(Collection<U> arg) {
+			return containsAll(arg);
+		}
 		
 		
 	}
@@ -125,6 +134,17 @@ public interface ListView<T>
 			return new Transform<U>((List<Object>)src, transformer);
 		}
 		*/
+
+		@Override
+		public boolean containsTypeSafe(U arg) {
+			return contains(arg);
+		}
+
+		@Override
+		public <W extends U> boolean containsTypeSafe(Collection<W> arg) {
+			return containsAll(arg);
+		}
+		
 	}
 	
 	
@@ -154,6 +174,16 @@ public interface ListView<T>
 		@Override public Collection<V> asUnmodifiableCollection() { return this; }
 
 		@Override public List<V> asUnmodifiableList() { return this; }
+
+		@Override
+		public boolean containsTypeSafe(V arg) {
+			return contains(arg);
+		}
+
+		@Override
+		public <U extends V> boolean containsTypeSafe(Collection<U> arg) {
+			return containsAll(arg);
+		}
 		
 		
 //		

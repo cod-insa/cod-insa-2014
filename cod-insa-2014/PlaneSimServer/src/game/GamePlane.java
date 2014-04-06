@@ -67,7 +67,7 @@ public final class GamePlane extends MaterialGameEntity {
 	
 	public void fire (double angle) {
 		//new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
-		assert Math.abs(angle) <= MAX_FIRING_ANGLE;
+//		assert Math.abs(angle) <= MAX_FIRING_ANGLE; // must take into account plane rotation
 		new Projectile(sim, new Coord.Unique(model().position()), model().speedVector(), model.ownerId(), angle);
 	}
 	

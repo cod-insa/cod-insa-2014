@@ -2,7 +2,6 @@ package common;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
 import common.Util.Converter;
@@ -11,10 +10,24 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 	
 	public Collection<T> asUnmodifiableCollection();
 	
+	/**
+	 * Be careful: a collection of views will not "contain" the model of the view, unless equality is overridden
+	 */
+	@Deprecated
 	public boolean contains(Object arg0);
+	/**
+	 * Be careful: a collection of views will not "contain" the model of the view, unless equality is overridden
+	 */
+	@Deprecated
 	public boolean containsAll(Collection<?> arg0);
-	public boolean isEmpty();
+	
+	public boolean containsTypeSafe(T arg);
+	public<U extends T> boolean containsTypeSafe(Collection<U> arg);
 
+//	public boolean findAll(  );
+	
+	public boolean isEmpty();
+	
 	public Iterator<T> iterator();
 	
 	public int size();
@@ -71,6 +84,16 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 					throw new UnsupportedOperationException();
 				}};
 			*/
+		}
+
+		@Override
+		public boolean containsTypeSafe(T arg) {
+			return contains(arg);
+		}
+
+		@Override
+		public <U extends T> boolean containsTypeSafe(Collection<U> arg) {
+			return containsAll(arg);
 		}
 		
 		/*
@@ -132,6 +155,16 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 					throw new UnsupportedOperationException();
 				}
 			};
+		}
+
+		@Override
+		public boolean containsTypeSafe(U arg) {
+			return contains(arg);
+		}
+
+		@Override
+		public <W extends U> boolean containsTypeSafe(Collection<W> arg) {
+			return containsAll(arg);
 		}
 		
 	}
@@ -227,7 +260,16 @@ public interface CollectionView<T> extends Viewable.View, Iterable<T> { // exten
 			}
 		}
 		*/
-		
+
+		@Override
+		public boolean containsTypeSafe(V arg) {
+			return contains(arg);
+		}
+
+		@Override
+		public <U extends V> boolean containsTypeSafe(Collection<U> arg) {
+			return containsAll(arg);
+		}
 		
 	}
 	

@@ -2,6 +2,7 @@ package common;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,9 @@ public class Util {
 	public static interface ConditionalConverter<T,U> extends Converter<T,U> {
 		public boolean canConvert(T src);
 	}
-
+	
+	public static interface Predicate<T> extends Converter<T,Boolean> { }
+	
 	public final static class Dummy<T> {
 		public Dummy() { };
 	}
@@ -44,6 +47,28 @@ public class Util {
 		for (Object obj: objs)
 			checkNull(obj);
 	}
+	
+	public final static<T>
+	Nullable<T>.View
+		findFirst(CollectionView<T> from, Predicate<T> pred)
+	{
+		for (T t : from)
+			if (pred.convert(t))
+				return new Nullable<T>(t).view();
+		return Nullable.NULL();
+	}
+	
+	public final static<T>
+	Collection<T>
+		findAll(CollectionView<T> from, Predicate<T> pred)
+	{
+		ArrayList<T> ret = new ArrayList<>();
+		for (T t : from)
+			if (pred.convert(t))
+				ret.add(t);
+		return ret;
+	}
+	
 	
 	
 	///////////////////////////////////////////////////////////////////////////

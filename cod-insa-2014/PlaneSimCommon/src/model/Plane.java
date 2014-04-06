@@ -12,7 +12,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 
 	public double health; // = 1;
 	public State state; // don't try to modify this: it is controlled by the autoPilot
-	public Base curBase; // no sense if state != State.AT_AIRPORT
+	public Base curBase; // no signification if state != State.AT_AIRPORT
 	public double militarResourceCarried;
 	public double fuelResourceCarried;
 	public double remainingGaz;

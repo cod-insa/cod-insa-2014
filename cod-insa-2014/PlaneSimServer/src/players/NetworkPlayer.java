@@ -155,7 +155,7 @@ public class NetworkPlayer extends Player {
 		@Override
 		public Data retrieveData(int idConnection) throws TException {
 			Nullable<Snapshot> s = waitForNextSnapshot();
-			if (s.none()) {
+			if (s.isNone()) {
 				assert disconnected;
 				return DataPreparer.prepareEndofGame();
 			}
