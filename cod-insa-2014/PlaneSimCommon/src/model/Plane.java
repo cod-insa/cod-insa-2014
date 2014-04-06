@@ -28,8 +28,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
 	private static final double DEFAULT_INIT_GAZ = 100;
 
-	// Basically, FullView is a BasicView plus some additional things that are visible
-	public class FullView extends BasicView {
+	// Basically, FullView is a BasicView plus some additional visible things 
+	public class FullView extends BasicView
+	{
 		public State state() { return state; }
 		public Base.View curBase() { return curBase == null ? null : curBase.view(); }
 		public double militarResourceCarried() { return militarResourceCarried; }
@@ -66,12 +67,19 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			return isEnemy(e) && canSee(e);
 		}
 		
+		@Override
+		public String toString() { return super.toString()+" state:"+state()+" fuel:"+fuelResourceCarried()+" mil:"+militarResourceCarried(); }
+		
+		
 //		private Plane model() { return Plane.this; }
 	}
 	
 	// This is what an AI will see for an ennemy plane
 	public class BasicView extends MovingEntity.View {
 		public double health() { return health; }
+		
+		@Override
+		public String toString() { return (exists()?"":"[dead] ")+"Plane "+id()+" owner:"+ownerId()+" health:"+health(); }
 		
 	}
 	
@@ -100,7 +108,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		//super(id,pos);
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
-		this.state = state;
+//		this.state = state;
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 		this.capacityHold = DEFAULT_CAPACITY_HOLD;
 		this.capacityTank = DEFAULT_CAPACITY_TANK;
@@ -138,6 +146,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	public void assignTo(Base b)
 	{
+		unAssign();
 		this.curBase = b;
 		b.planes.add(this);
 	}

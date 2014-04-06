@@ -1,10 +1,10 @@
 package proxy;
 import genbridge.Data;
 import genbridge.InitData;
+import genbridge.PlaneFullData;
 import genbridge.PlaneStateData;
 import genbridge.ProgressAxisData;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.AbstractAI;
+
 import command.Command;
 import common.MapView;
 import common.Util;
@@ -145,6 +146,20 @@ public class Proxy
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
 		
+		// Closure for the poor
+		class UpdateBasicInfo { public UpdateBasicInfo(Plane plane, PlaneFullData p) {
+			plane.remainingGaz = p.remainingGaz;
+			plane.militarResourceCarried = p.militarResourceCarried;
+			plane.fuelResourceCarried = p.fuelResourceCarried;
+			plane.capacityHold = p.capacity;
+			plane.ownerId(p.basic_info.ai_id);
+
+			plane.state = StateConverter.make(p.state);
+			if (plane.state == State.AT_AIRPORT) // Update the plane 
+				plane.assignTo(bases.get(p.base_id));
+			else
+				plane.unAssign();
+		}}
 		
 		for (genbridge.PlaneFullData p : d.owned_planes)
 		{
@@ -158,30 +173,38 @@ public class Proxy
 				
 				// Then we update the plane with the information given by the server :
 				
+				// Already done in the ctor in the other branch
 				plane.position.x = p.basic_info.posit.x;
 				plane.position.y = p.basic_info.posit.y;
 				plane.health = p.basic_info.health;
-				plane.ownerId(p.basic_info.ai_id);
+//				plane.ownerId(p.basic_info.ai_id);
 				
-				plane.state = StateConverter.make(p.state);
-				if (plane.state == State.AT_AIRPORT) // Update the plane 
-					plane.assignTo(bases.get(p.base_id));
-				else
-					plane.unAssign();
+//				plane.state = StateConverter.make(p.state);
+//				if (plane.state == State.AT_AIRPORT) // Update the plane 
+//					plane.assignTo(bases.get(p.base_id));
+//				else
+//					plane.unAssign();
 				
-				plane.remainingGaz = p.remainingGaz;
-				plane.militarResourceCarried = p.militarResourceCarried;
-				plane.fuelResourceCarried = p.fuelResourceCarried;
-				plane.capacityHold = p.capacity;
+//				plane.remainingGaz = p.remainingGaz;
+//				plane.militarResourceCarried = p.militarResourceCarried;
+//				plane.fuelResourceCarried = p.fuelResourceCarried;
+//				plane.capacity = p.capacity;
+//				plane.ownerId(p.basic_info.ai_id);
+				new UpdateBasicInfo(plane, p);
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
-				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x,p.basic_info.posit.y), p.basic_info.health);
+				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), p.basic_info.health);
 				plane.state = StateConverter.make(p.state);
-				plane.remainingGaz = p.remainingGaz;
-				plane.militarResourceCarried = p.militarResourceCarried;
-				plane.fuelResourceCarried = p.fuelResourceCarried;
-				plane.capacityHold = p.capacity;
+
+				
+//				plane.remainingGaz = p.remainingGaz;
+//				plane.militarResourceCarried = p.militarResourceCarried;
+//				plane.fuelResourceCarried = p.fuelResourceCarried;
+//				plane.capacity = p.capacity;
+//				plane.ownerId(p.basic_info.ai_id);
+				new UpdateBasicInfo(plane, p);
+				
 				ai_planes.put(plane.id, plane);
 			}
 		}
@@ -347,7 +370,7 @@ public class Proxy
 	 * Quit the proxy
 	 * @param code The code that will be sen
 	 */
-	void quit(int code)
+	public void quit(int code)
 	{
 		if (idm != null)
 			idm.terminate();
