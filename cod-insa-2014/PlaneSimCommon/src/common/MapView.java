@@ -143,9 +143,11 @@ public interface MapView<K,T> extends Viewable.View {
 			return this;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Set<java.util.Map.Entry<K, U>> entrySet() {
-			return asUnmodifiableMap().entrySet();
+//			return asUnmodifiableMap().entrySet();  // stack overflow
+			return Collections.unmodifiableMap((Map<K,U>)delegate).entrySet();
 		}
 
 		@Override
