@@ -6,13 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import network.WebInterface;
+import model.Coord;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import model.Base;
-import model.Coord;
 import common.CoordConverter;
 
 /**
@@ -160,7 +158,9 @@ public class MapLoader {
 				longit = Double.parseDouble(coord[2]);
 
 				//System.out.println("New Base : "+name+" at "+latid+" "+longit);
-				log.debug("New Base : "+name+" at "+latid+" "+longit);
+				////
+				//log.debug("New Base : "+name+" at "+latid+" "+longit);
+				////
 				
 				newBaseCoord = converter.toCartesianUnique(longit, latid);
 				GameBase gb = new GameBase(g, newBaseCoord,name);
