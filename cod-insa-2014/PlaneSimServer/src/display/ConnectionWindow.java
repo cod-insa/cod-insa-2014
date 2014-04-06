@@ -221,8 +221,8 @@ public class ConnectionWindow {
         if (p.isConnected()) {
 			//System.out.println(timingOut);
             labels.get(p.connectionId).setIcon(
-					timingOut? UIManager.getIcon(new ImageIcon(connectedImage))
-                             : UIManager.getIcon("OptionPane.warningIcon")
+					timingOut? UIManager.getIcon("OptionPane.warningIcon")
+                             : new ImageIcon(connectedImage)
             ); // throw new Error();
         }
     }
