@@ -1,8 +1,10 @@
 package command;
 
-import common.Immutable;
 import model.Coord;
 import model.Plane;
+
+import common.Immutable;
+import common.Util;
 
 public class MoveCommand extends Command {
 
@@ -17,6 +19,7 @@ public class MoveCommand extends Command {
 //	public MoveCommand(int pid, Coord.View d)
 	public MoveCommand(Plane.FullView p, Coord.View d)
 	{
+		Util.checkNull(p, d);
 		plane = p;
 		destination = new Immutable<>(new Coord.Unique(d)); // FIXEDME request Immutable to avoid copies
 		// Note: requiring immutable<Coord> would probably just annoy the clients

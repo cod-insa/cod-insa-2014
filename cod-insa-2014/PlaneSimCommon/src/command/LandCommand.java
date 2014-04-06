@@ -4,6 +4,8 @@ package command;
 import model.Base;
 import model.Plane;
 
+import common.Util;
+
 public class LandCommand extends Command {
 
 	public Plane.FullView plane;
@@ -11,6 +13,7 @@ public class LandCommand extends Command {
 
 	public LandCommand(Plane.FullView p, Base.View b)
 	{
+		Util.checkNull(p, b);
 		plane = p;
 		base = b;
 	}

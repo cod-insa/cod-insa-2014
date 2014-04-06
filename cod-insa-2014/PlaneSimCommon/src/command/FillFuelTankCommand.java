@@ -2,6 +2,8 @@ package command;
 
 import model.Plane;
 
+import common.Util;
+
 
 public class FillFuelTankCommand extends Command {
 
@@ -11,6 +13,7 @@ public class FillFuelTankCommand extends Command {
 
 	public FillFuelTankCommand(Plane.FullView p, double qf)
 	{
+		Util.checkNull(p);
 		planeSrc = p;
 		quantity = qf;
 	}

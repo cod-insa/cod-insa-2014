@@ -3,6 +3,8 @@ package command;
 import model.Base;
 import model.Plane;
 
+import common.Util;
+
 
 public class DropMilitarsCommand extends Command {
 
@@ -13,10 +15,11 @@ public class DropMilitarsCommand extends Command {
 	
 	public final double quantity;
 
-	public DropMilitarsCommand(Plane.FullView psid, Base.View btid, double ndrop)
+	public DropMilitarsCommand(Plane.FullView p, Base.View b, double ndrop)
 	{
-		planeSrc = psid;
-		baseTarget = btid;
+		Util.checkNull(p, b);
+		planeSrc = p;
+		baseTarget = b;
 		quantity = ndrop;
 	}
 	

@@ -2,6 +2,8 @@ package command;
 
 import model.Plane;
 
+import common.Util;
+
 
 public class StoreFuelCommand extends Command {
 
@@ -10,6 +12,7 @@ public class StoreFuelCommand extends Command {
 
 	public StoreFuelCommand(Plane.FullView p, double fstore)
 	{
+		Util.checkNull(p);
 		planeSrc = p;
 		quantity = fstore;
 	}

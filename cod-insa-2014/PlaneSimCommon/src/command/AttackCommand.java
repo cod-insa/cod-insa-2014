@@ -3,6 +3,8 @@ package command;
 
 import model.Plane;
 
+import common.Util;
+
 public class AttackCommand extends Command {
 
 	//public final Plane plane;
@@ -15,6 +17,7 @@ public class AttackCommand extends Command {
 //	public AttackCommand(int psid, int ptid)
 	public AttackCommand(Plane.FullView self, Plane.BasicView target)
 	{
+		Util.checkNull(self, target);
 		//plane = p;
 		planeSrc = self;
 		planeTarget = target;

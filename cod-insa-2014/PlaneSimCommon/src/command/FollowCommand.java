@@ -2,6 +2,8 @@ package command;
 
 import model.Plane;
 
+import common.Util;
+
 
 public class FollowCommand extends Command {
 
@@ -9,10 +11,11 @@ public class FollowCommand extends Command {
 	public final Plane.FullView planeSrc;
 	public final Plane.BasicView planeTarget;
 
-	public FollowCommand(Plane.FullView psid, Plane.BasicView ptid)
+	public FollowCommand(Plane.FullView p, Plane.BasicView t)
 	{
-		planeSrc = psid;
-		planeTarget = ptid;
+		Util.checkNull(p, t);
+		planeSrc = p;
+		planeTarget = t;
 	}
 	
 	@Override

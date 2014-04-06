@@ -2,6 +2,8 @@ package command;
 
 import model.Plane;
 
+import common.Util;
+
 
 public class LoadResourcesCommand extends Command {
 
@@ -13,6 +15,7 @@ public class LoadResourcesCommand extends Command {
 	
 	public LoadResourcesCommand(Plane.FullView p, double mq, double fq)
 	{
+		Util.checkNull(p);
 		planeSrc = p;
 		militarQuantity = mq;
 		fuelQuantity = fq;

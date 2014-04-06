@@ -9,6 +9,7 @@ import model.Base.View;
 import model.Plane;
 import model.Plane.BasicView;
 import model.Plane.FullView;
+
 import command.AttackCommand;
 import command.Command;
 import command.LandCommand;
@@ -79,8 +80,8 @@ public class ConsoleAI extends AbstractAI
 				}
 				System.out.println("Sent");
 			}
-			catch(IndexOutOfBoundsException iob) {
-				System.err.println("Command failed: "+iob);
+			catch(IllegalArgumentException e) {
+				System.err.println("Command failed: "+e);
 			}
 			
 			for (Command c: coms)

@@ -29,9 +29,20 @@ public class Util {
 	public static interface ConditionalConverter<T,U> extends Converter<T,U> {
 		public boolean canConvert(T src);
 	}
-	
+
 	public final static class Dummy<T> {
 		public Dummy() { };
+	}
+	
+	public final static void checkNull(Object obj) {
+		if (obj == null)
+//			throw new NullPointerException();
+			//throw new IllegalArgumentException("No null reference allowed");
+			throw new IllegalArgumentException(new NullPointerException("No null reference allowed"));
+	}
+	public final static void checkNull(Object... objs) {
+		for (Object obj: objs)
+			checkNull(obj);
 	}
 	
 	

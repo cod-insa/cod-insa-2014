@@ -2,6 +2,8 @@ package command;
 
 import model.Plane;
 
+import common.Util;
+
 
 public class WaitCommand extends Command {
 
@@ -9,6 +11,7 @@ public class WaitCommand extends Command {
 	
 	public WaitCommand(Plane.FullView p) 
 	{
+		Util.checkNull(p);
 		plane = p;
 	}
 

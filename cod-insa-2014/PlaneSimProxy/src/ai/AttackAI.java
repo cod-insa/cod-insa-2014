@@ -1,16 +1,12 @@
 package ai;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import proxy.Proxy;
 import model.Base;
-import model.Entity.View;
 import model.Plane;
 import model.Plane.BasicView;
-import model.Plane.State;
+
 import command.AttackCommand;
-import command.MoveCommand;
 import common.MapView;
 
 public class AttackAI extends AbstractAI 
@@ -51,7 +47,10 @@ public class AttackAI extends AbstractAI
 //					game.sendCommand(mc);
 //					if (p.state() == State.IDLE && ennemy_planes.size() != 0)
 						// Make and send a MoveCommand with the plane to the random base
-						game.sendCommand(new AttackCommand(p, ennemy_planes.get(0)));
+//						game.sendCommand(new AttackCommand(p, ennemy_planes.get(0)));
+					
+					if (ennemy_planes.size() != 0)
+						game.sendCommand(new AttackCommand(p, ennemy_planes.valuesView().iterator().next()));
 					
 				}
 			}
