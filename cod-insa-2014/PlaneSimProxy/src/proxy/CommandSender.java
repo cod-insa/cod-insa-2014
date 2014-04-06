@@ -161,7 +161,7 @@ public class CommandSender extends Thread {
 			proxy.quit(1);
 		}
 	}
-
+	
 	private void treatResult(Response r) {
 
 		switch (r.code) {
@@ -170,7 +170,10 @@ public class CommandSender extends Thread {
 			break;
 		case Command.ERROR_TIME_OUT:
 			isTimeOut = true;
-			Proxy.log.warn("command is time out !");
+			Proxy.log.warn("Command is time out !");
+			break;
+		case Command.WARNING_COMMAND:
+			Proxy.log.warn("The command has been accepted but : " + r.message);
 			break;
 		default:
 			Proxy.log.warn("The command has been ignored ! code:" + r.code + ", message: "

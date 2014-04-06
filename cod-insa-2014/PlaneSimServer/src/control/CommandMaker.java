@@ -1,7 +1,6 @@
 package control;
 
 import game.World;
-import game.World.Snapshot;
 import genbridge.AttackCommandData;
 import genbridge.CommandData;
 import genbridge.CoordData;
@@ -11,13 +10,14 @@ import genbridge.FollowCommandData;
 import genbridge.LandCommandData;
 import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
-import genbridge.PlaneCommandData;
 import genbridge.Response;
 import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 import model.Base;
 import model.Coord;
 import model.Plane;
+import model.Plane.State;
+
 import command.AttackCommand;
 import command.Command;
 import command.DropMilitarsCommand;
@@ -29,7 +29,6 @@ import command.MoveCommand;
 import command.StoreFuelCommand;
 import command.WaitCommand;
 import common.Couple;
-import common.ListView;
 import common.Nullable;
 
 /**
@@ -227,16 +226,27 @@ public class CommandMaker {
 		if (p == null)
 			return planeIdError(data.pc.idPlane, s);
 		
+		// check if at airport
+		if (p.state() != State.AT_AIRPORT)
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Il faut être dans un aéroport pour remplir le réservoir"));
+		
 		// check quantity
 		if (data.quantity < 0) 
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill the tank with a negative quantity of fuel !"));
-		
 		if (data.quantity > p.capacityTank() - p.remainingGaz())
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill this much fuel !"));
+			
+		// check if enough fuel in base
+		if (data.quantity > p.curBase().fuelResourcesStock())
+			return new Couple<>(
+					new Nullable<Command>(new FillFuelTankCommand(p, p.curBase().fuelResourcesStock())),
+					new Response(Command.WARNING_COMMAND,"Not enough fuel in base stock. All fuel has been taken"));
 		
 		// Everything all right
 		return new Couple<>(
@@ -284,6 +294,11 @@ public class CommandMaker {
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't get a negative quantity of resources !"));
 		
+		// check if at airport
+		if (p.state() != State.AT_AIRPORT)
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Il faut être dans un aéroport pour remplir le réservoir"));
 		
 		// check quantity
 		if (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried() > p.capacityHold())
@@ -315,6 +330,12 @@ public class CommandMaker {
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't store a negative quantity of resources !"));
+		
+		// check if at airport
+		if (p.state() != State.AT_AIRPORT)
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Il faut être dans un aéroport pour remplir le réservoir"));
 		
 		
 		// check quantity
