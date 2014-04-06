@@ -121,14 +121,15 @@ public abstract class DataPreparer {
 					new PlaneFullData(
 						new PlaneBasicData(p.id(), 
 							new CoordData(p.position().x(),p.position().y()), 
-							p.ownerId(), p.health()
+							p.ownerId(), p.health(), 
+							p.canAttack()
 						), 
 						baseId, 
 						p.remainingGaz(), 
 						DataStateConverter.make(p.state()),
 						p.militarResourceCarried(),
 						p.fuelResourceCarried(),
-						p.capacityHold()
+						p.capacityHold(), p.capacityTank()
 					)
 				);
 				
@@ -164,7 +165,7 @@ public abstract class DataPreparer {
 						tobeSent.not_owned_planes.add(
 								new PlaneBasicData(p.id(), 
 								new CoordData(p.position().x(),p.position().y()), 
-								p.ownerId(), p.health()));
+								p.ownerId(), p.health(),p.canAttack()));
 						break; // So we have given the plane, we can go the next one
 					}
 

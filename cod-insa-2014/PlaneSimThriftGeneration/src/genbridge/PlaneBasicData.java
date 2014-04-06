@@ -39,6 +39,7 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
   private static final org.apache.thrift.protocol.TField POSIT_FIELD_DESC = new org.apache.thrift.protocol.TField("posit", org.apache.thrift.protocol.TType.STRUCT, (short)2);
   private static final org.apache.thrift.protocol.TField AI_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ai_id", org.apache.thrift.protocol.TType.I32, (short)3);
   private static final org.apache.thrift.protocol.TField HEALTH_FIELD_DESC = new org.apache.thrift.protocol.TField("health", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
+  private static final org.apache.thrift.protocol.TField CAN_ATTACK_FIELD_DESC = new org.apache.thrift.protocol.TField("canAttack", org.apache.thrift.protocol.TType.BOOL, (short)5);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -50,13 +51,15 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
   public CoordData posit; // required
   public int ai_id; // required
   public double health; // required
+  public boolean canAttack; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     PLANE_ID((short)1, "plane_id"),
     POSIT((short)2, "posit"),
     AI_ID((short)3, "ai_id"),
-    HEALTH((short)4, "health");
+    HEALTH((short)4, "health"),
+    CAN_ATTACK((short)5, "canAttack");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -79,6 +82,8 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
           return AI_ID;
         case 4: // HEALTH
           return HEALTH;
+        case 5: // CAN_ATTACK
+          return CAN_ATTACK;
         default:
           return null;
       }
@@ -122,6 +127,7 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
   private static final int __PLANE_ID_ISSET_ID = 0;
   private static final int __AI_ID_ISSET_ID = 1;
   private static final int __HEALTH_ISSET_ID = 2;
+  private static final int __CANATTACK_ISSET_ID = 3;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -134,6 +140,8 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     tmpMap.put(_Fields.HEALTH, new org.apache.thrift.meta_data.FieldMetaData("health", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.CAN_ATTACK, new org.apache.thrift.meta_data.FieldMetaData("canAttack", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneBasicData.class, metaDataMap);
   }
@@ -145,7 +153,8 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
     int plane_id,
     CoordData posit,
     int ai_id,
-    double health)
+    double health,
+    boolean canAttack)
   {
     this();
     this.plane_id = plane_id;
@@ -155,6 +164,8 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
     setAi_idIsSet(true);
     this.health = health;
     setHealthIsSet(true);
+    this.canAttack = canAttack;
+    setCanAttackIsSet(true);
   }
 
   /**
@@ -168,6 +179,7 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
     }
     this.ai_id = other.ai_id;
     this.health = other.health;
+    this.canAttack = other.canAttack;
   }
 
   public PlaneBasicData deepCopy() {
@@ -183,6 +195,8 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
     this.ai_id = 0;
     setHealthIsSet(false);
     this.health = 0.0;
+    setCanAttackIsSet(false);
+    this.canAttack = false;
   }
 
   public int getPlane_id() {
@@ -278,6 +292,29 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __HEALTH_ISSET_ID, value);
   }
 
+  public boolean isCanAttack() {
+    return this.canAttack;
+  }
+
+  public PlaneBasicData setCanAttack(boolean canAttack) {
+    this.canAttack = canAttack;
+    setCanAttackIsSet(true);
+    return this;
+  }
+
+  public void unsetCanAttack() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CANATTACK_ISSET_ID);
+  }
+
+  /** Returns true if field canAttack is set (has been assigned a value) and false otherwise */
+  public boolean isSetCanAttack() {
+    return EncodingUtils.testBit(__isset_bitfield, __CANATTACK_ISSET_ID);
+  }
+
+  public void setCanAttackIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CANATTACK_ISSET_ID, value);
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case PLANE_ID:
@@ -312,6 +349,14 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       }
       break;
 
+    case CAN_ATTACK:
+      if (value == null) {
+        unsetCanAttack();
+      } else {
+        setCanAttack((Boolean)value);
+      }
+      break;
+
     }
   }
 
@@ -328,6 +373,9 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
 
     case HEALTH:
       return Double.valueOf(getHealth());
+
+    case CAN_ATTACK:
+      return Boolean.valueOf(isCanAttack());
 
     }
     throw new IllegalStateException();
@@ -348,6 +396,8 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       return isSetAi_id();
     case HEALTH:
       return isSetHealth();
+    case CAN_ATTACK:
+      return isSetCanAttack();
     }
     throw new IllegalStateException();
   }
@@ -398,6 +448,15 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       if (!(this_present_health && that_present_health))
         return false;
       if (this.health != that.health)
+        return false;
+    }
+
+    boolean this_present_canAttack = true;
+    boolean that_present_canAttack = true;
+    if (this_present_canAttack || that_present_canAttack) {
+      if (!(this_present_canAttack && that_present_canAttack))
+        return false;
+      if (this.canAttack != that.canAttack)
         return false;
     }
 
@@ -457,6 +516,16 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetCanAttack()).compareTo(other.isSetCanAttack());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetCanAttack()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.canAttack, other.canAttack);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -495,6 +564,10 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
     if (!first) sb.append(", ");
     sb.append("health:");
     sb.append(this.health);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("canAttack:");
+    sb.append(this.canAttack);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -577,6 +650,14 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 5: // CAN_ATTACK
+            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+              struct.canAttack = iprot.readBool();
+              struct.setCanAttackIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -605,6 +686,9 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(HEALTH_FIELD_DESC);
       oprot.writeDouble(struct.health);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(CAN_ATTACK_FIELD_DESC);
+      oprot.writeBool(struct.canAttack);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -636,7 +720,10 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       if (struct.isSetHealth()) {
         optionals.set(3);
       }
-      oprot.writeBitSet(optionals, 4);
+      if (struct.isSetCanAttack()) {
+        optionals.set(4);
+      }
+      oprot.writeBitSet(optionals, 5);
       if (struct.isSetPlane_id()) {
         oprot.writeI32(struct.plane_id);
       }
@@ -649,12 +736,15 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       if (struct.isSetHealth()) {
         oprot.writeDouble(struct.health);
       }
+      if (struct.isSetCanAttack()) {
+        oprot.writeBool(struct.canAttack);
+      }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, PlaneBasicData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(4);
+      BitSet incoming = iprot.readBitSet(5);
       if (incoming.get(0)) {
         struct.plane_id = iprot.readI32();
         struct.setPlane_idIsSet(true);
@@ -671,6 +761,10 @@ public class PlaneBasicData implements org.apache.thrift.TBase<PlaneBasicData, P
       if (incoming.get(3)) {
         struct.health = iprot.readDouble();
         struct.setHealthIsSet(true);
+      }
+      if (incoming.get(4)) {
+        struct.canAttack = iprot.readBool();
+        struct.setCanAttackIsSet(true);
       }
     }
   }

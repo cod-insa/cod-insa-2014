@@ -1,5 +1,5 @@
 # Thrift file, to generate CodINSA final client/server architecture.
-# Nicolas Vailliet & Timothé Viot
+# Nicolas Vailliet & TimothÃ© Viot
 # 08/02/2014
 
 #Types and structures definition
@@ -33,7 +33,8 @@ struct PlaneBasicData { // These are the basic information of a plane
 	1: int plane_id,
 	2: CoordData posit,
 	3: int ai_id,
-	4: double health
+	4: double health,
+	5: bool canAttack
 }
 
 struct PlaneFullData { // This is when the plane is owned
@@ -43,7 +44,8 @@ struct PlaneFullData { // This is when the plane is owned
 	4: PlaneStateData state,
 	5: double militarResourceCarried,
 	6: double fuelResourceCarried,
-	7: double capacity
+	7: double capacityHold,
+	8: double capacityTank
 }
 
 struct BaseBasicData { // These are the basic information of a base
@@ -178,10 +180,10 @@ struct FillFuelTankCommandData {
 	2: double quantity
 }
 
-struct LoadRessourcesCommandData {
+struct LoadResourcesCommandData {
 	1: PlaneCommandData pc,
 	2: double militar_quantity,
-	2: double fuel_quantity
+	3: double fuel_quantity
 }
 
 struct Response {
@@ -198,7 +200,7 @@ service CommandReceiver {
 	Response sendDropMilitarsCommand(1: DropMilitarsCommandData cmd, 2: int idConnection),
 	Response sendStoreFuelCommand(1: StoreFuelCommandData cmd, 2: int idConnection),
 	Response sendFillFuelTankCommand(1: FillFuelTankCommandData cmd, 2: int idConnection),
-	Response sendLoadRessourcesCommand(1: LoadRessourcesCommandData cmd, 2: int idConnection)
+	Response sendLoadResourcesCommand(1: LoadResourcesCommandData cmd, 2: int idConnection)
 }
 
 # Type dispo

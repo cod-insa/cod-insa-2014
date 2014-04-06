@@ -23,9 +23,14 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public double remainingGaz;
 	public double capacityTank;
 	
+	public double fireRange;
+	
 	private static final double DEFAULT_CAPACITY_HOLD = 10;
 	private static final double DEFAULT_CAPACITY_TANK = 10;
 	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
+	private static final double DEFAULT_FIRE_RANGE_MILITAR = 0.7;
+	private static final double DEFAULT_FIRE_RANGE_COMMERCIAL = 0;
+	
 	private static final double DEFAULT_INIT_GAZ = 100;
 
 	// Basically, FullView is a BasicView plus some additional visible things 
@@ -77,10 +82,13 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	// This is what an AI will see for an ennemy plane
 	public class BasicView extends MovingEntity.View {
 		public double health() { return health; }
-		
+		public boolean canAttack() {
+			return fireRange > 0;
+		}
+		public double fireRange() { return fireRange; }
+		public double radarRange() { return radarRange;	}
 		@Override
 		public String toString() { return (exists()?"":"[dead] ")+"Plane "+id()+" owner:"+ownerId()+" health:"+health(); }
-		
 	}
 	
 	public enum State {
@@ -104,11 +112,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //	public final View view = new View();
 	
 	
-	public Plane (int id, Unique<Coord> pos, double health) {
+	public Plane (int id, Unique<Coord> pos, double health, boolean isMilitar) {
 		//super(id,pos);
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
 //		this.state = state;
+		this.fireRange = isMilitar ? DEFAULT_FIRE_RANGE_MILITAR : DEFAULT_FIRE_RANGE_COMMERCIAL;
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 		this.capacityHold = DEFAULT_CAPACITY_HOLD;
 		this.capacityTank = DEFAULT_CAPACITY_TANK;
@@ -122,6 +131,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		health = src.health();
 		state = src.state();
 		radarRange = src.radarRange();
+		fireRange = src.fireRange();
 		capacityHold = src.capacityHold();
 		capacityTank = src.capacityTank();
 		remainingGaz = src.remainingGaz();
