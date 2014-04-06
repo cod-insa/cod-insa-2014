@@ -203,7 +203,11 @@ public class CommandMaker {
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Invalid quantity to drop: " + data.quantity + ". Can't drop more than " +p.militarResourceCarried()));
 		
-		// FIXME : if !p.isMilitar() && b.ownerId() != p.ownerId() : can't drop militar resources over an enemy base with a comercial plane !
+		if (!p.canAttack() && b.ownerId() != p.ownerId())
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Can't drop military resources over an enemy base with a comercial plane !"));
+		
 		
 		// Everything all right
 		return new Couple<>(
@@ -229,7 +233,10 @@ public class CommandMaker {
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill the tank with a negative quantity of fuel !"));
 		
-		// FIXME if data.quantity > p.capacityTank() - p.remainingGaz() : too much fuel !
+		if (data.quantity > p.capacityTank() - p.remainingGaz())
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Can't fill this much fuel !"));
 		
 		// Everything all right
 		return new Couple<>(

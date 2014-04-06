@@ -247,8 +247,8 @@ public class Proxy
 			{
 				ProgressAxis progAxis = map_axis.get(a.id);
 				
-				// progAxis.ratio1(a.progressBase1);
-				// progAxis.ratio2(a.progressBase2);
+				progAxis.ratio1 = a.progressBase1;
+				progAxis.ratio2 = a.progressBase2;
 			}
 		}
 	}
