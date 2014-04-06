@@ -147,7 +147,7 @@ public class Proxy
 		ai_planes.clear();
 		
 		// Closure for the poor
-		class UpdateBasicInfo { public UpdateBasicInfo(Plane plane, PlaneFullData p) {
+		class UpdateInfo { public UpdateInfo(Plane plane, PlaneFullData p) {
 			plane.remainingGaz = p.remainingGaz;
 			plane.militarResourceCarried = p.militarResourceCarried;
 			plane.fuelResourceCarried = p.fuelResourceCarried;
@@ -192,7 +192,8 @@ public class Proxy
 //				plane.fuelResourceCarried = p.fuelResourceCarried;
 //				plane.capacity = p.capacity;
 //				plane.ownerId(p.basic_info.ai_id);
-				new UpdateBasicInfo(plane, p);
+				new UpdateInfo(plane, p);
+				
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
@@ -205,7 +206,7 @@ public class Proxy
 //				plane.fuelResourceCarried = p.fuelResourceCarried;
 //				plane.capacity = p.capacity;
 //				plane.ownerId(p.basic_info.ai_id);
-				new UpdateBasicInfo(plane, p);
+				new UpdateInfo(plane, p);
 				
 				ai_planes.put(plane.id, plane);
 			}
@@ -223,10 +224,12 @@ public class Proxy
 				plane.position.x = p.posit.x;
 				plane.position.y = p.posit.y;
 				plane.health = p.health;
+				plane.ownerId(p.ai_id);
 			}
 			else // First time that the plane appears
 			{
 				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, p.canAttack);
+				plane.ownerId(p.ai_id);
 				ennemy_planes.put(plane.id, plane);
 			}
 		}
