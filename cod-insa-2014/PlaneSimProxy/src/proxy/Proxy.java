@@ -370,7 +370,7 @@ public class Proxy
 	 * Quit the proxy
 	 * @param code The code that will be sen
 	 */
-	void quit(int code)
+	public void quit(int code)
 	{
 		if (idm != null)
 			idm.terminate();

@@ -103,6 +103,7 @@ public class ConsoleAI extends AbstractAI
 		}
 		exit:
 		in.close();
+		game.quit(0);
 	}
 	
 	public void think_async() {
