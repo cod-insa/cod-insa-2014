@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.Base;
 import model.Plane;
+import model.ProgressAxis;
 
 import common.Immutable;
 import common.ListView;
@@ -74,6 +75,7 @@ public class World implements Viewable<World.View> {
 		
 		public final Immutable<ListView<Base.View>> bases;
 		public final Immutable<ListView<Plane.FullView>> planes;
+		public final Immutable<ListView<ProgressAxis.View>> axes;
 		
 		public final double width, height;
 		
@@ -105,22 +107,49 @@ public class World implements Viewable<World.View> {
 			//bases = new Immutable<>(ubases, Util.getInternalViewer(ubases)); // doesn't work
 			
 			
-			// This was a lot of fun. Let's proceed differently for planes (we don't have a w.planes collection):
+//			// This was a lot of fun. Let's proceed differently for planes (we don't have a w.planes collection):
+//			
+//			// Make a Unique.Collection of PlaneModels that we will fill with unique PlaneModels
+//			
+//			Unique.Collection<Plane, List<Plane>> uplanes =
+//					new Unique.Collection<Plane, List<Plane>>(ArrayList.class);
+//			
+//			// Fill the list with unique copies of our plane models
+//			
+//			for (GameEntity e : w.entities)
+//				if (e.model instanceof Plane)
+//					uplanes.add(Unique.Copy.make((Plane)e.model));
+//
+//			// Get a safe immutable list view for this unique list
+//			
+//			planes = new Immutable<ListView<Plane.FullView>>(uplanes, Util.<Plane, Plane.FullView>getListViewer());
+
+			ListView<Plane> vplanes = Util.transformView (w.planes, new Converter<GamePlane, Plane>() {
+				public Plane convert(GamePlane src) { return src.model(); }
+			});
+			planes = new Immutable<>(new Unique.Copy<>(vplanes.asUnmodifiableList(), Util.<Plane>getListCopier()), Util.<Plane, Plane.FullView>getListViewer());
+			
+			
+			
+			// This was a lot of fun. Let's proceed differently for planes (we don't have a w.axes collection):
 			
 			// Make a Unique.Collection of PlaneModels that we will fill with unique PlaneModels
 			
-			Unique.Collection<Plane, List<Plane>> uplanes =
-					new Unique.Collection<Plane, List<Plane>>(ArrayList.class);
+			Unique.Collection<ProgressAxis, List<ProgressAxis>> uaxes =
+					new Unique.Collection<ProgressAxis, List<ProgressAxis>>(ArrayList.class);
 			
 			// Fill the list with unique copies of our plane models
 			
-			for (GameEntity e : w.entities)
-				if (e.model instanceof Plane)
-					uplanes.add(Unique.Copy.make((Plane)e.model));
-
+			for (GameEntity e: w.entities)
+			{
+				if (e.model instanceof ProgressAxis)
+					uaxes.add(Unique.Copy.make((ProgressAxis)e.model));
+			}
+			
 			// Get a safe immutable list view for this unique list
 			
-			planes = new Immutable<ListView<Plane.FullView>>(uplanes, Util.<Plane, Plane.FullView>getListViewer());
+			axes = new Immutable<ListView<ProgressAxis.View>>(uaxes, Util.<ProgressAxis, ProgressAxis.View>getListViewer());
+			
 			
 		}
 	}
