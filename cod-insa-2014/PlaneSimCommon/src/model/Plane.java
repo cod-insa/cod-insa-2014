@@ -101,7 +101,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		//super(id,pos);
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
-		this.state = state;
+//		this.state = state;
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
 		this.capacity = DEFAULT_CAPACITY;
 		this.remainingGaz = DEFAULT_INIT_GAZ;
@@ -132,6 +132,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	public void assignTo(Base b)
 	{
+		unAssign();
 		this.curBase = b;
 		b.planes.add(this);
 	}
