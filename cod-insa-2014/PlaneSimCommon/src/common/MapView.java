@@ -142,12 +142,53 @@ public interface MapView<K,T> extends Viewable.View {
 		public Map<K,U> asUnmodifiableMap() {
 			return this;
 		}
-
-		@SuppressWarnings("unchecked")
+		
 		@Override
 		public Set<java.util.Map.Entry<K, U>> entrySet() {
 //			return asUnmodifiableMap().entrySet();  // stack overflow
-			return Collections.unmodifiableMap((Map<K,U>)delegate).entrySet();
+//			return Collections.unmodifiableMap((Map<K,U>)delegate).entrySet();  // ClassCastException
+//			return entrySetView().asUnmodifiableSet();  // exposes EntryView instead of Entry
+			
+//			// Snake biting its tail
+//			return new AbstractMap<K,U>() {
+//				@Override
+//				public Set<java.util.Map.Entry<K, U>> entrySet() {
+//					return null;
+//				}
+//			}.entrySet();
+			
+//			return new AbstractSet<Map.Entry<K,U>>() {
+//
+//				@Override
+//				public Iterator<java.util.Map.Entry<K, U>> iterator() {
+//					// TODO Auto-generated method stub
+//					return null;
+//				}
+//
+//				@Override
+//				public int size() {
+//					// TODO Auto-generated method stub
+//					return 0;
+//				}
+//				
+//			};
+			
+			return new SetView.Transform<>(delegate.entrySet(), new Converter<Entry<K,Object>, Entry<K,U>>() {
+				public Entry<K,U> convert(final Entry<K,Object> src) {
+					return new Entry<K,U>() {
+						public K getKey() {
+							return src.getKey();
+						}
+						public U getValue() {
+							return transformer.convert(src.getValue());
+						}
+						public U setValue(U arg0) {
+							throw new UnsupportedOperationException();
+						}
+					};
+				}
+			});
+			
 		}
 
 		@Override
