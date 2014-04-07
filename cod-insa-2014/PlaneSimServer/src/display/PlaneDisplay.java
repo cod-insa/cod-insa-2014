@@ -77,11 +77,15 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 		}
 		for (Bar bar: new Bar[]{
 			new Bar(m.health, Color.green),
-			new Bar(m.tankCapacity/m.tankCapacity, Color.blue),
+			new Bar(m.fuelInTank/m.tankCapacity, Color.blue),
 			new Bar(m.militaryInHold/m.holdCapacity, Color.red),
+			new Bar(m.fuelInHold/m.holdCapacity, Color.blue),
 		}) {
 			g2d.setColor(bar.second);
 			y += height*2;
+//			System.out.println(bar.first);
+//			System.out.println(((double)bar.first)*((double)rightp.x-leftp.x));
+//			g2d.fillRect(leftp.x, y, (int) Math.round(((double)bar.first)*(rightp.x-leftp.x)), height);
 			g2d.fillRect(leftp.x, y, (int) Math.round(bar.first*(rightp.x-leftp.x)), height);
 		}
 		

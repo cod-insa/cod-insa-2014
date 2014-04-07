@@ -26,7 +26,11 @@ public final class GamePlane extends MaterialGameEntity {
 		//MAX_FIRING_ANGLE = Math.PI*.2,
 		MAX_FIRING_ANGLE = Math.PI*.4,
 		
-		RADIUS = .03
+		RADIUS = .03,
+		
+		FUEL_BY_FRAME_MIL = .1,
+		FUEL_BY_FRAME_COM = FUEL_BY_FRAME_MIL*1.6
+		
 	;
 	
 	public final AutoPilot autoPilot = new AutoPilot(sim, this);
@@ -34,8 +38,8 @@ public final class GamePlane extends MaterialGameEntity {
 	
 	//model.Plane.View model() { return null; }
 	
-	public GamePlane (Game sim, Unique<Coord> pos, int ownerId) {
-		super(new Plane(makeNextId(), pos, 1,true), sim, Altitude.SKY);
+	public GamePlane (Game sim, Unique<Coord> pos, int ownerId, boolean isMilitar) {
+		super(new Plane(makeNextId(), pos, 1, isMilitar), sim, Altitude.SKY);
 		model().state = State.IDLE;
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
@@ -51,6 +55,13 @@ public final class GamePlane extends MaterialGameEntity {
 	public void updateSpecialized(double period) {
 		super.updateSpecialized(period);
 		autoPilot.refresh(period);
+		//System.out.println(model().fuelInTank/model().tankCapacity);
+		if (model().state != State.AT_AIRPORT)
+			model().fuelInTank -= FUEL_BY_FRAME_MIL;
+		if (model().fuelInTank < 0) {
+			model().fuelInTank = 0;
+			die();
+		}
 	}
 
 	@Override

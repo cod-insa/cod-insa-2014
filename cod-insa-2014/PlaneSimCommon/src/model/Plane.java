@@ -31,7 +31,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	private static final double DEFAULT_FIRE_RANGE_MILITARY = 0.7;
 	private static final double DEFAULT_FIRE_RANGE_COMMERCIAL = 0;
 	
-	private static final double DEFAULT_INIT_GAZ = 100;
+	private static final double DEFAULT_INIT_GAZ = 10;
 
 	// Basically, FullView is a BasicView plus some additional visible things 
 	public class FullView extends BasicView

@@ -8,13 +8,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Coord;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import common.CoordConverter;
 import common.ListView;
 import common.Util;
+
 import control.Controller;
 import display.Displayer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Game {
 	
@@ -133,8 +136,8 @@ public class Game {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
 							double w = world.width, h = world.height;
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3);
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3, true);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4, true);
 						}
 					}
 					

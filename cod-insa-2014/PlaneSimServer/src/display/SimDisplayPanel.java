@@ -1,10 +1,10 @@
 package display;
 
 import game.AutoPilot.Mode;
+import game.Game;
 import game.GameBase;
 import game.GameEntity;
 import game.GamePlane;
-import game.Game;
 import game.World;
 
 import java.awt.BasicStroke;
@@ -72,7 +72,7 @@ public class SimDisplayPanel extends JPanel {
 //    	int nb = 5;
     	int nb = 2;
     	for (int i = 0; i < nb; i++) {
-    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2));
+    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), true);
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
