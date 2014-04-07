@@ -45,7 +45,7 @@ public final class AutoPilot {
 	//boolean attacking = false;
 	//Action current_action = Action.NONE;
 	State state = State.IDLE;
-
+	
 	public Mode default_mode = Mode.ATTACK_ON_SIGHT; // mode used when goingTo action is complete
 	// ^ TODO when other actions are complete too!
 	public Mode mode = default_mode; // Mode.ATTACK_ON_SIGHT;
@@ -111,7 +111,7 @@ public final class AutoPilot {
 //			System.out.println("already at airp");
 //			return;
 //		}
-		if (state == State.AT_AIRPORT) {
+		if (state == State.AT_AIRPORT && b.id() == plane.model().curBase.id) {
 			assert Util.findFirst(b.model().view().planes(), new Predicate<Plane.FullView>(){
 				public Boolean convert(Plane.FullView src) {
 					return src.id() == plane.id();
