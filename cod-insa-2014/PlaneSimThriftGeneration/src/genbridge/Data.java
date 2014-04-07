@@ -42,7 +42,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   private static final org.apache.thrift.protocol.TField NOT_OWNED_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_bases", org.apache.thrift.protocol.TType.LIST, (short)5);
   private static final org.apache.thrift.protocol.TField PROGRESS_AXIS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxis", org.apache.thrift.protocol.TType.LIST, (short)6);
   private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)7);
-  private static final org.apache.thrift.protocol.TField CURRENT_MONEY_FIELD_DESC = new org.apache.thrift.protocol.TField("currentMoney", org.apache.thrift.protocol.TType.I32, (short)8);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -57,7 +56,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   public List<BaseBasicData> not_owned_bases; // required
   public List<ProgressAxisData> progressAxis; // required
   public CountryData myCountry; // required
-  public int currentMoney; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -67,8 +65,7 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     OWNED_BASES((short)4, "owned_bases"),
     NOT_OWNED_BASES((short)5, "not_owned_bases"),
     PROGRESS_AXIS((short)6, "progressAxis"),
-    MY_COUNTRY((short)7, "myCountry"),
-    CURRENT_MONEY((short)8, "currentMoney");
+    MY_COUNTRY((short)7, "myCountry");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -97,8 +94,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
           return PROGRESS_AXIS;
         case 7: // MY_COUNTRY
           return MY_COUNTRY;
-        case 8: // CURRENT_MONEY
-          return CURRENT_MONEY;
         default:
           return null;
       }
@@ -140,7 +135,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
 
   // isset id assignments
   private static final int __NUMFRAME_ISSET_ID = 0;
-  private static final int __CURRENTMONEY_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -164,8 +158,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ProgressAxisData.class))));
     tmpMap.put(_Fields.MY_COUNTRY, new org.apache.thrift.meta_data.FieldMetaData("myCountry", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CountryData.class)));
-    tmpMap.put(_Fields.CURRENT_MONEY, new org.apache.thrift.meta_data.FieldMetaData("currentMoney", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Data.class, metaDataMap);
   }
@@ -180,8 +172,7 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     List<BaseFullData> owned_bases,
     List<BaseBasicData> not_owned_bases,
     List<ProgressAxisData> progressAxis,
-    CountryData myCountry,
-    int currentMoney)
+    CountryData myCountry)
   {
     this();
     this.numFrame = numFrame;
@@ -192,8 +183,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     this.not_owned_bases = not_owned_bases;
     this.progressAxis = progressAxis;
     this.myCountry = myCountry;
-    this.currentMoney = currentMoney;
-    setCurrentMoneyIsSet(true);
   }
 
   /**
@@ -240,7 +229,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     if (other.isSetMyCountry()) {
       this.myCountry = new CountryData(other.myCountry);
     }
-    this.currentMoney = other.currentMoney;
   }
 
   public Data deepCopy() {
@@ -257,8 +245,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     this.not_owned_bases = null;
     this.progressAxis = null;
     this.myCountry = null;
-    setCurrentMoneyIsSet(false);
-    this.currentMoney = 0;
   }
 
   public int getNumFrame() {
@@ -503,29 +489,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     }
   }
 
-  public int getCurrentMoney() {
-    return this.currentMoney;
-  }
-
-  public Data setCurrentMoney(int currentMoney) {
-    this.currentMoney = currentMoney;
-    setCurrentMoneyIsSet(true);
-    return this;
-  }
-
-  public void unsetCurrentMoney() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CURRENTMONEY_ISSET_ID);
-  }
-
-  /** Returns true if field currentMoney is set (has been assigned a value) and false otherwise */
-  public boolean isSetCurrentMoney() {
-    return EncodingUtils.testBit(__isset_bitfield, __CURRENTMONEY_ISSET_ID);
-  }
-
-  public void setCurrentMoneyIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CURRENTMONEY_ISSET_ID, value);
-  }
-
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case NUM_FRAME:
@@ -584,14 +547,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       }
       break;
 
-    case CURRENT_MONEY:
-      if (value == null) {
-        unsetCurrentMoney();
-      } else {
-        setCurrentMoney((Integer)value);
-      }
-      break;
-
     }
   }
 
@@ -618,9 +573,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     case MY_COUNTRY:
       return getMyCountry();
 
-    case CURRENT_MONEY:
-      return Integer.valueOf(getCurrentMoney());
-
     }
     throw new IllegalStateException();
   }
@@ -646,8 +598,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       return isSetProgressAxis();
     case MY_COUNTRY:
       return isSetMyCountry();
-    case CURRENT_MONEY:
-      return isSetCurrentMoney();
     }
     throw new IllegalStateException();
   }
@@ -725,15 +675,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       if (!(this_present_myCountry && that_present_myCountry))
         return false;
       if (!this.myCountry.equals(that.myCountry))
-        return false;
-    }
-
-    boolean this_present_currentMoney = true;
-    boolean that_present_currentMoney = true;
-    if (this_present_currentMoney || that_present_currentMoney) {
-      if (!(this_present_currentMoney && that_present_currentMoney))
-        return false;
-      if (this.currentMoney != that.currentMoney)
         return false;
     }
 
@@ -823,16 +764,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetCurrentMoney()).compareTo(other.isSetCurrentMoney());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetCurrentMoney()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.currentMoney, other.currentMoney);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     return 0;
   }
 
@@ -903,10 +834,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     } else {
       sb.append(this.myCountry);
     }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("currentMoney:");
-    sb.append(this.currentMoney);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -1068,14 +995,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 8: // CURRENT_MONEY
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.currentMoney = iprot.readI32();
-              struct.setCurrentMoneyIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -1159,9 +1078,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         struct.myCountry.write(oprot);
         oprot.writeFieldEnd();
       }
-      oprot.writeFieldBegin(CURRENT_MONEY_FIELD_DESC);
-      oprot.writeI32(struct.currentMoney);
-      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -1201,10 +1117,7 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       if (struct.isSetMyCountry()) {
         optionals.set(6);
       }
-      if (struct.isSetCurrentMoney()) {
-        optionals.set(7);
-      }
-      oprot.writeBitSet(optionals, 8);
+      oprot.writeBitSet(optionals, 7);
       if (struct.isSetNumFrame()) {
         oprot.writeI32(struct.numFrame);
       }
@@ -1256,15 +1169,12 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       if (struct.isSetMyCountry()) {
         struct.myCountry.write(oprot);
       }
-      if (struct.isSetCurrentMoney()) {
-        oprot.writeI32(struct.currentMoney);
-      }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Data struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(8);
+      BitSet incoming = iprot.readBitSet(7);
       if (incoming.get(0)) {
         struct.numFrame = iprot.readI32();
         struct.setNumFrameIsSet(true);
@@ -1343,10 +1253,6 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         struct.myCountry = new CountryData();
         struct.myCountry.read(iprot);
         struct.setMyCountryIsSet(true);
-      }
-      if (incoming.get(7)) {
-        struct.currentMoney = iprot.readI32();
-        struct.setCurrentMoneyIsSet(true);
       }
     }
   }
