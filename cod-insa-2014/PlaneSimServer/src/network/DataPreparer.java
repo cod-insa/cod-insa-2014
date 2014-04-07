@@ -127,11 +127,11 @@ public abstract class DataPreparer {
 							p.canAttack()
 						), 
 						baseId, 
-						p.remainingGaz(), 
+						p.fuelInTank(), 
 						DataStateConverter.make(p.state()),
-						p.militarResourceCarried(),
-						p.fuelResourceCarried(),
-						p.capacityHold(), p.capacityTank()
+						p.militaryInHold(),
+						p.fuelInHold(),
+						p.holdCapacity(), p.tankCapacity()
 					)
 				);
 				

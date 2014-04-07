@@ -18,7 +18,6 @@ import command.LoadResourcesCommand;
 import command.MoveCommand;
 import command.StoreFuelCommand;
 import command.WaitCommand;
-import common.NotSupportedException;
 
 public class Controller {
 	
@@ -90,24 +89,24 @@ public class Controller {
 //			throw new NotSupportedException("Unrecognized command");
 //		}
 		catch (DropMilitarsCommand dmc) {
-			s.getPlane(dmc.planeSrc.id()).model().militarResourceCarried -= dmc.quantity;
+			s.getPlane(dmc.planeSrc.id()).model().militaryInHold -= dmc.quantity;
 			s.getPlane(dmc.planeSrc.id()).model().curBase.militarResourcesStock += dmc.quantity;
 		}
 		catch (StoreFuelCommand sfc) {
-			s.getPlane(sfc.planeSrc.id()).model().fuelResourceCarried -= sfc.quantity;
+			s.getPlane(sfc.planeSrc.id()).model().fuelInHold -= sfc.quantity;
 			s.getPlane(sfc.planeSrc.id()).model().curBase.fuelResourcesStock += sfc.quantity;
 		}
 		catch (FillFuelTankCommand fftc) {
 			s.getPlane(fftc.planeSrc.id()).model().curBase.fuelResourcesStock -= fftc.quantity;
-			s.getPlane(fftc.planeSrc.id()).model().remainingGaz += fftc.quantity;
+			s.getPlane(fftc.planeSrc.id()).model().fuelInTank += fftc.quantity;
 		}
 		catch (LoadResourcesCommand lrc) {
 
 			s.getPlane(lrc.planeSrc.id()).model().curBase.fuelResourcesStock -= lrc.fuelQuantity;
-			s.getPlane(lrc.planeSrc.id()).model().fuelResourceCarried += lrc.fuelQuantity;
+			s.getPlane(lrc.planeSrc.id()).model().fuelInHold += lrc.fuelQuantity;
 
 			s.getPlane(lrc.planeSrc.id()).model().curBase.militarResourcesStock -= lrc.militarQuantity;
-			s.getPlane(lrc.planeSrc.id()).model().militarResourceCarried += lrc.militarQuantity;
+			s.getPlane(lrc.planeSrc.id()).model().militaryInHold += lrc.militarQuantity;
 		}
 		
 		

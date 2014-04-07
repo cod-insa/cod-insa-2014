@@ -148,11 +148,11 @@ public class Proxy
 		
 		// Closure for the poor
 		class UpdateInfo { public UpdateInfo(Plane plane, PlaneFullData p) {
-			plane.remainingGaz = p.remainingGaz;
-			plane.militarResourceCarried = p.militarResourceCarried;
-			plane.fuelResourceCarried = p.fuelResourceCarried;
-			plane.capacityHold = p.capacityHold;
-			plane.capacityTank = p.capacityTank;
+			plane.fuelInTank = p.remainingGaz;
+			plane.militaryInHold = p.militarResourceCarried;
+			plane.fuelInHold = p.fuelResourceCarried;
+			plane.holdCapacity = p.capacityHold;
+			plane.tankCapacity = p.capacityTank;
 			plane.ownerId(p.basic_info.ai_id);
 			// fireRange and radarRange not updated
 

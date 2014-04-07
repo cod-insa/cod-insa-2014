@@ -197,10 +197,10 @@ public class CommandMaker {
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't drop a negative quantity of resources !"));
 		
-		if (data.quantity > p.militarResourceCarried())
+		if (data.quantity > p.militaryInHold())
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Invalid quantity to drop: " + data.quantity + ". Can't drop more than " +p.militarResourceCarried()));
+					new Response(Command.ERROR_COMMAND,"Invalid quantity to drop: " + data.quantity + ". Can't drop more than " +p.militaryInHold()));
 		
 		if (!p.canAttack() && b.ownerId() != p.ownerId())
 			return new Couple<>(
@@ -230,14 +230,14 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut être dans un aéroport pour remplir le réservoir"));
+					new Response(Command.ERROR_COMMAND,"Il faut ï¿½tre dans un aï¿½roport pour remplir le rï¿½servoir"));
 		
 		// check quantity
 		if (data.quantity < 0) 
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill the tank with a negative quantity of fuel !"));
-		if (data.quantity > p.capacityTank() - p.remainingGaz())
+		if (data.quantity > p.tankCapacity() - p.fuelInTank())
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill this much fuel !"));
@@ -298,14 +298,14 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut être dans un aéroport pour remplir le réservoir"));
+					new Response(Command.ERROR_COMMAND,"Il faut ï¿½tre dans un aï¿½roport pour remplir le rï¿½servoir"));
 		
 		// check quantity
-		if (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried() > p.capacityHold())
+		if (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold() > p.holdCapacity())
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Too much resources to load. Maximum is " + 
-							(p.capacityHold() - (data.fuel_quantity + data.militar_quantity + p.militarResourceCarried() + p.fuelResourceCarried()))
+							(p.holdCapacity() - (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold()))
 					));
 		
 		// Everything all right
@@ -335,15 +335,15 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut être dans un aéroport pour remplir le réservoir"));
+					new Response(Command.ERROR_COMMAND,"Il faut ï¿½tre dans un aï¿½roport pour remplir le rï¿½servoir"));
 		
 		
 		// check quantity
-		if (data.quantity > p.militarResourceCarried())
+		if (data.quantity > p.militaryInHold())
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Too much resources to store. The plane contains " + 
-							p.militarResourceCarried() + " resources at maximum"
+							p.militaryInHold() + " resources at maximum"
 					));
 		
 		// Everything all right

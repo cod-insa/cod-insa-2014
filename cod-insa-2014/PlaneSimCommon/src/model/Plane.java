@@ -14,21 +14,21 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public State state; // don't try to modify this: it is controlled by the autoPilot
 	public Base curBase; // no signification if state != State.AT_AIRPORT
 	
-	// Hold
-	public double militarResourceCarried;
-	public double fuelResourceCarried;
-	public double capacityHold;
+	// Hold (soute)
+	public double militaryInHold;
+	public double fuelInHold;
+	public double holdCapacity;
 	
-	// Tank
-	public double remainingGaz;
-	public double capacityTank;
+	// Tank (reservoir)
+	public double fuelInTank;
+	public double tankCapacity;
 	
-	public double fireRange;
+	public final double fireRange;
 	
-	private static final double DEFAULT_CAPACITY_HOLD = 10;
-	private static final double DEFAULT_CAPACITY_TANK = 10;
+	private static final double DEFAULT_HOLD_CAPACITY = 10;
+	private static final double DEFAULT_TANK_CAPACITY = 10;
 	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
-	private static final double DEFAULT_FIRE_RANGE_MILITAR = 0.7;
+	private static final double DEFAULT_FIRE_RANGE_MILITARY = 0.7;
 	private static final double DEFAULT_FIRE_RANGE_COMMERCIAL = 0;
 	
 	private static final double DEFAULT_INIT_GAZ = 100;
@@ -38,11 +38,13 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	{
 		public State state() { return state; }
 		public Base.View curBase() { return curBase == null ? null : curBase.view(); }
-		public double militarResourceCarried() { return militarResourceCarried; }
-		public double fuelResourceCarried() { return fuelResourceCarried; }
-		public double remainingGaz() { return remainingGaz; }
-		public double capacityHold() { return capacityHold; }
-		public double capacityTank() { return capacityTank; }
+		
+		public double militaryInHold() { return militaryInHold; }
+		public double fuelInHold() { return fuelInHold; }
+		public double fuelInTank() { return fuelInTank; }
+		public double holdCapacity() { return holdCapacity; }
+		public double tankCapacity() { return tankCapacity; }
+		
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
@@ -73,7 +75,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 		
 		@Override
-		public String toString() { return super.toString()+" state:"+state()+" fuel:"+fuelResourceCarried()+" mil:"+militarResourceCarried(); }
+		public String toString() { return super.toString()+" state:"+state()+" fuel:"+fuelInHold()+" mil:"+militaryInHold(); }
 		
 		
 //		private Plane model() { return Plane.this; }
@@ -117,12 +119,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
 //		this.state = state;
-		this.fireRange = isMilitar ? DEFAULT_FIRE_RANGE_MILITAR : DEFAULT_FIRE_RANGE_COMMERCIAL;
+		this.fireRange = isMilitar ? DEFAULT_FIRE_RANGE_MILITARY : DEFAULT_FIRE_RANGE_COMMERCIAL;
 		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
-		this.capacityHold = DEFAULT_CAPACITY_HOLD;
-		this.capacityTank = DEFAULT_CAPACITY_TANK;
-		this.remainingGaz = DEFAULT_INIT_GAZ;
-		fuelResourceCarried = militarResourceCarried = 0;
+		this.holdCapacity = DEFAULT_HOLD_CAPACITY;
+		this.tankCapacity = DEFAULT_TANK_CAPACITY;
+		this.fuelInTank = DEFAULT_INIT_GAZ;
+		fuelInHold = militaryInHold = 0;
 	}
 	
 	public Plane (Plane.FullView src, Context context) {
@@ -132,11 +134,11 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		state = src.state();
 		radarRange = src.radarRange();
 		fireRange = src.fireRange();
-		capacityHold = src.capacityHold();
-		capacityTank = src.capacityTank();
-		remainingGaz = src.remainingGaz();
-		fuelResourceCarried = src.fuelResourceCarried();
-		militarResourceCarried = src.militarResourceCarried();
+		holdCapacity = src.holdCapacity();
+		tankCapacity = src.tankCapacity();
+		fuelInTank = src.fuelInTank();
+		fuelInHold = src.fuelInHold();
+		militaryInHold = src.militaryInHold();
 		if (src.curBase() != null)
 			curBase = src.curBase().copied(context);
 	}
