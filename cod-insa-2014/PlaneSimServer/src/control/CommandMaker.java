@@ -237,7 +237,7 @@ public class CommandMaker {
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill the tank with a negative quantity of fuel !"));
-		if (data.quantity > p.tankCapacity() - p.fuelInTank())
+		if (data.quantity > p.type.tankCapacity - p.fuelInTank())
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't fill this much fuel !"));
@@ -301,11 +301,11 @@ public class CommandMaker {
 					new Response(Command.ERROR_COMMAND,"Il faut �tre dans un a�roport pour remplir le r�servoir"));
 		
 		// check quantity
-		if (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold() > p.holdCapacity())
+		if (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold() > p.type.holdCapacity)
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Too much resources to load. Maximum is " + 
-							(p.holdCapacity() - (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold()))
+							(p.type.holdCapacity - (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold()))
 					));
 		
 		// Everything all right

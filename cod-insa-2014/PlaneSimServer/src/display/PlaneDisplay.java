@@ -76,10 +76,10 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 			public Bar(Double first, Color second) { super(first, second); }
 		}
 		for (Bar bar: new Bar[]{
-			new Bar(m.health, Color.green),
-			new Bar(m.fuelInTank/m.tankCapacity, Color.blue),
-			new Bar(m.militaryInHold/m.holdCapacity, Color.red),
-			new Bar(m.fuelInHold/m.holdCapacity, Color.blue),
+			new Bar(m.health/m.type.fullHealth, Color.green),
+			new Bar(m.fuelInTank/m.type.tankCapacity, Color.blue),
+			new Bar(m.militaryInHold/m.type.holdCapacity, Color.red),
+			new Bar(m.fuelInHold/m.type.holdCapacity, Color.blue),
 		}) {
 			g2d.setColor(bar.second);
 			y += height*2;

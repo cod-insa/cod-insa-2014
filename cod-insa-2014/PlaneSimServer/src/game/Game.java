@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Coord;
+import model.Plane.Type;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ public class Game {
 	
 	public static final Logger log = LoggerFactory.getLogger(Game.class);
 	
-	public final long update_period = 30;
-	public final long world_snapshot_frame_period = 50;
+	public final static long update_period = 30;
+//	public final static long world_snapshot_frame_period = 50;
 	
 	//private Controller stepUpdate;
 	
@@ -128,16 +129,16 @@ public class Game {
 					update();
 					Controller.get().update(Game.this);
 					
-					if (current_frame%world_snapshot_frame_period == 0)
+					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0)
 						world.takeSnapshot();
 					
 					
-					if (current_frame%world_snapshot_frame_period == 0) {
+					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0) {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
 							double w = world.width, h = world.height;
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3, true);
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4, true);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3, Type.MILITARY);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4, Type.MILITARY);
 						}
 					}
 					

@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.Unique;
 import common.Viewable;
@@ -8,30 +10,34 @@ import common.Viewable;
 public class Plane extends MovingEntity implements Serializable, Viewable<Plane.FullView> {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public final Type type;
+	
 	//private static final double DEFAULT_RANGE = 0.7;
-
-	public double health; // = 1;
+	
 	public State state; // don't try to modify this: it is controlled by the autoPilot
 	public Base curBase; // no signification if state != State.AT_AIRPORT
+	
+	public double health; // = 1;
 	
 	// Hold (soute)
 	public double militaryInHold;
 	public double fuelInHold;
-	public double holdCapacity;
+//	public double holdCapacity;
 	
 	// Tank (reservoir)
 	public double fuelInTank;
-	public double tankCapacity;
+//	public double tankCapacity;
 	
-	public final double fireRange;
+//	public final double fireRange;
 	
-	private static final double DEFAULT_HOLD_CAPACITY = 10;
-	private static final double DEFAULT_TANK_CAPACITY = 10;
-	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
-	private static final double DEFAULT_FIRE_RANGE_MILITARY = 0.7;
-	private static final double DEFAULT_FIRE_RANGE_COMMERCIAL = 0;
-	
-	private static final double DEFAULT_INIT_GAZ = 10;
+//	private static final double DEFAULT_HOLD_CAPACITY = 10;
+//	private static final double DEFAULT_TANK_CAPACITY = 10;
+//	private static final double DEFAULT_PLANE_RADAR_RANGE = 0.7;
+//	private static final double DEFAULT_FIRE_RANGE_MILITARY = 0.7;
+//	private static final double DEFAULT_FIRE_RANGE_COMMERCIAL = 0;
+//	
+//	private static final double DEFAULT_INIT_GAZ = 10;
 
 	// Basically, FullView is a BasicView plus some additional visible things 
 	public class FullView extends BasicView
@@ -42,8 +48,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		public double militaryInHold() { return militaryInHold; }
 		public double fuelInHold() { return fuelInHold; }
 		public double fuelInTank() { return fuelInTank; }
-		public double holdCapacity() { return holdCapacity; }
-		public double tankCapacity() { return tankCapacity; }
+//		public double holdCapacity() { return holdCapacity; }
+//		public double tankCapacity() { return tankCapacity; }
+		
+		public double health() { return health; }
+		
+		public final Type type = Plane.this.type;
 		
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
@@ -85,9 +95,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public class BasicView extends MovingEntity.View {
 		public double health() { return health; }
 		public boolean canAttack() {
-			return fireRange > 0;
+			return type.fireRange > 0;
 		}
-		public double fireRange() { return fireRange; }
+//		public double fireRange() { return fireRange; }
 		public double radarRange() { return radarRange;	}
 		@Override
 		public String toString() { return (exists()?"":"[dead] ")+"Plane "+id()+" owner:"+ownerId()+" health:"+health(); }
@@ -114,17 +124,24 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //	public final View view = new View();
 	
 	
-	public Plane (int id, Unique<Coord> pos, double health, boolean isMilitar) {
+	public Plane (int id, Unique<Coord> pos, double health, Type type) {
 		//super(id,pos);
 		super(id, pos, new Coord.Unique(0,0));
 		this.health = health;
 //		this.state = state;
-		this.fireRange = isMilitar ? DEFAULT_FIRE_RANGE_MILITARY : DEFAULT_FIRE_RANGE_COMMERCIAL;
-		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
-		this.holdCapacity = DEFAULT_HOLD_CAPACITY;
-		this.tankCapacity = DEFAULT_TANK_CAPACITY;
-		this.fuelInTank = DEFAULT_INIT_GAZ;
-		fuelInHold = militaryInHold = 0;
+//		this.fireRange = isMilitar ? DEFAULT_FIRE_RANGE_MILITARY : DEFAULT_FIRE_RANGE_COMMERCIAL;
+//		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
+//		this.holdCapacity = DEFAULT_HOLD_CAPACITY;
+//		this.tankCapacity = DEFAULT_TANK_CAPACITY;
+//		this.fuelInTank = DEFAULT_INIT_GAZ;
+		
+		this.type = type;
+		
+		radarRange = type.radarRange;
+		fuelInTank = type.tankCapacity;
+		fuelInHold = 0;
+		militaryInHold = 0;
+		
 	}
 	
 	public Plane (Plane.FullView src, Context context) {
@@ -133,12 +150,13 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		health = src.health();
 		state = src.state();
 		radarRange = src.radarRange();
-		fireRange = src.fireRange();
-		holdCapacity = src.holdCapacity();
-		tankCapacity = src.tankCapacity();
+//		fireRange = src.fireRange();
+//		holdCapacity = src.holdCapacity();
+//		tankCapacity = src.tankCapacity();
 		fuelInTank = src.fuelInTank();
 		fuelInHold = src.fuelInHold();
 		militaryInHold = src.militaryInHold();
+		type = src.type;
 		if (src.curBase() != null)
 			curBase = src.curBase().copied(context);
 	}
@@ -170,6 +188,96 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			curBase.planes.remove(this);
 			this.curBase = null;
 		}
+	}
+	
+	
+	public static class Type {
+		
+		private static final List<Type> instances = new ArrayList<>();
+		
+		public static Type get (int id) {
+			return instances.get(id);
+		}
+		
+		public final int id;
+		
+		public final double
+			
+			fireRange,
+			radarRange,
+			
+			fullHealth,
+			
+			holdCapacity,
+			tankCapacity,
+			
+			fuelConsumptionPerDistanceUnit,
+			
+			radius
+			
+		;
+		
+		private Type(
+				double fireRange,
+				double radarRange,
+				double maxHealth,
+				double holdCapacity,
+				double tankCapacity,
+				double fuelConsumptionPerDistanceUnit,
+				double radius
+		) {
+			
+			id = instances.size();
+			instances.add(this);
+			
+			this.fireRange = fireRange;
+			this.radarRange = radarRange;
+			
+			this.fullHealth = maxHealth;
+			
+			this.holdCapacity = holdCapacity;
+			this.tankCapacity = tankCapacity;
+			
+			this.fuelConsumptionPerDistanceUnit = fuelConsumptionPerDistanceUnit;
+			
+			this.radius = radius;
+			
+		}
+
+		public static final Type MILITARY = new Type(
+				// firingRange
+				0.7,
+				// radarRange
+				0.7,
+				// fullHealth
+				10,
+				// holdCapacity
+				10,
+				// tankCapacity
+				10,
+				// fuelConsumptionPerDistanceUnit
+				0,
+				// radius
+				.03
+			);
+		
+		public static final Type COMMERCIAL = new Type(
+				// firingRange
+				0,
+				// radarRange
+				MILITARY.radarRange,
+				// fullHealth
+				MILITARY.fullHealth*2,
+				// holdCapacity
+				MILITARY.holdCapacity*5,
+				// tankCapacity
+				MILITARY.tankCapacity*4,
+				// fuelConsumptionPerDistanceUnit
+				MILITARY.fuelConsumptionPerDistanceUnit*3,
+				// radius
+				MILITARY.radius*2 // TODO adjust
+			);
+		
 	}
 	
 }
