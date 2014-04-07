@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.geom.Point2D;
-import java.util.Set;
 
 import model.Coord.View;
 
@@ -359,6 +358,9 @@ class InternalView {
 	
 	public final Coord multipliedBy (double coeff)
 	{ Coord r = new Coord(model); r.mult(coeff); return r; }
+
+	public final Coord shifted (double dx, double dy)
+	{ Coord r = new Coord(model); r.shift(dx, dy); return r; }
 	
 	public final Coord shifted (double shift)
 	{ Coord r = new Coord(model); r.shift(shift); return r; }

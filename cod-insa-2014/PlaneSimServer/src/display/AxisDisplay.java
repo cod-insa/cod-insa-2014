@@ -60,7 +60,7 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 //				b2.y
 //		);
 		
-		
+		assert entity.modelView().ratio1() + entity.modelView().ratio2() <= 1;
 
 		Coord bary1 = c2.addedTo(c1, -1);
 		bary1.mult(entity.modelView().ratio1());
