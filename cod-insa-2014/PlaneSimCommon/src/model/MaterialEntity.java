@@ -1,6 +1,5 @@
 package model;
 
-import common.Copyable;
 
 /**
  * Created by LP on 27/03/2014.
@@ -12,7 +11,7 @@ public abstract class MaterialEntity extends Entity {
 	
 	private double rotation = 0;
 
-	public double radarRange;
+	protected double radarRange;
 
 	public abstract Coord.View position();
 	

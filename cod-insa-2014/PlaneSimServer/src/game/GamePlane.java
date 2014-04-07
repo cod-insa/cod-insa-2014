@@ -21,15 +21,15 @@ public final class GamePlane extends MaterialGameEntity {
 		MAX_ACCELERATION = .001,
 		MAX_DECELERATION = MAX_ACCELERATION,
 		
-		VISION_DIST = .7, VISION_DIST_SQUARED = VISION_DIST*VISION_DIST,
+		VISION_DIST = .7, VISION_DIST_SQUARED = VISION_DIST*VISION_DIST, // FIXME remove
 		
 		//MAX_FIRING_ANGLE = Math.PI*.2,
-		MAX_FIRING_ANGLE = Math.PI*.4,
+		MAX_FIRING_ANGLE = Math.PI*.4
 		
-		RADIUS = .03,
+//		RADIUS = .03
 		
-		FUEL_BY_FRAME_MIL = .1,
-		FUEL_BY_FRAME_COM = FUEL_BY_FRAME_MIL*1.6
+//		FUEL_BY_FRAME_MIL = .1,
+//		FUEL_BY_FRAME_COM = FUEL_BY_FRAME_MIL*1.6
 		
 	;
 	
@@ -38,8 +38,8 @@ public final class GamePlane extends MaterialGameEntity {
 	
 	//model.Plane.View model() { return null; }
 	
-	public GamePlane (Game sim, Unique<Coord> pos, int ownerId, boolean isMilitar) {
-		super(new Plane(makeNextId(), pos, 1, isMilitar), sim, Altitude.SKY);
+	public GamePlane (Game sim, Unique<Coord> pos, int ownerId, Plane.Type type) {
+		super(new Plane(makeNextId(), pos, 1, type), sim, Altitude.SKY);
 		model().state = State.IDLE;
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
@@ -48,7 +48,7 @@ public final class GamePlane extends MaterialGameEntity {
 		//model.speed = MAX_SPEED;
 		model().speed = 0;
 		model.ownerId(ownerId);
-		radius = RADIUS;
+		radius = type.radius;
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public final class GamePlane extends MaterialGameEntity {
 		autoPilot.refresh(period);
 		//System.out.println(model().fuelInTank/model().tankCapacity);
 		if (model().state != State.AT_AIRPORT)
-			model().fuelInTank -= FUEL_BY_FRAME_MIL;
+			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
 		if (model().fuelInTank < 0) {
 			model().fuelInTank = 0;
 			die();

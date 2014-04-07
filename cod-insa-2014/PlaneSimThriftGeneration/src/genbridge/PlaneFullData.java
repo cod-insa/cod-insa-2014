@@ -41,8 +41,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
   private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)4);
   private static final org.apache.thrift.protocol.TField MILITAR_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("militarResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)5);
   private static final org.apache.thrift.protocol.TField FUEL_RESOURCE_CARRIED_FIELD_DESC = new org.apache.thrift.protocol.TField("fuelResourceCarried", org.apache.thrift.protocol.TType.DOUBLE, (short)6);
-  private static final org.apache.thrift.protocol.TField CAPACITY_HOLD_FIELD_DESC = new org.apache.thrift.protocol.TField("capacityHold", org.apache.thrift.protocol.TType.DOUBLE, (short)7);
-  private static final org.apache.thrift.protocol.TField CAPACITY_TANK_FIELD_DESC = new org.apache.thrift.protocol.TField("capacityTank", org.apache.thrift.protocol.TType.DOUBLE, (short)8);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -60,8 +58,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
   public PlaneStateData state; // required
   public double militarResourceCarried; // required
   public double fuelResourceCarried; // required
-  public double capacityHold; // required
-  public double capacityTank; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -74,9 +70,7 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
      */
     STATE((short)4, "state"),
     MILITAR_RESOURCE_CARRIED((short)5, "militarResourceCarried"),
-    FUEL_RESOURCE_CARRIED((short)6, "fuelResourceCarried"),
-    CAPACITY_HOLD((short)7, "capacityHold"),
-    CAPACITY_TANK((short)8, "capacityTank");
+    FUEL_RESOURCE_CARRIED((short)6, "fuelResourceCarried");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -103,10 +97,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
           return MILITAR_RESOURCE_CARRIED;
         case 6: // FUEL_RESOURCE_CARRIED
           return FUEL_RESOURCE_CARRIED;
-        case 7: // CAPACITY_HOLD
-          return CAPACITY_HOLD;
-        case 8: // CAPACITY_TANK
-          return CAPACITY_TANK;
         default:
           return null;
       }
@@ -151,8 +141,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
   private static final int __REMAININGGAZ_ISSET_ID = 1;
   private static final int __MILITARRESOURCECARRIED_ISSET_ID = 2;
   private static final int __FUELRESOURCECARRIED_ISSET_ID = 3;
-  private static final int __CAPACITYHOLD_ISSET_ID = 4;
-  private static final int __CAPACITYTANK_ISSET_ID = 5;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -169,10 +157,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.FUEL_RESOURCE_CARRIED, new org.apache.thrift.meta_data.FieldMetaData("fuelResourceCarried", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
-    tmpMap.put(_Fields.CAPACITY_HOLD, new org.apache.thrift.meta_data.FieldMetaData("capacityHold", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
-    tmpMap.put(_Fields.CAPACITY_TANK, new org.apache.thrift.meta_data.FieldMetaData("capacityTank", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PlaneFullData.class, metaDataMap);
   }
@@ -186,9 +170,7 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
     double remainingGaz,
     PlaneStateData state,
     double militarResourceCarried,
-    double fuelResourceCarried,
-    double capacityHold,
-    double capacityTank)
+    double fuelResourceCarried)
   {
     this();
     this.basic_info = basic_info;
@@ -201,10 +183,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
     setMilitarResourceCarriedIsSet(true);
     this.fuelResourceCarried = fuelResourceCarried;
     setFuelResourceCarriedIsSet(true);
-    this.capacityHold = capacityHold;
-    setCapacityHoldIsSet(true);
-    this.capacityTank = capacityTank;
-    setCapacityTankIsSet(true);
   }
 
   /**
@@ -222,8 +200,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
     }
     this.militarResourceCarried = other.militarResourceCarried;
     this.fuelResourceCarried = other.fuelResourceCarried;
-    this.capacityHold = other.capacityHold;
-    this.capacityTank = other.capacityTank;
   }
 
   public PlaneFullData deepCopy() {
@@ -242,10 +218,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
     this.militarResourceCarried = 0.0;
     setFuelResourceCarriedIsSet(false);
     this.fuelResourceCarried = 0.0;
-    setCapacityHoldIsSet(false);
-    this.capacityHold = 0.0;
-    setCapacityTankIsSet(false);
-    this.capacityTank = 0.0;
   }
 
   public PlaneBasicData getBasic_info() {
@@ -396,52 +368,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __FUELRESOURCECARRIED_ISSET_ID, value);
   }
 
-  public double getCapacityHold() {
-    return this.capacityHold;
-  }
-
-  public PlaneFullData setCapacityHold(double capacityHold) {
-    this.capacityHold = capacityHold;
-    setCapacityHoldIsSet(true);
-    return this;
-  }
-
-  public void unsetCapacityHold() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CAPACITYHOLD_ISSET_ID);
-  }
-
-  /** Returns true if field capacityHold is set (has been assigned a value) and false otherwise */
-  public boolean isSetCapacityHold() {
-    return EncodingUtils.testBit(__isset_bitfield, __CAPACITYHOLD_ISSET_ID);
-  }
-
-  public void setCapacityHoldIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CAPACITYHOLD_ISSET_ID, value);
-  }
-
-  public double getCapacityTank() {
-    return this.capacityTank;
-  }
-
-  public PlaneFullData setCapacityTank(double capacityTank) {
-    this.capacityTank = capacityTank;
-    setCapacityTankIsSet(true);
-    return this;
-  }
-
-  public void unsetCapacityTank() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CAPACITYTANK_ISSET_ID);
-  }
-
-  /** Returns true if field capacityTank is set (has been assigned a value) and false otherwise */
-  public boolean isSetCapacityTank() {
-    return EncodingUtils.testBit(__isset_bitfield, __CAPACITYTANK_ISSET_ID);
-  }
-
-  public void setCapacityTankIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CAPACITYTANK_ISSET_ID, value);
-  }
-
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case BASIC_INFO:
@@ -492,22 +418,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       }
       break;
 
-    case CAPACITY_HOLD:
-      if (value == null) {
-        unsetCapacityHold();
-      } else {
-        setCapacityHold((Double)value);
-      }
-      break;
-
-    case CAPACITY_TANK:
-      if (value == null) {
-        unsetCapacityTank();
-      } else {
-        setCapacityTank((Double)value);
-      }
-      break;
-
     }
   }
 
@@ -530,12 +440,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
 
     case FUEL_RESOURCE_CARRIED:
       return Double.valueOf(getFuelResourceCarried());
-
-    case CAPACITY_HOLD:
-      return Double.valueOf(getCapacityHold());
-
-    case CAPACITY_TANK:
-      return Double.valueOf(getCapacityTank());
 
     }
     throw new IllegalStateException();
@@ -560,10 +464,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       return isSetMilitarResourceCarried();
     case FUEL_RESOURCE_CARRIED:
       return isSetFuelResourceCarried();
-    case CAPACITY_HOLD:
-      return isSetCapacityHold();
-    case CAPACITY_TANK:
-      return isSetCapacityTank();
     }
     throw new IllegalStateException();
   }
@@ -632,24 +532,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       if (!(this_present_fuelResourceCarried && that_present_fuelResourceCarried))
         return false;
       if (this.fuelResourceCarried != that.fuelResourceCarried)
-        return false;
-    }
-
-    boolean this_present_capacityHold = true;
-    boolean that_present_capacityHold = true;
-    if (this_present_capacityHold || that_present_capacityHold) {
-      if (!(this_present_capacityHold && that_present_capacityHold))
-        return false;
-      if (this.capacityHold != that.capacityHold)
-        return false;
-    }
-
-    boolean this_present_capacityTank = true;
-    boolean that_present_capacityTank = true;
-    if (this_present_capacityTank || that_present_capacityTank) {
-      if (!(this_present_capacityTank && that_present_capacityTank))
-        return false;
-      if (this.capacityTank != that.capacityTank)
         return false;
     }
 
@@ -729,26 +611,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetCapacityHold()).compareTo(other.isSetCapacityHold());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetCapacityHold()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.capacityHold, other.capacityHold);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetCapacityTank()).compareTo(other.isSetCapacityTank());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetCapacityTank()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.capacityTank, other.capacityTank);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     return 0;
   }
 
@@ -799,14 +661,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
     if (!first) sb.append(", ");
     sb.append("fuelResourceCarried:");
     sb.append(this.fuelResourceCarried);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("capacityHold:");
-    sb.append(this.capacityHold);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("capacityTank:");
-    sb.append(this.capacityTank);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -905,22 +759,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 7: // CAPACITY_HOLD
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.capacityHold = iprot.readDouble();
-              struct.setCapacityHoldIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 8: // CAPACITY_TANK
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
-              struct.capacityTank = iprot.readDouble();
-              struct.setCapacityTankIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -958,12 +796,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       oprot.writeFieldBegin(FUEL_RESOURCE_CARRIED_FIELD_DESC);
       oprot.writeDouble(struct.fuelResourceCarried);
       oprot.writeFieldEnd();
-      oprot.writeFieldBegin(CAPACITY_HOLD_FIELD_DESC);
-      oprot.writeDouble(struct.capacityHold);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(CAPACITY_TANK_FIELD_DESC);
-      oprot.writeDouble(struct.capacityTank);
-      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -1000,13 +832,7 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       if (struct.isSetFuelResourceCarried()) {
         optionals.set(5);
       }
-      if (struct.isSetCapacityHold()) {
-        optionals.set(6);
-      }
-      if (struct.isSetCapacityTank()) {
-        optionals.set(7);
-      }
-      oprot.writeBitSet(optionals, 8);
+      oprot.writeBitSet(optionals, 6);
       if (struct.isSetBasic_info()) {
         struct.basic_info.write(oprot);
       }
@@ -1025,18 +851,12 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       if (struct.isSetFuelResourceCarried()) {
         oprot.writeDouble(struct.fuelResourceCarried);
       }
-      if (struct.isSetCapacityHold()) {
-        oprot.writeDouble(struct.capacityHold);
-      }
-      if (struct.isSetCapacityTank()) {
-        oprot.writeDouble(struct.capacityTank);
-      }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, PlaneFullData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(8);
+      BitSet incoming = iprot.readBitSet(6);
       if (incoming.get(0)) {
         struct.basic_info = new PlaneBasicData();
         struct.basic_info.read(iprot);
@@ -1061,14 +881,6 @@ public class PlaneFullData implements org.apache.thrift.TBase<PlaneFullData, Pla
       if (incoming.get(5)) {
         struct.fuelResourceCarried = iprot.readDouble();
         struct.setFuelResourceCarriedIsSet(true);
-      }
-      if (incoming.get(6)) {
-        struct.capacityHold = iprot.readDouble();
-        struct.setCapacityHoldIsSet(true);
-      }
-      if (incoming.get(7)) {
-        struct.capacityTank = iprot.readDouble();
-        struct.setCapacityTankIsSet(true);
       }
     }
   }

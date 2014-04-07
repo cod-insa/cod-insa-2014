@@ -30,6 +30,7 @@ import javax.swing.SwingUtilities;
 
 import model.Coord;
 import model.Plane.State;
+import model.Plane.Type;
 
 
 public class SimDisplayPanel extends JPanel {
@@ -72,7 +73,7 @@ public class SimDisplayPanel extends JPanel {
 //    	int nb = 5;
     	int nb = 2;
     	for (int i = 0; i < nb; i++) {
-    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), true);
+    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.MILITARY);
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);

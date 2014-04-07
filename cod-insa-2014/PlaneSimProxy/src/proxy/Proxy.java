@@ -18,8 +18,9 @@ import model.ProgressAxis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ai.AbstractAI;
+import com.sun.org.apache.bcel.internal.generic.Type;
 
+import ai.AbstractAI;
 import command.Command;
 import common.MapView;
 import common.Util;
@@ -151,8 +152,6 @@ public class Proxy
 			plane.fuelInTank = p.remainingGaz;
 			plane.militaryInHold = p.militarResourceCarried;
 			plane.fuelInHold = p.fuelResourceCarried;
-			plane.holdCapacity = p.capacityHold;
-			plane.tankCapacity = p.capacityTank;
 			plane.ownerId(p.basic_info.ai_id);
 			// fireRange and radarRange not updated
 
@@ -197,7 +196,7 @@ public class Proxy
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
-				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), p.basic_info.health, true);
+				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), p.basic_info.health, Plane.Type.get(p.basic_info.planeTypeId));
 				plane.state = StateConverter.make(p.state);
 
 				
@@ -228,7 +227,7 @@ public class Proxy
 			}
 			else // First time that the plane appears
 			{
-				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, p.canAttack);
+				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), p.health, Plane.Type.get(p.planeTypeId));
 				plane.ownerId(p.ai_id);
 				ennemy_planes.put(plane.id, plane);
 			}

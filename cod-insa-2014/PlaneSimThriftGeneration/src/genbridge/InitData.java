@@ -41,7 +41,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   private static final org.apache.thrift.protocol.TField PROGRESS_AXIS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxis", org.apache.thrift.protocol.TType.LIST, (short)4);
   private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)5);
   private static final org.apache.thrift.protocol.TField OTHERS_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("othersCountry", org.apache.thrift.protocol.TType.LIST, (short)6);
-  private static final org.apache.thrift.protocol.TField INIT_MONEY_FIELD_DESC = new org.apache.thrift.protocol.TField("initMoney", org.apache.thrift.protocol.TType.I32, (short)7);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -55,7 +54,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   public List<ProgressAxisInitData> progressAxis; // required
   public CountryInitData myCountry; // required
   public List<CountryInitData> othersCountry; // required
-  public int initMoney; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -64,8 +62,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     MAP_HEIGHT((short)3, "mapHeight"),
     PROGRESS_AXIS((short)4, "progressAxis"),
     MY_COUNTRY((short)5, "myCountry"),
-    OTHERS_COUNTRY((short)6, "othersCountry"),
-    INIT_MONEY((short)7, "initMoney");
+    OTHERS_COUNTRY((short)6, "othersCountry");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -92,8 +89,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
           return MY_COUNTRY;
         case 6: // OTHERS_COUNTRY
           return OTHERS_COUNTRY;
-        case 7: // INIT_MONEY
-          return INIT_MONEY;
         default:
           return null;
       }
@@ -136,7 +131,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
   // isset id assignments
   private static final int __MAPWIDTH_ISSET_ID = 0;
   private static final int __MAPHEIGHT_ISSET_ID = 1;
-  private static final int __INITMONEY_ISSET_ID = 2;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -156,8 +150,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     tmpMap.put(_Fields.OTHERS_COUNTRY, new org.apache.thrift.meta_data.FieldMetaData("othersCountry", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CountryInitData.class))));
-    tmpMap.put(_Fields.INIT_MONEY, new org.apache.thrift.meta_data.FieldMetaData("initMoney", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32        , "int")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(InitData.class, metaDataMap);
   }
@@ -171,8 +163,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     double mapHeight,
     List<ProgressAxisInitData> progressAxis,
     CountryInitData myCountry,
-    List<CountryInitData> othersCountry,
-    int initMoney)
+    List<CountryInitData> othersCountry)
   {
     this();
     this.bases = bases;
@@ -183,8 +174,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     this.progressAxis = progressAxis;
     this.myCountry = myCountry;
     this.othersCountry = othersCountry;
-    this.initMoney = initMoney;
-    setInitMoneyIsSet(true);
   }
 
   /**
@@ -218,7 +207,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       }
       this.othersCountry = __this__othersCountry;
     }
-    this.initMoney = other.initMoney;
   }
 
   public InitData deepCopy() {
@@ -235,8 +223,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     this.progressAxis = null;
     this.myCountry = null;
     this.othersCountry = null;
-    setInitMoneyIsSet(false);
-    this.initMoney = 0;
   }
 
   public int getBasesSize() {
@@ -426,29 +412,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     }
   }
 
-  public int getInitMoney() {
-    return this.initMoney;
-  }
-
-  public InitData setInitMoney(int initMoney) {
-    this.initMoney = initMoney;
-    setInitMoneyIsSet(true);
-    return this;
-  }
-
-  public void unsetInitMoney() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __INITMONEY_ISSET_ID);
-  }
-
-  /** Returns true if field initMoney is set (has been assigned a value) and false otherwise */
-  public boolean isSetInitMoney() {
-    return EncodingUtils.testBit(__isset_bitfield, __INITMONEY_ISSET_ID);
-  }
-
-  public void setInitMoneyIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __INITMONEY_ISSET_ID, value);
-  }
-
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case BASES:
@@ -499,14 +462,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       }
       break;
 
-    case INIT_MONEY:
-      if (value == null) {
-        unsetInitMoney();
-      } else {
-        setInitMoney((Integer)value);
-      }
-      break;
-
     }
   }
 
@@ -529,9 +484,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
 
     case OTHERS_COUNTRY:
       return getOthersCountry();
-
-    case INIT_MONEY:
-      return Integer.valueOf(getInitMoney());
 
     }
     throw new IllegalStateException();
@@ -556,8 +508,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       return isSetMyCountry();
     case OTHERS_COUNTRY:
       return isSetOthersCountry();
-    case INIT_MONEY:
-      return isSetInitMoney();
     }
     throw new IllegalStateException();
   }
@@ -626,15 +576,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (!(this_present_othersCountry && that_present_othersCountry))
         return false;
       if (!this.othersCountry.equals(that.othersCountry))
-        return false;
-    }
-
-    boolean this_present_initMoney = true;
-    boolean that_present_initMoney = true;
-    if (this_present_initMoney || that_present_initMoney) {
-      if (!(this_present_initMoney && that_present_initMoney))
-        return false;
-      if (this.initMoney != that.initMoney)
         return false;
     }
 
@@ -714,16 +655,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetInitMoney()).compareTo(other.isSetInitMoney());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetInitMoney()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.initMoney, other.initMoney);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     return 0;
   }
 
@@ -782,10 +713,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
     } else {
       sb.append(this.othersCountry);
     }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("initMoney:");
-    sb.append(this.initMoney);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -917,14 +844,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 7: // INIT_MONEY
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.initMoney = iprot.readI32();
-              struct.setInitMoneyIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -987,9 +906,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
         }
         oprot.writeFieldEnd();
       }
-      oprot.writeFieldBegin(INIT_MONEY_FIELD_DESC);
-      oprot.writeI32(struct.initMoney);
-      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -1026,10 +942,7 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
       if (struct.isSetOthersCountry()) {
         optionals.set(5);
       }
-      if (struct.isSetInitMoney()) {
-        optionals.set(6);
-      }
-      oprot.writeBitSet(optionals, 7);
+      oprot.writeBitSet(optionals, 6);
       if (struct.isSetBases()) {
         {
           oprot.writeI32(struct.bases.size());
@@ -1066,15 +979,12 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
           }
         }
       }
-      if (struct.isSetInitMoney()) {
-        oprot.writeI32(struct.initMoney);
-      }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, InitData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(7);
+      BitSet incoming = iprot.readBitSet(6);
       if (incoming.get(0)) {
         {
           org.apache.thrift.protocol.TList _list23 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
@@ -1129,10 +1039,6 @@ public class InitData implements org.apache.thrift.TBase<InitData, InitData._Fie
           }
         }
         struct.setOthersCountryIsSet(true);
-      }
-      if (incoming.get(6)) {
-        struct.initMoney = iprot.readI32();
-        struct.setInitMoneyIsSet(true);
       }
     }
   }
