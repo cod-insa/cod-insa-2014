@@ -41,7 +41,7 @@ public class MainWindow {
 	
 	JFrame frmPlaneSim;
 	public final JComboBox some_comboBox;
-	protected final SimDisplayPanel sim_panel;
+	protected final GameDisplayPanel game_panel;
 	
     protected final JButton btnBar = new JButton();
     public JList some_list;
@@ -65,7 +65,7 @@ public class MainWindow {
     	//contr = s.getSetpUpdater();
         this.onExit = onExit;
         
-    	sim_panel = new SimDisplayPanel(disp, s);
+    	game_panel = new GameDisplayPanel(disp, s);
     	
     	List<Object> slots = new ArrayList<Object>();
         slots.add(0,"All");
@@ -219,7 +219,7 @@ public class MainWindow {
                         .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-                        .addComponent(sim_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(game_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panel_top_btns, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
         );
@@ -233,7 +233,7 @@ public class MainWindow {
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
                         .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sim_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(game_panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
         );
 
@@ -302,7 +302,7 @@ public class MainWindow {
         final JMenuItem mntmZoomP = new JMenuItem("Zoom +");
         mntmZoomP.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	sim_panel.vtrans.zoomIn(new Pixel(sim_panel.getWidth()/2, sim_panel.getHeight()/2), zoomRatio);
+            	game_panel.vtrans.zoomIn(new Pixel(game_panel.getWidth()/2, game_panel.getHeight()/2), zoomRatio);
             }
         });
         mnDisplay.add(mntmZoomP);
@@ -310,7 +310,7 @@ public class MainWindow {
         final JMenuItem mntmZoomM = new JMenuItem("Zoom -");
         mntmZoomM.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	sim_panel.vtrans.zoomIn(new Pixel(sim_panel.getWidth()/2, sim_panel.getHeight()/2), 1/zoomRatio);
+            	game_panel.vtrans.zoomIn(new Pixel(game_panel.getWidth()/2, game_panel.getHeight()/2), 1/zoomRatio);
             }
         });
         mnDisplay.add(mntmZoomM);
@@ -318,7 +318,7 @@ public class MainWindow {
         final JMenuItem mntmZoomNormal = new JMenuItem("Zoom normal");
         mntmZoomNormal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	sim_panel.vtrans.zoomReset();
+            	game_panel.vtrans.zoomReset();
             }
         });
         mnDisplay.add(mntmZoomNormal);
@@ -330,7 +330,7 @@ public class MainWindow {
      */
     void quit() {
     	frmPlaneSim.dispose();
-    	sim_panel.dispose();
+    	game_panel.dispose();
     	
     	//sim.stop();
         //System.exit(0);

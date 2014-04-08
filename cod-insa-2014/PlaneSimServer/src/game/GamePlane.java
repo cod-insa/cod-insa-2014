@@ -65,7 +65,8 @@ public final class GamePlane extends MaterialGameEntity {
 		if (model().fuelInTank < 0) {
 			model().fuelInTank = 0;
 			die();
-			explode(1, .0007);
+//			explode(1, .0007);
+			explode(2, .0007);
 		}
 	}
 
