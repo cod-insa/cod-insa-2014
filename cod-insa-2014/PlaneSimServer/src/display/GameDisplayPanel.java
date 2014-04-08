@@ -33,7 +33,7 @@ import model.Plane.State;
 import model.Plane.Type;
 
 
-public class SimDisplayPanel extends JPanel {
+public class GameDisplayPanel extends JPanel {
 	
     private static final long serialVersionUID = 1L;
     
@@ -42,7 +42,8 @@ public class SimDisplayPanel extends JPanel {
     private static final double SCREEN_MOVE_COEFF = .001, VIEW_INERTIA_DAMPING = .9;
     
     private static final double GAME_SHIFT_MARGIN = .2;
-    
+
+	private static final boolean RESTRICT_ZONE = false;
     
 	public final long refresh_period = 30;
 	
@@ -54,7 +55,12 @@ public class SimDisplayPanel extends JPanel {
 	
 	final Timer repaint_timer = new Timer();
 	
-    public SimDisplayPanel(Displayer disp, Game s) {
+	private boolean rightBtnPressed = false, middleBtnPressed = false;
+	Pixel lastMousePosition;
+	final Coord lastShift = Coord.origin.copied();
+	
+	
+    public GameDisplayPanel(Displayer disp, Game s) {
     	
         super();
         
@@ -63,7 +69,7 @@ public class SimDisplayPanel extends JPanel {
         
         vtrans.zoomIn(1./2);
         
-        final SimDisplayPanel that = this;
+        final GameDisplayPanel that = this;
         
     	sim = s;
 
@@ -104,51 +110,80 @@ public class SimDisplayPanel extends JPanel {
             	
             	Point mouse = MouseInfo.getPointerInfo().getLocation();
             	
-            	SwingUtilities.convertPointFromScreen(mouse, SimDisplayPanel.this);
+            	SwingUtilities.convertPointFromScreen(mouse, GameDisplayPanel.this);
             	
             	//System.out.println(mouse.x);
             	//SCREEN_MOVE_MARGIN = 25, SCREEN_MOVE_COEFF = 1
             	
-            	
-            	if (0 < mouse.x && mouse.x < getWidth() && 0 < mouse.y && mouse.y < getHeight()) {
-            		
-	            	if (0 < mouse.x && mouse.x < SCREEN_MOVE_MARGIN) {
-	            		vtrans._shift.x += (viewInertia.x = -(SCREEN_MOVE_MARGIN - mouse.x) * SCREEN_MOVE_COEFF);
-	            	} else if (getWidth()-SCREEN_MOVE_MARGIN < mouse.x && mouse.x < getWidth()) {
-	            		vtrans._shift.x += (viewInertia.x = (mouse.x - getWidth() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
-	            	}
-	            	if (0 < mouse.y && mouse.y < SCREEN_MOVE_MARGIN) {
-	            		vtrans._shift.y += (viewInertia.y = -(SCREEN_MOVE_MARGIN - mouse.y) * SCREEN_MOVE_COEFF);
-	            	} else if (getHeight()-SCREEN_MOVE_MARGIN < mouse.y && mouse.y < getHeight()) {
-	            		vtrans._shift.y += (viewInertia.y = (mouse.y - getHeight() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
-	            	}
-	            	
-	            	
-//	            	Coord bottom_right = vtrans.getCoord(new Pixel(getWidth(), getHeight()));
-//	            	bottom_right.sub(vtrans.shift);
-//	            	
-////	            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
-////	            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
-//	            	if (vtrans._shift.x > World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x)
-//	            		vtrans._shift.x = World.WIDTH + GAME_SHIFT_MARGIN - bottom_right.x;
-//	            	
-//	            	if (vtrans._shift.x < -GAME_SHIFT_MARGIN)
-//	            		vtrans._shift.x = -GAME_SHIFT_MARGIN;
-//	            	
-//	            	//else if (vtrans._shift.x > World.WIDTH+GAME_SHIFT_MARGIN) vtrans._shift.x = World.WIDTH+GAME_SHIFT_MARGIN;
+            	if (rightBtnPressed) {
+					if (RESTRICT_ZONE) {
+						if (0 < mouse.x && mouse.x < getWidth() && 0 < mouse.y && mouse.y < getHeight()) {
+
+							if (0 < mouse.x && mouse.x < SCREEN_MOVE_MARGIN) {
+								vtrans._shift.x += (viewInertia.x = -(SCREEN_MOVE_MARGIN - mouse.x) * SCREEN_MOVE_COEFF);
+							} else if (getWidth() - SCREEN_MOVE_MARGIN < mouse.x && mouse.x < getWidth()) {
+								vtrans._shift.x += (viewInertia.x = (mouse.x - getWidth() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
+							}
+							if (0 < mouse.y && mouse.y < SCREEN_MOVE_MARGIN) {
+								vtrans._shift.y += (viewInertia.y = -(SCREEN_MOVE_MARGIN - mouse.y) * SCREEN_MOVE_COEFF);
+							} else if (getHeight() - SCREEN_MOVE_MARGIN < mouse.y && mouse.y < getHeight()) {
+								vtrans._shift.y += (viewInertia.y = (mouse.y - getHeight() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
+							}
+
+						} else {
+							viewInertia.mult(VIEW_INERTIA_DAMPING);
+							vtrans._shift.add(viewInertia.view());
+						}
+					} else {
+
+						if (mouse.x < SCREEN_MOVE_MARGIN) {
+							vtrans._shift.x += (viewInertia.x = -(SCREEN_MOVE_MARGIN - mouse.x) * SCREEN_MOVE_COEFF);
+						} else if (getWidth() - SCREEN_MOVE_MARGIN < mouse.x) {
+							vtrans._shift.x += (viewInertia.x = (mouse.x - getWidth() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
+						}
+						if (mouse.y < SCREEN_MOVE_MARGIN) {
+							vtrans._shift.y += (viewInertia.y = -(SCREEN_MOVE_MARGIN - mouse.y) * SCREEN_MOVE_COEFF);
+						} else if (getHeight() - SCREEN_MOVE_MARGIN < mouse.y) {
+							vtrans._shift.y += (viewInertia.y = (mouse.y - getHeight() + SCREEN_MOVE_MARGIN) * SCREEN_MOVE_COEFF);
+						}
+
+					}
+				} else {
+					viewInertia.set(Coord.origin);
+					
+					if (middleBtnPressed) {
+						//vtrans.getCoord(new Pixel(mouse.x - lastMousePosition.x, mouse.y - lastMousePosition.y))
+						
+//						vtrans._shift.set(lastShift.addedTo(
+//								vtrans.getCoord(new Pixel(
+//										mouse.x - lastMousePosition.x,
+//										mouse.y - lastMousePosition.y
+//								)).view()
+//						).view());
 //
-//	            	if (vtrans._shift.y > World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y)
-//	            		vtrans._shift.y = World.HEIGHT + GAME_SHIFT_MARGIN - bottom_right.y;
-//	            	
-//	            	if (vtrans._shift.y < -GAME_SHIFT_MARGIN)
-//	            		vtrans._shift.y = -GAME_SHIFT_MARGIN;
-	            	
-	            	
-            	} else {
-            		viewInertia.mult(VIEW_INERTIA_DAMPING);
-            		vtrans._shift.add(viewInertia.view());
-            	}
-            	
+//						System.out.println("m  "+mouse);
+//						System.out.println("lm "+lastMousePosition);
+//
+//						System.out.println("++ "+vtrans.getCoord(new Pixel(
+//								mouse.x - lastMousePosition.x,
+//								mouse.y - lastMousePosition.y
+//						)));
+////						System.out.println(">> "+vtrans._shift);
+						
+						
+//						Coord offset = vtrans.getCoord(new Pixel(mouse.x, mouse.y));
+//						offset.add(vtrans.getCoord(lastMousePosition).view(), -1);
+						
+						Coord offset = vtrans.getCoord(lastMousePosition);
+						offset.add(vtrans.getCoord(new Pixel(mouse.x, mouse.y)).view(), -1);
+
+						vtrans._shift.set(lastShift.addedTo(offset.view()).view());
+						
+						
+					}
+					
+				}
+				
             	
             	Coord bottom_right = vtrans.getCoord(new Pixel(getWidth(), getHeight()));
             	bottom_right.sub(vtrans.shift);
@@ -258,15 +293,50 @@ public class SimDisplayPanel extends JPanel {
                 	
                     break;
 
+				case MouseEvent.BUTTON2: // Middle click
+					
+					middleBtnPressed = false;
+					
+					break;
+				
                 case MouseEvent.BUTTON3: // Right click
-                	
+
+					rightBtnPressed = false;
+					
                     break;
 
                 }
                 
             }
 
-        });
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+				switch (e.getButton()) {
+
+					case MouseEvent.BUTTON2: // Middle click
+
+						if (!middleBtnPressed) {
+							lastMousePosition = new Pixel(e.getX(), e.getY());
+							lastShift.set(vtrans._shift.view());
+							System.out.println(lastShift);
+							System.out.println(lastMousePosition);
+						}
+						
+						middleBtnPressed = true;
+
+						break;
+					
+					case MouseEvent.BUTTON3: // Right click
+						
+						rightBtnPressed = true;
+
+						break;
+				
+				}
+
+			}
+		});
         
         addMouseWheelListener(new MouseAdapter() {
         	
