@@ -10,7 +10,7 @@ var nextSnap;
 var json;
 
 //URL server
-var urlserver = "localhost:14588";
+var urlserver = ":14588";
 
 //Plane object: containing more info about each plane
 function Plane(health,radar,rotation,speed,state)
@@ -26,7 +26,9 @@ function Plane(health,radar,rotation,speed,state)
 var planesInfo = new HashMap();
 
 //Connect to the server and handle messages coming from it
-var initServerConnection = function () {
+var initServerConnection = function (ipad) {
+
+	urlserver = ipad + ":14588";
 
     // if user is running mozilla then use its built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
@@ -41,13 +43,16 @@ var initServerConnection = function () {
     connection.onerror = function (error) {
         // an error occurred when sending/receiving data
         console.log("error: "+error);
-	window.alert("Oops "+urlserver+" does not respond!");
-	initialisationMaps();
+	window.setTimeout(displayError,500);
+	window.setTimeout(showModal,500);
+	//window.alert("Oops "+urlserver+" does not respond!");
     };
     
     connection.onclose = function (error) {
         console.log("connection closed");
-	window.alert("Connection with "+urlserver+" has been closed!");
+	window.setTimeout(displayError,500);
+	window.setTimeout(showModal,1000);
+	//window.alert("Connection with "+urlserver+" has been closed!");
 	clearTimeout(timeout);
     };
 
@@ -85,6 +90,7 @@ var initServerConnection = function () {
 				basesArray.push(new google.maps.Marker({
 		    			position: new google.maps.LatLng(current_base.latitude,current_base.longitude),
 		    			map: mymap,
+					flat:true,
 		    			icon:base_icon[current_base.ownerid],
 		    			title:current_base.cityname
 				}));
@@ -136,6 +142,7 @@ var initServerConnection = function () {
 					planesArray.put(key,new google.maps.Marker({
 		    			position: new google.maps.LatLng(current_plane.latitude,current_plane.longitude),
 		    			map: mymap,
+					flat:true,
 		    			icon:fighter_icon[current_plane.ownerid],
 		    			title:"plane attacking"
 					}));
@@ -181,5 +188,3 @@ var initServerConnection = function () {
 	});*/
     
 };
-
-initServerConnection();
