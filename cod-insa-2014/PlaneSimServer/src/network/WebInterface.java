@@ -5,13 +5,17 @@ import game.GameBase;
 import game.GamePlane;
 import game.MapLoader.MapInfo;
 import game.World;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
@@ -33,7 +37,7 @@ public class WebInterface extends WebSocketServer {
 	private CoordConverter converter;
 	private World world;
 	private AutoSender autoSender;
-	
+
 	private WebInterface( InetSocketAddress address, Draft d) {
 		super(address,Collections.singletonList(d));
 		authorized = new ArrayList<WebSocket>();
@@ -48,15 +52,45 @@ public class WebInterface extends WebSocketServer {
 	public static WebInterface startWebInterface(Game game)
 	{
 		WebInterface wi = null;
+		
+		
+		//With Ubuntu, Java gets the localhost ip address (ie 127.0.0.1) and we need to register
+		//the server with the lan ipaddress. So here is how to do that.
+		//We try to find the ip address in network interfaces properties (finally, we get eth0 ip v4 address).
 		try {
-			InetAddress ip = InetAddress.getByName(NetworkSettings.webip);
+			boolean found = false;
+			InetAddress ip = InetAddress.getLocalHost();
+			Enumeration<NetworkInterface> netInterfaces=NetworkInterface.getNetworkInterfaces();
+			while(netInterfaces.hasMoreElements()){
+				Enumeration<InetAddress> inets = netInterfaces.nextElement().getInetAddresses();
+				while(inets.hasMoreElements()){
+					ip = inets.nextElement();
+					//System.out.println(ip.getHostAddress());
+					if( !ip.getHostAddress().equals("127.0.0.1") && ip.getHostAddress().length() < 16){
+						//System.out.println(ip.getHostAddress());
+						found = true;
+						break;
+					}else{
+						ip=null;
+					}
+				}
+				if(found)
+					break;
+			}
+
+			if(ip == null)
+			{
+				log.error("I've not found my IP address... Are you connected to the network?");
+				System.exit(0);
+			}
+			
 			int port = NetworkSettings.webport;
-			InetSocketAddress isa = new InetSocketAddress(ip, port);
+			InetSocketAddress isa = new InetSocketAddress(ip.getHostAddress(), port);
 			Draft d = new Draft_17();
 			wi = new WebInterface(isa,d);
 			wi.start();
 			log.info("Server listening");
-		} catch (UnknownHostException e) {
+		} catch (SocketException | UnknownHostException e) {
 			log.error("WebSocketServer cannot start");
 		}
 
@@ -206,12 +240,12 @@ public class WebInterface extends WebSocketServer {
 	private class AutoSender extends Thread
 	{
 		boolean running = true;
-		
+
 		public AutoSender()
 		{
 			start();
 		}
-		
+
 		@Override
 		public void run() {
 			super.run();
@@ -266,7 +300,7 @@ public class WebInterface extends WebSocketServer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*public static void main(String[] args) {
 		Game mapInfo = null;
 		World world = null;

@@ -74,7 +74,7 @@ function initialisationMaps(){
 		google.maps.event.clearInstanceListeners(mymap);
 
 
-		//testMove();
+		testMove();
 }
 
 
@@ -136,6 +136,7 @@ function testMove()
 	planesArray.put("0",new google.maps.Marker({
 		position: new google.maps.LatLng(48.0,2.0),
 		map: mymap,
+		flat:true,
 		icon:fighter_icon[4],
 		title:"plane attacking"
 		}));
