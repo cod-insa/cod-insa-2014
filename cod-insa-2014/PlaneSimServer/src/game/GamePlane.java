@@ -1,5 +1,6 @@
 package game;
 
+import common.Util;
 import model.Coord;
 import model.Plane;
 import model.Plane.State;
@@ -8,6 +9,8 @@ import common.Unique;
 
 import display.EntityDisplay;
 import display.PlaneDisplay;
+
+import java.awt.geom.Point2D;
 
 public final class GamePlane extends MaterialGameEntity {
 	
@@ -39,7 +42,7 @@ public final class GamePlane extends MaterialGameEntity {
 	//model.Plane.View model() { return null; }
 	
 	public GamePlane (Game sim, Unique<Coord> pos, int ownerId, Plane.Type type) {
-		super(new Plane(makeNextId(), pos, 1, type), sim, Altitude.SKY);
+		super(new Plane(makeNextId(), pos, type), sim, Altitude.SKY);
 		model().state = State.IDLE;
 		//_pos.set(p);
 		//autoPilot.goTo(new Coord(Util.rand.nextDouble(),Util.rand.nextDouble()).view);
@@ -56,11 +59,13 @@ public final class GamePlane extends MaterialGameEntity {
 		super.updateSpecialized(period);
 		autoPilot.refresh(period);
 		//System.out.println(model().fuelInTank/model().tankCapacity);
+//		System.out.println(model().type.fuelConsumptionPerDistanceUnit*model().speed*period);
 		if (model().state != State.AT_AIRPORT)
 			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
 		if (model().fuelInTank < 0) {
 			model().fuelInTank = 0;
 			die();
+			explode(1, .0007);
 		}
 	}
 
@@ -81,6 +86,81 @@ public final class GamePlane extends MaterialGameEntity {
 //		assert Math.abs(angle) <= MAX_FIRING_ANGLE; // must take into account plane rotation
 		new Projectile(sim, new Coord.Unique(model().position()), model().speedVector(), model.ownerId(), angle);
 	}
+	
+	public void takeHit (double hitPoints) {
+		model().health -= hitPoints;
+//		System.out.println(model().health);
+		if (model().health < 0) {
+			die();
+			model().health = 0;
+			explode(3, .003);
+		}
+	}
+	
+	public void explode(int max_pieces, double blastPower) {
+		//sim.addEntity(new Debris(sim, lastPosition, model().position(), model().speedVector(), model.ownerId()));
+//		sim.addEntity(new Debris(
+//				sim,
+// 				model().position(),
+//				model().position().shifted(radius, radius).view(),
+//				model().speedVector(),
+//				model.ownerId()
+//		));
+
+//		for (Point2D.Double p: disp.shape.points) {
+		int s = disp.shape.points.size();
+		for (int i = 0; i < s; i++) {
+//			Point2D.Double p1 = disp.shape.points.get(i), p2 = disp.shape.points.get(i%s);
+			//final int nbDebs = Math.random() > .5? 1: 2;
+			final int nbDebs = Util.rand.nextInt(max_pieces)+1;
+
+//			Coord.View prevPt = model().position();
+//			Coord.View prevPt = new Coord(p1).view();
+//			final Coord.View endPt = new Coord(p2).view();
+			int nbDebsRemaining = nbDebs;
+			Coord.View prevPt = new Coord(disp.shape.points.get(i)).addedTo(model().position()).view();
+			final Coord.View endPt = new Coord(disp.shape.points.get((i+1)%s)).addedTo(model().position()).view();
+			for (int j = 0; j < nbDebs; j++) {
+//				Coord.View bary = Coord.barycenter(prevPt, endPt, ((double)j+1)/(nbDebs)).view();
+				Coord.View bary = Coord.barycenter(prevPt, endPt, ((double)1)/(nbDebsRemaining)).view();
+				
+				//double blastPower = .003; // .005;
+				
+				Coord blast = prevPt.addedTo(model().position(), -1);
+				blast.mult(blastPower/blast.norm());
+//				Unique<Coord> inertia = model().speedVector();
+				Coord.Unique inertia = new Coord.Unique(model().speedVector());
+				inertia.mult(.5); // .5 ??? otherwise it's 2x too fast...
+				inertia.add(blast.view());
+				sim.addEntity(new Debris(
+						sim,
+						prevPt,
+						bary,
+						inertia,
+						model.ownerId()
+				));
+				prevPt = bary;
+				nbDebsRemaining--;
+			}
+			
+//			final Coord.View begPt = new Coord(disp.shape.points.get(i)).addedTo(model().position()).view();
+//			final Coord.View endPt = new Coord(disp.shape.points.get((i+1)%s)).addedTo(model().position()).view();
+//			for (int j = 0; j < nbDebs; j++) {
+//				sim.addEntity(new Debris(
+//						sim,
+//						begPt,
+//						Coord.barycenter(begPt, endPt, ((double)j+1)/(nbDebs)).view(),
+//						model().speedVector(),
+//						model.ownerId()
+//				));
+//			}
+			
+			
+			
+		}
+		
+	}
+	
 	
 	public State getState()
 	{

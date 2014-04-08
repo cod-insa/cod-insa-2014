@@ -15,7 +15,8 @@ public class Projectile extends MaterialGameEntity {
 		SPEED = .1,
 		INITIAL_ANGLUAR_IMPRECISION = Math.PI*.01, // = Math.PI*.01,
 		DISTANCE_RANDOMNESS = .5,
-		INEFFECTIVE_RANGE = .4
+		INEFFECTIVE_RANGE = .4,
+		HIT_POINTS = 10//3
 	;
 	
 	ProjectileDisplay disp = new ProjectileDisplay(this);
@@ -38,14 +39,14 @@ public class Projectile extends MaterialGameEntity {
 	public final void updateSpecialized (double period) {
 		super.updateSpecialized(period);
 		distToCover -= model().position().distanceTo(lastPosition); // FIXME useless calculations...
-//		distToCover -= SPEED; // FIXME WorldWrap hack
+//		timeToLive -= SPEED; // FIXME WorldWrap hack
 		
 		if (distToCover < 0) {
 			die();
 			return;
 		}
 		if (distToCover < INEFFECTIVE_RANGE) {
-			//distToCover / INEFFECTIVE_RANGE
+			//timeToLive / INEFFECTIVE_RANGE
 			return;
 		}
 //		for (Entity<?> e: sim.entities.get()) {
@@ -54,8 +55,9 @@ public class Projectile extends MaterialGameEntity {
 //			}
 //		}
 		for (GamePlane p : sim.planes) {
-			if (p.isFlying() && model().position().distanceTo(p.model().position()) < radius + p.radius) {
-				
+			if (p.model().ownerId() != model.ownerId() && p.isFlying() && model().position().distanceTo(p.model().position()) < radius + p.radius) {
+				p.takeHit(HIT_POINTS); // TODO add some randomness/distance dependency
+				die();
 			}
 		}
 	}

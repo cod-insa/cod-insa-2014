@@ -1,9 +1,6 @@
 package game;
 
-import model.Coord;
 import model.Entity;
-import model.MaterialEntity;
-import model.MovingEntity;
 import display.EntityDisplay;
 
 
@@ -102,6 +99,7 @@ public abstract class GameEntity {
 	
 	public final void die() {
 		sim.removeEntity(this);
+		model.exists = false;
 	}
 	
 //	public final double radius() {

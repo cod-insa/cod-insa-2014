@@ -11,7 +11,7 @@ import model.Coord;
 
 public class PolygonShape {
 	
-	ArrayList<Point2D.Double> points;
+	public final ArrayList<Point2D.Double> points;
 	
 	double current_rotation = 0;
 	

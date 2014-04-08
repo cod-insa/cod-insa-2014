@@ -95,7 +95,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public class BasicView extends MovingEntity.View {
 		public double health() { return health; }
 		public boolean canAttack() {
-			return type.fireRange > 0;
+			return type.firingRange > 0;
 		}
 //		public double fireRange() { return fireRange; }
 		public double radarRange() { return radarRange;	}
@@ -124,10 +124,10 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //	public final View view = new View();
 	
 	
-	public Plane (int id, Unique<Coord> pos, double health, Type type) {
+	public Plane (int id, Unique<Coord> pos, Type type) {
 		//super(id,pos);
 		super(id, pos, new Coord.Unique(0,0));
-		this.health = health;
+//		this.health = health;
 //		this.state = state;
 //		this.fireRange = isMilitar ? DEFAULT_FIRE_RANGE_MILITARY : DEFAULT_FIRE_RANGE_COMMERCIAL;
 //		this.radarRange = DEFAULT_PLANE_RADAR_RANGE;
@@ -137,6 +137,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		
 		this.type = type;
 		
+		health = type.fullHealth;
 		radarRange = type.radarRange;
 		fuelInTank = type.tankCapacity;
 		fuelInHold = 0;
@@ -203,7 +204,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		
 		public final double
 			
-			fireRange,
+			firingRange,
 			radarRange,
 			
 			fullHealth,
@@ -218,9 +219,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		;
 		
 		private Type(
-				double fireRange,
+				double firingRange,
 				double radarRange,
-				double maxHealth,
+				double fullHealth,
 				double holdCapacity,
 				double tankCapacity,
 				double fuelConsumptionPerDistanceUnit,
@@ -230,10 +231,10 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			id = instances.size();
 			instances.add(this);
 			
-			this.fireRange = fireRange;
+			this.firingRange = firingRange;
 			this.radarRange = radarRange;
 			
-			this.fullHealth = maxHealth;
+			this.fullHealth = fullHealth;
 			
 			this.holdCapacity = holdCapacity;
 			this.tankCapacity = tankCapacity;
@@ -250,13 +251,13 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// radarRange
 				0.7,
 				// fullHealth
-				10,
+				100,
 				// holdCapacity
 				10,
 				// tankCapacity
 				10,
 				// fuelConsumptionPerDistanceUnit
-				0,
+				1,
 				// radius
 				.03
 			);

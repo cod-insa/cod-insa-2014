@@ -26,10 +26,11 @@ public abstract class MaterialGameEntity extends GameEntity {
 	}
 	
 	@Override
-	public MaterialEntity.View modelView() { return (MaterialEntity.View) model.view(); }
+//	public MaterialEntity.View modelView() { return (MaterialEntity.View) model.view(); }
+	public MaterialEntity.View modelView() { return model().view(); }
 	
 	@Override
-	MaterialEntity model() { return model(); }
+	MaterialEntity model() { return (MaterialEntity) super.model(); }
 	
 	@Override
 	public void updateSpecialized(double period) {
@@ -47,8 +48,11 @@ public abstract class MaterialGameEntity extends GameEntity {
 			Coord speedVec = model.speedVector().take();
 			model.position.x += speedVec.x * period;
 			model.position.y += speedVec.y * period;
-
-
+			
+			model.position.x += model.inertia.x * period;
+			model.position.y += model.inertia.y * period;
+			
+			
 			if (World.WORLD_WRAP)
 			{
 				World w = sim.getWorld();

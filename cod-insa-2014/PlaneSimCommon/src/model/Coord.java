@@ -46,6 +46,13 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		unit   = new Coord(1,1).view()
 	;
 	
+	public static Coord barycenter (Coord.View c1, Coord.View c2, double coeff) {
+		Coord bary = c2.addedTo(c1, -1);
+		bary.mult(coeff);
+		bary.add(c1);
+		return bary;
+	}
+	
 	/**
 	 * pb: can't be used so that Coord implements it because of a restriction with member interfaces
 	 * 
@@ -56,6 +63,8 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 			
 			public double x();
 			public double y();
+			
+			public double norm ();
 			
 			public Coord opposite ();
 			
@@ -168,6 +177,7 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		public Unique(double x, double y) {
 			super(new Coord(x,y));
 		}
+		public Unique(common.Unique<Coord> original) { super(original.take()); }
 		
 		@Override
 		public model.Coord.View view() {
@@ -183,6 +193,8 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 		public double y() {
 			return object.y;
 		}
+		@Override
+		public double norm() { return object.norm(); }
 		@Override
 		public Coord opposite() {
 			return object.opposite();
@@ -292,32 +304,42 @@ public final class Coord extends InternalView implements Viewable<Coord.View>, C
 //		this(v.x(), v.y());
 //	}
 	
-	public void set (View cv) {
+	public final void set (View cv) {
 		x = cv.x();
 		y = cv.y();
 	}
 
-	public void add (View cv) {
+	public final void add (View cv) {
 		x += cv.x();
 		y += cv.y();
 	}
-	public void sub (View cv) {
+	
+	public final void add (View cv, double coeff) {
+		x += cv.x()*coeff;
+		y += cv.y()*coeff;
+	}
+	
+	public final void sub (View cv) {
 		x -= cv.x();
 		y -= cv.y();
 	}
-	public void shift (double shift) {
+	public final void shift (double shift) {
 		x += shift;
 		y += shift;
 	}
-	public void shift (double dx, double dy) {
+	public final void shift (double dx, double dy) {
 		x += dx;
 		y += dy;
 	}
 	
-	public void mult (double q) {
+	public final void mult (double q) {
 		x *= q;
 		y *= q;
 	}
+	
+//	public final void project (Coord.View cv) {
+//		Coord r = new Coord(-model.x, -model.y);
+//	}
 	
 	public void rotate (View center, double angle) {
 		// TODO
@@ -346,9 +368,27 @@ class InternalView {
 	
 	public double x() { return model.x; }
 	public double y() { return model.y; }
+
+	public double norm() { return Math.sqrt(model.x*model.x + model.y*model.y); }
 	
 	public final Coord opposite ()
 	{ Coord r = new Coord(-model.x, -model.y); return r; }
+
+	public final double dot(Coord.View cv) {
+		return model.x*cv.x() + model.y*cv.y();
+	}
+
+//	public final Coord projectedOn(Coord.View cv) {
+////		Coord r = new Coord(model.x*cv.x(), model.y*cv.y());
+////		return r;
+//		double n = model.norm();
+//		System.out.println(">> "+model.dot(cv)+" "+n);
+//		return model.multipliedBy(model.dot(cv)/(n*n));
+//	}
+	public final Coord projectedOn(Coord.View cv) {
+		double n = cv.norm();
+		return cv.multipliedBy(model.dot(cv)/(n*n));
+	}
 	
 	public final Coord addedTo (View cv)
 	{ Coord r = new Coord(model); r.add(cv); return r; }

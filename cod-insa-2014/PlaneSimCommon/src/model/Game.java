@@ -8,4 +8,9 @@ public class Game {
 		TIME_UNIT = 1,
 		TIME_PER_FRAME = TIME_UNIT * TIME_UNITS_PER_FRAME
 	;
+	
+	public static final boolean FRIENDLY_FIRE = false;
+	
+	
+	
 }

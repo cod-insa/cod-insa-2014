@@ -18,7 +18,7 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 	
 	public static final float PLANE_ALPHA_AT_BASE = .3f;
 	
-	PolygonShape shape;
+	public final PolygonShape shape;
 
 	public PlaneDisplay (GamePlane p) {
 		super(p);
@@ -46,7 +46,8 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 		Color c = getPlayerColor();
 		//System.out.println((float)c.getRed()/255f);
 		if (entity.getState() == State.AT_AIRPORT)
-			c = new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, PLANE_ALPHA_AT_BASE);
+//			c = new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, PLANE_ALPHA_AT_BASE);
+			c = fadeColor(c, PLANE_ALPHA_AT_BASE);
 		
 		g2d.setColor(c);
 		
@@ -58,6 +59,8 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 //		Pixel right = vtrans.getViewPos(m.position().shifted(size/2).view());
 		
 		//Pixel left = vtrans.getViewPos(m.position().shifted(-entity.radius()).view());
+		
+		
 		
 		double r = entity.radius()*1.5;
 		
@@ -89,6 +92,25 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 			g2d.fillRect(leftp.x, y, (int) Math.round(bar.first*(rightp.x-leftp.x)), height);
 		}
 		
+		
+		
+		/////////////////////////////////////////////////
+//		// DEBUG
+//		
+//		g2d.setColor(getPlayerColor(0));
+//		
+//		double size = entity.radius()*2;
+//		Pixel left2 = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
+//		Pixel right2 = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
+//		
+//		g2d.drawOval (
+//				left2.x,
+//				left2.y,
+//				right2.x-left2.x,
+//				right2.y-left2.y
+//			);
+//		
+		/////////////////////////////////////////////////
 		
 		
 			//left.shift(0, height*2)
