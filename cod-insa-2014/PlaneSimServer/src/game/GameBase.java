@@ -26,7 +26,13 @@ public class GameBase extends MaterialGameEntity {
 		super.updateSpecialized(period);
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void afterUpdate(double period) {
+		// ...
+	}
 	
+
 	@Override
 	public EntityDisplay<GameBase> getDisplay() {
 		return new BaseDisplay(this);

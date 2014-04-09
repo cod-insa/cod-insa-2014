@@ -105,8 +105,8 @@ public abstract class GameEntity {
 //	public final double radius() {
 //		return radius;
 //	}
-	
-	
+
+
 	
 	public final void update(double period) {
 //		model.position.x += Math.cos(model.rotation)*model.speed;
@@ -154,6 +154,10 @@ public abstract class GameEntity {
 	}
 	
 	public abstract void updateSpecialized(double period);
+
+	public void afterUpdate(double period) {
+		
+	}
 	
 	public abstract EntityDisplay<?> getDisplay();
 	

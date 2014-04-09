@@ -184,6 +184,9 @@ public class World implements Viewable<World.View> {
 			e.update(period);
 			
 		}
+
+		for (GameEntity e: entities)
+			e.afterUpdate(period);
 		
 	}
 
