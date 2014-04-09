@@ -20,13 +20,21 @@ public class Nullable<T> implements Access<T>, Viewable<Nullable.View> {
 	@Override
 	public T get () {
 		if (obj == null)
-			throw new NullPointerException("Cannot get a null object from a Nullable");
+			throw new NullPointerException("Cannot get a null object from a Nullable.");
 		return obj;
 	}
 	
 	@Override
 	public void set (T obj) {
+		if (obj == null)
+			throw new NullPointerException("Cannot give a null object to a Nullable. Use setNull() instead.");
 		this.obj = obj;
+	}
+	public void set (Nullable<? extends T> n) {
+		this.obj = n.obj;
+	}
+	public void setNull () {
+		this.obj = null;
 	}
 	
 //	public static <T> Nullable<T> NULL() { return new Nullable<T>(); }
