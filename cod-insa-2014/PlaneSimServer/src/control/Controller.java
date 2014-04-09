@@ -90,22 +90,22 @@ public class Controller {
 //		}
 		catch (DropMilitarsCommand dmc) {
 			s.getPlane(dmc.planeSrc.id()).model().militaryInHold -= dmc.quantity;
-			s.getPlane(dmc.planeSrc.id()).model().curBase.militarResourcesStock += dmc.quantity;
+			s.getPlane(dmc.planeSrc.id()).model().curBase.militaryGarrison += dmc.quantity;
 		}
 		catch (StoreFuelCommand sfc) {
 			s.getPlane(sfc.planeSrc.id()).model().fuelInHold -= sfc.quantity;
-			s.getPlane(sfc.planeSrc.id()).model().curBase.fuelResourcesStock += sfc.quantity;
+			s.getPlane(sfc.planeSrc.id()).model().curBase.fuelInStock += sfc.quantity;
 		}
 		catch (FillFuelTankCommand fftc) {
-			s.getPlane(fftc.planeSrc.id()).model().curBase.fuelResourcesStock -= fftc.quantity;
+			s.getPlane(fftc.planeSrc.id()).model().curBase.fuelInStock -= fftc.quantity;
 			s.getPlane(fftc.planeSrc.id()).model().fuelInTank += fftc.quantity;
 		}
 		catch (LoadResourcesCommand lrc) {
 
-			s.getPlane(lrc.planeSrc.id()).model().curBase.fuelResourcesStock -= lrc.fuelQuantity;
+			s.getPlane(lrc.planeSrc.id()).model().curBase.fuelInStock -= lrc.fuelQuantity;
 			s.getPlane(lrc.planeSrc.id()).model().fuelInHold += lrc.fuelQuantity;
 
-			s.getPlane(lrc.planeSrc.id()).model().curBase.militarResourcesStock -= lrc.militarQuantity;
+			s.getPlane(lrc.planeSrc.id()).model().curBase.militaryGarrison -= lrc.militarQuantity;
 			s.getPlane(lrc.planeSrc.id()).model().militaryInHold += lrc.militarQuantity;
 		}
 		

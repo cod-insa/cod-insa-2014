@@ -112,8 +112,8 @@ public class Proxy
 					log.warn("A not owned base is in the owned ones: can generate errors");
 				
 				base.ownerId(b.basic_info.ai_id);
-				base.militarResourcesStock = b.militarRessource;
-				base.fuelResourcesStock = b.fuelRessource;
+				base.militaryGarrison = b.militarRessource;
+				base.fuelInStock = b.fuelRessource;
 			}
 			else // There is a base which is not in the bases created at the beginning
 			{

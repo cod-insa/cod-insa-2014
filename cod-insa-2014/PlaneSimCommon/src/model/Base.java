@@ -19,14 +19,14 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 
 	final Set<ProgressAxis.Oriented> axes;
 	
-	public double militarResourcesStock;
-	public double fuelResourcesStock;
+	public double militaryGarrison;
+	public double fuelInStock;
 
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
 	public class View extends MaterialEntity.View {
-		public double militarResourcesStock() { return militarResourcesStock; }
-		public double fuelResourcesStock() { return fuelResourcesStock; }
+		public double militaryGarrison() { return militaryGarrison; }
+		public double fuelInStock() { return fuelInStock; }
 		public Immutable<Coord.View> getPosition() {
 			return Base.this.position;
 		}
@@ -79,8 +79,8 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		axes = new HashSet<>();
 		position = new Immutable<>(pos);
 		radarRange = DEFAULT_BASE_RADAR_RANGE;
-		fuelResourcesStock = 0;
-		militarResourcesStock = 0;
+		fuelInStock = 0;
+		militaryGarrison = 0;
 	}
 
 	public Base(Base.View src, Context context) {
@@ -98,8 +98,8 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			axes.add(oa.copy(context));
 		position = src.getPosition(); // Immutable state can be shared
 		radarRange = src.radarRange();
-		militarResourcesStock = src.militarResourcesStock();
-		fuelResourcesStock = src.fuelResourcesStock();
+		militaryGarrison = src.militaryGarrison();
+		fuelInStock = src.fuelInStock();
 	}
 
 	// private BaseModel(BaseModel src)

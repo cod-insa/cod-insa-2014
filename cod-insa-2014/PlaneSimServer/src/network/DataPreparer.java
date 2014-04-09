@@ -105,7 +105,7 @@ public abstract class DataPreparer {
 			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
 			{
 				ai_entities.add(b);
-				tobeSent.owned_bases.add(new BaseFullData(new BaseBasicData(b.id(), b.ownerId()),b.militarResourcesStock(),b.fuelResourcesStock()));
+				tobeSent.owned_bases.add(new BaseFullData(new BaseBasicData(b.id(), b.ownerId()),b.militaryGarrison(),b.fuelInStock()));
 			}
 		
 		// Fill the owned planes

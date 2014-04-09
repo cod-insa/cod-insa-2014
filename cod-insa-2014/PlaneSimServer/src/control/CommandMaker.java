@@ -243,9 +243,9 @@ public class CommandMaker {
 					new Response(Command.ERROR_COMMAND,"Can't fill this much fuel !"));
 			
 		// check if enough fuel in base
-		if (data.quantity > p.curBase().fuelResourcesStock())
+		if (data.quantity > p.curBase().fuelInStock())
 			return new Couple<>(
-					new Nullable<Command>(new FillFuelTankCommand(p, p.curBase().fuelResourcesStock())),
+					new Nullable<Command>(new FillFuelTankCommand(p, p.curBase().fuelInStock())),
 					new Response(Command.WARNING_COMMAND,"Not enough fuel in base stock. All fuel has been taken"));
 		
 		// Everything all right
