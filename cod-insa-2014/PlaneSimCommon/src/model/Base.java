@@ -63,6 +63,13 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			return copy(context);
 		}
 		
+		public boolean isInTerritory()
+		{
+			for (ProgressAxis.Oriented pao : axes)
+				if (pao.next.ownerId() != ownerId())
+					return false;
+			return true;
+		}
 //		private Base model() { return Base.this; }
 	}
 
