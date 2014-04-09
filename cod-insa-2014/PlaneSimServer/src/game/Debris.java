@@ -59,7 +59,9 @@ public class Debris extends MaterialGameEntity {
 		
 //		internal_rotation += ang_speed;
 		model().rotation(model().rotation() + ang_speed * period);
-		ang_speed *= Math.pow(.95, period);
+//		ang_speed *= Math.pow(.95, period);
+		ang_speed *= Math.pow(.975, period);
+		
 //		model().inertia.mult(Math.pow(.98, period)); // TODONE period dep
 //		if (model().inertia.norm() > SPEED/2)
 //			model().inertia.mult(.965);
