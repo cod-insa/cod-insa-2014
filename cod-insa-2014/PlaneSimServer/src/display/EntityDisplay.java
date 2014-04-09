@@ -47,6 +47,9 @@ public abstract class EntityDisplay<T extends GameEntity> {
 	public void draw (Graphics2D g2d, ViewTransform vtrans) {
 		init(g2d, vtrans);
 	}
+	public void drawOverlay (Graphics2D g2d, ViewTransform vtrans) {
+		
+	}
 	
 	//public abstract new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 	

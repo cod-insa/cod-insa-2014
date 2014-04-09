@@ -392,13 +392,18 @@ public class GameDisplayPanel extends JPanel {
         
         
         synchronized (disp) {
-        for (List<GameEntity> els : disp.entitiesByAltitude)
-        	for (GameEntity e: els) {
-            	//if (e instanceof Base) System.out.println("ok");
-            	
-            	e.getDisplay().draw(g2d, vtrans);
-            	
-            }
+			for (List<GameEntity> els : disp.entitiesByAltitude)
+				for (GameEntity e: els) {
+					//if (e instanceof Base) System.out.println("ok");
+					
+					e.getDisplay().draw(g2d, vtrans);
+					
+				}
+
+			for (GameEntity e: sim.entities) {
+				e.getDisplay().drawOverlay(g2d, vtrans);
+			}
+			
         }
         
         g2d.setStroke(new BasicStroke());

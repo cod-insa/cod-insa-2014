@@ -2,11 +2,14 @@ package display;
 
 import game.GameBase;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
 
 public class BaseDisplay extends EntityDisplay<GameBase> {
 
+//	public static Font font = new Font("Arial", Font.BOLD, 15);
+	public static Font font = new Font("Arial", Font.PLAIN, 15);
+	
 	public BaseDisplay (GameBase b) {
 		super(b);
 	}
@@ -30,15 +33,42 @@ public class BaseDisplay extends EntityDisplay<GameBase> {
 		
 		//double size = 5E-2;
 		double size = entity.radius()*2;
-		Pixel left = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
-		Pixel right = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
+		Pixel topLeft = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
+		Pixel bottomRight = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
 		
 		g2d.fillOval (
-				left.x,
-				left.y,
-				right.x-left.x,
-				right.y-left.y
+				topLeft.x,
+				topLeft.y,
+				bottomRight.x-topLeft.x,
+				bottomRight.y-topLeft.y
 			);
+//		java.awt.Font.
+		
+	}
+	
+	@Override
+	public void drawOverlay(Graphics2D g2d, ViewTransform vtrans) {
+
+		double size = entity.radius()*2;
+		Pixel topLeft = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
+		Pixel bottomRight = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
+		
+		if (vtrans._scale.x > .3) {
+
+			int margin = 2;
+			g2d.setFont(font);
+			//		g2d.setColor(Color.white);
+			//		g2d.drawString(entity.cityname, left.x, right.y);
+			g2d.setColor(Color.black);
+			g2d.drawString(entity.cityname, topLeft.x, bottomRight.y + font.getSize() + margin);
+			g2d.setColor(Color.red);
+			g2d.drawString("Mil: " + entity.modelView().militarResourcesStock(),
+					topLeft.x, bottomRight.y + font.getSize() * 2 + margin * 2);
+			g2d.setColor(Color.blue);
+			g2d.drawString("Fuel: " + entity.modelView().fuelResourcesStock(),
+					topLeft.x, bottomRight.y + font.getSize() * 3 + margin * 3);
+
+		}
 		
 	}
 	
