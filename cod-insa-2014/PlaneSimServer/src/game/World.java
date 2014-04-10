@@ -25,6 +25,7 @@ public class World implements Viewable<World.View> {
 	
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
+	public final Object snapshotsMonitor = new Object();
 	
 	public List<GameBase> bases = new ArrayList<>();
 	
@@ -158,7 +159,7 @@ public class World implements Viewable<World.View> {
 		currentSnapshot = new Snapshot(this);
 		++currentSnapshotId;
 		
-		synchronized (this) { notifyAll(); }
+		synchronized (this.snapshotsMonitor) { snapshotsMonitor.notifyAll(); }
 		
 		//System.out.println("Made a new snapshot. Number of planes: "+currentSnapshot.planes.view.size());
 		
