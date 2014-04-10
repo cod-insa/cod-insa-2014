@@ -319,8 +319,8 @@ public class GameDisplayPanel extends JPanel {
 						if (!middleBtnPressed) {
 							lastMousePosition = new Pixel(e.getX(), e.getY());
 							lastShift.set(vtrans._shift.view());
-							System.out.println(lastShift);
-							System.out.println(lastMousePosition);
+//							System.out.println(lastShift);
+//							System.out.println(lastMousePosition);
 						}
 						
 						middleBtnPressed = true;
