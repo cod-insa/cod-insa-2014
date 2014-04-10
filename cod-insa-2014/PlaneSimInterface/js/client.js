@@ -6,6 +6,10 @@
 var lastSnap;
 var nextSnap;
 
+//plane keys to figure out which ones are dead (to avoid walking deads :p)
+var keySetOld = new Array();
+var keySetNew = new Array();
+
 //last JSON received from the server
 var json;
 
@@ -43,6 +47,7 @@ var initServerConnection = function (ipad) {
     connection.onerror = function (error) {
         // an error occurred when sending/receiving data
         console.log("error: "+error);
+	clearTimeout(timeout);
 	window.setTimeout(displayError,500);
 	window.setTimeout(showModal,500);
 	//window.alert("Oops "+urlserver+" does not respond!");
@@ -50,10 +55,11 @@ var initServerConnection = function (ipad) {
     
     connection.onclose = function (error) {
         console.log("connection closed");
+	clearTimeout(timeout);
 	window.setTimeout(displayError,500);
 	window.setTimeout(showModal,1000);
 	//window.alert("Connection with "+urlserver+" has been closed!");
-	clearTimeout(timeout);
+	
     };
 
     connection.onmessage = function (message) {
@@ -72,6 +78,8 @@ var initServerConnection = function (ipad) {
 		
 		if(json.map)
 		{
+			setClock(0,0,0);
+			updateClock();
 
 			//basic map info
 			map_name = json.map.name;
@@ -92,7 +100,8 @@ var initServerConnection = function (ipad) {
 		    			map: mymap,
 					flat:true,
 		    			icon:base_icon[current_base.ownerid],
-		    			title:current_base.cityname
+		    			title:current_base.cityname,
+					zIndex:100
 				}));
 			}
 		}
@@ -124,6 +133,14 @@ var initServerConnection = function (ipad) {
 		{
 			 nextSnap = json;
 
+			//handling time
+			var time = json.snap.time;
+			var hh = Math.floor(time/3600);
+			var mm = Math.floor(time/60) - (hh*60);
+			var ss = time - hh*3600 - mm*60;
+			setClock(hh,mm,ss);
+				
+
 			//Look at ownerid to refresh bases colors
 			 for(var i = 0 ; i<base_count ; i++){
 				basesArray[i].icon = base_icon[json.snap.bases[i].ownerid];
@@ -134,6 +151,7 @@ var initServerConnection = function (ipad) {
 
 				var current_plane = json.snap.planes[j];
 				var key = current_plane.ownerid*10000+current_plane.id;
+				keySetNew.push(key);
 				var getExisting = planesArray.get(key);
 				
 				if(getExisting === undefined)
@@ -144,7 +162,8 @@ var initServerConnection = function (ipad) {
 		    			map: mymap,
 					flat:true,
 		    			icon:fighter_icon[current_plane.ownerid],
-		    			title:"plane attacking"
+		    			title:"plane",
+					zIndex:200
 					}));
 
 					planesInfo.put(key,new Plane(current_plane.health,current_plane.radar,current_plane.rotation,current_plane.speed,current_plane.state));
@@ -165,8 +184,34 @@ var initServerConnection = function (ipad) {
 					infoToUpdate.radar = current_plane.radar;
 					infoToUpdate.health = current_plane.health;
 				}
-
 			}
+
+			//Removing dead planes
+			var exist = false;
+			for(var i = 0 ; i<keySetOld.length ; i++)
+			{
+				var index = keySetOld[i];
+
+				for(var j = 0 ; j<keySetNew.length ; j++)
+				{
+					if(index == keySetNew[j])
+					{	exist = true;
+						break;
+					}
+				}	
+				if(!exist)
+				{
+					//console.log("Delete this plane!");
+					var plane = planesArray.get(index);
+					plane.setMap(null);
+					planesArray.del(index);
+					planesInfo.del(index);
+				}	
+			}
+
+
+			keySetOld = keySetNew;
+			keySetNew = new Array();
 
 				//TODO
 				// orientation, bullets...

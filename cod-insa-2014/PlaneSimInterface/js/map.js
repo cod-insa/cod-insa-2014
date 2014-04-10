@@ -74,7 +74,7 @@ function initialisationMaps(){
 		google.maps.event.clearInstanceListeners(mymap);
 
 
-		testMove();
+		//testMove();
 }
 
 

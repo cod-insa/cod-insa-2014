@@ -55,5 +55,5 @@ function updateClock()
 }
 
 
-setClock(1,1,10);
-updateClock();
+/*setClock(1,1,10);
+updateClock();*/

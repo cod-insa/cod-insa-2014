@@ -2,6 +2,8 @@ package game;
 
 import game.MapLoader.MapInfo;
 
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -16,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import common.CoordConverter;
 import common.ListView;
 import common.Util;
-
 import control.Controller;
 import display.Displayer;
 
@@ -28,6 +29,7 @@ public class Game {
 //	public final static long world_snapshot_frame_period = 50;
 	
 	//private Controller stepUpdate;
+	private FinalCountdown clock;
 	
 	Displayer disp;
 	private int nbPlayers;
@@ -64,11 +66,16 @@ public class Game {
 	}
 	*/ 
 	
-	public Game (Displayer disp, int nbplay, String mapName) {
+	public Game (Displayer disp, int nbplay, String mapName, long seconds) {
 		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
-		this.mapLoader = new MapLoader(this, mapName);
+		try {
+			this.mapLoader = new MapLoader(this, mapName);
+		} catch (FileNotFoundException | URISyntaxException e) {
+			log.error("Map not found exception");
+			System.exit(-1);
+		}
 		this.converter = mapLoader.getConverter();
 		this.mapInfo = mapLoader.getM();
 				
@@ -107,6 +114,9 @@ public class Game {
 	public void start()
 	{
 		//TODO (called when all players have joined the game)
+		
+		//init countdown
+		clock = new FinalCountdown(20*60);	//in seconds
 		
 		//if (updateTimer == null) return;
 		
@@ -257,6 +267,10 @@ public class Game {
 		return world;
 	}
 	
+	public long getTimeLeft()
+	{
+		return clock.getRemainingTime();
+	}
 	
 	
 }
