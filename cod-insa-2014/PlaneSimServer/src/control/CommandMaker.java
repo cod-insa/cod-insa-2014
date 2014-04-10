@@ -202,10 +202,11 @@ public class CommandMaker {
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Invalid quantity to drop: " + data.quantity + ". Can't drop more than " +p.militaryInHold()));
 		
-		if (!p.canAttack() && b.ownerId() != p.ownerId())
+		// Not allowed to drop unit in the middle of the ennemy's territory
+		if (b.ownerId() != p.ownerId() && b.isInTerritory())
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Can't drop military resources over an enemy base with a comercial plane !"));
+					new Response(Command.ERROR_COMMAND,"Can't drop military resources over an enemy base in the middle of their territory !"));
 		
 		
 		// Everything all right
