@@ -62,11 +62,27 @@ public final class GamePlane extends MaterialGameEntity {
 //		System.out.println(model().type.fuelConsumptionPerDistanceUnit*model().speed*period);
 		if (model().state != State.AT_AIRPORT)
 			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
-		if (model().fuelInTank < 0) {
-			model().fuelInTank = 0;
-			die();
-//			explode(1, .0007);
-			explode(2, .0007);
+//		if (model().fuelInTank < 0) {
+//			model().fuelInTank = 0;
+//			die();
+////			explode(1, .0007);
+//			explode(2, .0007);
+//		}
+	}
+
+	@Override
+	public void afterUpdate(double period) {
+		if (model().exists) {
+			if (model().health < 0) {
+				model().health = 0;
+				die();
+				explode(3, .003);
+			} else if (model().fuelInTank < 0) {
+				model().fuelInTank = 0;
+				die();
+				//			explode(1, .0007);
+				explode(2, .0007);
+			}
 		}
 	}
 
@@ -91,11 +107,11 @@ public final class GamePlane extends MaterialGameEntity {
 	public void takeHit (double hitPoints) {
 		model().health -= hitPoints;
 //		System.out.println(model().health);
-		if (model().health < 0) {
-			die();
-			model().health = 0;
-			explode(3, .003);
-		}
+//		if (model().health < 0) {
+//			die();
+//			model().health = 0;
+//			explode(3, .003);
+//		}
 	}
 	
 	public void explode(int max_pieces, double blastPower) {
