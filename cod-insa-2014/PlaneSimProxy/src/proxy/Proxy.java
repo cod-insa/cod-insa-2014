@@ -67,6 +67,7 @@ public class Proxy
 		ai_bases = new HashMap<Integer,Base>();
 		other_visible_bases = new HashMap<Integer,Base>();
 		other_notvisible_bases = new HashMap<Integer,Base>();
+		map_axis = new HashMap<Integer,ProgressAxis>();
 		idm.retrieveInitialData();
 
 		player_id = idm.getPlayerId();
