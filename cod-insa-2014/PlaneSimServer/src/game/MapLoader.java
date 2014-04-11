@@ -2,6 +2,7 @@ package game;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,7 +30,7 @@ public class MapLoader {
 
 	//path
 	private String location = "/rsc/maps/";
-	public static String[] maps = {"france","usa","europe","middleeast"};
+	//public static String[] maps = {"france","usa","europe","middleeast"};
 
 	//Object for the game
 	private World w;
@@ -75,43 +76,48 @@ public class MapLoader {
 	/**
 	 * Let check if the map name is correct...
 	 */
-	public static boolean checkMapName(String name)
+	/*public static boolean checkMapName(String name)
 	{
 		for(int i = 0 ; i< maps.length ; i++)
 			if(maps[i].equals(name))
 				return true;
 		return false;
-	}
+	}*/
 
 	/**
 	 * Specify here the map you want to load
 	 * @param mapName, from enum AvailableMaps
 	 */
-	public MapLoader(Game game, String mapName) 
+	public MapLoader(Game game, String mapName) throws FileNotFoundException,URISyntaxException
 	{
 		this.g = game;
 		this.w = game.getWorld();
 		this.m = new MapInfo();
 		this.m.name = mapName;
 		
-		if(checkMapName(mapName))
-		{
+		/*if(checkMapName(mapName))
+		{*/
 			path_file = location+mapName+".map";
 			//System.out.println(MapLoader.class.getResource(location+mapName+".map"));
-			try {
+			//try {
 //				scanner = new Scanner(new File(path_file));
-				scanner = new Scanner(new File(MapLoader.class.getResource(location+mapName+".map").toURI()));
-			} catch (FileNotFoundException | URISyntaxException e) {
+				URL url = MapLoader.class.getResource(location+mapName+".map");
+				if(url == null)
+					throw new FileNotFoundException("Map not found exception");
+				
+				File f = new File(url.toURI());
+				scanner = new Scanner(f);
+			/*} catch (FileNotFoundException | URISyntaxException e) {
 				throw new Error(e);
-			}
+			}*/
 			
 			readFile();
-		}
-		else
+		//}
+		/*else
 		{
 			//System.err.println("Map not found");
 			log.error("Map not found "+mapName);
-		}
+		}*/
 	}
 
 	/**

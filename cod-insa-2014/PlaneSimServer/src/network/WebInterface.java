@@ -36,6 +36,7 @@ public class WebInterface extends WebSocketServer {
 	private MapInfo mapInfo;
 	private CoordConverter converter;
 	private World world;
+	private Game game;
 	private AutoSender autoSender;
 
 	private WebInterface( InetSocketAddress address, Draft d) {
@@ -51,8 +52,8 @@ public class WebInterface extends WebSocketServer {
 	 */
 	public static WebInterface startWebInterface(Game game)
 	{
-		WebInterface wi = null;
 		
+		WebInterface wi = null;
 		
 		//With Ubuntu, Java gets the localhost ip address (ie 127.0.0.1) and we need to register
 		//the server with the lan ipaddress. So here is how to do that.
@@ -97,6 +98,7 @@ public class WebInterface extends WebSocketServer {
 		wi.mapInfo = game.mapInfo;
 		wi.world = game.getWorld();
 		wi.converter = game.converter;
+		wi.game = game;
 
 		return wi;
 	}
@@ -150,6 +152,9 @@ public class WebInterface extends WebSocketServer {
 		JSONStringer stringer = new JSONStringer();
 		stringer.object().key("snap");
 		stringer.object();
+		
+		stringer.key("time");
+		stringer.value(game.getTimeLeft());
 
 		synchronized (world) {
 			//Bases

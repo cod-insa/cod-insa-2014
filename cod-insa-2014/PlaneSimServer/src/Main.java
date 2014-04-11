@@ -37,7 +37,7 @@ public class Main {
 		
 		try {
 		
-			if (args.length < 1 || args.length%2 != 1)
+			if (args.length < 1 || args.length%2 == 1)
 				printUsageAndExit(-1);
 			
 			if (args.length == 1 && args[0].equals("help") || args[0].equals("--help") || args[0].equals("-h"))
@@ -48,16 +48,25 @@ public class Main {
 			
 			new Controller(50);
 			
-			int nbplay = (args.length-1)/2;
+			int nbplay = (args.length-2)/2;
+			
+			long seconds = 0;
+			try {
+				seconds = Long.parseLong(args[1]);
+			}
+			catch(Exception e)
+			{
+				printUsageAndExit(-1);
+			}
 			
 			final Displayer disp = new Displayer();
-			final Game planeSim = new Game(disp, nbplay, args[0]);
+			final Game planeSim = new Game(disp, nbplay, args[0], seconds);
 			
 			final WebInterface wi = WebInterface.startWebInterface(planeSim);
 //			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
 			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim);
 			
-			for (int i = 1; i < args.length; i+= 2) {
+			for (int i = 2; i < args.length; i+= 2) {
 	//			String[] ip_port = args[i+1].split(":");
 	//			try { npm.addPlayer(args[i], ip_port[0], Integer.parseInt(ip_port[1])); }
 	//			catch (NumberFormatException | ArrayIndexOutOfBoundsException e)
@@ -256,7 +265,7 @@ public class Main {
 	public static void printUsageAndExit(int exitCode) {
 		(exitCode==0? System.out: System.err).println("Usage:\n" +
 //				"\tjava Main playerName1 ip:port playerName2 ip:port ..."
-				"\tjava Main mapName playerName1 port1 playerName2 port2 ..."
+				"\tjava Main mapName timeinseconds playerName1 port1 playerName2 port2 ..."
 			);
 		System.exit(exitCode);
 	}
