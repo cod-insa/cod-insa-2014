@@ -72,10 +72,12 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		}
 //		private Base model() { return Base.this; }
 	}
-
+	
+	public final View view = new View();
 	@Override
 	public View view() {
-		return new View();
+//		return new View();
+		return view;
 	}
 
 	public Base(int id, Unique<Coord> pos) {

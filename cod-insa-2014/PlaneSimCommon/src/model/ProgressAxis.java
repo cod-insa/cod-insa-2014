@@ -58,7 +58,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	
 	public class Oriented implements Copyable {
 		
-		public final Base next;
+		final Base next;
 		
 		public Oriented(Base next) {
 			this.next = next;
@@ -67,7 +67,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		public final Base.View next() { return next.view(); };
 		
 		public ProgressAxis.View axis() { return view(); }
-
+ 
 		@Override
 		public Oriented copy(Context context) {
 			if (context.containsKey(this))
@@ -83,6 +83,16 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 			
 			return ret;
 		}
+	}
+	
+	public interface Nothing {
+		
+	}
+	
+	public final class Occidented implements Nothing {
+		
+		// Nothing
+		
 	}
 	
 	public class View extends Entity.View {
