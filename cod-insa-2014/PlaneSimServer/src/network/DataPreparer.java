@@ -50,7 +50,7 @@ public abstract class DataPreparer {
 			
 			// Fill init bases
 			
-			for (Base.View b : snapshot.get().bases.view)
+			for (Base.FullView b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 			
 			// Fill map dimensions 
@@ -101,7 +101,7 @@ public abstract class DataPreparer {
 		
 		// Fill the owned bases
 		
-		for (Base.View b : snapshot.bases.view) // Convert game model objects to thrift objects
+		for (Base.FullView b : snapshot.bases.view) // Convert game model objects to thrift objects
 			if (b.ownerId() == ai_id) // This is the base of the ai so we show the planes at the base
 			{
 				ai_entities.add(b);
@@ -139,7 +139,7 @@ public abstract class DataPreparer {
 		
 		// Fill the not owned bases
 		
-		for (Base.View b : snapshot.bases.view)
+		for (Base.FullView b : snapshot.bases.view)
 			if (b.ownerId() != ai_id) // The base is not belonging to the current AI
 			{
 				int baseID = 0; // By default, let's  say this base is neutral

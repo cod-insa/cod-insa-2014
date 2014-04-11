@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import common.*;
+import model.Plane.BasicView;
 import model.Plane.State;
 
-public class Base extends MaterialEntity implements Serializable, Viewable<Base.View> {
+public class Base extends MaterialEntity implements Serializable, Viewable<Base.FullView> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -24,23 +25,13 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
-	public class View extends MaterialEntity.View {
+	public class FullView extends BasicView {
 		public double militaryGarrison() { return militaryGarrison; }
 		public double fuelInStock() { return fuelInStock; }
-		public Immutable<Coord.View> getPosition() {
-			return Base.this.position;
-		}
-
 		public ListView<Plane.FullView> planes() {
 			return Util.view(planes);
 		}
-//		public SetView<ProgressAxis.Oriented> axes() {
-//			return Util.view(axes);
-//		}
-		public SetView<ProgressAxis.Oriented> axes() {
-			return Util.shallowView(axes);
-		}
-		
+
 		@Override
 		public boolean canSee(MaterialEntity.View e) {
 			if (e instanceof Plane.FullView
@@ -53,16 +44,11 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 				return isWithinRadar(((MaterialEntity.View)e).position);
 			else return false;
 		}
-
+		
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange * radarRange;
 		}
-
-		public Base copied(Context context) {
-			return copy(context);
-		}
-		
 		public boolean isInTerritory()
 		{
 			for (ProgressAxis.Oriented pao : axes)
@@ -71,11 +57,30 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			return true;
 		}
 //		private Base model() { return Base.this; }
+
+		public Base copied(Context context) {
+			return copy(context);
+		}
+	}
+	
+	public class BasicView extends MaterialEntity.View {
+		public Immutable<Coord.View> getPosition() {
+			return Base.this.position;
+		}
+		
+		public SetView<ProgressAxis.Oriented> axes() {
+			return Util.shallowView(axes);
+		}
+		
 	}
 
 	@Override
-	public View view() {
-		return new View();
+	public FullView view() {
+		return new FullView();
+	}
+	
+	public BasicView restrictedView() {
+		return new BasicView();
 	}
 
 	public Base(int id, Unique<Coord> pos) {
@@ -90,7 +95,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		militaryGarrison = 0;
 	}
 
-	public Base(Base.View src, Context context) {
+	public Base(Base.FullView src, Context context) {
 		super(src.id());
 		context.putSafe(src.model(), this);
 		// planes = Util.copy(src.copied().planes);

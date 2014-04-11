@@ -23,7 +23,7 @@ public class AttackAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			MapView<Integer, model.Base.View> bases = game.getBases();
+			MapView<Integer, Base.BasicView> bases = game.getBases();
 			MapView<Integer, BasicView> ennemy_planes = game.getEnnemyPlanes();
 			
 			for (Plane.FullView p : game.getMyPlanes().valuesView())
@@ -35,7 +35,7 @@ public class AttackAI extends AbstractAI
 					//i=0;
 					//////////////////
 					
-					Base.View b = bases.get(i);
+					Base.BasicView b = bases.get(i);
 					
 					//System.out.println("Moving plane "+p.id()+" to base "+bases.get(i).id()+", at pos "+b.position);
 			

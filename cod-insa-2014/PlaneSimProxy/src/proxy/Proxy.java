@@ -337,9 +337,11 @@ public class Proxy
 	 * 
 	 * You don't need to call this method more than once per game. Because no bases will be created or destroyed during the game :)
 	 */
-	public MapView<Integer,Base.View> getBases()
+	public MapView<Integer,Base.BasicView> getBases()
 	{
-		return Util.view(bases);
+		// TODO
+		return null;
+		
 	}
 
 	/**

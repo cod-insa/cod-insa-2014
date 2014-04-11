@@ -42,7 +42,7 @@ public class GameBase extends MaterialGameEntity {
 	Base model() { return (Base) model; }
 	
 	@Override
-	public Base.View modelView() { return model().view(); }
+	public Base.FullView modelView() { return model().view(); }
 	
 }
 

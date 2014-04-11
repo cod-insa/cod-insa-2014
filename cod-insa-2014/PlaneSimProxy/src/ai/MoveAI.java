@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Base;
-import model.Base.View;
+import model.Base.FullView;
 import model.Plane;
 import model.Plane.State;
 import command.FillFuelTankCommand;
@@ -25,7 +25,7 @@ public class MoveAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			MapView<Integer, View> bases = game.getBases();
+			MapView<Integer, Base.BasicView> bases = game.getBases();
 			
 			for (Plane.FullView p : game.getMyPlanes().valuesView())
 			{
@@ -36,7 +36,7 @@ public class MoveAI extends AbstractAI
 					//i=0;
 					//////////////////
 					
-					Base.View b = bases.get(i);
+					Base.BasicView b = bases.get(i);
 					
 					//System.out.println("Moving plane "+p.id()+" to base "+bases.get(i).id()+", at pos "+b.position);
 			

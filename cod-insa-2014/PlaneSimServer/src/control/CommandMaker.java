@@ -66,8 +66,8 @@ public class CommandMaker {
 	}
 	
 	// Base checking
-	public static Base.View findBaseById(int idBase, World.Snapshot s) {
-		for (Base.View b : s.bases.view())
+	public static Base.FullView findBaseById(int idBase, World.Snapshot s) {
+		for (Base.FullView b : s.bases.view())
 			if (b.id() == idBase)
 				return b;
 		return null;
@@ -141,7 +141,7 @@ public class CommandMaker {
 			return planeIdError(data.pc.idPlane, s);
 
 		// check base
-		Base.View b = findBaseById(data.idBase, s);
+		Base.FullView b = findBaseById(data.idBase, s);
 		if (b == null)
 			return baseIdError(data.idBase, s);
 		
@@ -188,7 +188,7 @@ public class CommandMaker {
 			return planeIdError(data.pc.idPlane, s);
 		
 		// check target
-		Base.View b = findBaseById(data.base_id, s);
+		Base.FullView b = findBaseById(data.base_id, s);
 		if (b == null)
 			return planeIdError(data.base_id, s);
 		
