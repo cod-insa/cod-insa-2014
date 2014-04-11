@@ -43,11 +43,11 @@ public class ConsoleAI extends AbstractAI
 			game.updateSimFrame();
 			
 
-			MapView<Integer, Base.BasicView> bases;
+			MapView<Integer, Base.FullView> bases;
 			MapView<Integer, Plane.FullView> planes;
 			MapView<Integer, BasicView> ennemy_planes;	
 
-			bases = game.getBases();
+			bases = game.getNotOwnedAndVisibleBases();
 			planes = game.getMyPlanes();
 			ennemy_planes = game.getEnnemyPlanes();
 			
@@ -59,13 +59,13 @@ public class ConsoleAI extends AbstractAI
 					case "exit":
 						break main_loop;
 					case "move": {
-						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
+						Base.FullView b = bases.get(Integer.parseInt(cmd[1]));
 						for (Plane.FullView p: planes.valuesView())
 							coms.add(new MoveCommand(p, b.position()));
 						break;
 					}
 					case "land": {
-						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
+						Base.FullView b = bases.get(Integer.parseInt(cmd[1]));
 						for (Plane.FullView p : planes.valuesView())
 							coms.add(new LandCommand(p, b));
 						break;
@@ -149,7 +149,7 @@ public class ConsoleAI extends AbstractAI
 			
 			// TODO FIXME! there should be synchronization but it doesn't work!
 //			synchronized (updater) {
-				bases = game.getBases();
+				bases = game.getAllBases();
 				planes = game.getMyPlanes();
 				ennemy_planes = game.getEnnemyPlanes();
 //			}
@@ -169,8 +169,11 @@ public class ConsoleAI extends AbstractAI
 				}
 				case "land": {
 					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-					for (Plane.FullView p : planes.valuesView())
-						coms.add(new LandCommand(p, b));
+					if (b instanceof Base.FullView)
+						for (Plane.FullView p : planes.valuesView())
+							coms.add(new LandCommand(p, (Base.FullView)b));
+					else
+						System.err.println("You can't see this base, move around it before you land");
 					break;
 				}
 				case "attk":

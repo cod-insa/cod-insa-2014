@@ -25,7 +25,7 @@ public class MoveAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			MapView<Integer, Base.BasicView> bases = game.getBases();
+			MapView<Integer, Base.BasicView> bases = game.getAllBases();
 			
 			for (Plane.FullView p : game.getMyPlanes().valuesView())
 			{

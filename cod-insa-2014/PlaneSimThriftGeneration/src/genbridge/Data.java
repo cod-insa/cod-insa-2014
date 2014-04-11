@@ -39,9 +39,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   private static final org.apache.thrift.protocol.TField OWNED_PLANES_FIELD_DESC = new org.apache.thrift.protocol.TField("owned_planes", org.apache.thrift.protocol.TType.LIST, (short)2);
   private static final org.apache.thrift.protocol.TField NOT_OWNED_PLANES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_planes", org.apache.thrift.protocol.TType.LIST, (short)3);
   private static final org.apache.thrift.protocol.TField OWNED_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("owned_bases", org.apache.thrift.protocol.TType.LIST, (short)4);
-  private static final org.apache.thrift.protocol.TField NOT_OWNED_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_bases", org.apache.thrift.protocol.TType.LIST, (short)5);
-  private static final org.apache.thrift.protocol.TField PROGRESS_AXIS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxis", org.apache.thrift.protocol.TType.LIST, (short)6);
-  private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)7);
+  private static final org.apache.thrift.protocol.TField NOT_OWNED_VISIBLE_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_visible_bases", org.apache.thrift.protocol.TType.LIST, (short)5);
+  private static final org.apache.thrift.protocol.TField NOT_OWNED_NOT_VISIBLE_BASES_FIELD_DESC = new org.apache.thrift.protocol.TField("not_owned_not_visible_bases", org.apache.thrift.protocol.TType.LIST, (short)6);
+  private static final org.apache.thrift.protocol.TField PROGRESS_AXIS_FIELD_DESC = new org.apache.thrift.protocol.TField("progressAxis", org.apache.thrift.protocol.TType.LIST, (short)7);
+  private static final org.apache.thrift.protocol.TField MY_COUNTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("myCountry", org.apache.thrift.protocol.TType.STRUCT, (short)8);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -53,7 +54,8 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
   public List<PlaneFullData> owned_planes; // required
   public List<PlaneBasicData> not_owned_planes; // required
   public List<BaseFullData> owned_bases; // required
-  public List<BaseBasicData> not_owned_bases; // required
+  public List<BaseFullData> not_owned_visible_bases; // required
+  public List<BaseBasicData> not_owned_not_visible_bases; // required
   public List<ProgressAxisData> progressAxis; // required
   public CountryData myCountry; // required
 
@@ -63,9 +65,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     OWNED_PLANES((short)2, "owned_planes"),
     NOT_OWNED_PLANES((short)3, "not_owned_planes"),
     OWNED_BASES((short)4, "owned_bases"),
-    NOT_OWNED_BASES((short)5, "not_owned_bases"),
-    PROGRESS_AXIS((short)6, "progressAxis"),
-    MY_COUNTRY((short)7, "myCountry");
+    NOT_OWNED_VISIBLE_BASES((short)5, "not_owned_visible_bases"),
+    NOT_OWNED_NOT_VISIBLE_BASES((short)6, "not_owned_not_visible_bases"),
+    PROGRESS_AXIS((short)7, "progressAxis"),
+    MY_COUNTRY((short)8, "myCountry");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -88,11 +91,13 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
           return NOT_OWNED_PLANES;
         case 4: // OWNED_BASES
           return OWNED_BASES;
-        case 5: // NOT_OWNED_BASES
-          return NOT_OWNED_BASES;
-        case 6: // PROGRESS_AXIS
+        case 5: // NOT_OWNED_VISIBLE_BASES
+          return NOT_OWNED_VISIBLE_BASES;
+        case 6: // NOT_OWNED_NOT_VISIBLE_BASES
+          return NOT_OWNED_NOT_VISIBLE_BASES;
+        case 7: // PROGRESS_AXIS
           return PROGRESS_AXIS;
-        case 7: // MY_COUNTRY
+        case 8: // MY_COUNTRY
           return MY_COUNTRY;
         default:
           return null;
@@ -150,7 +155,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     tmpMap.put(_Fields.OWNED_BASES, new org.apache.thrift.meta_data.FieldMetaData("owned_bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseFullData.class))));
-    tmpMap.put(_Fields.NOT_OWNED_BASES, new org.apache.thrift.meta_data.FieldMetaData("not_owned_bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.NOT_OWNED_VISIBLE_BASES, new org.apache.thrift.meta_data.FieldMetaData("not_owned_visible_bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseFullData.class))));
+    tmpMap.put(_Fields.NOT_OWNED_NOT_VISIBLE_BASES, new org.apache.thrift.meta_data.FieldMetaData("not_owned_not_visible_bases", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BaseBasicData.class))));
     tmpMap.put(_Fields.PROGRESS_AXIS, new org.apache.thrift.meta_data.FieldMetaData("progressAxis", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -170,7 +178,8 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     List<PlaneFullData> owned_planes,
     List<PlaneBasicData> not_owned_planes,
     List<BaseFullData> owned_bases,
-    List<BaseBasicData> not_owned_bases,
+    List<BaseFullData> not_owned_visible_bases,
+    List<BaseBasicData> not_owned_not_visible_bases,
     List<ProgressAxisData> progressAxis,
     CountryData myCountry)
   {
@@ -180,7 +189,8 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     this.owned_planes = owned_planes;
     this.not_owned_planes = not_owned_planes;
     this.owned_bases = owned_bases;
-    this.not_owned_bases = not_owned_bases;
+    this.not_owned_visible_bases = not_owned_visible_bases;
+    this.not_owned_not_visible_bases = not_owned_not_visible_bases;
     this.progressAxis = progressAxis;
     this.myCountry = myCountry;
   }
@@ -212,12 +222,19 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       }
       this.owned_bases = __this__owned_bases;
     }
-    if (other.isSetNot_owned_bases()) {
-      List<BaseBasicData> __this__not_owned_bases = new ArrayList<BaseBasicData>(other.not_owned_bases.size());
-      for (BaseBasicData other_element : other.not_owned_bases) {
-        __this__not_owned_bases.add(new BaseBasicData(other_element));
+    if (other.isSetNot_owned_visible_bases()) {
+      List<BaseFullData> __this__not_owned_visible_bases = new ArrayList<BaseFullData>(other.not_owned_visible_bases.size());
+      for (BaseFullData other_element : other.not_owned_visible_bases) {
+        __this__not_owned_visible_bases.add(new BaseFullData(other_element));
       }
-      this.not_owned_bases = __this__not_owned_bases;
+      this.not_owned_visible_bases = __this__not_owned_visible_bases;
+    }
+    if (other.isSetNot_owned_not_visible_bases()) {
+      List<BaseBasicData> __this__not_owned_not_visible_bases = new ArrayList<BaseBasicData>(other.not_owned_not_visible_bases.size());
+      for (BaseBasicData other_element : other.not_owned_not_visible_bases) {
+        __this__not_owned_not_visible_bases.add(new BaseBasicData(other_element));
+      }
+      this.not_owned_not_visible_bases = __this__not_owned_not_visible_bases;
     }
     if (other.isSetProgressAxis()) {
       List<ProgressAxisData> __this__progressAxis = new ArrayList<ProgressAxisData>(other.progressAxis.size());
@@ -242,7 +259,8 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     this.owned_planes = null;
     this.not_owned_planes = null;
     this.owned_bases = null;
-    this.not_owned_bases = null;
+    this.not_owned_visible_bases = null;
+    this.not_owned_not_visible_bases = null;
     this.progressAxis = null;
     this.myCountry = null;
   }
@@ -387,42 +405,81 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     }
   }
 
-  public int getNot_owned_basesSize() {
-    return (this.not_owned_bases == null) ? 0 : this.not_owned_bases.size();
+  public int getNot_owned_visible_basesSize() {
+    return (this.not_owned_visible_bases == null) ? 0 : this.not_owned_visible_bases.size();
   }
 
-  public java.util.Iterator<BaseBasicData> getNot_owned_basesIterator() {
-    return (this.not_owned_bases == null) ? null : this.not_owned_bases.iterator();
+  public java.util.Iterator<BaseFullData> getNot_owned_visible_basesIterator() {
+    return (this.not_owned_visible_bases == null) ? null : this.not_owned_visible_bases.iterator();
   }
 
-  public void addToNot_owned_bases(BaseBasicData elem) {
-    if (this.not_owned_bases == null) {
-      this.not_owned_bases = new ArrayList<BaseBasicData>();
+  public void addToNot_owned_visible_bases(BaseFullData elem) {
+    if (this.not_owned_visible_bases == null) {
+      this.not_owned_visible_bases = new ArrayList<BaseFullData>();
     }
-    this.not_owned_bases.add(elem);
+    this.not_owned_visible_bases.add(elem);
   }
 
-  public List<BaseBasicData> getNot_owned_bases() {
-    return this.not_owned_bases;
+  public List<BaseFullData> getNot_owned_visible_bases() {
+    return this.not_owned_visible_bases;
   }
 
-  public Data setNot_owned_bases(List<BaseBasicData> not_owned_bases) {
-    this.not_owned_bases = not_owned_bases;
+  public Data setNot_owned_visible_bases(List<BaseFullData> not_owned_visible_bases) {
+    this.not_owned_visible_bases = not_owned_visible_bases;
     return this;
   }
 
-  public void unsetNot_owned_bases() {
-    this.not_owned_bases = null;
+  public void unsetNot_owned_visible_bases() {
+    this.not_owned_visible_bases = null;
   }
 
-  /** Returns true if field not_owned_bases is set (has been assigned a value) and false otherwise */
-  public boolean isSetNot_owned_bases() {
-    return this.not_owned_bases != null;
+  /** Returns true if field not_owned_visible_bases is set (has been assigned a value) and false otherwise */
+  public boolean isSetNot_owned_visible_bases() {
+    return this.not_owned_visible_bases != null;
   }
 
-  public void setNot_owned_basesIsSet(boolean value) {
+  public void setNot_owned_visible_basesIsSet(boolean value) {
     if (!value) {
-      this.not_owned_bases = null;
+      this.not_owned_visible_bases = null;
+    }
+  }
+
+  public int getNot_owned_not_visible_basesSize() {
+    return (this.not_owned_not_visible_bases == null) ? 0 : this.not_owned_not_visible_bases.size();
+  }
+
+  public java.util.Iterator<BaseBasicData> getNot_owned_not_visible_basesIterator() {
+    return (this.not_owned_not_visible_bases == null) ? null : this.not_owned_not_visible_bases.iterator();
+  }
+
+  public void addToNot_owned_not_visible_bases(BaseBasicData elem) {
+    if (this.not_owned_not_visible_bases == null) {
+      this.not_owned_not_visible_bases = new ArrayList<BaseBasicData>();
+    }
+    this.not_owned_not_visible_bases.add(elem);
+  }
+
+  public List<BaseBasicData> getNot_owned_not_visible_bases() {
+    return this.not_owned_not_visible_bases;
+  }
+
+  public Data setNot_owned_not_visible_bases(List<BaseBasicData> not_owned_not_visible_bases) {
+    this.not_owned_not_visible_bases = not_owned_not_visible_bases;
+    return this;
+  }
+
+  public void unsetNot_owned_not_visible_bases() {
+    this.not_owned_not_visible_bases = null;
+  }
+
+  /** Returns true if field not_owned_not_visible_bases is set (has been assigned a value) and false otherwise */
+  public boolean isSetNot_owned_not_visible_bases() {
+    return this.not_owned_not_visible_bases != null;
+  }
+
+  public void setNot_owned_not_visible_basesIsSet(boolean value) {
+    if (!value) {
+      this.not_owned_not_visible_bases = null;
     }
   }
 
@@ -523,11 +580,19 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       }
       break;
 
-    case NOT_OWNED_BASES:
+    case NOT_OWNED_VISIBLE_BASES:
       if (value == null) {
-        unsetNot_owned_bases();
+        unsetNot_owned_visible_bases();
       } else {
-        setNot_owned_bases((List<BaseBasicData>)value);
+        setNot_owned_visible_bases((List<BaseFullData>)value);
+      }
+      break;
+
+    case NOT_OWNED_NOT_VISIBLE_BASES:
+      if (value == null) {
+        unsetNot_owned_not_visible_bases();
+      } else {
+        setNot_owned_not_visible_bases((List<BaseBasicData>)value);
       }
       break;
 
@@ -564,8 +629,11 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     case OWNED_BASES:
       return getOwned_bases();
 
-    case NOT_OWNED_BASES:
-      return getNot_owned_bases();
+    case NOT_OWNED_VISIBLE_BASES:
+      return getNot_owned_visible_bases();
+
+    case NOT_OWNED_NOT_VISIBLE_BASES:
+      return getNot_owned_not_visible_bases();
 
     case PROGRESS_AXIS:
       return getProgressAxis();
@@ -592,8 +660,10 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       return isSetNot_owned_planes();
     case OWNED_BASES:
       return isSetOwned_bases();
-    case NOT_OWNED_BASES:
-      return isSetNot_owned_bases();
+    case NOT_OWNED_VISIBLE_BASES:
+      return isSetNot_owned_visible_bases();
+    case NOT_OWNED_NOT_VISIBLE_BASES:
+      return isSetNot_owned_not_visible_bases();
     case PROGRESS_AXIS:
       return isSetProgressAxis();
     case MY_COUNTRY:
@@ -651,12 +721,21 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         return false;
     }
 
-    boolean this_present_not_owned_bases = true && this.isSetNot_owned_bases();
-    boolean that_present_not_owned_bases = true && that.isSetNot_owned_bases();
-    if (this_present_not_owned_bases || that_present_not_owned_bases) {
-      if (!(this_present_not_owned_bases && that_present_not_owned_bases))
+    boolean this_present_not_owned_visible_bases = true && this.isSetNot_owned_visible_bases();
+    boolean that_present_not_owned_visible_bases = true && that.isSetNot_owned_visible_bases();
+    if (this_present_not_owned_visible_bases || that_present_not_owned_visible_bases) {
+      if (!(this_present_not_owned_visible_bases && that_present_not_owned_visible_bases))
         return false;
-      if (!this.not_owned_bases.equals(that.not_owned_bases))
+      if (!this.not_owned_visible_bases.equals(that.not_owned_visible_bases))
+        return false;
+    }
+
+    boolean this_present_not_owned_not_visible_bases = true && this.isSetNot_owned_not_visible_bases();
+    boolean that_present_not_owned_not_visible_bases = true && that.isSetNot_owned_not_visible_bases();
+    if (this_present_not_owned_not_visible_bases || that_present_not_owned_not_visible_bases) {
+      if (!(this_present_not_owned_not_visible_bases && that_present_not_owned_not_visible_bases))
+        return false;
+      if (!this.not_owned_not_visible_bases.equals(that.not_owned_not_visible_bases))
         return false;
     }
 
@@ -734,12 +813,22 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetNot_owned_bases()).compareTo(other.isSetNot_owned_bases());
+    lastComparison = Boolean.valueOf(isSetNot_owned_visible_bases()).compareTo(other.isSetNot_owned_visible_bases());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetNot_owned_bases()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.not_owned_bases, other.not_owned_bases);
+    if (isSetNot_owned_visible_bases()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.not_owned_visible_bases, other.not_owned_visible_bases);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetNot_owned_not_visible_bases()).compareTo(other.isSetNot_owned_not_visible_bases());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetNot_owned_not_visible_bases()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.not_owned_not_visible_bases, other.not_owned_not_visible_bases);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -812,11 +901,19 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("not_owned_bases:");
-    if (this.not_owned_bases == null) {
+    sb.append("not_owned_visible_bases:");
+    if (this.not_owned_visible_bases == null) {
       sb.append("null");
     } else {
-      sb.append(this.not_owned_bases);
+      sb.append(this.not_owned_visible_bases);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("not_owned_not_visible_bases:");
+    if (this.not_owned_not_visible_bases == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.not_owned_not_visible_bases);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -948,36 +1045,55 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 5: // NOT_OWNED_BASES
+          case 5: // NOT_OWNED_VISIBLE_BASES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list41 = iprot.readListBegin();
-                struct.not_owned_bases = new ArrayList<BaseBasicData>(_list41.size);
+                struct.not_owned_visible_bases = new ArrayList<BaseFullData>(_list41.size);
                 for (int _i42 = 0; _i42 < _list41.size; ++_i42)
                 {
-                  BaseBasicData _elem43;
-                  _elem43 = new BaseBasicData();
+                  BaseFullData _elem43;
+                  _elem43 = new BaseFullData();
                   _elem43.read(iprot);
-                  struct.not_owned_bases.add(_elem43);
+                  struct.not_owned_visible_bases.add(_elem43);
                 }
                 iprot.readListEnd();
               }
-              struct.setNot_owned_basesIsSet(true);
+              struct.setNot_owned_visible_basesIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 6: // PROGRESS_AXIS
+          case 6: // NOT_OWNED_NOT_VISIBLE_BASES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list44 = iprot.readListBegin();
-                struct.progressAxis = new ArrayList<ProgressAxisData>(_list44.size);
+                struct.not_owned_not_visible_bases = new ArrayList<BaseBasicData>(_list44.size);
                 for (int _i45 = 0; _i45 < _list44.size; ++_i45)
                 {
-                  ProgressAxisData _elem46;
-                  _elem46 = new ProgressAxisData();
+                  BaseBasicData _elem46;
+                  _elem46 = new BaseBasicData();
                   _elem46.read(iprot);
-                  struct.progressAxis.add(_elem46);
+                  struct.not_owned_not_visible_bases.add(_elem46);
+                }
+                iprot.readListEnd();
+              }
+              struct.setNot_owned_not_visible_basesIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 7: // PROGRESS_AXIS
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list47 = iprot.readListBegin();
+                struct.progressAxis = new ArrayList<ProgressAxisData>(_list47.size);
+                for (int _i48 = 0; _i48 < _list47.size; ++_i48)
+                {
+                  ProgressAxisData _elem49;
+                  _elem49 = new ProgressAxisData();
+                  _elem49.read(iprot);
+                  struct.progressAxis.add(_elem49);
                 }
                 iprot.readListEnd();
               }
@@ -986,7 +1102,7 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 7: // MY_COUNTRY
+          case 8: // MY_COUNTRY
             if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
               struct.myCountry = new CountryData();
               struct.myCountry.read(iprot);
@@ -1017,9 +1133,9 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(OWNED_PLANES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.owned_planes.size()));
-          for (PlaneFullData _iter47 : struct.owned_planes)
+          for (PlaneFullData _iter50 : struct.owned_planes)
           {
-            _iter47.write(oprot);
+            _iter50.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -1029,9 +1145,9 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(NOT_OWNED_PLANES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.not_owned_planes.size()));
-          for (PlaneBasicData _iter48 : struct.not_owned_planes)
+          for (PlaneBasicData _iter51 : struct.not_owned_planes)
           {
-            _iter48.write(oprot);
+            _iter51.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -1041,21 +1157,33 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(OWNED_BASES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.owned_bases.size()));
-          for (BaseFullData _iter49 : struct.owned_bases)
+          for (BaseFullData _iter52 : struct.owned_bases)
           {
-            _iter49.write(oprot);
+            _iter52.write(oprot);
           }
           oprot.writeListEnd();
         }
         oprot.writeFieldEnd();
       }
-      if (struct.not_owned_bases != null) {
-        oprot.writeFieldBegin(NOT_OWNED_BASES_FIELD_DESC);
+      if (struct.not_owned_visible_bases != null) {
+        oprot.writeFieldBegin(NOT_OWNED_VISIBLE_BASES_FIELD_DESC);
         {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.not_owned_bases.size()));
-          for (BaseBasicData _iter50 : struct.not_owned_bases)
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.not_owned_visible_bases.size()));
+          for (BaseFullData _iter53 : struct.not_owned_visible_bases)
           {
-            _iter50.write(oprot);
+            _iter53.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
+      if (struct.not_owned_not_visible_bases != null) {
+        oprot.writeFieldBegin(NOT_OWNED_NOT_VISIBLE_BASES_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.not_owned_not_visible_bases.size()));
+          for (BaseBasicData _iter54 : struct.not_owned_not_visible_bases)
+          {
+            _iter54.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -1065,9 +1193,9 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
         oprot.writeFieldBegin(PROGRESS_AXIS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.progressAxis.size()));
-          for (ProgressAxisData _iter51 : struct.progressAxis)
+          for (ProgressAxisData _iter55 : struct.progressAxis)
           {
-            _iter51.write(oprot);
+            _iter55.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -1108,61 +1236,73 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
       if (struct.isSetOwned_bases()) {
         optionals.set(3);
       }
-      if (struct.isSetNot_owned_bases()) {
+      if (struct.isSetNot_owned_visible_bases()) {
         optionals.set(4);
       }
-      if (struct.isSetProgressAxis()) {
+      if (struct.isSetNot_owned_not_visible_bases()) {
         optionals.set(5);
       }
-      if (struct.isSetMyCountry()) {
+      if (struct.isSetProgressAxis()) {
         optionals.set(6);
       }
-      oprot.writeBitSet(optionals, 7);
+      if (struct.isSetMyCountry()) {
+        optionals.set(7);
+      }
+      oprot.writeBitSet(optionals, 8);
       if (struct.isSetNumFrame()) {
         oprot.writeI32(struct.numFrame);
       }
       if (struct.isSetOwned_planes()) {
         {
           oprot.writeI32(struct.owned_planes.size());
-          for (PlaneFullData _iter52 : struct.owned_planes)
+          for (PlaneFullData _iter56 : struct.owned_planes)
           {
-            _iter52.write(oprot);
+            _iter56.write(oprot);
           }
         }
       }
       if (struct.isSetNot_owned_planes()) {
         {
           oprot.writeI32(struct.not_owned_planes.size());
-          for (PlaneBasicData _iter53 : struct.not_owned_planes)
+          for (PlaneBasicData _iter57 : struct.not_owned_planes)
           {
-            _iter53.write(oprot);
+            _iter57.write(oprot);
           }
         }
       }
       if (struct.isSetOwned_bases()) {
         {
           oprot.writeI32(struct.owned_bases.size());
-          for (BaseFullData _iter54 : struct.owned_bases)
+          for (BaseFullData _iter58 : struct.owned_bases)
           {
-            _iter54.write(oprot);
+            _iter58.write(oprot);
           }
         }
       }
-      if (struct.isSetNot_owned_bases()) {
+      if (struct.isSetNot_owned_visible_bases()) {
         {
-          oprot.writeI32(struct.not_owned_bases.size());
-          for (BaseBasicData _iter55 : struct.not_owned_bases)
+          oprot.writeI32(struct.not_owned_visible_bases.size());
+          for (BaseFullData _iter59 : struct.not_owned_visible_bases)
           {
-            _iter55.write(oprot);
+            _iter59.write(oprot);
+          }
+        }
+      }
+      if (struct.isSetNot_owned_not_visible_bases()) {
+        {
+          oprot.writeI32(struct.not_owned_not_visible_bases.size());
+          for (BaseBasicData _iter60 : struct.not_owned_not_visible_bases)
+          {
+            _iter60.write(oprot);
           }
         }
       }
       if (struct.isSetProgressAxis()) {
         {
           oprot.writeI32(struct.progressAxis.size());
-          for (ProgressAxisData _iter56 : struct.progressAxis)
+          for (ProgressAxisData _iter61 : struct.progressAxis)
           {
-            _iter56.write(oprot);
+            _iter61.write(oprot);
           }
         }
       }
@@ -1174,82 +1314,96 @@ public class Data implements org.apache.thrift.TBase<Data, Data._Fields>, java.i
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Data struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(7);
+      BitSet incoming = iprot.readBitSet(8);
       if (incoming.get(0)) {
         struct.numFrame = iprot.readI32();
         struct.setNumFrameIsSet(true);
       }
       if (incoming.get(1)) {
         {
-          org.apache.thrift.protocol.TList _list57 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.owned_planes = new ArrayList<PlaneFullData>(_list57.size);
-          for (int _i58 = 0; _i58 < _list57.size; ++_i58)
+          org.apache.thrift.protocol.TList _list62 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.owned_planes = new ArrayList<PlaneFullData>(_list62.size);
+          for (int _i63 = 0; _i63 < _list62.size; ++_i63)
           {
-            PlaneFullData _elem59;
-            _elem59 = new PlaneFullData();
-            _elem59.read(iprot);
-            struct.owned_planes.add(_elem59);
+            PlaneFullData _elem64;
+            _elem64 = new PlaneFullData();
+            _elem64.read(iprot);
+            struct.owned_planes.add(_elem64);
           }
         }
         struct.setOwned_planesIsSet(true);
       }
       if (incoming.get(2)) {
         {
-          org.apache.thrift.protocol.TList _list60 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.not_owned_planes = new ArrayList<PlaneBasicData>(_list60.size);
-          for (int _i61 = 0; _i61 < _list60.size; ++_i61)
+          org.apache.thrift.protocol.TList _list65 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.not_owned_planes = new ArrayList<PlaneBasicData>(_list65.size);
+          for (int _i66 = 0; _i66 < _list65.size; ++_i66)
           {
-            PlaneBasicData _elem62;
-            _elem62 = new PlaneBasicData();
-            _elem62.read(iprot);
-            struct.not_owned_planes.add(_elem62);
+            PlaneBasicData _elem67;
+            _elem67 = new PlaneBasicData();
+            _elem67.read(iprot);
+            struct.not_owned_planes.add(_elem67);
           }
         }
         struct.setNot_owned_planesIsSet(true);
       }
       if (incoming.get(3)) {
         {
-          org.apache.thrift.protocol.TList _list63 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.owned_bases = new ArrayList<BaseFullData>(_list63.size);
-          for (int _i64 = 0; _i64 < _list63.size; ++_i64)
+          org.apache.thrift.protocol.TList _list68 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.owned_bases = new ArrayList<BaseFullData>(_list68.size);
+          for (int _i69 = 0; _i69 < _list68.size; ++_i69)
           {
-            BaseFullData _elem65;
-            _elem65 = new BaseFullData();
-            _elem65.read(iprot);
-            struct.owned_bases.add(_elem65);
+            BaseFullData _elem70;
+            _elem70 = new BaseFullData();
+            _elem70.read(iprot);
+            struct.owned_bases.add(_elem70);
           }
         }
         struct.setOwned_basesIsSet(true);
       }
       if (incoming.get(4)) {
         {
-          org.apache.thrift.protocol.TList _list66 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.not_owned_bases = new ArrayList<BaseBasicData>(_list66.size);
-          for (int _i67 = 0; _i67 < _list66.size; ++_i67)
+          org.apache.thrift.protocol.TList _list71 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.not_owned_visible_bases = new ArrayList<BaseFullData>(_list71.size);
+          for (int _i72 = 0; _i72 < _list71.size; ++_i72)
           {
-            BaseBasicData _elem68;
-            _elem68 = new BaseBasicData();
-            _elem68.read(iprot);
-            struct.not_owned_bases.add(_elem68);
+            BaseFullData _elem73;
+            _elem73 = new BaseFullData();
+            _elem73.read(iprot);
+            struct.not_owned_visible_bases.add(_elem73);
           }
         }
-        struct.setNot_owned_basesIsSet(true);
+        struct.setNot_owned_visible_basesIsSet(true);
       }
       if (incoming.get(5)) {
         {
-          org.apache.thrift.protocol.TList _list69 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.progressAxis = new ArrayList<ProgressAxisData>(_list69.size);
-          for (int _i70 = 0; _i70 < _list69.size; ++_i70)
+          org.apache.thrift.protocol.TList _list74 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.not_owned_not_visible_bases = new ArrayList<BaseBasicData>(_list74.size);
+          for (int _i75 = 0; _i75 < _list74.size; ++_i75)
           {
-            ProgressAxisData _elem71;
-            _elem71 = new ProgressAxisData();
-            _elem71.read(iprot);
-            struct.progressAxis.add(_elem71);
+            BaseBasicData _elem76;
+            _elem76 = new BaseBasicData();
+            _elem76.read(iprot);
+            struct.not_owned_not_visible_bases.add(_elem76);
+          }
+        }
+        struct.setNot_owned_not_visible_basesIsSet(true);
+      }
+      if (incoming.get(6)) {
+        {
+          org.apache.thrift.protocol.TList _list77 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.progressAxis = new ArrayList<ProgressAxisData>(_list77.size);
+          for (int _i78 = 0; _i78 < _list77.size; ++_i78)
+          {
+            ProgressAxisData _elem79;
+            _elem79 = new ProgressAxisData();
+            _elem79.read(iprot);
+            struct.progressAxis.add(_elem79);
           }
         }
         struct.setProgressAxisIsSet(true);
       }
-      if (incoming.get(6)) {
+      if (incoming.get(7)) {
         struct.myCountry = new CountryData();
         struct.myCountry.read(iprot);
         struct.setMyCountryIsSet(true);

@@ -21,7 +21,8 @@ import java.util.List;
 import model.Base;
 import model.MaterialEntity;
 import model.Plane;
-
+import model.ProgressAxis;
+import model.ProgressAxis.View;
 import common.Nullable;
 
 
@@ -92,7 +93,8 @@ public abstract class DataPreparer {
 		tobeSent = new Data();
 		tobeSent.numFrame = snapshot.id;
 		tobeSent.owned_bases = new ArrayList<BaseFullData>();
-		tobeSent.not_owned_bases = new ArrayList<BaseBasicData>();
+		tobeSent.not_owned_visible_bases = new ArrayList<BaseFullData>();
+		tobeSent.not_owned_not_visible_bases = new ArrayList<BaseBasicData>();
 		tobeSent.owned_planes = new ArrayList<PlaneFullData>();
 		tobeSent.not_owned_planes = new ArrayList<PlaneBasicData>();
 		tobeSent.progressAxis = new ArrayList<ProgressAxisData>();
@@ -142,18 +144,19 @@ public abstract class DataPreparer {
 		for (Base.FullView b : snapshot.bases.view)
 			if (b.ownerId() != ai_id) // The base is not belonging to the current AI
 			{
+				boolean isSeen = false;
 				int baseID = 0; // By default, let's  say this base is neutral
-				if (b.ownerId() != 0) // If the base is not neutral, we need to know if the AI see it
-				{
-					boolean isSeen = false;
-					for (int i = 0; i < ai_entities.size() && !isSeen;i++) // If the AI don't see it, we display the base as neutral
-						if (ai_entities.get(i).canSee(b))
-						{
-							baseID = b.ownerId(); // The AI see it, so we show the true value of the owner
-							isSeen = true;
-						}
-				}
-				tobeSent.not_owned_bases.add(new BaseBasicData(b.id(),baseID));
+				for (int i = 0; i < ai_entities.size() && !isSeen;i++) // If the AI don't see it, we display the base as neutral
+					if (ai_entities.get(i).canSee(b))
+					{
+						baseID = b.ownerId(); // The AI see it, so we show the true value of the owner
+						isSeen = true;
+					}
+				
+				if (isSeen) // The base is seen, so we put it in the visible bases
+					tobeSent.not_owned_visible_bases.add(new BaseFullData(new BaseBasicData(b.id(), b.ownerId()),b.militaryGarrison(),b.fuelInStock()));
+				else
+					tobeSent.not_owned_not_visible_bases.add(new BaseBasicData(b.id(),b.ownerId()));
 			}
 		
 		// Fill the not owned planes 
@@ -172,19 +175,14 @@ public abstract class DataPreparer {
 
 		// Fill the progressAxis
 		
-		// FIXME need ratio1, ratio2 in ProgressAxis and axis in snapshot
-		/*
-		for (ProgressAxis a : snapshot.axis.view)
+		for (ProgressAxis.View a : snapshot.axes.view)
 			tobeSent.progressAxis.add(new ProgressAxisData(a.id(),a.ratio1(), a.ratio2()));
-		*/
+		
 		
 		// Fill the country data
 
 		//TODO
 		
-		// Fill the currentMoney data
-			
-		//TODO
 		
 		return tobeSent;
 	}

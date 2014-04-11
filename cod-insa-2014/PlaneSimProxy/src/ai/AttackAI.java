@@ -23,7 +23,7 @@ public class AttackAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			MapView<Integer, Base.BasicView> bases = game.getBases();
+			MapView<Integer, Base.BasicView> bases = game.getAllBases();
 			MapView<Integer, BasicView> ennemy_planes = game.getEnnemyPlanes();
 			
 			for (Plane.FullView p : game.getMyPlanes().valuesView())

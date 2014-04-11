@@ -33,7 +33,11 @@ public class Proxy
 	private AbstractAI client_ai;
 	
 	// Datas
-	private Map<Integer,Base> bases;
+	private Map<Integer,Base> all_bases;
+	private Map<Integer,Base> ai_bases;
+	private Map<Integer,Base> other_visible_bases;
+	private Map<Integer,Base> other_notvisible_bases;
+	
 	private Map<Integer,Plane> ai_planes;
 	private Map<Integer,Plane> killed_planes;
 	private Map<Integer,Plane> ennemy_planes;
@@ -59,7 +63,10 @@ public class Proxy
 		ai_planes = new HashMap<Integer,Plane>();
 		killed_planes = new HashMap<Integer,Plane>();
 		ennemy_planes = new HashMap<Integer,Plane>();
-		bases = new HashMap<Integer,Base>();
+		all_bases = new HashMap<Integer,Base>();
+		ai_bases = new HashMap<Integer,Base>();
+		other_visible_bases = new HashMap<Integer,Base>();
+		other_notvisible_bases = new HashMap<Integer,Base>();
 		idm.retrieveInitialData();
 
 		player_id = idm.getPlayerId();
@@ -78,22 +85,20 @@ public class Proxy
 		for (genbridge.BaseInitData b : d.bases)
 		{
 			model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
-			bases.put(base.id, base);
-			//log.debug("Created base "+base.id);
-			//log.debug(base.id+": "+base._pos.x+" -> "+b.posit.x);
+			other_notvisible_bases.put(base.id, base);
+			all_bases.put(base.id, base);
 		}
 		mapWidth = d.mapWidth;
 		mapHeight = d.mapHeight;
 		
 		for (genbridge.ProgressAxisInitData a : d.progressAxis)
-			if (! bases.containsKey(a.base1_id) || ! bases.containsKey(a.base2_id))
-				map_axis.put(a.id,new ProgressAxis(a.id, bases.get(a.base1_id), bases.get(a.base2_id)));
+			if (! all_bases.containsKey(a.base1_id) || ! all_bases.containsKey(a.base2_id))
+				map_axis.put(a.id,new ProgressAxis(a.id, all_bases.get(a.base1_id), all_bases.get(a.base2_id)));
 			else
 				log.error("One or both of the base " + a.base1_id + " and " + a.base2_id + " are unknown. Failed to add the axis");
 		
 		// TODO Get the country
 		// TODO Get the others countries
-		// TODO Get the initial amount of money
 	}
 	
 	/**
@@ -102,35 +107,50 @@ public class Proxy
 	 */
 	private void updateBases(Data d)
 	{
+		// Clear the bases :
+		ai_bases.clear();
+		other_notvisible_bases.clear();
+		other_visible_bases.clear();
+		
+		class UpdateBasicInfo { public UpdateBasicInfo(Base base, genbridge.BaseBasicData b) {
+			base.ownerId(b.base_id);
+		}}
+		
+		class UpdateFullInfo { public UpdateFullInfo(Base base, genbridge.BaseFullData b) {
+			new UpdateBasicInfo(base,b.basic_info);
+			base.militaryGarrison = b.militarRessource;
+			base.fuelInStock = b.fuelRessource;
+		}}
+		
 		// Update owned bases
 		for (genbridge.BaseFullData b : d.owned_bases)
 		{
-			if (bases.containsKey(b.basic_info.base_id))
-			{
-				model.Base base = bases.get(b.basic_info.base_id); // get the base in the map
-				if (b.basic_info.ai_id != this.player_id)
-					log.warn("A not owned base is in the owned ones: can generate errors");
-				
-				base.ownerId(b.basic_info.ai_id);
-				base.militaryGarrison = b.militarRessource;
-				base.fuelInStock = b.fuelRessource;
-			}
-			else // There is a base which is not in the bases created at the beginning
-			{
-				log.error("The base id received is unknown. Ignoring the base. The model may be incoherent.");
-			}
+			int base_id = b.basic_info.base_id;
+			Base base = all_bases.get(base_id);
+			if (base == null)
+				throw new Error("The base with id " + base_id + " does not exist");
+			new UpdateFullInfo(base,b);
+			ai_bases.put(base_id, base);
 		}
 		
-		// Update not owned bases
-		for (genbridge.BaseBasicData b : d.not_owned_bases) {
-			if (bases.containsKey(b.base_id))
-			{
-				model.Base base = bases.get(b.base_id);
-				if (b.ai_id == this.player_id)
-					log.warn("An owned base is in the not owned base: can generate errors");
-				
-				base.ownerId(b.ai_id);
-			}
+		for (genbridge.BaseFullData b : d.not_owned_visible_bases)
+		{
+			int base_id = b.basic_info.base_id;
+			Base base = all_bases.get(base_id);
+			if (base == null)
+				throw new Error("The base with id " + base_id + " does not exist");
+			new UpdateFullInfo(base,b);
+			other_visible_bases.put(base_id, base);
+		}
+		
+		for (genbridge.BaseBasicData b : d.not_owned_not_visible_bases)
+		{
+			int base_id = b.base_id;
+			Base base = all_bases.get(base_id);
+			if (base == null)
+				throw new Error("The base with id " + base_id + " does not exist");
+			new UpdateBasicInfo(base,b);
+			other_notvisible_bases.put(base_id, base);
 		}
 	}
 	
@@ -146,18 +166,25 @@ public class Proxy
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
 		ai_planes.clear();
 		
+		class UpdateBasicInfo { public UpdateBasicInfo(Plane plane, genbridge.PlaneBasicData p) {
+			plane.position.x = p.posit.x;
+			plane.position.y = p.posit.y;
+			plane.health = p.health;
+			plane.ownerId(p.ai_id);
+		}}
+		
 		// Closure for the poor
-		class UpdateInfo { public UpdateInfo(Plane plane, PlaneFullData p) {
-			plane.health = p.basic_info.health;
+		class UpdateFullInfo { public UpdateFullInfo(Plane plane, PlaneFullData p) {
+			new UpdateBasicInfo(plane,p.basic_info);
 			plane.fuelInTank = p.remainingGaz;
 			plane.militaryInHold = p.militarResourceCarried;
 			plane.fuelInHold = p.fuelResourceCarried;
-			plane.ownerId(p.basic_info.ai_id);
+			
 			// fireRange and radarRange not updated
 
 			plane.state = StateConverter.make(p.state);
 			if (plane.state == State.AT_AIRPORT) // Update the plane 
-				plane.assignTo(bases.get(p.base_id));
+				plane.assignTo(all_bases.get(p.base_id));
 			else
 				plane.unAssign();
 		}}
@@ -170,42 +197,14 @@ public class Proxy
 			if (killed_planes.containsKey(p.basic_info.plane_id)) // So this plane is alive
 			{
 				Plane plane = killed_planes.remove(p.basic_info.plane_id);
+				new UpdateFullInfo(plane, p);
 				ai_planes.put(p.basic_info.plane_id, plane); // We move it from killed plane to ai_planes
-				
 				// Then we update the plane with the information given by the server :
-				
-				// Already done in the ctor in the other branch
-				plane.position.x = p.basic_info.posit.x;
-				plane.position.y = p.basic_info.posit.y;
-				plane.health = p.basic_info.health;
-//				plane.ownerId(p.basic_info.ai_id);
-				
-//				plane.state = StateConverter.make(p.state);
-//				if (plane.state == State.AT_AIRPORT) // Update the plane 
-//					plane.assignTo(bases.get(p.base_id));
-//				else
-//					plane.unAssign();
-				
-//				plane.remainingGaz = p.remainingGaz;
-//				plane.militarResourceCarried = p.militarResourceCarried;
-//				plane.fuelResourceCarried = p.fuelResourceCarried;
-//				plane.capacity = p.capacity;
-//				plane.ownerId(p.basic_info.ai_id);
-				new UpdateInfo(plane, p);
-				
 			}
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
 				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), Plane.Type.get(p.basic_info.planeTypeId));
-//				plane.state = StateConverter.make(p.state);
-				
-//				plane.remainingGaz = p.remainingGaz;
-//				plane.militarResourceCarried = p.militarResourceCarried;
-//				plane.fuelResourceCarried = p.fuelResourceCarried;
-//				plane.capacity = p.capacity;
-//				plane.ownerId(p.basic_info.ai_id);
-				new UpdateInfo(plane, p);
-				
+				new UpdateFullInfo(plane, p);
 				ai_planes.put(plane.id, plane);
 			}
 		}
@@ -218,17 +217,12 @@ public class Proxy
 			if (ennemy_planes.containsKey(p.plane_id)) // the unit already exists, we just update it
 			{
 				Plane plane = ennemy_planes.get(p.plane_id); // Get the old plane and update it
-				
-				plane.position.x = p.posit.x;
-				plane.position.y = p.posit.y;
-				plane.health = p.health;
-				plane.ownerId(p.ai_id);
+				new UpdateBasicInfo(plane,p);
 			}
 			else // First time that the plane appears
 			{
 				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), Plane.Type.get(p.planeTypeId));
-				plane.health = p.health;
-				plane.ownerId(p.ai_id);
+				new UpdateBasicInfo(plane,p);
 				ennemy_planes.put(plane.id, plane);
 			}
 		}
@@ -268,7 +262,6 @@ public class Proxy
 		updateAxis(d);
 		
 		// TODO Update the country (update production line)
-		// TODO Update the current money
 		
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
@@ -337,13 +330,55 @@ public class Proxy
 	 * 
 	 * You don't need to call this method more than once per game. Because no bases will be created or destroyed during the game :)
 	 */
-	public MapView<Integer,Base.BasicView> getBases()
+	public MapView<Integer,Base.BasicView> getAllBases()
 	{
-		// TODO
-		return null;
-		
+		return new MapView.Transform<>(all_bases, new Util.Converter<Base, Base.BasicView>() {
+			@Override
+			public Base.BasicView convert(Base src) {
+			    if (other_notvisible_bases.containsKey(src.id))
+			    	return src.restrictedView();
+			    else
+			    	return src.view();
+			}
+		});
 	}
 
+	/**
+	 * Get the bases which your AI own
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
+	public MapView<Integer,Base.FullView> getMyBases()
+	{
+		return Util.view(ai_bases);
+	}
+	
+	/**
+	 * Get the bases which your AI see but does not own
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
+	public MapView<Integer,Base.FullView> getNotOwnedAndVisibleBases()
+	{
+		return Util.view(other_visible_bases);
+	}
+	
+	/**
+	 * Get the bases which your AI neither see nor own
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
+	public MapView<Integer,Base.BasicView> getNotOwnedAndNotVisibleBases()
+	{
+		return new MapView.Transform<>(other_notvisible_bases,new Util.Converter<Base,Base.BasicView>(){
+			@Override
+			public Base.BasicView convert(Base src) {
+				return src.restrictedView();
+			}
+		});
+	}
+	
+	
 	/**
 	 * Check if you are out of time.
 	 * If this returns true, it means that your AI is probably too long to send commands
