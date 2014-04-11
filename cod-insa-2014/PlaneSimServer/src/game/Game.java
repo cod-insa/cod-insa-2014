@@ -134,7 +134,7 @@ public class Game {
 					
 					
 					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0) {
-						int N = 0;
+						int N = 2;
 						for (int i = 0; i < N; i++) {
 							double w = world.width, h = world.height;
 							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3, Type.MILITARY);
@@ -185,16 +185,20 @@ public class Game {
 	{
 		disp.flushEntities();
 		
-		world.entities.addAll(addedEntities);
-		for (GameEntity e : addedEntities)
-			if (e instanceof GamePlane)
-				world.planes.add((GamePlane)e);
-		addedEntities.clear();
-		world.entities.removeAll(removedEntities);
-		world.planes.removeAll(removedEntities);
-		removedEntities.clear();
+		synchronized (world)
+		{
+			world.entities.addAll(addedEntities);
+			for (GameEntity e : addedEntities)
+				if (e instanceof GamePlane)
+					world.planes.add((GamePlane)e);
+			addedEntities.clear();
+			world.entities.removeAll(removedEntities);
+			world.planes.removeAll(removedEntities);
+			removedEntities.clear();
+			
+			world.update();
+		}
 		
-		world.update();
 	}
 	
 	

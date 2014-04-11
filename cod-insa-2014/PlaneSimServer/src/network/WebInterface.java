@@ -120,23 +120,25 @@ public class WebInterface extends WebSocketServer {
 
 		//Bases
 		str.key("bases").array();
-		for (GameBase b : world.bases) {
-			str.object();
+		synchronized (world) {
+			for (GameBase b : world.bases) {
+				str.object();
 
-			str.key("id");
-			str.value(b.id());
-			str.key("cityname");
-			str.value(b.cityname);
-			str.key("latitude");
-			str.value(converter.getLatFromY(b.lastPosition.y()));
-			str.key("longitude");
-			str.value(converter.getLongFromX(b.lastPosition.x()));
-			str.key("ownerid");
-			str.value(b.modelView().ownerId());
+				str.key("id");
+				str.value(b.id());
+				str.key("cityname");
+				str.value(b.cityname);
+				str.key("latitude");
+				str.value(converter.getLatFromY(b.lastPosition.y()));
+				str.key("longitude");
+				str.value(converter.getLongFromX(b.lastPosition.x()));
+				str.key("ownerid");
+				str.value(b.modelView().ownerId());
 
-			str.endObject();
+				str.endObject();
+			}
 		}
-
+		
 		str.endArray().endObject().endObject();
 		String mapInfoString = str.toString();
 		log.debug("Sending map info to client: "+mapInfoString);
@@ -149,53 +151,55 @@ public class WebInterface extends WebSocketServer {
 		stringer.object().key("snap");
 		stringer.object();
 
-		//Bases
-		stringer.key("bases").array();
-		for (GameBase b : world.bases) {
-			stringer.object();
-			stringer.key("id");
-			stringer.value(b.id());
-			stringer.key("ownerid");
-			stringer.value(b.modelView().ownerId());
-			stringer.endObject();
+		synchronized (world) {
+			//Bases
+			stringer.key("bases").array();
+			for (GameBase b : world.bases) {
+				stringer.object();
+				stringer.key("id");
+				stringer.value(b.id());
+				stringer.key("ownerid");
+				stringer.value(b.modelView().ownerId());
+				stringer.endObject();
+			}
+			stringer.endArray();
+
+			//Planes
+			stringer.key("planes").array();
+			for (GamePlane p : world.planes) {
+				stringer.object();
+
+				stringer.key("id");
+				stringer.value(p.id());
+
+				stringer.key("latitude");
+				stringer.value(converter.getLatFromY(p.lastPosition.y()));
+
+				stringer.key("longitude");
+				stringer.value(converter.getLongFromX(p.lastPosition.x()));
+
+				stringer.key("ownerid");
+				stringer.value(p.modelView().ownerId());
+
+				stringer.key("health");
+				stringer.value(p.modelView().health());
+
+				stringer.key("radar");
+				stringer.value(p.modelView().radarRange());
+
+				stringer.key("rotation");
+				stringer.value(p.modelView().rotation());
+
+				stringer.key("speed");
+				stringer.value(p.modelView().speed());
+
+				stringer.key("state");
+				stringer.value(p.modelView().state());
+
+				stringer.endObject();
+			}
 		}
-		stringer.endArray();
-
-		//Planes
-		stringer.key("planes").array();
-		for (GamePlane p : world.planes) {
-			stringer.object();
-
-			stringer.key("id");
-			stringer.value(p.id());
-
-			stringer.key("latitude");
-			stringer.value(converter.getLatFromY(p.lastPosition.y()));
-
-			stringer.key("longitude");
-			stringer.value(converter.getLongFromX(p.lastPosition.x()));
-
-			stringer.key("ownerid");
-			stringer.value(p.modelView().ownerId());
-
-			stringer.key("health");
-			stringer.value(p.modelView().health());
-
-			stringer.key("radar");
-			stringer.value(p.modelView().radarRange());
-
-			stringer.key("rotation");
-			stringer.value(p.modelView().rotation());
-
-			stringer.key("speed");
-			stringer.value(p.modelView().speed());
-
-			stringer.key("state");
-			stringer.value(p.modelView().state());
-
-			stringer.endObject();
-		}
-
+		
 		stringer.endArray().endObject().endObject();
 
 		String gameInfoString = stringer.toString();
