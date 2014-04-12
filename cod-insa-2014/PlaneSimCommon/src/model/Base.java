@@ -1,12 +1,13 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import model.Plane.State;
-
 import common.Immutable;
+import common.ListView;
 import common.SetView;
 import common.Unique;
 import common.Util;
@@ -69,13 +70,16 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		}
 	}
 	
+
+	public final FullView fullView; // = new FullView();
 	@Override
 	public FullView view() {
-		return new FullView();
+		return fullView;
 	}
-	
+
+	public final BasicView basicView; // = new BasicView();
 	public BasicView restrictedView() {
-		return new BasicView();
+		return basicView;
 	}
 	
 	public Base(int id, Unique<Coord> pos) {
@@ -85,18 +89,31 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		radarRange = DEFAULT_BASE_RADAR_RANGE;
 		fuelInStock = 0;
 		militaryGarrison = 0;
+
+		fullView = new FullView();
+		basicView = new BasicView();
 	}
-	
-	public Base(FullView src, Context context) {
+
+	public Base(Base.FullView src, Context context) {
 		super(src, context);
+		context.putSafe(src.model(), this);
+		// planes = Util.copy(src.copied().planes);
+		// planes = Util.copy(src.planes());
+		for (Plane.FullView p : src.planes())
+			// planes.add(Util.copy(p, context));
+			planes.add(p.copied(context));
 		axes = new HashSet<>();
 		radarRange = DEFAULT_BASE_RADAR_RANGE;
-		position = src.getPosition();
 		for (ProgressAxis.Oriented oa: src.axes())
 			//axes.add(a.copied(context));
 			axes.add(oa.copy(context));
+		position = src.getPosition(); // Immutable state can be shared
+//		radarRange = src.radarRange();
 		militaryGarrison = src.militaryGarrison();
 		fuelInStock = src.fuelInStock();
+
+		fullView = new FullView();
+		basicView = new BasicView();
 	}
 	
 	@Override

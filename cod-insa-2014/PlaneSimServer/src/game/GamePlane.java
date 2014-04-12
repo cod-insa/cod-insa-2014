@@ -1,16 +1,14 @@
 package game;
 
-import common.Util;
 import model.Coord;
 import model.Plane;
 import model.Plane.State;
 
 import common.Unique;
+import common.Util;
 
 import display.EntityDisplay;
 import display.PlaneDisplay;
-
-import java.awt.geom.Point2D;
 
 public final class GamePlane extends MaterialGameEntity {
 	
@@ -60,14 +58,30 @@ public final class GamePlane extends MaterialGameEntity {
 		autoPilot.refresh(period);
 		//System.out.println(model().fuelInTank/model().tankCapacity);
 //		System.out.println(model().type.fuelConsumptionPerDistanceUnit*model().speed*period);
-		/*if (model().state != State.AT_AIRPORT)
+		if (model().state != State.AT_AIRPORT)
 			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
-		if (model().fuelInTank < 0) {
-			model().fuelInTank = 0;
-			die();
-//			explode(1, .0007);
-			explode(2, .0007);
-		}*/
+//		if (model().fuelInTank < 0) {
+//			model().fuelInTank = 0;
+//			die();
+////			explode(1, .0007);
+//			explode(2, .0007);
+//		}
+	}
+
+	@Override
+	public void afterUpdate(double period) {
+		if (model().exists) {
+			if (model().health < 0) {
+				model().health = 0;
+				die();
+				explode(2, 3, .003);
+			} else if (model().fuelInTank < 0) {
+				model().fuelInTank = 0;
+				die();
+				//			explode(1, .0007);
+				explode(1, 2, .0007);
+			}
+		}
 	}
 
 	@Override
@@ -89,16 +103,16 @@ public final class GamePlane extends MaterialGameEntity {
 	}
 	
 	public void takeHit (double hitPoints) {
-		/*model().health -= hitPoints;
+		model().health -= hitPoints;
 //		System.out.println(model().health);
-		if (model().health < 0) {
-			die();
-			model().health = 0;
-			explode(3, .003);
-		}*/
+//		if (model().health < 0) {
+//			die();
+//			model().health = 0;
+//			explode(3, .003);
+//		}
 	}
 	
-	public void explode(int max_pieces, double blastPower) {
+	public void explode(int min_pieces/* > 0 */, int max_pieces, double blastPower) {
 		//sim.addEntity(new Debris(sim, lastPosition, model().position(), model().speedVector(), model.ownerId()));
 //		sim.addEntity(new Debris(
 //				sim,
@@ -113,7 +127,7 @@ public final class GamePlane extends MaterialGameEntity {
 		for (int i = 0; i < s; i++) {
 //			Point2D.Double p1 = disp.shape.points.get(i), p2 = disp.shape.points.get(i%s);
 			//final int nbDebs = Math.random() > .5? 1: 2;
-			final int nbDebs = Util.rand.nextInt(max_pieces)+1;
+			final int nbDebs = Util.rand.nextInt(max_pieces)+min_pieces;
 
 //			Coord.View prevPt = model().position();
 //			Coord.View prevPt = new Coord(p1).view();

@@ -112,13 +112,17 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		AT_AIRPORT,
 		DEAD, // FIXME use it
 	}
-	
+
+	public final FullView fullView;
 	@Override public FullView view() {
-		return new FullView();
+//		return new FullView();
+		return fullView;
 	}
-	
+
+	public final BasicView basicView;
 	public BasicView restrictedView() {
-		return new BasicView();
+//		return new BasicView();
+		return basicView;
 	}
 	
 //	public final View view = new View();
@@ -143,6 +147,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		fuelInHold = 0;
 		militaryInHold = 0;
 		
+		fullView = new FullView();
+		basicView = new BasicView();
 	}
 	
 	public Plane (Plane.FullView src, Context context) {
@@ -160,6 +166,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		type = src.type;
 		if (src.curBase() != null)
 			curBase = src.curBase().copied(context);
+		
+		fullView = new FullView();
+		basicView = new BasicView();
 	}
 	
 	@Override

@@ -127,7 +127,7 @@ public class NetworkPlayer extends Player {
 			{
 //				System.out.println("Player "+ name+" is waiting");
 				
-				synchronized(world) {
+				synchronized(world.snapshotsMonitor) {
 					try {
 						world.wait();
 					} catch (InterruptedException e) {

@@ -9,6 +9,8 @@ import display.EntityDisplay;
  * Created by LP on 27/03/2014.
  */
 public class GameAxis extends GameEntity {
+	
+	double militaryTransfer = 0;
 
 	public GameAxis(Game sim, Base base1, Base base2) {
 		super(new ProgressAxis(makeNextId(), base1, base2), sim, Altitude.GROUND);
@@ -23,7 +25,9 @@ public class GameAxis extends GameEntity {
 //
 	@Override
 	public void updateSpecialized(double period) {
-		// TODO Auto-generated method stub
+		model().base1.militaryGarrison -= militaryTransfer*period;
+		model().base2.militaryGarrison += militaryTransfer*period;
+		militaryTransfer = 0;
 	}
 //
 	@Override
