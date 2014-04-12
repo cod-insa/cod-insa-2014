@@ -1,7 +1,6 @@
 package model;
 
 import common.Viewable;
-import common.Copyable.Context;
 
 public class ProductionLine extends Entity implements Viewable<ProductionLine.View>
 {
