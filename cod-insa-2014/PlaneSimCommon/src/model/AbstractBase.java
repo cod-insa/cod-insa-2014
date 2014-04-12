@@ -4,20 +4,22 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Immutable;
 import common.ListView;
 import common.Unique;
 import common.Util;
-import common.Copyable.Context;
 
 public abstract class AbstractBase extends MaterialEntity {
 	
 	
 	final List<Plane> planes;
-	
-	public double militaryGarrison;
-	public double fuelInStock;
+	public final Immutable<Coord.View> position;
 	
 	public abstract class View extends MaterialEntity.View {
+		public Immutable<Coord.View> getPosition() {
+			return AbstractBase.this.position;
+		}
+		
 		public ListView<Plane.FullView> planes() {
 			return Util.view(planes);
 		}
@@ -27,13 +29,6 @@ public abstract class AbstractBase extends MaterialEntity {
 	@Override
 	public abstract View view();
 
-	public AbstractBase(int id, Unique<Coord> pos) {
-		super(id);
-		planes = new ArrayList<>();
-		fuelInStock = 0;
-		militaryGarrison = 0;
-	}
-
 	public AbstractBase(AbstractBase.View src, Context context) {
 		super(src.id());
 		context.putSafe(src.model(), this);
@@ -41,15 +36,21 @@ public abstract class AbstractBase extends MaterialEntity {
 		for (Plane.FullView p : src.planes())
 			planes.add(p.copied(context));
 
+		position = src.getPosition(); // Immutable state can be shared
 		radarRange = src.radarRange();
 	}
 
-	public AbstractBase(int id) {
+	public AbstractBase(int id, Unique<Coord> pos) {
 		super(id);
+
+		position = new Immutable<>(pos);
 		planes = new ArrayList<>();
 	}
 
+
 	@Override
-	public abstract model.Coord.View position();
+	public Coord.View position() {
+		return position.view();
+	}
 
 }

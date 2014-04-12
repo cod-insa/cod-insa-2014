@@ -8,7 +8,6 @@ import genbridge.ProgressAxisData;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.AbstractBase;
 import model.Base;
 import model.Coord;
 import model.Plane;
@@ -113,11 +112,11 @@ public class Proxy
 		other_notvisible_bases.clear();
 		other_visible_bases.clear();
 		
-		class UpdateBasicInfo { public UpdateBasicInfo(AbstractBase base, genbridge.BaseBasicData b) {
+		class UpdateBasicInfo { public UpdateBasicInfo(Base base, genbridge.BaseBasicData b) {
 			base.ownerId(b.base_id);
 		}}
 		
-		class UpdateFullInfo { public UpdateFullInfo(AbstractBase base, genbridge.BaseFullData b) {
+		class UpdateFullInfo { public UpdateFullInfo(Base base, genbridge.BaseFullData b) {
 			new UpdateBasicInfo(base,b.basic_info);
 			base.militaryGarrison = b.militarRessource;
 			base.fuelInStock = b.fuelRessource;

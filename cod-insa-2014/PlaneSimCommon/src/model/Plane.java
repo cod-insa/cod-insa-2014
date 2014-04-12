@@ -67,7 +67,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 
 		public boolean knowsPositionOf(MaterialEntity.View e) {
-			if (e instanceof AbstractBase.View)
+			if (e instanceof Base.FullView)
 				return true;
 			return isFriend(e) || canSee(e);
 		}
