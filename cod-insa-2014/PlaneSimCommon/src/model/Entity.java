@@ -1,6 +1,5 @@
 package model;
 
-import model.Entity.View;
 import common.Copyable;
 import common.Viewable;
 

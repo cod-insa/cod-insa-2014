@@ -1,8 +1,6 @@
 package common;
 
 import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Set;
 
 
 
@@ -58,7 +56,7 @@ public interface Copyable {
 	
 	/**
 	 * Returns an independent object sharing NO mutable data with the original
-	 * Note that sharing Immutable<T> objects is fine (or any other immutable object).
+	 * Note that sharing an Immutable<T> objects is fine (or any other immutable object).
 	 * 
 	 * In order to avoid duplicating data or falling into infinite copy recurion
 	 * in case of cycles in the ownership graph, a set is to be passed containing
