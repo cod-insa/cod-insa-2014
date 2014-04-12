@@ -105,7 +105,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		fullView = new FullView();
 		basicView = new BasicView();
 	}
-
+ 
 	public Base(Base.FullView src, Context context) {
 		super(src.id());
 		context.putSafe(src.model(), this);
@@ -120,7 +120,7 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 			//axes.add(a.copied(context));
 			axes.add(oa.copy(context));
 		position = src.getPosition(); // Immutable state can be shared
-		radarRange = src.radarRange();
+//		radarRange = src.radarRange();
 		militaryGarrison = src.militaryGarrison();
 		fuelInStock = src.fuelInStock();
 

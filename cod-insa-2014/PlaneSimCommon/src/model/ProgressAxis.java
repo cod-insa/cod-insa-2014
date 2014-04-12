@@ -9,8 +9,10 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 
 	private static final long serialVersionUID = 1L;
 
-	public final Base.FullView base1;
-	public final Base.FullView base2;
+	//	public final Base.FullView base1;
+//	public final Base.FullView base2;
+	public final Base base1;
+	public final Base base2;
 	
 	public double ratio1 = .3, ratio2 = .3; // TODO handle these correctly
 	
@@ -21,8 +23,8 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	
 	public ProgressAxis(int id, Base b1, Base b2) {
 		super(id);
-		base1 = b1.view();
-		base2 = b2.view();
+		base1 = b1;
+		base2 = b2;
 //		setBases();
 		b1.axes.add(new Oriented(b2));
 		b2.axes.add(new Oriented(b1));
@@ -31,8 +33,8 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	public ProgressAxis(ProgressAxis.View src, Context context) {
 		super(src.id());
 		context.putSafe(src.model(), this);
-		base1 = src.base1();
-		base2 = src.base2();
+		base1 = src.base1().copied(context);
+		base2 = src.base2().copied(context);
 		
 		/**
 		 * The Base object, when copied, should copy its axes set too!
@@ -96,8 +98,8 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	}
 	
 	public class View extends Entity.View {
-		public Base.FullView base1() { return base1; }
-		public Base.FullView base2() { return base2; }
+		public Base.FullView base1() { return base1.view(); }
+		public Base.FullView base2() { return base2.view(); }
 //		private ProgressAxis model() { return ProgressAxis.this; }
 
 		public double ratio1() { return ratio1; }
