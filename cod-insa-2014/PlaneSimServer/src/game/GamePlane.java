@@ -74,12 +74,12 @@ public final class GamePlane extends MaterialGameEntity {
 			if (model().health < 0) {
 				model().health = 0;
 				die();
-				explode(3, .003);
+				explode(2, 3, .003);
 			} else if (model().fuelInTank < 0) {
 				model().fuelInTank = 0;
 				die();
 				//			explode(1, .0007);
-				explode(2, .0007);
+				explode(1, 2, .0007);
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public final class GamePlane extends MaterialGameEntity {
 //		}
 	}
 	
-	public void explode(int max_pieces, double blastPower) {
+	public void explode(int min_pieces/* > 0 */, int max_pieces, double blastPower) {
 		//sim.addEntity(new Debris(sim, lastPosition, model().position(), model().speedVector(), model.ownerId()));
 //		sim.addEntity(new Debris(
 //				sim,
@@ -127,7 +127,7 @@ public final class GamePlane extends MaterialGameEntity {
 		for (int i = 0; i < s; i++) {
 //			Point2D.Double p1 = disp.shape.points.get(i), p2 = disp.shape.points.get(i%s);
 			//final int nbDebs = Math.random() > .5? 1: 2;
-			final int nbDebs = Util.rand.nextInt(max_pieces)+1;
+			final int nbDebs = Util.rand.nextInt(max_pieces)+min_pieces;
 
 //			Coord.View prevPt = model().position();
 //			Coord.View prevPt = new Coord(p1).view();
