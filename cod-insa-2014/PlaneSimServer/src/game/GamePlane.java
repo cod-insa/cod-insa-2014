@@ -1,16 +1,14 @@
 package game;
 
-import common.Util;
 import model.Coord;
 import model.Plane;
 import model.Plane.State;
 
 import common.Unique;
+import common.Util;
 
 import display.EntityDisplay;
 import display.PlaneDisplay;
-
-import java.awt.geom.Point2D;
 
 public final class GamePlane extends MaterialGameEntity {
 	

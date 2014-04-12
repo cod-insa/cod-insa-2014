@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.Base;
-import model.Base.View;
 import model.Plane;
 import model.Plane.BasicView;
-import model.Plane.FullView;
 
 import command.AttackCommand;
 import command.Command;
@@ -45,11 +43,11 @@ public class ConsoleAI extends AbstractAI
 			game.updateSimFrame();
 			
 
-			MapView<Integer, View> bases;
-			MapView<Integer, FullView> planes;
-			MapView<Integer, BasicView> ennemy_planes;
+			MapView<Integer, Base.BasicView> bases;
+			MapView<Integer, Plane.FullView> planes;
+			MapView<Integer, BasicView> ennemy_planes;	
 
-			bases = game.getBases();
+			bases = game.getAllBases();
 			planes = game.getMyPlanes();
 			ennemy_planes = game.getEnnemyPlanes();
 			
@@ -61,15 +59,18 @@ public class ConsoleAI extends AbstractAI
 					case "exit":
 						break main_loop;
 					case "move": {
-						Base.View b = bases.get(Integer.parseInt(cmd[1]));
+						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
 						for (Plane.FullView p: planes.valuesView())
 							coms.add(new MoveCommand(p, b.position()));
 						break;
 					}
 					case "land": {
-						Base.View b = bases.get(Integer.parseInt(cmd[1]));
-						for (Plane.FullView p : planes.valuesView())
-							coms.add(new LandCommand(p, b));
+						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
+						if (b instanceof Base.FullView)
+							for (Plane.FullView p : planes.valuesView())
+								coms.add(new LandCommand(p, (Base.FullView)b));
+						else
+							System.err.println("You can't see this base, move around it before you land");
 						break;
 					}
 					case "attk":
@@ -143,15 +144,15 @@ public class ConsoleAI extends AbstractAI
 			
 			String[] cmd = in.nextLine().split(" ");
 
-			MapView<Integer, View> bases;
-			MapView<Integer, FullView> planes;
+			MapView<Integer, Base.BasicView> bases;
+			MapView<Integer, Plane.FullView> planes;
 			MapView<Integer, BasicView> ennemy_planes;
 
 //			System.out.println("waiting");
 			
 			// TODO FIXME! there should be synchronization but it doesn't work!
 //			synchronized (updater) {
-				bases = game.getBases();
+				bases = game.getAllBases();
 				planes = game.getMyPlanes();
 				ennemy_planes = game.getEnnemyPlanes();
 //			}
@@ -164,15 +165,18 @@ public class ConsoleAI extends AbstractAI
 				case "exit":
 					break main_loop;
 				case "move": {
-					Base.View b = bases.get(Integer.parseInt(cmd[1]));
+					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
 					for (Plane.FullView p: planes.valuesView())
 						coms.add(new MoveCommand(p, b.position()));
 					break;
 				}
 				case "land": {
-					Base.View b = bases.get(Integer.parseInt(cmd[1]));
-					for (Plane.FullView p : planes.valuesView())
-						coms.add(new LandCommand(p, b));
+					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
+					if (b instanceof Base.FullView)
+						for (Plane.FullView p : planes.valuesView())
+							coms.add(new LandCommand(p, (Base.FullView)b));
+					else
+						System.err.println("You can't see this base, move around it before you land");
 					break;
 				}
 				case "attk":

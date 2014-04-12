@@ -9,9 +9,9 @@ import common.Util;
 public class LandCommand extends Command {
 
 	public Plane.FullView plane;
-	public Base.View base;
+	public Base.FullView base;
 
-	public LandCommand(Plane.FullView p, Base.View b)
+	public LandCommand(Plane.FullView p, Base.FullView b)
 	{
 		Util.checkNull(p, b);
 		plane = p;

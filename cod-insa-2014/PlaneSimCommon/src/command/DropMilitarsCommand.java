@@ -11,11 +11,11 @@ public class DropMilitarsCommand extends Command {
 	//public final Plane plane;
 	public final Plane.FullView planeSrc;
 	
-	public final Base.View baseTarget;
+	public final Base.FullView baseTarget;
 	
 	public final double quantity;
 
-	public DropMilitarsCommand(Plane.FullView p, Base.View b, double ndrop)
+	public DropMilitarsCommand(Plane.FullView p, Base.FullView b, double ndrop)
 	{
 		Util.checkNull(p, b);
 		planeSrc = p;

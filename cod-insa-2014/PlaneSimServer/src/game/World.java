@@ -61,8 +61,8 @@ public class World implements Viewable<World.View> {
 	
 	class View implements Viewable.ViewOf<World> {
 		
-		public final ListView<Base.View> bases = Util.transformView (World.this.bases, new Converter<GameBase, Base.View>() {
-			public Base.View convert(GameBase src) { return src.model().view(); }
+		public final ListView<Base.FullView> bases = Util.transformView (World.this.bases, new Converter<GameBase, Base.FullView>() {
+			public Base.FullView convert(GameBase src) { return src.model().view(); }
 		});
 		
 	}
@@ -74,7 +74,7 @@ public class World implements Viewable<World.View> {
 		
 		public final int id;
 		
-		public final Immutable<ListView<Base.View>> bases;
+		public final Immutable<ListView<Base.FullView>> bases;
 		public final Immutable<ListView<Plane.FullView>> planes;
 		public final Immutable<ListView<ProgressAxis.View>> axes;
 		
@@ -103,7 +103,7 @@ public class World implements Viewable<World.View> {
 			// Finally, we can create a safe immutable view of this copy because no one else can access
 			// this unique copy and thus no one can modify it
 
-			bases = new Immutable<>(ubases, Util.<Base, Base.View>getListViewer());
+			bases = new Immutable<>(ubases, Util.<Base, Base.FullView>getListViewer());
 			//bases = new Immutable<>(ubases, Util.getViewer(new ArrayList<BaseModel>())); // works but does a useless instantiation
 			//bases = new Immutable<>(ubases, Util.getInternalViewer(ubases)); // doesn't work
 			

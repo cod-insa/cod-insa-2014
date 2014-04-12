@@ -43,7 +43,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public class FullView extends BasicView
 	{
 		public State state() { return state; }
-		public Base.View curBase() { return curBase == null ? null : curBase.view(); }
+		public Base.FullView curBase() { return curBase == null ? null : curBase.view(); }
 		
 		public double militaryInHold() { return militaryInHold; }
 		public double fuelInHold() { return fuelInHold; }
@@ -67,7 +67,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 
 		public boolean knowsPositionOf(MaterialEntity.View e) {
-			if (e instanceof Base.View)
+			if (e instanceof Base.FullView)
 				return true;
 			return isFriend(e) || canSee(e);
 		}
