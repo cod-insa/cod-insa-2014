@@ -1,13 +1,10 @@
 package ai;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import model.Base;
-import model.Base.FullView;
 import model.Plane;
-import model.Plane.State;
-import command.FillFuelTankCommand;
+
 import command.MoveCommand;
 import common.MapView;
 

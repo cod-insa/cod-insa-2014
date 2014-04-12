@@ -16,7 +16,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	//private static final double DEFAULT_RANGE = 0.7;
 	
 	public State state; // don't try to modify this: it is controlled by the autoPilot
-	public Base curBase; // no signification if state != State.AT_AIRPORT
+	public AbstractBase curBase; // no signification if state != State.AT_AIRPORT
 	
 	public double health; // = 1;
 	
@@ -43,7 +43,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public class FullView extends BasicView
 	{
 		public State state() { return state; }
-		public Base.FullView curBase() { return curBase == null ? null : curBase.view(); }
+		public AbstractBase.View curBase() { return curBase == null ? null : curBase.view(); }
 		
 		public double militaryInHold() { return militaryInHold; }
 		public double fuelInHold() { return fuelInHold; }
@@ -67,7 +67,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 
 		public boolean knowsPositionOf(MaterialEntity.View e) {
-			if (e instanceof Base.FullView)
+			if (e instanceof AbstractBase.View)
 				return true;
 			return isFriend(e) || canSee(e);
 		}
@@ -175,7 +175,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		return state != State.AT_AIRPORT && state != State.DEAD;
 	}
 	
-	public void assignTo(Base b)
+	public void assignTo(AbstractBase b)
 	{
 		unAssign();
 		this.curBase = b;

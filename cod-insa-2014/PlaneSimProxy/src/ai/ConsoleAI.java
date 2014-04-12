@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import model.AbstractBase;
 import model.Base;
 import model.Plane;
 import model.Plane.BasicView;
@@ -66,9 +67,9 @@ public class ConsoleAI extends AbstractAI
 					}
 					case "land": {
 						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-						if (b instanceof Base.FullView)
+						if (b instanceof AbstractBase.View)
 							for (Plane.FullView p : planes.valuesView())
-								coms.add(new LandCommand(p, (Base.FullView)b));
+								coms.add(new LandCommand(p, (AbstractBase.View)b));
 						else
 							System.err.println("You can't see this base, move around it before you land");
 						break;
@@ -172,9 +173,9 @@ public class ConsoleAI extends AbstractAI
 				}
 				case "land": {
 					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-					if (b instanceof Base.FullView)
+					if (b instanceof AbstractBase.View)
 						for (Plane.FullView p : planes.valuesView())
-							coms.add(new LandCommand(p, (Base.FullView)b));
+							coms.add(new LandCommand(p, (AbstractBase.View)b));
 					else
 						System.err.println("You can't see this base, move around it before you land");
 					break;

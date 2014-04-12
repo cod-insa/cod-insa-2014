@@ -13,11 +13,11 @@ import genbridge.MoveCommandData;
 import genbridge.Response;
 import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
+import model.AbstractBase;
 import model.Base;
 import model.Coord;
 import model.Plane;
 import model.Plane.State;
-
 import command.AttackCommand;
 import command.Command;
 import command.DropMilitarsCommand;
@@ -141,7 +141,7 @@ public class CommandMaker {
 			return planeIdError(data.pc.idPlane, s);
 
 		// check base
-		Base.FullView b = findBaseById(data.idBase, s);
+		AbstractBase.View b = findBaseById(data.idBase, s);
 		if (b == null)
 			return baseIdError(data.idBase, s);
 		

@@ -1,6 +1,6 @@
 package command;
 
-import model.Base;
+import model.AbstractBase;
 import model.Plane;
 
 import common.Util;
@@ -11,11 +11,11 @@ public class DropMilitarsCommand extends Command {
 	//public final Plane plane;
 	public final Plane.FullView planeSrc;
 	
-	public final Base.FullView baseTarget;
+	public final AbstractBase.View baseTarget;
 	
 	public final double quantity;
 
-	public DropMilitarsCommand(Plane.FullView p, Base.FullView b, double ndrop)
+	public DropMilitarsCommand(Plane.FullView p, AbstractBase.View b, double ndrop)
 	{
 		Util.checkNull(p, b);
 		planeSrc = p;

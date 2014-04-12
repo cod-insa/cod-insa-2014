@@ -1,5 +1,6 @@
 package game;
 
+import model.AbstractBase;
 import model.Base;
 import model.Coord;
 

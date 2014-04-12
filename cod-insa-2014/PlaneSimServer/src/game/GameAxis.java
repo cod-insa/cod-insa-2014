@@ -1,10 +1,9 @@
 package game;
 
+import model.Base;
+import model.ProgressAxis;
 import display.AxisDisplay;
 import display.EntityDisplay;
-import model.Base;
-import model.Entity;
-import model.ProgressAxis;
 
 /**
  * Created by LP on 27/03/2014.

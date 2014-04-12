@@ -1,7 +1,7 @@
 package command;
 
 
-import model.Base;
+import model.AbstractBase;
 import model.Plane;
 
 import common.Util;
@@ -9,9 +9,9 @@ import common.Util;
 public class LandCommand extends Command {
 
 	public Plane.FullView plane;
-	public Base.FullView base;
+	public AbstractBase.View base;
 
-	public LandCommand(Plane.FullView p, Base.FullView b)
+	public LandCommand(Plane.FullView p, AbstractBase.View b)
 	{
 		Util.checkNull(p, b);
 		plane = p;

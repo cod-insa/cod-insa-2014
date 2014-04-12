@@ -14,6 +14,7 @@ public abstract class MaterialEntity extends Entity {
 	protected double radarRange;
 
 	public abstract Coord.View position();
+
 	
 	public MaterialEntity(int id) {
 		super(id);
@@ -57,8 +58,4 @@ public abstract class MaterialEntity extends Entity {
 		return new View();
 	}
 	
-	@Override
-	public Object copy(Context context) {
-		return null;
-	}
 }

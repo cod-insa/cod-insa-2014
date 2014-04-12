@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.AbstractBase;
 import model.Base;
 import model.Plane;
 import model.ProgressAxis;
@@ -60,8 +61,8 @@ public class World implements Viewable<World.View> {
 	
 	class View implements Viewable.ViewOf<World> {
 		
-		public final ListView<Base.FullView> bases = Util.transformView (World.this.bases, new Converter<GameBase, Base.FullView>() {
-			public Base.FullView convert(GameBase src) { return src.model().view(); }
+		public final ListView<AbstractBase.View> bases = Util.transformView (World.this.bases, new Converter<GameBase, AbstractBase.View>() {
+			public AbstractBase.View convert(GameBase src) { return src.model().view(); }
 		});
 		
 	}
@@ -73,7 +74,7 @@ public class World implements Viewable<World.View> {
 		
 		public final int id;
 		
-		public final Immutable<ListView<Base.FullView>> bases;
+		public final Immutable<ListView<AbstractBase.View>> bases;
 		public final Immutable<ListView<Plane.FullView>> planes;
 		public final Immutable<ListView<ProgressAxis.View>> axes;
 		
@@ -90,14 +91,14 @@ public class World implements Viewable<World.View> {
 			
 			// We start by making a list view of all our bases' models (each game.Base has a model.BaseModel attribute named "model")
 			
-			ListView<Base> vbases = Util.transformView (w.bases, new Converter<GameBase, Base>() {
-				public Base convert(GameBase src) { return src.model(); }
+			ListView<AbstractBase> vbases = Util.transformView (w.bases, new Converter<GameBase, AbstractBase>() {
+				public AbstractBase convert(GameBase src) { return src.model(); }
 			});
 			
 			// Then we make a unique deep copy of all those models using the fact that model.Base is Copyable,
 			// and using Util.getListCopier() to perform the deep copy on the java.util.List
 			
-			Unique<List<Base>> ubases = new Unique.Copy<>(vbases.asUnmodifiableList(), Util.<Base>getListCopier());
+			Unique<List<AbstractBase>> ubases = new Unique.Copy<>(vbases.asUnmodifiableList(), Util.<AbstractBase>getListCopier());
 			
 			// Finally, we can create a safe immutable view of this copy because no one else can access
 			// this unique copy and thus no one can modify it

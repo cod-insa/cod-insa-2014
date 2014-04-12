@@ -8,6 +8,7 @@ import genbridge.ProgressAxisData;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.AbstractBase;
 import model.Base;
 import model.Coord;
 import model.Plane;
@@ -19,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.AbstractAI;
-
 import command.Command;
 import common.MapView;
 import common.Util;
@@ -85,7 +85,7 @@ public class Proxy
 		
 		for (genbridge.BaseInitData b : d.bases)
 		{
-			model.Base base = new Base(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
+			Base base = new Base(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
 			other_notvisible_bases.put(base.id, base);
 			all_bases.put(base.id, base);
 		}
@@ -113,11 +113,11 @@ public class Proxy
 		other_notvisible_bases.clear();
 		other_visible_bases.clear();
 		
-		class UpdateBasicInfo { public UpdateBasicInfo(Base base, genbridge.BaseBasicData b) {
+		class UpdateBasicInfo { public UpdateBasicInfo(AbstractBase base, genbridge.BaseBasicData b) {
 			base.ownerId(b.base_id);
 		}}
 		
-		class UpdateFullInfo { public UpdateFullInfo(Base base, genbridge.BaseFullData b) {
+		class UpdateFullInfo { public UpdateFullInfo(AbstractBase base, genbridge.BaseFullData b) {
 			new UpdateBasicInfo(base,b.basic_info);
 			base.militaryGarrison = b.militarRessource;
 			base.fuelInStock = b.fuelRessource;
