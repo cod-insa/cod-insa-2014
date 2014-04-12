@@ -79,13 +79,13 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		
 	}
 
-	public final FullView fullView = new FullView();
+	public final FullView fullView; // = new FullView();
 	@Override
 	public FullView view() {
 		return fullView;
 	}
 
-	public final BasicView basicView = new BasicView();
+	public final BasicView basicView; // = new BasicView();
 	public BasicView restrictedView() {
 		return basicView;
 	}
@@ -101,6 +101,9 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		radarRange = DEFAULT_BASE_RADAR_RANGE;
 		fuelInStock = 0;
 		militaryGarrison = 0;
+
+		fullView = new FullView();
+		basicView = new BasicView();
 	}
 
 	public Base(Base.FullView src, Context context) {
@@ -120,6 +123,9 @@ public class Base extends MaterialEntity implements Serializable, Viewable<Base.
 		radarRange = src.radarRange();
 		militaryGarrison = src.militaryGarrison();
 		fuelInStock = src.fuelInStock();
+
+		fullView = new FullView();
+		basicView = new BasicView();
 	}
 
 	// private BaseModel(BaseModel src)
