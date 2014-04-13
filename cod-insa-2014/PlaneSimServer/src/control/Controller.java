@@ -18,6 +18,7 @@ import command.LoadResourcesCommand;
 import command.MoveCommand;
 import command.StoreFuelCommand;
 import command.WaitCommand;
+import common.NotSupportedException;
 
 public class Controller {
 	
@@ -85,31 +86,21 @@ public class Controller {
 		catch (AttackCommand ac) {
 			s.getPlane(ac.planeSrc.id()).autoPilot.attackSpecific(s.getPlane(ac.planeTarget.id()));
 		}
-//		catch (Command def) {
-//			throw new NotSupportedException("Unrecognized command");
-//		}
-		// FIXME : Encapsuler la gestion des ressources ailleurs
 		catch (DropMilitarsCommand dmc) {
-			s.getPlane(dmc.planeSrc.id()).model().militaryInHold -= dmc.quantity;
-			//s.getPlane(dmc.planeSrc.id()).model().curBase.militaryGarrison += dmc.quantity;
+			s.getPlane(dmc.planeSrc.id()).tradeResources(0, 0, dmc.quantity, 0);
 		}
 		catch (StoreFuelCommand sfc) {
-			s.getPlane(sfc.planeSrc.id()).model().fuelInHold -= sfc.quantity;
-			//s.getPlane(sfc.planeSrc.id()).model().curBase.fuelInStock += sfc.quantity;
+			s.getPlane(sfc.planeSrc.id()).tradeResources(0, 0, 0, sfc.quantity);
 		}
 		catch (FillFuelTankCommand fftc) {
-			//s.getPlane(fftc.planeSrc.id()).model().curBase.fuelInStock -= fftc.quantity;
-			s.getPlane(fftc.planeSrc.id()).model().fuelInTank += fftc.quantity;
+			s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity);
 		}
 		catch (LoadResourcesCommand lrc) {
-
-			//s.getPlane(lrc.planeSrc.id()).model().curBase.fuelInStock -= lrc.fuelQuantity;
-			s.getPlane(lrc.planeSrc.id()).model().fuelInHold += lrc.fuelQuantity;
-
-			//s.getPlane(lrc.planeSrc.id()).model().curBase.militaryGarrison -= lrc.militarQuantity;
-			s.getPlane(lrc.planeSrc.id()).model().militaryInHold += lrc.militarQuantity;
+			s.getPlane(lrc.planeSrc.id()).tradeResources(lrc.militarQuantity, lrc.fuelQuantity, 0, 0);
 		}
-		
+		catch (Command def) {
+			throw new NotSupportedException("Unrecognized command");
+		}
 		
 	}
 	

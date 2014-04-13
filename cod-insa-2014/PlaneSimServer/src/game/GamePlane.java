@@ -1,6 +1,8 @@
 package game;
 
+import model.Base;
 import model.Coord;
+import model.Country;
 import model.Plane;
 import model.Plane.State;
 
@@ -178,6 +180,27 @@ public final class GamePlane extends MaterialGameEntity {
 		
 	}
 	
+	public void tradeResources(double mWithdraw, double fWithdraw, double mDeposit, double fDeposit)
+	{
+		model().militaryInHold += mWithdraw - mDeposit;
+		model().fuelInHold += fWithdraw - fDeposit;
+		
+		// If the plane is in a base
+		if (model().curBase instanceof Base)
+		{
+			((Base)model().curBase).fuelInStock += fDeposit - fWithdraw;
+			((Base)model().curBase).militaryGarrison += mDeposit - mWithdraw;
+		}
+	}
+	
+	public void fillTank(double quantity)
+	{
+		model().fuelInTank += quantity;
+		if (model().curBase instanceof Base)
+		{
+			((Base)model().curBase).fuelInStock -= quantity;
+		}
+	}
 	
 	public State getState()
 	{
