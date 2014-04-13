@@ -145,6 +145,13 @@ public class CommandMaker {
 		if (b == null)
 			return baseIdError(data.idBase, s);
 		
+		// check that the base is neutral or owned
+		if (b.ownerId() != 0 && b.ownerId() != p.ownerId())
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.SUCCESS, "")
+			);
+		
 		// Everything all right
 		return new Couple<>(
 				new Nullable<Command>(new LandCommand(p, b)),
