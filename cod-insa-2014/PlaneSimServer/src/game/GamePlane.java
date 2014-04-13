@@ -60,8 +60,10 @@ public final class GamePlane extends MaterialGameEntity {
 		autoPilot.refresh(period);
 		//System.out.println(model().fuelInTank/model().tankCapacity);
 //		System.out.println(model().type.fuelConsumptionPerDistanceUnit*model().speed*period);
-		if (!Settings.DEBUG_GOD_MODE)
-		if (model().state != State.AT_AIRPORT)
+		
+		if (model().state == State.AT_AIRPORT)
+			model().health += Plane.Type.REGENERATION_SPEED;
+		else if (!Settings.DEBUG_GOD_MODE)
 			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
 //		if (model().fuelInTank < 0) {
 //			model().fuelInTank = 0;
@@ -73,6 +75,9 @@ public final class GamePlane extends MaterialGameEntity {
 
 	@Override
 	public void afterUpdate(double period) {
+		if (model().health > model().type.fullHealth) {
+			model().health = model().type.fullHealth;
+		}
 		if (model().exists) {
 			if (model().health < 0) {
 				model().health = 0;
