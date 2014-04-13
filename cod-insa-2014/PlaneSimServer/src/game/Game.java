@@ -144,7 +144,7 @@ public class Game {
 					
 					
 					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0) {
-						int N = 2;
+						int N = 0;
 						for (int i = 0; i < N; i++) {
 							double w = world.width, h = world.height;
 							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3, Type.MILITARY);

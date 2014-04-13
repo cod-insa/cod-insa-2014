@@ -18,10 +18,12 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	
 	private static final long serialVersionUID = 1L;
 	
-	public final Immutable<Coord.View> position;
+
 	final Set<ProgressAxis.Oriented> axes;
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
+	public double militaryGarrison;
+	public double fuelInStock;
 	
 	public class FullView extends BasicView {
 
@@ -56,10 +58,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	}
 	
 	public class BasicView extends AbstractBase.View {
-		public Immutable<Coord.View> getPosition() {
-			return Base.this.position;
-		}
-		
+
 		public SetView<ProgressAxis.Oriented> axes() {
 			return Util.shallowView(axes);
 		}
@@ -83,9 +82,8 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	}
 	
 	public Base(int id, Unique<Coord> pos) {
-		super(id);
+		super(id,pos);
 		axes = new HashSet<>();
-		position = new Immutable<>(pos);
 		radarRange = DEFAULT_BASE_RADAR_RANGE;
 		fuelInStock = 0;
 		militaryGarrison = 0;
@@ -107,7 +105,6 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		for (ProgressAxis.Oriented oa: src.axes())
 			//axes.add(a.copied(context));
 			axes.add(oa.copy(context));
-		position = src.getPosition(); // Immutable state can be shared
 //		radarRange = src.radarRange();
 		militaryGarrison = src.militaryGarrison();
 		fuelInStock = src.fuelInStock();
@@ -124,10 +121,5 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		return ret;
 	}
 
-	@Override
-	public model.Coord.View position() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }

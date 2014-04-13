@@ -67,9 +67,9 @@ public class ConsoleAI extends AbstractAI
 					}
 					case "land": {
 						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-						if (b instanceof AbstractBase.View)
+						if (b instanceof Base.FullView)
 							for (Plane.FullView p : planes.valuesView())
-								coms.add(new LandCommand(p, (AbstractBase.View)b));
+								coms.add(new LandCommand(p, (Base.FullView)b));
 						else
 							System.err.println("You can't see this base, move around it before you land");
 						break;
@@ -173,9 +173,9 @@ public class ConsoleAI extends AbstractAI
 				}
 				case "land": {
 					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-					if (b instanceof AbstractBase.View)
+					if (b instanceof Base.FullView)
 						for (Plane.FullView p : planes.valuesView())
-							coms.add(new LandCommand(p, (AbstractBase.View)b));
+							coms.add(new LandCommand(p, (Base.FullView)b));
 					else
 						System.err.println("You can't see this base, move around it before you land");
 					break;

@@ -141,7 +141,7 @@ public class CommandMaker {
 			return planeIdError(data.pc.idPlane, s);
 
 		// check base
-		AbstractBase.View b = findBaseById(data.idBase, s);
+		Base.FullView b = findBaseById(data.idBase, s);
 		if (b == null)
 			return baseIdError(data.idBase, s);
 		

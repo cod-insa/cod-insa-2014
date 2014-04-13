@@ -67,7 +67,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 
 		public boolean knowsPositionOf(MaterialEntity.View e) {
-			if (e instanceof AbstractBase.View)
+			if (e instanceof Base.FullView)
 				return true;
 			return isFriend(e) || canSee(e);
 		}
@@ -225,8 +225,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			
 			fuelConsumptionPerDistanceUnit,
 			
-			radius
+			radius,
 			
+			timeToBuild
 		;
 		
 		private Type(
@@ -236,7 +237,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				double holdCapacity,
 				double tankCapacity,
 				double fuelConsumptionPerDistanceUnit,
-				double radius
+				double radius,
+				double timeToBuild
 		) {
 			
 			id = instances.size();
@@ -253,7 +255,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			this.fuelConsumptionPerDistanceUnit = fuelConsumptionPerDistanceUnit;
 			
 			this.radius = radius;
-			
+			this.timeToBuild = timeToBuild;
 		}
 
 		public static final Type MILITARY = new Type(
@@ -270,7 +272,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// fuelConsumptionPerDistanceUnit
 				1,
 				// radius
-				.03
+				.03,
+				// timeToBuild
+				15
 			);
 		
 		public static final Type COMMERCIAL = new Type(
@@ -287,7 +291,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// fuelConsumptionPerDistanceUnit
 				MILITARY.fuelConsumptionPerDistanceUnit*3,
 				// radius
-				MILITARY.radius*2 // TODO adjust
+				MILITARY.radius*2, // TODO adjust
+				// timeToBuild
+				15
 			);
 		
 	}

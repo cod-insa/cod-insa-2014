@@ -52,7 +52,7 @@ public abstract class DataPreparer {
 			
 			// Fill init bases
 			
-			for (AbstractBase.View b : snapshot.get().bases.view)
+			for (Base.FullView b : snapshot.get().bases.view)
 				tobeSent.bases.add(new BaseInitData(b.id(),new CoordData(b.position().x(),b.position().y())));
 			
 			// Fill map dimensions 
