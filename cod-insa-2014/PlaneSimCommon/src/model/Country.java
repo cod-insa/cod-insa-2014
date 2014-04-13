@@ -1,9 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.Unique;
 
 public class Country extends AbstractBase {
 
+	public final List<ProductionLine> lines;
+	
 	public class View extends AbstractBase.View {
 
 		@Override
@@ -13,12 +18,26 @@ public class Country extends AbstractBase {
 		
 	}
 	
+	public class ProductionLine
+	{
+		public final double timeBeforePlaneBuilt;
+		public final Plane.Type requestedType;
+		
+		public ProductionLine(double time, Plane.Type type)
+		{
+			timeBeforePlaneBuilt = time;
+			requestedType = type;
+		}
+	}
+	
 	public Country(int id, Unique<Coord> pos) {
 		super(id, pos);
+		lines = new ArrayList<ProductionLine>();
 	}
 
 	public Country(View src, Context context) {
 		super(src, context);
+		lines = new ArrayList<ProductionLine>();
 	}
 
 	@Override

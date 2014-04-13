@@ -6,7 +6,7 @@ import java.util.List;
 import model.Coord;
 import model.Country;
 import model.Entity;
-import model.ProductionLine;
+import model.Plane;
 import common.Unique;
 import display.CountryDisplay;
 import display.EntityDisplay;
@@ -17,30 +17,46 @@ public class GameCountry extends MaterialGameEntity {
 	public final String countryname;
 	public final List<GameProductionLine> lines;
 	
-	public GameCountry(Game sim, Unique<Coord> pos, String name) {
+	public GameCountry(Game sim, Unique<Coord> pos, String name, int productionLineNumber) {
 		super(new Country(makeNextId(),pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 		countryname = name;
 		lines = new ArrayList<GameProductionLine>();
+		for (int i = 0; i < productionLineNumber;i++)
+			lines.add(new GameProductionLine());
 	}
 	
-	public class GameProductionLine extends GameEntity {
+	public class GameProductionLine
+	{
+		public double timeBeforePlaneBuilt;
+		public Plane.Type requestedType;
 
-		public GameProductionLine(Entity model, Game sim) {
-			super(new ProductionLine(makeNextId()), sim, Altitude.GROUND);
-		}
-
-		@Override
-		public void updateSpecialized(double period) {
-			
-		}
-
-		@Override
-		public EntityDisplay<?> getDisplay() {
-			// TODO Auto-generated method stub
-			return null;
+		public void beginConstruction(Plane.Type type)
+		{
+			timeBeforePlaneBuilt = type.timeToBuild;
+			requestedType = type;
 		}
 		
+		public boolean isPlaneBuilt()
+		{
+			return timeBeforePlaneBuilt <= 0 && requestedType != null;
+		}
+		
+		public void continueConstruction()
+		{
+			// TODO Check if this is ok
+			timeBeforePlaneBuilt--;
+		}
+		
+		public void createPlane()
+		{
+			if (isPlaneBuilt())
+			{
+				GamePlane gp = new GamePlane(sim,new Coord.Unique(model().position().x(), model().position().y()),model().ownerId(),requestedType);
+				// FIXME gp.land();
+				requestedType = null;
+			}
+		}
 	}
 	
 	@Override
@@ -51,7 +67,12 @@ public class GameCountry extends MaterialGameEntity {
 	@Override
 	public void updateSpecialized(double period) {
 		super.updateSpecialized(period);
-		// TODO Auto-generated method stub
+		for (GameProductionLine pl : lines)
+		{
+			pl.continueConstruction();
+			if (pl.isPlaneBuilt())
+				pl.createPlane();
+		}
 	}
 
 	@Override
