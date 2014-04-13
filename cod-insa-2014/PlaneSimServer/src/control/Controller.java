@@ -2,13 +2,14 @@ package control;
 
 import game.AutoPilot.Mode;
 import game.Game;
+import game.GamePlane;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
-
 import command.AttackCommand;
+import command.BuildPlaneCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.FillFuelTankCommand;
@@ -57,7 +58,7 @@ public class Controller {
 //			//s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
 //			Plane p = s.getPlane(mc.planeId);
 //			if (p == null)
-//				System.err.println("Error: cannot find the plane of id "+mc.planeId); // FIXME command verif
+//				System.err.println("Error: cannot find the plane of id "+mc.planeId); 
 //			else p.autoPilot.goTo(mc.destination, Mode.ATTACK_ON_SIGHT); // FIXME get the right mode
 //		} else {
 //			throw new Error("Unrecognized command!");
@@ -73,12 +74,8 @@ public class Controller {
 //			s.getPlane(toc.planeId).autoPilot.takeOff();
 //		}
 		catch (WaitCommand wc) {
-			// TODO
-			// should be something like 
-			/*
-			Plane p = s.getPlane(wc.planeId);
-			p.autoPilot.goTo(p.modelView.position, Mode.ATTACK_ON_SIGHT);
-			*/
+			GamePlane gp = s.getPlane(wc.plane.id());
+			gp.autoPilot.goTo(gp.model().position(), Mode.ATTACK_ON_SIGHT);
 		}
 		catch (FollowCommand fc) {
 			s.getPlane(fc.planeSrc.id()).autoPilot.goTo(s.getPlane(fc.planeTarget.id()), Mode.IGNORE);
@@ -97,9 +94,8 @@ public class Controller {
 		}
 		catch (LoadResourcesCommand lrc) {
 			s.getPlane(lrc.planeSrc.id()).tradeResources(lrc.militarQuantity, lrc.fuelQuantity, 0, 0);
-		}
-		catch (Command def) {
-			throw new NotSupportedException("Unrecognized command");
+		} catch (BuildPlaneCommand e) {
+			
 		}
 		
 	}

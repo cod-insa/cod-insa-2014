@@ -6,6 +6,7 @@ import game.World;
 import game.World.Snapshot;
 import genbridge.AttackCommandData;
 import genbridge.Bridge;
+import genbridge.BuildPlaneCommandData;
 import genbridge.CommandReceiver;
 import genbridge.ConnectionData;
 import genbridge.Data;
@@ -39,7 +40,6 @@ import org.apache.thrift.transport.TTransportException;
 import command.Command;
 import common.Couple;
 import common.Nullable;
-
 import control.CommandMaker;
 
 /**
@@ -251,20 +251,15 @@ public class NetworkPlayer extends Player {
 		@Override
 		public Response sendAttackCommand(AttackCommandData cmdDat, int idConnection) throws TException {
 
-			// TODO
-			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
-//			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
 			
 
-			//return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 		}
 
 		@Override
 		public Response sendDropMilitarsCommand(DropMilitarsCommandData cmdDat,
 				int idConnection) throws TException {
 
-//			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
 			
 		}
@@ -273,7 +268,6 @@ public class NetworkPlayer extends Player {
 		public Response sendStoreFuelCommand(StoreFuelCommandData cmdDat,
 				int idConnection) throws TException {
 		
-//			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
 		}
 
@@ -281,16 +275,21 @@ public class NetworkPlayer extends Player {
 		public Response sendFillFuelTankCommand(FillFuelTankCommandData cmdDat,
 				int idConnection) throws TException {
 			
-//			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
 		}
 
 		@Override
 		public Response sendLoadResourcesCommand(
-				LoadResourcesCommandData cmd, int idConnection)
+				LoadResourcesCommandData cmdData, int idConnection)
 				throws TException {
-			
-			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
+			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot()));
+		}
+
+		@Override
+		public Response sendBuildPlaneCommand(
+				BuildPlaneCommandData cmdData, int idConnection) 
+				throws TException {
+			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot()));
 		}
 		
 	}

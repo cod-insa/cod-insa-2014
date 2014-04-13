@@ -33,6 +33,8 @@ public class World implements Viewable<World.View> {
 	// All the current entities of the game
 	List<GameEntity> entities = new ArrayList<>();
 	public List<GamePlane> planes = new ArrayList<>();
+	public List<GameCountry> countries = new ArrayList<>();
+	
 //	public List<GameAxis> axes = new ArrayList<>();
 	
 	public World (Game sim) {
@@ -61,7 +63,6 @@ public class World implements Viewable<World.View> {
 	}
 	
 	class View implements Viewable.ViewOf<World> {
-		
 		public final ListView<Base.FullView> bases = Util.transformView (World.this.bases, new Converter<GameBase, Base.FullView>() {
 			public Base.FullView convert(GameBase src) { return src.model().view(); }
 		});

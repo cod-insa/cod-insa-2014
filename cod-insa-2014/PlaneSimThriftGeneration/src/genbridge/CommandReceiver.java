@@ -54,6 +54,8 @@ public class CommandReceiver {
 
     public Response sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
+    public Response sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -75,6 +77,8 @@ public class CommandReceiver {
     public void sendFillFuelTankCommand(FillFuelTankCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
     public void sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+
+    public void sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -312,6 +316,30 @@ public class CommandReceiver {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendLoadResourcesCommand failed: unknown result");
+    }
+
+    public Response sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    {
+      send_sendBuildPlaneCommand(cmd, idConnection);
+      return recv_sendBuildPlaneCommand();
+    }
+
+    public void send_sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    {
+      sendBuildPlaneCommand_args args = new sendBuildPlaneCommand_args();
+      args.setCmd(cmd);
+      args.setIdConnection(idConnection);
+      sendBase("sendBuildPlaneCommand", args);
+    }
+
+    public Response recv_sendBuildPlaneCommand() throws org.apache.thrift.TException
+    {
+      sendBuildPlaneCommand_result result = new sendBuildPlaneCommand_result();
+      receiveBase(result, "sendBuildPlaneCommand");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendBuildPlaneCommand failed: unknown result");
     }
 
   }
@@ -647,6 +675,41 @@ public class CommandReceiver {
       }
     }
 
+    public void sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      sendBuildPlaneCommand_call method_call = new sendBuildPlaneCommand_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class sendBuildPlaneCommand_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private BuildPlaneCommandData cmd;
+      private int idConnection;
+      public sendBuildPlaneCommand_call(BuildPlaneCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cmd = cmd;
+        this.idConnection = idConnection;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("sendBuildPlaneCommand", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        sendBuildPlaneCommand_args args = new sendBuildPlaneCommand_args();
+        args.setCmd(cmd);
+        args.setIdConnection(idConnection);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Response getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_sendBuildPlaneCommand();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -669,6 +732,7 @@ public class CommandReceiver {
       processMap.put("sendStoreFuelCommand", new sendStoreFuelCommand());
       processMap.put("sendFillFuelTankCommand", new sendFillFuelTankCommand());
       processMap.put("sendLoadResourcesCommand", new sendLoadResourcesCommand());
+      processMap.put("sendBuildPlaneCommand", new sendBuildPlaneCommand());
       return processMap;
     }
 
@@ -852,6 +916,26 @@ public class CommandReceiver {
       }
     }
 
+    public static class sendBuildPlaneCommand<I extends Iface> extends org.apache.thrift.ProcessFunction<I, sendBuildPlaneCommand_args> {
+      public sendBuildPlaneCommand() {
+        super("sendBuildPlaneCommand");
+      }
+
+      public sendBuildPlaneCommand_args getEmptyArgsInstance() {
+        return new sendBuildPlaneCommand_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public sendBuildPlaneCommand_result getResult(I iface, sendBuildPlaneCommand_args args) throws org.apache.thrift.TException {
+        sendBuildPlaneCommand_result result = new sendBuildPlaneCommand_result();
+        result.success = iface.sendBuildPlaneCommand(args.cmd, args.idConnection);
+        return result;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -874,6 +958,7 @@ public class CommandReceiver {
       processMap.put("sendStoreFuelCommand", new sendStoreFuelCommand());
       processMap.put("sendFillFuelTankCommand", new sendFillFuelTankCommand());
       processMap.put("sendLoadResourcesCommand", new sendLoadResourcesCommand());
+      processMap.put("sendBuildPlaneCommand", new sendBuildPlaneCommand());
       return processMap;
     }
 
@@ -1333,6 +1418,57 @@ public class CommandReceiver {
 
       public void start(I iface, sendLoadResourcesCommand_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
         iface.sendLoadResourcesCommand(args.cmd, args.idConnection,resultHandler);
+      }
+    }
+
+    public static class sendBuildPlaneCommand<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, sendBuildPlaneCommand_args, Response> {
+      public sendBuildPlaneCommand() {
+        super("sendBuildPlaneCommand");
+      }
+
+      public sendBuildPlaneCommand_args getEmptyArgsInstance() {
+        return new sendBuildPlaneCommand_args();
+      }
+
+      public AsyncMethodCallback<Response> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new AsyncMethodCallback<Response>() { 
+          public void onComplete(Response o) {
+            sendBuildPlaneCommand_result result = new sendBuildPlaneCommand_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+              return;
+            } catch (Exception e) {
+              LOGGER.error("Exception writing to internal frame buffer", e);
+            }
+            fb.close();
+          }
+          public void onError(Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TBase msg;
+            sendBuildPlaneCommand_result result = new sendBuildPlaneCommand_result();
+            {
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TBase)new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+              return;
+            } catch (Exception ex) {
+              LOGGER.error("Exception writing to internal frame buffer", ex);
+            }
+            fb.close();
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, sendBuildPlaneCommand_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
+        iface.sendBuildPlaneCommand(args.cmd, args.idConnection,resultHandler);
       }
     }
 
@@ -8670,6 +8806,822 @@ public class CommandReceiver {
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, sendLoadResourcesCommand_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new Response();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class sendBuildPlaneCommand_args implements org.apache.thrift.TBase<sendBuildPlaneCommand_args, sendBuildPlaneCommand_args._Fields>, java.io.Serializable, Cloneable, Comparable<sendBuildPlaneCommand_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendBuildPlaneCommand_args");
+
+    private static final org.apache.thrift.protocol.TField CMD_FIELD_DESC = new org.apache.thrift.protocol.TField("cmd", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ID_CONNECTION_FIELD_DESC = new org.apache.thrift.protocol.TField("idConnection", org.apache.thrift.protocol.TType.I32, (short)2);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new sendBuildPlaneCommand_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new sendBuildPlaneCommand_argsTupleSchemeFactory());
+    }
+
+    public BuildPlaneCommandData cmd; // required
+    public int idConnection; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      CMD((short)1, "cmd"),
+      ID_CONNECTION((short)2, "idConnection");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CMD
+            return CMD;
+          case 2: // ID_CONNECTION
+            return ID_CONNECTION;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __IDCONNECTION_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CMD, new org.apache.thrift.meta_data.FieldMetaData("cmd", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BuildPlaneCommandData.class)));
+      tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendBuildPlaneCommand_args.class, metaDataMap);
+    }
+
+    public sendBuildPlaneCommand_args() {
+    }
+
+    public sendBuildPlaneCommand_args(
+      BuildPlaneCommandData cmd,
+      int idConnection)
+    {
+      this();
+      this.cmd = cmd;
+      this.idConnection = idConnection;
+      setIdConnectionIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public sendBuildPlaneCommand_args(sendBuildPlaneCommand_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      if (other.isSetCmd()) {
+        this.cmd = new BuildPlaneCommandData(other.cmd);
+      }
+      this.idConnection = other.idConnection;
+    }
+
+    public sendBuildPlaneCommand_args deepCopy() {
+      return new sendBuildPlaneCommand_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cmd = null;
+      setIdConnectionIsSet(false);
+      this.idConnection = 0;
+    }
+
+    public BuildPlaneCommandData getCmd() {
+      return this.cmd;
+    }
+
+    public sendBuildPlaneCommand_args setCmd(BuildPlaneCommandData cmd) {
+      this.cmd = cmd;
+      return this;
+    }
+
+    public void unsetCmd() {
+      this.cmd = null;
+    }
+
+    /** Returns true if field cmd is set (has been assigned a value) and false otherwise */
+    public boolean isSetCmd() {
+      return this.cmd != null;
+    }
+
+    public void setCmdIsSet(boolean value) {
+      if (!value) {
+        this.cmd = null;
+      }
+    }
+
+    public int getIdConnection() {
+      return this.idConnection;
+    }
+
+    public sendBuildPlaneCommand_args setIdConnection(int idConnection) {
+      this.idConnection = idConnection;
+      setIdConnectionIsSet(true);
+      return this;
+    }
+
+    public void unsetIdConnection() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
+    }
+
+    /** Returns true if field idConnection is set (has been assigned a value) and false otherwise */
+    public boolean isSetIdConnection() {
+      return EncodingUtils.testBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
+    }
+
+    public void setIdConnectionIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IDCONNECTION_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case CMD:
+        if (value == null) {
+          unsetCmd();
+        } else {
+          setCmd((BuildPlaneCommandData)value);
+        }
+        break;
+
+      case ID_CONNECTION:
+        if (value == null) {
+          unsetIdConnection();
+        } else {
+          setIdConnection((Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CMD:
+        return getCmd();
+
+      case ID_CONNECTION:
+        return Integer.valueOf(getIdConnection());
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CMD:
+        return isSetCmd();
+      case ID_CONNECTION:
+        return isSetIdConnection();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof sendBuildPlaneCommand_args)
+        return this.equals((sendBuildPlaneCommand_args)that);
+      return false;
+    }
+
+    public boolean equals(sendBuildPlaneCommand_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_cmd = true && this.isSetCmd();
+      boolean that_present_cmd = true && that.isSetCmd();
+      if (this_present_cmd || that_present_cmd) {
+        if (!(this_present_cmd && that_present_cmd))
+          return false;
+        if (!this.cmd.equals(that.cmd))
+          return false;
+      }
+
+      boolean this_present_idConnection = true;
+      boolean that_present_idConnection = true;
+      if (this_present_idConnection || that_present_idConnection) {
+        if (!(this_present_idConnection && that_present_idConnection))
+          return false;
+        if (this.idConnection != that.idConnection)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(sendBuildPlaneCommand_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetCmd()).compareTo(other.isSetCmd());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCmd()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cmd, other.cmd);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetIdConnection()).compareTo(other.isSetIdConnection());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIdConnection()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.idConnection, other.idConnection);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("sendBuildPlaneCommand_args(");
+      boolean first = true;
+
+      sb.append("cmd:");
+      if (this.cmd == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cmd);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("idConnection:");
+      sb.append(this.idConnection);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cmd != null) {
+        cmd.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class sendBuildPlaneCommand_argsStandardSchemeFactory implements SchemeFactory {
+      public sendBuildPlaneCommand_argsStandardScheme getScheme() {
+        return new sendBuildPlaneCommand_argsStandardScheme();
+      }
+    }
+
+    private static class sendBuildPlaneCommand_argsStandardScheme extends StandardScheme<sendBuildPlaneCommand_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, sendBuildPlaneCommand_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CMD
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cmd = new BuildPlaneCommandData();
+                struct.cmd.read(iprot);
+                struct.setCmdIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // ID_CONNECTION
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.idConnection = iprot.readI32();
+                struct.setIdConnectionIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, sendBuildPlaneCommand_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cmd != null) {
+          oprot.writeFieldBegin(CMD_FIELD_DESC);
+          struct.cmd.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(ID_CONNECTION_FIELD_DESC);
+        oprot.writeI32(struct.idConnection);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class sendBuildPlaneCommand_argsTupleSchemeFactory implements SchemeFactory {
+      public sendBuildPlaneCommand_argsTupleScheme getScheme() {
+        return new sendBuildPlaneCommand_argsTupleScheme();
+      }
+    }
+
+    private static class sendBuildPlaneCommand_argsTupleScheme extends TupleScheme<sendBuildPlaneCommand_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, sendBuildPlaneCommand_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetCmd()) {
+          optionals.set(0);
+        }
+        if (struct.isSetIdConnection()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetCmd()) {
+          struct.cmd.write(oprot);
+        }
+        if (struct.isSetIdConnection()) {
+          oprot.writeI32(struct.idConnection);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, sendBuildPlaneCommand_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.cmd = new BuildPlaneCommandData();
+          struct.cmd.read(iprot);
+          struct.setCmdIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.idConnection = iprot.readI32();
+          struct.setIdConnectionIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class sendBuildPlaneCommand_result implements org.apache.thrift.TBase<sendBuildPlaneCommand_result, sendBuildPlaneCommand_result._Fields>, java.io.Serializable, Cloneable, Comparable<sendBuildPlaneCommand_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendBuildPlaneCommand_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new sendBuildPlaneCommand_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new sendBuildPlaneCommand_resultTupleSchemeFactory());
+    }
+
+    public Response success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Response.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendBuildPlaneCommand_result.class, metaDataMap);
+    }
+
+    public sendBuildPlaneCommand_result() {
+    }
+
+    public sendBuildPlaneCommand_result(
+      Response success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public sendBuildPlaneCommand_result(sendBuildPlaneCommand_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new Response(other.success);
+      }
+    }
+
+    public sendBuildPlaneCommand_result deepCopy() {
+      return new sendBuildPlaneCommand_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public Response getSuccess() {
+      return this.success;
+    }
+
+    public sendBuildPlaneCommand_result setSuccess(Response success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Response)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof sendBuildPlaneCommand_result)
+        return this.equals((sendBuildPlaneCommand_result)that);
+      return false;
+    }
+
+    public boolean equals(sendBuildPlaneCommand_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(sendBuildPlaneCommand_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("sendBuildPlaneCommand_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class sendBuildPlaneCommand_resultStandardSchemeFactory implements SchemeFactory {
+      public sendBuildPlaneCommand_resultStandardScheme getScheme() {
+        return new sendBuildPlaneCommand_resultStandardScheme();
+      }
+    }
+
+    private static class sendBuildPlaneCommand_resultStandardScheme extends StandardScheme<sendBuildPlaneCommand_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, sendBuildPlaneCommand_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new Response();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, sendBuildPlaneCommand_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class sendBuildPlaneCommand_resultTupleSchemeFactory implements SchemeFactory {
+      public sendBuildPlaneCommand_resultTupleScheme getScheme() {
+        return new sendBuildPlaneCommand_resultTupleScheme();
+      }
+    }
+
+    private static class sendBuildPlaneCommand_resultTupleScheme extends TupleScheme<sendBuildPlaneCommand_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, sendBuildPlaneCommand_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, sendBuildPlaneCommand_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {

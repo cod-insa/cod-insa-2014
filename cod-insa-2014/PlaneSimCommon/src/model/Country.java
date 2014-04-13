@@ -2,12 +2,14 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import common.Unique;
+import common.Viewable;
 
 public class Country extends AbstractBase {
 
-	public final List<ProductionLine> lines;
+	public final List<Request> productionLine;
 	
 	public class View extends AbstractBase.View {
 
@@ -15,29 +17,47 @@ public class Country extends AbstractBase {
 		public Country copied(Context context) {
 			return copy(context);
 		}
-		
-	}
-	
-	public class ProductionLine
-	{
-		public final double timeBeforePlaneBuilt;
-		public final Plane.Type requestedType;
-		
-		public ProductionLine(double time, Plane.Type type)
-		{
-			timeBeforePlaneBuilt = time;
-			requestedType = type;
+		public List<Request> lines() { return productionLine; }
+		public boolean linesFull() { 
+			for (Request pl : productionLine) 
+				if (pl.requestedType == null)
+					return false;
+			return true;
 		}
 	}
 	
+	public class Request 
+	{
+		public double timeBeforePlaneBuilt;
+		public Plane.Type requestedType;
+		
+		public Request(double time, Plane.Type ptype)
+		{
+			timeBeforePlaneBuilt = time;
+			ptype = requestedType;
+		}
+		
+		public class View implements Viewable.View {
+			public double timeBeforePlaneBuilt() { return timeBeforePlaneBuilt(); }
+			public Plane.Type requestedType() { return requestedType; }
+		}
+		
+		public View view()
+		{
+			return new View();
+		}
+		
+	}
+	
+	
 	public Country(int id, Unique<Coord> pos) {
 		super(id, pos);
-		lines = new ArrayList<ProductionLine>();
+		productionLine = new ArrayList<Request>();
 	}
 
 	public Country(View src, Context context) {
 		super(src, context);
-		lines = new ArrayList<ProductionLine>();
+		productionLine = new ArrayList<Request>();
 	}
 
 	@Override

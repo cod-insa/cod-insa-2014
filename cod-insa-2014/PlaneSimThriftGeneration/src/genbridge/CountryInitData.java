@@ -36,7 +36,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CountryInitData");
 
   private static final org.apache.thrift.protocol.TField COUNTRY1_FIELD_DESC = new org.apache.thrift.protocol.TField("country1", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-  private static final org.apache.thrift.protocol.TField COUNTRY2_FIELD_DESC = new org.apache.thrift.protocol.TField("country2", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -45,12 +44,10 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
   }
 
   public CoordData country1; // required
-  public CoordData country2; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    COUNTRY1((short)1, "country1"),
-    COUNTRY2((short)2, "country2");
+    COUNTRY1((short)1, "country1");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -67,8 +64,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
       switch(fieldId) {
         case 1: // COUNTRY1
           return COUNTRY1;
-        case 2: // COUNTRY2
-          return COUNTRY2;
         default:
           return null;
       }
@@ -114,8 +109,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.COUNTRY1, new org.apache.thrift.meta_data.FieldMetaData("country1", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CoordData.class)));
-    tmpMap.put(_Fields.COUNTRY2, new org.apache.thrift.meta_data.FieldMetaData("country2", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CoordData.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CountryInitData.class, metaDataMap);
   }
@@ -124,12 +117,10 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
   }
 
   public CountryInitData(
-    CoordData country1,
-    CoordData country2)
+    CoordData country1)
   {
     this();
     this.country1 = country1;
-    this.country2 = country2;
   }
 
   /**
@@ -138,9 +129,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
   public CountryInitData(CountryInitData other) {
     if (other.isSetCountry1()) {
       this.country1 = new CoordData(other.country1);
-    }
-    if (other.isSetCountry2()) {
-      this.country2 = new CoordData(other.country2);
     }
   }
 
@@ -151,7 +139,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
   @Override
   public void clear() {
     this.country1 = null;
-    this.country2 = null;
   }
 
   public CoordData getCountry1() {
@@ -178,30 +165,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
     }
   }
 
-  public CoordData getCountry2() {
-    return this.country2;
-  }
-
-  public CountryInitData setCountry2(CoordData country2) {
-    this.country2 = country2;
-    return this;
-  }
-
-  public void unsetCountry2() {
-    this.country2 = null;
-  }
-
-  /** Returns true if field country2 is set (has been assigned a value) and false otherwise */
-  public boolean isSetCountry2() {
-    return this.country2 != null;
-  }
-
-  public void setCountry2IsSet(boolean value) {
-    if (!value) {
-      this.country2 = null;
-    }
-  }
-
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case COUNTRY1:
@@ -212,14 +175,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
       }
       break;
 
-    case COUNTRY2:
-      if (value == null) {
-        unsetCountry2();
-      } else {
-        setCountry2((CoordData)value);
-      }
-      break;
-
     }
   }
 
@@ -227,9 +182,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
     switch (field) {
     case COUNTRY1:
       return getCountry1();
-
-    case COUNTRY2:
-      return getCountry2();
 
     }
     throw new IllegalStateException();
@@ -244,8 +196,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
     switch (field) {
     case COUNTRY1:
       return isSetCountry1();
-    case COUNTRY2:
-      return isSetCountry2();
     }
     throw new IllegalStateException();
   }
@@ -272,15 +222,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
         return false;
     }
 
-    boolean this_present_country2 = true && this.isSetCountry2();
-    boolean that_present_country2 = true && that.isSetCountry2();
-    if (this_present_country2 || that_present_country2) {
-      if (!(this_present_country2 && that_present_country2))
-        return false;
-      if (!this.country2.equals(that.country2))
-        return false;
-    }
-
     return true;
   }
 
@@ -303,16 +244,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
     }
     if (isSetCountry1()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.country1, other.country1);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetCountry2()).compareTo(other.isSetCountry2());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetCountry2()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.country2, other.country2);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -344,14 +275,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
       sb.append(this.country1);
     }
     first = false;
-    if (!first) sb.append(", ");
-    sb.append("country2:");
-    if (this.country2 == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.country2);
-    }
-    first = false;
     sb.append(")");
     return sb.toString();
   }
@@ -361,9 +284,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
     // check for sub-struct validity
     if (country1 != null) {
       country1.validate();
-    }
-    if (country2 != null) {
-      country2.validate();
     }
   }
 
@@ -410,15 +330,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // COUNTRY2
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-              struct.country2 = new CoordData();
-              struct.country2.read(iprot);
-              struct.setCountry2IsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -437,11 +348,6 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
       if (struct.country1 != null) {
         oprot.writeFieldBegin(COUNTRY1_FIELD_DESC);
         struct.country1.write(oprot);
-        oprot.writeFieldEnd();
-      }
-      if (struct.country2 != null) {
-        oprot.writeFieldBegin(COUNTRY2_FIELD_DESC);
-        struct.country2.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -465,31 +371,20 @@ public class CountryInitData implements org.apache.thrift.TBase<CountryInitData,
       if (struct.isSetCountry1()) {
         optionals.set(0);
       }
-      if (struct.isSetCountry2()) {
-        optionals.set(1);
-      }
-      oprot.writeBitSet(optionals, 2);
+      oprot.writeBitSet(optionals, 1);
       if (struct.isSetCountry1()) {
         struct.country1.write(oprot);
-      }
-      if (struct.isSetCountry2()) {
-        struct.country2.write(oprot);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, CountryInitData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
         struct.country1 = new CoordData();
         struct.country1.read(iprot);
         struct.setCountry1IsSet(true);
-      }
-      if (incoming.get(1)) {
-        struct.country2 = new CoordData();
-        struct.country2.read(iprot);
-        struct.setCountry2IsSet(true);
       }
     }
   }

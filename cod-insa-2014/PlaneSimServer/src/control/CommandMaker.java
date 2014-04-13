@@ -1,7 +1,9 @@
 package control;
 
 import game.World;
+import game.World.Snapshot;
 import genbridge.AttackCommandData;
+import genbridge.BuildPlaneCommandData;
 import genbridge.CommandData;
 import genbridge.CoordData;
 import genbridge.DropMilitarsCommandData;
@@ -19,6 +21,7 @@ import model.Coord;
 import model.Plane;
 import model.Plane.State;
 import command.AttackCommand;
+import command.BuildPlaneCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.FillFuelTankCommand;
@@ -358,6 +361,27 @@ public class CommandMaker {
 		// Everything all right
 		return new Couple<>(
 				new Nullable<Command>(new StoreFuelCommand(p,data.quantity)),
+				new Response(Command.SUCCESS, "")
+		);
+	}
+
+	public static Couple<Nullable<Command>, Response> make(
+			BuildPlaneCommandData data, Snapshot s) {
+
+		// check id
+		if (!checkFrameId(data.c, s))
+			return frameIdError(data.c, s);
+		
+		// check type of build request
+		if (data.planeTypeId < 0 && data.planeTypeId > 1)
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Unrecognized plane type num " + data.planeTypeId
+					));
+	
+		// Everything all right
+		return new Couple<>(
+				new Nullable<Command>(new BuildPlaneCommand(Plane.Type.get(data.planeTypeId))),
 				new Response(Command.SUCCESS, "")
 		);
 	}

@@ -41,6 +41,7 @@ public class Game {
 	public ListView<GameEntity> entities = Util.shallowView(world.entities);
 	public ListView<GamePlane> planes = Util.shallowView(world.planes);
 	public ListView<GameBase> bases;
+	public ListView<GameCountry> countries;
 	
 	public MapLoader mapLoader;
 	public String mapName;
@@ -93,7 +94,7 @@ public class Game {
 //		world.bases.add(new GameBase(this, new Coord.Unique(.9,.6),"debugbase"));
 		
 		bases = Util.shallowView(world.bases);
-		
+		countries = Util.shallowView(world.countries);
 		//new Timer(); new Timer();
 		
 //		(updateTimer = new Timer()).schedule(new TimerTask() {

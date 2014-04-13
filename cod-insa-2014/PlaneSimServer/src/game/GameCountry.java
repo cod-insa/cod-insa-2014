@@ -15,31 +15,30 @@ public class GameCountry extends MaterialGameEntity {
 
 	public static final double RADIUS = .08;
 	public final String countryname;
-	public final List<GameProductionLine> lines;
+	public final List<Request> productionLine;
 	
 	public GameCountry(Game sim, Unique<Coord> pos, String name, int productionLineNumber) {
 		super(new Country(makeNextId(),pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 		countryname = name;
-		lines = new ArrayList<GameProductionLine>();
-		for (int i = 0; i < productionLineNumber;i++)
-			lines.add(new GameProductionLine());
+		productionLine = new ArrayList<Request>();
 	}
 	
-	public class GameProductionLine
+	
+	public class Request
 	{
 		public double timeBeforePlaneBuilt;
 		public Plane.Type requestedType;
 
-		public void beginConstruction(Plane.Type type)
+		public Request(Plane.Type type)
 		{
-			timeBeforePlaneBuilt = type.timeToBuild;
+			timeBeforePlaneBuilt = type.timeToBuild + totalTimeToBuild();
 			requestedType = type;
 		}
 		
 		public boolean isPlaneBuilt()
 		{
-			return timeBeforePlaneBuilt <= 0 && requestedType != null;
+			return timeBeforePlaneBuilt <= 0;
 		}
 		
 		public void continueConstruction()
@@ -58,6 +57,14 @@ public class GameCountry extends MaterialGameEntity {
 			}
 		}
 	}
+
+	private double totalTimeToBuild()
+	{
+		int s = 0;
+		for (Request r : productionLine)
+			s += r.timeBeforePlaneBuilt;
+		return s;
+	}
 	
 	@Override
 	public EntityDisplay<GameCountry> getDisplay() {
@@ -67,11 +74,14 @@ public class GameCountry extends MaterialGameEntity {
 	@Override
 	public void updateSpecialized(double period) {
 		super.updateSpecialized(period);
-		for (GameProductionLine pl : lines)
+		for (Request pl : productionLine)
 		{
 			pl.continueConstruction();
 			if (pl.isPlaneBuilt())
+			{
+				productionLine.remove(pl);
 				pl.createPlane();
+			}
 		}
 	}
 

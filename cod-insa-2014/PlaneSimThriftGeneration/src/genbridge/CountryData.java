@@ -43,7 +43,7 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
     schemes.put(TupleScheme.class, new CountryDataTupleSchemeFactory());
   }
 
-  public List<Integer> PlanesIdInProductionChain; // required
+  public List<ProductionLineData> PlanesIdInProductionChain; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -109,7 +109,7 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.PLANES_ID_IN_PRODUCTION_CHAIN, new org.apache.thrift.meta_data.FieldMetaData("PlanesIdInProductionChain", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32            , "int"))));
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ProductionLineData.class))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CountryData.class, metaDataMap);
   }
@@ -118,7 +118,7 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
   }
 
   public CountryData(
-    List<Integer> PlanesIdInProductionChain)
+    List<ProductionLineData> PlanesIdInProductionChain)
   {
     this();
     this.PlanesIdInProductionChain = PlanesIdInProductionChain;
@@ -129,9 +129,9 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
    */
   public CountryData(CountryData other) {
     if (other.isSetPlanesIdInProductionChain()) {
-      List<Integer> __this__PlanesIdInProductionChain = new ArrayList<Integer>(other.PlanesIdInProductionChain.size());
-      for (Integer other_element : other.PlanesIdInProductionChain) {
-        __this__PlanesIdInProductionChain.add(other_element);
+      List<ProductionLineData> __this__PlanesIdInProductionChain = new ArrayList<ProductionLineData>(other.PlanesIdInProductionChain.size());
+      for (ProductionLineData other_element : other.PlanesIdInProductionChain) {
+        __this__PlanesIdInProductionChain.add(new ProductionLineData(other_element));
       }
       this.PlanesIdInProductionChain = __this__PlanesIdInProductionChain;
     }
@@ -150,22 +150,22 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
     return (this.PlanesIdInProductionChain == null) ? 0 : this.PlanesIdInProductionChain.size();
   }
 
-  public java.util.Iterator<Integer> getPlanesIdInProductionChainIterator() {
+  public java.util.Iterator<ProductionLineData> getPlanesIdInProductionChainIterator() {
     return (this.PlanesIdInProductionChain == null) ? null : this.PlanesIdInProductionChain.iterator();
   }
 
-  public void addToPlanesIdInProductionChain(int elem) {
+  public void addToPlanesIdInProductionChain(ProductionLineData elem) {
     if (this.PlanesIdInProductionChain == null) {
-      this.PlanesIdInProductionChain = new ArrayList<Integer>();
+      this.PlanesIdInProductionChain = new ArrayList<ProductionLineData>();
     }
     this.PlanesIdInProductionChain.add(elem);
   }
 
-  public List<Integer> getPlanesIdInProductionChain() {
+  public List<ProductionLineData> getPlanesIdInProductionChain() {
     return this.PlanesIdInProductionChain;
   }
 
-  public CountryData setPlanesIdInProductionChain(List<Integer> PlanesIdInProductionChain) {
+  public CountryData setPlanesIdInProductionChain(List<ProductionLineData> PlanesIdInProductionChain) {
     this.PlanesIdInProductionChain = PlanesIdInProductionChain;
     return this;
   }
@@ -191,7 +191,7 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
       if (value == null) {
         unsetPlanesIdInProductionChain();
       } else {
-        setPlanesIdInProductionChain((List<Integer>)value);
+        setPlanesIdInProductionChain((List<ProductionLineData>)value);
       }
       break;
 
@@ -342,11 +342,12 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                struct.PlanesIdInProductionChain = new ArrayList<Integer>(_list0.size);
+                struct.PlanesIdInProductionChain = new ArrayList<ProductionLineData>(_list0.size);
                 for (int _i1 = 0; _i1 < _list0.size; ++_i1)
                 {
-                  int _elem2;
-                  _elem2 = iprot.readI32();
+                  ProductionLineData _elem2;
+                  _elem2 = new ProductionLineData();
+                  _elem2.read(iprot);
                   struct.PlanesIdInProductionChain.add(_elem2);
                 }
                 iprot.readListEnd();
@@ -374,10 +375,10 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
       if (struct.PlanesIdInProductionChain != null) {
         oprot.writeFieldBegin(PLANES_ID_IN_PRODUCTION_CHAIN_FIELD_DESC);
         {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.PlanesIdInProductionChain.size()));
-          for (int _iter3 : struct.PlanesIdInProductionChain)
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.PlanesIdInProductionChain.size()));
+          for (ProductionLineData _iter3 : struct.PlanesIdInProductionChain)
           {
-            oprot.writeI32(_iter3);
+            _iter3.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -408,9 +409,9 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
       if (struct.isSetPlanesIdInProductionChain()) {
         {
           oprot.writeI32(struct.PlanesIdInProductionChain.size());
-          for (int _iter4 : struct.PlanesIdInProductionChain)
+          for (ProductionLineData _iter4 : struct.PlanesIdInProductionChain)
           {
-            oprot.writeI32(_iter4);
+            _iter4.write(oprot);
           }
         }
       }
@@ -422,12 +423,13 @@ public class CountryData implements org.apache.thrift.TBase<CountryData, Country
       BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
         {
-          org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-          struct.PlanesIdInProductionChain = new ArrayList<Integer>(_list5.size);
+          org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.PlanesIdInProductionChain = new ArrayList<ProductionLineData>(_list5.size);
           for (int _i6 = 0; _i6 < _list5.size; ++_i6)
           {
-            int _elem7;
-            _elem7 = iprot.readI32();
+            ProductionLineData _elem7;
+            _elem7 = new ProductionLineData();
+            _elem7.read(iprot);
             struct.PlanesIdInProductionChain.add(_elem7);
           }
         }
