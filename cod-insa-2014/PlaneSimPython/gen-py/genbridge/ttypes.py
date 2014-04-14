@@ -126,6 +126,7 @@ class PlaneBasicData:
    - ai_id
    - health
    - canAttack
+   - planeTypeId
   """
 
   thrift_spec = (
@@ -135,14 +136,16 @@ class PlaneBasicData:
     (3, TType.I32, 'ai_id', None, None, ), # 3
     (4, TType.DOUBLE, 'health', None, None, ), # 4
     (5, TType.BOOL, 'canAttack', None, None, ), # 5
+    (6, TType.I32, 'planeTypeId', None, None, ), # 6
   )
 
-  def __init__(self, plane_id=None, posit=None, ai_id=None, health=None, canAttack=None,):
+  def __init__(self, plane_id=None, posit=None, ai_id=None, health=None, canAttack=None, planeTypeId=None,):
     self.plane_id = plane_id
     self.posit = posit
     self.ai_id = ai_id
     self.health = health
     self.canAttack = canAttack
+    self.planeTypeId = planeTypeId
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -179,6 +182,11 @@ class PlaneBasicData:
           self.canAttack = iprot.readBool();
         else:
           iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.I32:
+          self.planeTypeId = iprot.readI32();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -209,6 +217,10 @@ class PlaneBasicData:
       oprot.writeFieldBegin('canAttack', TType.BOOL, 5)
       oprot.writeBool(self.canAttack)
       oprot.writeFieldEnd()
+    if self.planeTypeId is not None:
+      oprot.writeFieldBegin('planeTypeId', TType.I32, 6)
+      oprot.writeI32(self.planeTypeId)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -236,8 +248,6 @@ class PlaneFullData:
    - state
    - militarResourceCarried
    - fuelResourceCarried
-   - capacityHold
-   - capacityTank
   """
 
   thrift_spec = (
@@ -248,19 +258,15 @@ class PlaneFullData:
     (4, TType.I32, 'state', None, None, ), # 4
     (5, TType.DOUBLE, 'militarResourceCarried', None, None, ), # 5
     (6, TType.DOUBLE, 'fuelResourceCarried', None, None, ), # 6
-    (7, TType.DOUBLE, 'capacityHold', None, None, ), # 7
-    (8, TType.DOUBLE, 'capacityTank', None, None, ), # 8
   )
 
-  def __init__(self, basic_info=None, base_id=None, remainingGaz=None, state=None, militarResourceCarried=None, fuelResourceCarried=None, capacityHold=None, capacityTank=None,):
+  def __init__(self, basic_info=None, base_id=None, remainingGaz=None, state=None, militarResourceCarried=None, fuelResourceCarried=None,):
     self.basic_info = basic_info
     self.base_id = base_id
     self.remainingGaz = remainingGaz
     self.state = state
     self.militarResourceCarried = militarResourceCarried
     self.fuelResourceCarried = fuelResourceCarried
-    self.capacityHold = capacityHold
-    self.capacityTank = capacityTank
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -302,16 +308,6 @@ class PlaneFullData:
           self.fuelResourceCarried = iprot.readDouble();
         else:
           iprot.skip(ftype)
-      elif fid == 7:
-        if ftype == TType.DOUBLE:
-          self.capacityHold = iprot.readDouble();
-        else:
-          iprot.skip(ftype)
-      elif fid == 8:
-        if ftype == TType.DOUBLE:
-          self.capacityTank = iprot.readDouble();
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -345,14 +341,6 @@ class PlaneFullData:
     if self.fuelResourceCarried is not None:
       oprot.writeFieldBegin('fuelResourceCarried', TType.DOUBLE, 6)
       oprot.writeDouble(self.fuelResourceCarried)
-      oprot.writeFieldEnd()
-    if self.capacityHold is not None:
-      oprot.writeFieldBegin('capacityHold', TType.DOUBLE, 7)
-      oprot.writeDouble(self.capacityHold)
-      oprot.writeFieldEnd()
-    if self.capacityTank is not None:
-      oprot.writeFieldBegin('capacityTank', TType.DOUBLE, 8)
-      oprot.writeDouble(self.capacityTank)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -770,22 +758,25 @@ class ProgressAxisData:
   def __ne__(self, other):
     return not (self == other)
 
-class CountryInitData:
+class RequestData:
   """
   Attributes:
-   - country1
-   - country2
+   - requestId
+   - timeBeforePlaneBuilt
+   - planeTypeId
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'country1', (CoordData, CoordData.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'country2', (CoordData, CoordData.thrift_spec), None, ), # 2
+    (1, TType.I32, 'requestId', None, None, ), # 1
+    (2, TType.DOUBLE, 'timeBeforePlaneBuilt', None, None, ), # 2
+    (3, TType.I32, 'planeTypeId', None, None, ), # 3
   )
 
-  def __init__(self, country1=None, country2=None,):
-    self.country1 = country1
-    self.country2 = country2
+  def __init__(self, requestId=None, timeBeforePlaneBuilt=None, planeTypeId=None,):
+    self.requestId = requestId
+    self.timeBeforePlaneBuilt = timeBeforePlaneBuilt
+    self.planeTypeId = planeTypeId
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -797,15 +788,18 @@ class CountryInitData:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRUCT:
-          self.country1 = CoordData()
-          self.country1.read(iprot)
+        if ftype == TType.I32:
+          self.requestId = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.country2 = CoordData()
-          self.country2.read(iprot)
+        if ftype == TType.DOUBLE:
+          self.timeBeforePlaneBuilt = iprot.readDouble();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I32:
+          self.planeTypeId = iprot.readI32();
         else:
           iprot.skip(ftype)
       else:
@@ -817,14 +811,18 @@ class CountryInitData:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('CountryInitData')
-    if self.country1 is not None:
-      oprot.writeFieldBegin('country1', TType.STRUCT, 1)
-      self.country1.write(oprot)
+    oprot.writeStructBegin('RequestData')
+    if self.requestId is not None:
+      oprot.writeFieldBegin('requestId', TType.I32, 1)
+      oprot.writeI32(self.requestId)
       oprot.writeFieldEnd()
-    if self.country2 is not None:
-      oprot.writeFieldBegin('country2', TType.STRUCT, 2)
-      self.country2.write(oprot)
+    if self.timeBeforePlaneBuilt is not None:
+      oprot.writeFieldBegin('timeBeforePlaneBuilt', TType.DOUBLE, 2)
+      oprot.writeDouble(self.timeBeforePlaneBuilt)
+      oprot.writeFieldEnd()
+    if self.planeTypeId is not None:
+      oprot.writeFieldBegin('planeTypeId', TType.I32, 3)
+      oprot.writeI32(self.planeTypeId)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -844,19 +842,22 @@ class CountryInitData:
   def __ne__(self, other):
     return not (self == other)
 
-class CountryData:
+class CountryInitData:
   """
   Attributes:
-   - PlanesIdInProductionChain
+   - country_id
+   - country
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.LIST, 'PlanesIdInProductionChain', (TType.I32,None), None, ), # 1
+    (1, TType.I32, 'country_id', None, None, ), # 1
+    (2, TType.STRUCT, 'country', (CoordData, CoordData.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, PlanesIdInProductionChain=None,):
-    self.PlanesIdInProductionChain = PlanesIdInProductionChain
+  def __init__(self, country_id=None, country=None,):
+    self.country_id = country_id
+    self.country = country
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -868,13 +869,14 @@ class CountryData:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.LIST:
-          self.PlanesIdInProductionChain = []
-          (_etype3, _size0) = iprot.readListBegin()
-          for _i4 in xrange(_size0):
-            _elem5 = iprot.readI32();
-            self.PlanesIdInProductionChain.append(_elem5)
-          iprot.readListEnd()
+        if ftype == TType.I32:
+          self.country_id = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.country = CoordData()
+          self.country.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -886,13 +888,14 @@ class CountryData:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('CountryData')
-    if self.PlanesIdInProductionChain is not None:
-      oprot.writeFieldBegin('PlanesIdInProductionChain', TType.LIST, 1)
-      oprot.writeListBegin(TType.I32, len(self.PlanesIdInProductionChain))
-      for iter6 in self.PlanesIdInProductionChain:
-        oprot.writeI32(iter6)
-      oprot.writeListEnd()
+    oprot.writeStructBegin('CountryInitData')
+    if self.country_id is not None:
+      oprot.writeFieldBegin('country_id', TType.I32, 1)
+      oprot.writeI32(self.country_id)
+      oprot.writeFieldEnd()
+    if self.country is not None:
+      oprot.writeFieldBegin('country', TType.STRUCT, 2)
+      self.country.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -993,7 +996,6 @@ class InitData:
    - progressAxis
    - myCountry
    - othersCountry
-   - initMoney
   """
 
   thrift_spec = (
@@ -1004,17 +1006,15 @@ class InitData:
     (4, TType.LIST, 'progressAxis', (TType.STRUCT,(ProgressAxisInitData, ProgressAxisInitData.thrift_spec)), None, ), # 4
     (5, TType.STRUCT, 'myCountry', (CountryInitData, CountryInitData.thrift_spec), None, ), # 5
     (6, TType.LIST, 'othersCountry', (TType.STRUCT,(CountryInitData, CountryInitData.thrift_spec)), None, ), # 6
-    (7, TType.I32, 'initMoney', None, None, ), # 7
   )
 
-  def __init__(self, bases=None, mapWidth=None, mapHeight=None, progressAxis=None, myCountry=None, othersCountry=None, initMoney=None,):
+  def __init__(self, bases=None, mapWidth=None, mapHeight=None, progressAxis=None, myCountry=None, othersCountry=None,):
     self.bases = bases
     self.mapWidth = mapWidth
     self.mapHeight = mapHeight
     self.progressAxis = progressAxis
     self.myCountry = myCountry
     self.othersCountry = othersCountry
-    self.initMoney = initMoney
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1028,11 +1028,11 @@ class InitData:
       if fid == 1:
         if ftype == TType.LIST:
           self.bases = []
-          (_etype10, _size7) = iprot.readListBegin()
-          for _i11 in xrange(_size7):
-            _elem12 = BaseInitData()
-            _elem12.read(iprot)
-            self.bases.append(_elem12)
+          (_etype3, _size0) = iprot.readListBegin()
+          for _i4 in xrange(_size0):
+            _elem5 = BaseInitData()
+            _elem5.read(iprot)
+            self.bases.append(_elem5)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1049,11 +1049,11 @@ class InitData:
       elif fid == 4:
         if ftype == TType.LIST:
           self.progressAxis = []
-          (_etype16, _size13) = iprot.readListBegin()
-          for _i17 in xrange(_size13):
-            _elem18 = ProgressAxisInitData()
-            _elem18.read(iprot)
-            self.progressAxis.append(_elem18)
+          (_etype9, _size6) = iprot.readListBegin()
+          for _i10 in xrange(_size6):
+            _elem11 = ProgressAxisInitData()
+            _elem11.read(iprot)
+            self.progressAxis.append(_elem11)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1066,17 +1066,12 @@ class InitData:
       elif fid == 6:
         if ftype == TType.LIST:
           self.othersCountry = []
-          (_etype22, _size19) = iprot.readListBegin()
-          for _i23 in xrange(_size19):
-            _elem24 = CountryInitData()
-            _elem24.read(iprot)
-            self.othersCountry.append(_elem24)
+          (_etype15, _size12) = iprot.readListBegin()
+          for _i16 in xrange(_size12):
+            _elem17 = CountryInitData()
+            _elem17.read(iprot)
+            self.othersCountry.append(_elem17)
           iprot.readListEnd()
-        else:
-          iprot.skip(ftype)
-      elif fid == 7:
-        if ftype == TType.I32:
-          self.initMoney = iprot.readI32();
         else:
           iprot.skip(ftype)
       else:
@@ -1092,8 +1087,8 @@ class InitData:
     if self.bases is not None:
       oprot.writeFieldBegin('bases', TType.LIST, 1)
       oprot.writeListBegin(TType.STRUCT, len(self.bases))
-      for iter25 in self.bases:
-        iter25.write(oprot)
+      for iter18 in self.bases:
+        iter18.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.mapWidth is not None:
@@ -1107,8 +1102,8 @@ class InitData:
     if self.progressAxis is not None:
       oprot.writeFieldBegin('progressAxis', TType.LIST, 4)
       oprot.writeListBegin(TType.STRUCT, len(self.progressAxis))
-      for iter26 in self.progressAxis:
-        iter26.write(oprot)
+      for iter19 in self.progressAxis:
+        iter19.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.myCountry is not None:
@@ -1118,13 +1113,9 @@ class InitData:
     if self.othersCountry is not None:
       oprot.writeFieldBegin('othersCountry', TType.LIST, 6)
       oprot.writeListBegin(TType.STRUCT, len(self.othersCountry))
-      for iter27 in self.othersCountry:
-        iter27.write(oprot)
+      for iter20 in self.othersCountry:
+        iter20.write(oprot)
       oprot.writeListEnd()
-      oprot.writeFieldEnd()
-    if self.initMoney is not None:
-      oprot.writeFieldBegin('initMoney', TType.I32, 7)
-      oprot.writeI32(self.initMoney)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1151,10 +1142,10 @@ class Data:
    - owned_planes
    - not_owned_planes
    - owned_bases
-   - not_owned_bases
+   - not_owned_visible_bases
+   - not_owned_not_visible_bases
    - progressAxis
-   - myCountry
-   - currentMoney
+   - productionLine
   """
 
   thrift_spec = (
@@ -1163,21 +1154,21 @@ class Data:
     (2, TType.LIST, 'owned_planes', (TType.STRUCT,(PlaneFullData, PlaneFullData.thrift_spec)), None, ), # 2
     (3, TType.LIST, 'not_owned_planes', (TType.STRUCT,(PlaneBasicData, PlaneBasicData.thrift_spec)), None, ), # 3
     (4, TType.LIST, 'owned_bases', (TType.STRUCT,(BaseFullData, BaseFullData.thrift_spec)), None, ), # 4
-    (5, TType.LIST, 'not_owned_bases', (TType.STRUCT,(BaseBasicData, BaseBasicData.thrift_spec)), None, ), # 5
-    (6, TType.LIST, 'progressAxis', (TType.STRUCT,(ProgressAxisData, ProgressAxisData.thrift_spec)), None, ), # 6
-    (7, TType.STRUCT, 'myCountry', (CountryData, CountryData.thrift_spec), None, ), # 7
-    (8, TType.I32, 'currentMoney', None, None, ), # 8
+    (5, TType.LIST, 'not_owned_visible_bases', (TType.STRUCT,(BaseFullData, BaseFullData.thrift_spec)), None, ), # 5
+    (6, TType.LIST, 'not_owned_not_visible_bases', (TType.STRUCT,(BaseBasicData, BaseBasicData.thrift_spec)), None, ), # 6
+    (7, TType.LIST, 'progressAxis', (TType.STRUCT,(ProgressAxisData, ProgressAxisData.thrift_spec)), None, ), # 7
+    (8, TType.LIST, 'productionLine', (TType.STRUCT,(RequestData, RequestData.thrift_spec)), None, ), # 8
   )
 
-  def __init__(self, numFrame=None, owned_planes=None, not_owned_planes=None, owned_bases=None, not_owned_bases=None, progressAxis=None, myCountry=None, currentMoney=None,):
+  def __init__(self, numFrame=None, owned_planes=None, not_owned_planes=None, owned_bases=None, not_owned_visible_bases=None, not_owned_not_visible_bases=None, progressAxis=None, productionLine=None,):
     self.numFrame = numFrame
     self.owned_planes = owned_planes
     self.not_owned_planes = not_owned_planes
     self.owned_bases = owned_bases
-    self.not_owned_bases = not_owned_bases
+    self.not_owned_visible_bases = not_owned_visible_bases
+    self.not_owned_not_visible_bases = not_owned_not_visible_bases
     self.progressAxis = progressAxis
-    self.myCountry = myCountry
-    self.currentMoney = currentMoney
+    self.productionLine = productionLine
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1196,67 +1187,78 @@ class Data:
       elif fid == 2:
         if ftype == TType.LIST:
           self.owned_planes = []
-          (_etype31, _size28) = iprot.readListBegin()
-          for _i32 in xrange(_size28):
-            _elem33 = PlaneFullData()
-            _elem33.read(iprot)
-            self.owned_planes.append(_elem33)
+          (_etype24, _size21) = iprot.readListBegin()
+          for _i25 in xrange(_size21):
+            _elem26 = PlaneFullData()
+            _elem26.read(iprot)
+            self.owned_planes.append(_elem26)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.LIST:
           self.not_owned_planes = []
-          (_etype37, _size34) = iprot.readListBegin()
-          for _i38 in xrange(_size34):
-            _elem39 = PlaneBasicData()
-            _elem39.read(iprot)
-            self.not_owned_planes.append(_elem39)
+          (_etype30, _size27) = iprot.readListBegin()
+          for _i31 in xrange(_size27):
+            _elem32 = PlaneBasicData()
+            _elem32.read(iprot)
+            self.not_owned_planes.append(_elem32)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.LIST:
           self.owned_bases = []
-          (_etype43, _size40) = iprot.readListBegin()
-          for _i44 in xrange(_size40):
-            _elem45 = BaseFullData()
-            _elem45.read(iprot)
-            self.owned_bases.append(_elem45)
+          (_etype36, _size33) = iprot.readListBegin()
+          for _i37 in xrange(_size33):
+            _elem38 = BaseFullData()
+            _elem38.read(iprot)
+            self.owned_bases.append(_elem38)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 5:
         if ftype == TType.LIST:
-          self.not_owned_bases = []
-          (_etype49, _size46) = iprot.readListBegin()
-          for _i50 in xrange(_size46):
-            _elem51 = BaseBasicData()
-            _elem51.read(iprot)
-            self.not_owned_bases.append(_elem51)
+          self.not_owned_visible_bases = []
+          (_etype42, _size39) = iprot.readListBegin()
+          for _i43 in xrange(_size39):
+            _elem44 = BaseFullData()
+            _elem44.read(iprot)
+            self.not_owned_visible_bases.append(_elem44)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 6:
         if ftype == TType.LIST:
-          self.progressAxis = []
-          (_etype55, _size52) = iprot.readListBegin()
-          for _i56 in xrange(_size52):
-            _elem57 = ProgressAxisData()
-            _elem57.read(iprot)
-            self.progressAxis.append(_elem57)
+          self.not_owned_not_visible_bases = []
+          (_etype48, _size45) = iprot.readListBegin()
+          for _i49 in xrange(_size45):
+            _elem50 = BaseBasicData()
+            _elem50.read(iprot)
+            self.not_owned_not_visible_bases.append(_elem50)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 7:
-        if ftype == TType.STRUCT:
-          self.myCountry = CountryData()
-          self.myCountry.read(iprot)
+        if ftype == TType.LIST:
+          self.progressAxis = []
+          (_etype54, _size51) = iprot.readListBegin()
+          for _i55 in xrange(_size51):
+            _elem56 = ProgressAxisData()
+            _elem56.read(iprot)
+            self.progressAxis.append(_elem56)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 8:
-        if ftype == TType.I32:
-          self.currentMoney = iprot.readI32();
+        if ftype == TType.LIST:
+          self.productionLine = []
+          (_etype60, _size57) = iprot.readListBegin()
+          for _i61 in xrange(_size57):
+            _elem62 = RequestData()
+            _elem62.read(iprot)
+            self.productionLine.append(_elem62)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       else:
@@ -1276,45 +1278,51 @@ class Data:
     if self.owned_planes is not None:
       oprot.writeFieldBegin('owned_planes', TType.LIST, 2)
       oprot.writeListBegin(TType.STRUCT, len(self.owned_planes))
-      for iter58 in self.owned_planes:
-        iter58.write(oprot)
+      for iter63 in self.owned_planes:
+        iter63.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.not_owned_planes is not None:
       oprot.writeFieldBegin('not_owned_planes', TType.LIST, 3)
       oprot.writeListBegin(TType.STRUCT, len(self.not_owned_planes))
-      for iter59 in self.not_owned_planes:
-        iter59.write(oprot)
+      for iter64 in self.not_owned_planes:
+        iter64.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.owned_bases is not None:
       oprot.writeFieldBegin('owned_bases', TType.LIST, 4)
       oprot.writeListBegin(TType.STRUCT, len(self.owned_bases))
-      for iter60 in self.owned_bases:
-        iter60.write(oprot)
+      for iter65 in self.owned_bases:
+        iter65.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
-    if self.not_owned_bases is not None:
-      oprot.writeFieldBegin('not_owned_bases', TType.LIST, 5)
-      oprot.writeListBegin(TType.STRUCT, len(self.not_owned_bases))
-      for iter61 in self.not_owned_bases:
-        iter61.write(oprot)
+    if self.not_owned_visible_bases is not None:
+      oprot.writeFieldBegin('not_owned_visible_bases', TType.LIST, 5)
+      oprot.writeListBegin(TType.STRUCT, len(self.not_owned_visible_bases))
+      for iter66 in self.not_owned_visible_bases:
+        iter66.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.not_owned_not_visible_bases is not None:
+      oprot.writeFieldBegin('not_owned_not_visible_bases', TType.LIST, 6)
+      oprot.writeListBegin(TType.STRUCT, len(self.not_owned_not_visible_bases))
+      for iter67 in self.not_owned_not_visible_bases:
+        iter67.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.progressAxis is not None:
-      oprot.writeFieldBegin('progressAxis', TType.LIST, 6)
+      oprot.writeFieldBegin('progressAxis', TType.LIST, 7)
       oprot.writeListBegin(TType.STRUCT, len(self.progressAxis))
-      for iter62 in self.progressAxis:
-        iter62.write(oprot)
+      for iter68 in self.progressAxis:
+        iter68.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
-    if self.myCountry is not None:
-      oprot.writeFieldBegin('myCountry', TType.STRUCT, 7)
-      self.myCountry.write(oprot)
-      oprot.writeFieldEnd()
-    if self.currentMoney is not None:
-      oprot.writeFieldBegin('currentMoney', TType.I32, 8)
-      oprot.writeI32(self.currentMoney)
+    if self.productionLine is not None:
+      oprot.writeFieldBegin('productionLine', TType.LIST, 8)
+      oprot.writeListBegin(TType.STRUCT, len(self.productionLine))
+      for iter69 in self.productionLine:
+        iter69.write(oprot)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -2118,6 +2126,79 @@ class LoadResourcesCommandData:
     if self.fuel_quantity is not None:
       oprot.writeFieldBegin('fuel_quantity', TType.DOUBLE, 3)
       oprot.writeDouble(self.fuel_quantity)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class BuildPlaneCommandData:
+  """
+  Attributes:
+   - c
+   - planeTypeId
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRUCT, 'c', (CommandData, CommandData.thrift_spec), None, ), # 1
+    (2, TType.I32, 'planeTypeId', None, None, ), # 2
+  )
+
+  def __init__(self, c=None, planeTypeId=None,):
+    self.c = c
+    self.planeTypeId = planeTypeId
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRUCT:
+          self.c = CommandData()
+          self.c.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I32:
+          self.planeTypeId = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('BuildPlaneCommandData')
+    if self.c is not None:
+      oprot.writeFieldBegin('c', TType.STRUCT, 1)
+      self.c.write(oprot)
+      oprot.writeFieldEnd()
+    if self.planeTypeId is not None:
+      oprot.writeFieldBegin('planeTypeId', TType.I32, 2)
+      oprot.writeI32(self.planeTypeId)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
