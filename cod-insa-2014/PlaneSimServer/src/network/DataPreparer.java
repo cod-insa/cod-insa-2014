@@ -1,6 +1,7 @@
 package network;
 
 import game.Game;
+import game.GameCountry;
 import game.World.Snapshot;
 import genbridge.BaseBasicData;
 import genbridge.BaseFullData;
@@ -14,17 +15,21 @@ import genbridge.PlaneFullData;
 import genbridge.PlaneStateData;
 import genbridge.ProgressAxisData;
 import genbridge.ProgressAxisInitData;
+import genbridge.RequestData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import model.AbstractBase;
 import model.Base;
+import model.Coord;
+import model.Country;
+import model.Country.Request;
 import model.MaterialEntity;
 import model.Plane;
 import model.ProgressAxis;
-
 import common.Nullable;
+import common.Unique;
 
 
 /*
@@ -37,7 +42,7 @@ public abstract class DataPreparer {
 	/**
 	 * Getting a null snapshot means the client is disconnecting or being disconnected (eg: game shutting down)
 	 */
-	public static InitData prepareInitData(Nullable<Snapshot> snapshot)
+	public static InitData prepareInitData(Nullable<Snapshot> snapshot, int ai_id)
 	{
 		InitData tobeSent = null;
 		
@@ -62,23 +67,14 @@ public abstract class DataPreparer {
 			
 			// Fill progress Axis
 			
-			// FIXME No axis in the snapshot
-			/*
-			for (ProgressAxis.View a : snapshot.get().axis.view)
-				tobeSent.progressAxis.add(new ProgressAxisInitData(a.id(),a.base1().id(),a.base2().id()));
-			//*/
+			for (ProgressAxis.View pa : snapshot.get().axes.view)
+				tobeSent.progressAxis.add(new ProgressAxisInitData(pa.id(),pa.base1().id(),pa.base2().id()));
 			
 			// Fill the AI's country
-			
-			// TODO
-			
-			// Fill the others' AIs country
-			
-			// TODO
-			
-			// Fill the initial money of the AI
-			
-			// TODO
+
+			for (Country.View c : snapshot.get().countries.view)
+				if (c.ownerId() == ai_id)
+					tobeSent.myCountry = new CountryInitData(c.id(), new CoordData(c.position.x(),c.position.y()));
 		}
 		else
 			Game.log.warn("It seems like the init snapshot is null. The AI won't receibe any initial data");
@@ -99,6 +95,7 @@ public abstract class DataPreparer {
 		tobeSent.owned_planes = new ArrayList<PlaneFullData>();
 		tobeSent.not_owned_planes = new ArrayList<PlaneBasicData>();
 		tobeSent.progressAxis = new ArrayList<ProgressAxisData>();
+		tobeSent.productionLine = new ArrayList<RequestData>();
 		
 		List<MaterialEntity.View> ai_entities = new ArrayList<>();
 		
@@ -180,10 +177,11 @@ public abstract class DataPreparer {
 			tobeSent.progressAxis.add(new ProgressAxisData(a.id(),a.ratio1(), a.ratio2()));
 		
 		
-		// Fill the country data
+		// Fill the production line data
 
-		//TODO
-		
+		for (Country.View c : snapshot.countries.view)
+			for (Request.View r : c.productionLine().valuesView())
+				tobeSent.productionLine.add(new RequestData(r.rqId(),r.timeBeforePlaneBuilt(),r.requestedType().id));
 		
 		return tobeSent;
 	}

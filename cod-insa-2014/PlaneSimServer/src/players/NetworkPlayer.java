@@ -162,7 +162,7 @@ public class NetworkPlayer extends Player {
 
 		@Override
 		public InitData retrieveInitData(int idConnection) throws TException {
-			return DataPreparer.prepareInitData(waitForNextSnapshot());
+			return DataPreparer.prepareInitData(waitForNextSnapshot(),id);
 		}
 		
 	}

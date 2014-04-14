@@ -30,7 +30,7 @@ public abstract class AbstractBase extends MaterialEntity {
 	public abstract View view();
 
 	public AbstractBase(AbstractBase.View src, Context context) {
-		super(src.id());
+		super(src);
 		context.putSafe(src.model(), this);
 		planes = new ArrayList<>();
 		for (Plane.FullView p : src.planes())

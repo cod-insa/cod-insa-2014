@@ -30,7 +30,7 @@ public class Game {
 	
 	//private Controller stepUpdate;
 	private FinalCountdown clock;
-	private Scores scores;
+	//private Scores scores; // FIXME
 	
 	
 	Displayer disp;
@@ -73,7 +73,7 @@ public class Game {
 		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
-		this.scores = new Scores(nbplay);
+		//this.scores = new Scores(nbplay); // FIXME
 		
 		try {
 			this.mapLoader = new MapLoader(this, mapName);
@@ -197,12 +197,12 @@ public class Game {
 		//if (disp != null)
 		disp.removeEntity(e);
 	}
-	
+	/* FIXME
 	public Scores getScores()
 	{
 		return scores;
 	}
-	
+	*/
 	void update()
 	{
 		disp.flushEntities();

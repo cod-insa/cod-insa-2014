@@ -3,18 +3,23 @@ import genbridge.Data;
 import genbridge.InitData;
 import genbridge.PlaneFullData;
 import genbridge.PlaneStateData;
+import genbridge.ProductionLineData;
 import genbridge.ProgressAxisData;
+import genbridge.RequestData;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import model.Base;
 import model.Coord;
+import model.Country;
 import model.Plane;
+import model.Coord.Unique;
 import model.Plane.BasicView;
 import model.Plane.State;
 import model.ProgressAxis;
 
+import org.junit.runner.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +45,10 @@ public class Proxy
 	private Map<Integer,Plane> ai_planes;
 	private Map<Integer,Plane> killed_planes;
 	private Map<Integer,Plane> ennemy_planes;
-	private Map<Integer, ProgressAxis> map_axis;
+	private Map<Integer,ProgressAxis> map_axis;
 
+	private Country ai_country;
+	
 	private double mapWidth, mapHeight;
 	
 	private int player_id;
@@ -67,6 +74,7 @@ public class Proxy
 		other_visible_bases = new HashMap<Integer,Base>();
 		other_notvisible_bases = new HashMap<Integer,Base>();
 		map_axis = new HashMap<Integer,ProgressAxis>();
+
 		idm.retrieveInitialData();
 
 		player_id = idm.getPlayerId();
@@ -92,13 +100,12 @@ public class Proxy
 		mapHeight = d.mapHeight;
 		
 		for (genbridge.ProgressAxisInitData a : d.progressAxis)
-			if (! all_bases.containsKey(a.base1_id) || ! all_bases.containsKey(a.base2_id))
+			if (all_bases.containsKey(a.base1_id) && all_bases.containsKey(a.base2_id))
 				map_axis.put(a.id,new ProgressAxis(a.id, all_bases.get(a.base1_id), all_bases.get(a.base2_id)));
 			else
 				log.error("One or both of the base " + a.base1_id + " and " + a.base2_id + " are unknown. Failed to add the axis");
 		
-		// TODO Get the country
-		// TODO Get the others countries
+		ai_country = new Country(d.myCountry.country_id, new Coord.Unique(d.myCountry.country.x,d.myCountry.country.y));
 	}
 	
 	/**
@@ -247,6 +254,31 @@ public class Proxy
 	}
 	
 	/**
+	 * Private function to update the country
+	 * @param d Data retrieved from the server
+	 */
+	private void updateCountry(Data d)
+	{
+		// each request not in the new production line is done
+		for (int i : ai_country.productionLine.keySet())
+			if (! d.productionLine.contains(i))
+				// So we remove it from the production line
+				// and we put 0 to the timeBeforePlaneBuilt property
+				// so the AI can know if the request does no longer exists
+				ai_country.productionLine.remove(i).timeBeforePlaneBuilt = 0;
+
+		// For each request in the Data production line
+		for (RequestData rd : d.productionLine)
+		{
+			// If it already exists, we update the time
+			if (ai_country.productionLine.containsKey(rd.requestId))
+				ai_country.productionLine.get(rd.requestId).timeBeforePlaneBuilt = rd.timeBeforePlaneBuilt;
+			else // it's a new request sent, so we add it into the production line
+				ai_country.productionLine.put(rd.requestId,new Country.Request(rd.requestId, rd.timeBeforePlaneBuilt, Plane.Type.get(rd.planeTypeId)));
+		}
+	}
+	
+	/**
 	 * Update the proxy model of the game
 	 * @param d Data retrieved from the server
 	 */
@@ -260,8 +292,7 @@ public class Proxy
 		updateBases(d);
 		updatePlanes(d);
 		updateAxis(d);
-		
-		// TODO Update the country (update production line)
+		updateCountry(d);
 		
 		cm.newFrame(); // notify the command sender that we have a new frame
 	}
@@ -378,6 +409,15 @@ public class Proxy
 		});
 	}
 	
+	/**
+	 * Get the country of your AI
+	 * 
+	 * Warning : You should call this method only once per frame
+	 */
+	public Country.View getCountry()
+	{
+		return Util.view(ai_country);
+	}
 	
 	/**
 	 * Check if you are out of time.
