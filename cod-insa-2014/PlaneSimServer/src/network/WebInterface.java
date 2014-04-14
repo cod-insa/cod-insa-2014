@@ -113,10 +113,10 @@ public class WebInterface extends WebSocketServer {
 	public void sendMapInfo(WebSocket conn)
 	{
 		JSONStringer str = new JSONStringer();
-		
-		//TODO send nbPlayers
-		
+
 		str.object()
+		.key("nbplayers")
+		.value(game.getNbPlayers())
 		.key("map")
 		.object()
 		.key("name")

@@ -21,7 +21,7 @@ public class FinalCountdown extends Thread{
 		synchronized (this) {
 			estimated = ((target - current) / 1000)+1;
 		}
-		start();
+		//start(); //in game now
 	}
 	
 	@Override

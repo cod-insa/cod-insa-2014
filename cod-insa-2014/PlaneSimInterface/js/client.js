@@ -6,6 +6,8 @@
 var lastSnap;
 var nextSnap;
 
+var nbPlayers = 0;
+
 //plane keys to figure out which ones are dead (to avoid walking deads :p)
 var keySetOld = new Array();
 var keySetNew = new Array();
@@ -65,6 +67,7 @@ var initServerConnection = function (ipad) {
     connection.onmessage = function (message) {
         // try to decode json (I assume that each message from server is json)
 	console.log("message received");
+
 	json = 0;        
 	try {
             json = JSON.parse(message.data);
@@ -87,15 +90,19 @@ var initServerConnection = function (ipad) {
 			center_lat = json.map.latitude;
 			center_long = json.map.longitude;
 			zoom_level = json.map.zoom;
-			initialisationMaps();
+			updateMapWithInfoFromServer();
 
-			//TODO Wait for map loaded before drawing markers on it
+			//get numbers of players to prepare interface (score table)
+			nbPlayers = json.nbplayers;
+			console.log(nbPlayers+' are playing here!');
+			initScoreTable();
 			
+
 			//adding bases to this map
 			for(var i = 0 ; i<base_count ; i++){
-				
+			
 				var current_base = json.map.bases[i];
-				console.log("draw base "+current_base.cityname);
+				//console.log("draw base "+current_base.cityname);
 				//console.log(base_icon[current_base.ownerid]);
 				basesArray.push(new google.maps.Marker({
 		    			position: new google.maps.LatLng(current_base.latitude,current_base.longitude),
@@ -106,6 +113,7 @@ var initServerConnection = function (ipad) {
 					zIndex:100
 				}));
 			}
+
 		}
 
 		if(json.snap && !lastSnap)
@@ -151,6 +159,7 @@ var initServerConnection = function (ipad) {
 
 			//Look at ownerid to refresh bases colors
 			 for(var i = 0 ; i<base_count ; i++){
+				//console.log(i);
 				basesArray[i].icon = base_icon[json.snap.bases[i].ownerid];
 			}
 
