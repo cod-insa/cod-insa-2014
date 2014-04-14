@@ -241,7 +241,7 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut �tre dans un a�roport pour remplir le r�servoir"));
+					new Response(Command.ERROR_COMMAND,"Il faut etre dans un aeroport pour remplir le reservoir"));
 		
 		// check quantity
 		if (data.quantity < 0) 
@@ -310,7 +310,7 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut �tre dans un a�roport pour remplir le r�servoir"));
+					new Response(Command.ERROR_COMMAND,"Il faut etre dans un aeroport pour remplir le reservoir"));
 		
 		// check quantity
 		if (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold() > p.type.holdCapacity)
@@ -347,7 +347,7 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut �tre dans un a�roport pour remplir le r�servoir"));
+					new Response(Command.ERROR_COMMAND,"Il faut etre dans un aeroport pour remplir le reservoir"));
 		
 		
 		// check quantity

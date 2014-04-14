@@ -221,6 +221,11 @@ public class NetworkPlayerManager {
 	public ListView<NetworkPlayer> getPlayers() {
 		return Util.shallowView(players);
 	}
+	
+	public NetworkPlayer getPlayer(int idPlayer)
+	{
+		return players.get(idPlayer);
+	}
 
 
 //	/**

@@ -62,7 +62,6 @@ public class Main {
 			final Displayer disp = new Displayer();
 			final Game planeSim = new Game(disp, nbplay, args[0], seconds);
 			
-			final WebInterface wi = WebInterface.startWebInterface(planeSim);
 //			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim.getWorld());
 			final NetworkPlayerManager npm = new NetworkPlayerManager(planeSim);
 			
@@ -76,6 +75,8 @@ public class Main {
 				catch (NumberFormatException | ArrayIndexOutOfBoundsException e)
 				{ printUsageAndExit(-1); }
 			}
+			
+			final WebInterface wi = WebInterface.startWebInterface(planeSim, npm);
 			
 	//		npm.waitForConnections(new Event() {
 	//			
