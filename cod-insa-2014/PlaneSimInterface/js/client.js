@@ -88,12 +88,14 @@ var initServerConnection = function (ipad) {
 			center_long = json.map.longitude;
 			zoom_level = json.map.zoom;
 			initialisationMaps();
+
+			//TODO Wait for map loaded before drawing markers on it
 			
 			//adding bases to this map
 			for(var i = 0 ; i<base_count ; i++){
 				
 				var current_base = json.map.bases[i];
-				//console.log("draw base "+current_base.cityname);
+				console.log("draw base "+current_base.cityname);
 				//console.log(base_icon[current_base.ownerid]);
 				basesArray.push(new google.maps.Marker({
 		    			position: new google.maps.LatLng(current_base.latitude,current_base.longitude),
@@ -140,6 +142,12 @@ var initServerConnection = function (ipad) {
 			var ss = time - hh*3600 - mm*60;
 			setClock(hh,mm,ss);
 				
+			//refresh teams' scores
+			var ind = 0
+			for(ind = 0 ; ind < 6 ; ind++)
+				document.getElementById("t"+(ind+1)).innerHTML = json.snap.players[ind].name + ":" + json.snap.players[ind].score;
+
+
 
 			//Look at ownerid to refresh bases colors
 			 for(var i = 0 ; i<base_count ; i++){

@@ -18,7 +18,9 @@ public class FinalCountdown extends Thread{
 	public FinalCountdown(long time) {
 		target = System.currentTimeMillis() + time*1000;
 		current = System.currentTimeMillis() + 1000;
-		estimated = ((target - current) / 1000)+1;
+		synchronized (this) {
+			estimated = ((target - current) / 1000)+1;
+		}
 		start();
 	}
 	
@@ -29,7 +31,9 @@ public class FinalCountdown extends Thread{
 		while(true)
 		{
 			current = System.currentTimeMillis() + 1000;
-			estimated = ((target - current) / 1000)+1;
+			synchronized (this) {
+				estimated = ((target - current) / 1000)+1;
+			}
 			if(target<current)
 			{
 				System.out.println("End!");
@@ -49,7 +53,11 @@ public class FinalCountdown extends Thread{
 	
 	public long getRemainingTime()
 	{
-		return estimated;
+		long value = 0;
+		synchronized (this) {
+			value = estimated;
+		}
+		return value;
 	}
 	
 }

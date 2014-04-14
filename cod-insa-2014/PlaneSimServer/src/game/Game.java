@@ -30,6 +30,8 @@ public class Game {
 	
 	//private Controller stepUpdate;
 	private FinalCountdown clock;
+	private Scores scores;
+	
 	
 	Displayer disp;
 	private int nbPlayers;
@@ -70,6 +72,8 @@ public class Game {
 		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
+		this.scores = new Scores(nbplay);
+		
 		try {
 			this.mapLoader = new MapLoader(this, mapName);
 		} catch (FileNotFoundException | URISyntaxException e) {
@@ -189,6 +193,11 @@ public class Game {
 		removedEntities.add(e);
 		//if (disp != null)
 		disp.removeEntity(e);
+	}
+	
+	public Scores getScores()
+	{
+		return scores;
 	}
 	
 	void update()

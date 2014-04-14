@@ -26,6 +26,7 @@ import org.json.JSONStringer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import players.NetworkPlayerManager;
 import common.CoordConverter;
 
 public class WebInterface extends WebSocketServer {
@@ -37,6 +38,7 @@ public class WebInterface extends WebSocketServer {
 	private CoordConverter converter;
 	private World world;
 	private Game game;
+	private NetworkPlayerManager npm;
 	private AutoSender autoSender;
 
 	private WebInterface( InetSocketAddress address, Draft d) {
@@ -50,7 +52,7 @@ public class WebInterface extends WebSocketServer {
 	 * Settings are in NetworkSettings.java
 	 * It does not like "localhost"
 	 */
-	public static WebInterface startWebInterface(Game game)
+	public static WebInterface startWebInterface(Game game, NetworkPlayerManager npm)
 	{
 		
 		WebInterface wi = null;
@@ -82,13 +84,17 @@ public class WebInterface extends WebSocketServer {
 			if(ip == null)
 			{
 				log.error("I've not found my IP address... Are you connected to the network?");
-				System.exit(0);
+				log.error("Continuing with localhost 127.0.0.1");
+				ip = InetAddress.getLocalHost();
+
 			}
+			//log.error(ip.getHostAddress());
 			
 			int port = NetworkSettings.webport;
 			InetSocketAddress isa = new InetSocketAddress(ip.getHostAddress(), port);
 			Draft d = new Draft_17();
 			wi = new WebInterface(isa,d);
+			log.info("Starting webinterface server on "+ip.getHostAddress());
 			wi.start();
 			log.info("Server listening");
 		} catch (SocketException | UnknownHostException e) {
@@ -99,13 +105,17 @@ public class WebInterface extends WebSocketServer {
 		wi.world = game.getWorld();
 		wi.converter = game.converter;
 		wi.game = game;
-
+		wi.npm = npm;
+		
 		return wi;
 	}
 
 	public void sendMapInfo(WebSocket conn)
 	{
 		JSONStringer str = new JSONStringer();
+		
+		//TODO send nbPlayers
+		
 		str.object()
 		.key("map")
 		.object()
@@ -153,6 +163,19 @@ public class WebInterface extends WebSocketServer {
 		
 		stringer.key("time");
 		stringer.value(game.getTimeLeft());
+		
+		//Scores
+		stringer.key("players").array();
+		for (int i = 0 ; i < game.getNbPlayers() ; i++) {			
+			stringer.object();
+			stringer.key("name");
+			stringer.value(npm.getPlayer(i).getNickname());
+			//System.out.println(npm.getPlayer(i).getNickname());
+			stringer.key("score");
+			stringer.value(game.getScores().getScore(i));
+			stringer.endObject();
+		}
+		stringer.endArray();
 
 		//Bases
 		stringer.key("bases").array();
