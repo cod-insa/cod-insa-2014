@@ -12,24 +12,30 @@ public class FinalCountdown extends Thread{
 	private long current = 0;
 	private long estimated = 0;
 	
+	private boolean running = true;
+	
 	/**
 	 * @param time, in seconds
 	 */
 	public FinalCountdown(long time) {
 		target = System.currentTimeMillis() + time*1000;
 		current = System.currentTimeMillis() + 1000;
-		estimated = ((target - current) / 1000)+1;
-		start();
+		synchronized (this) {
+			estimated = ((target - current) / 1000)+1;
+		}
+		//start(); //in game now
 	}
 	
 	@Override
 	public void run() {
 		super.run();
 		
-		while(true)
+		while(running)
 		{
 			current = System.currentTimeMillis() + 1000;
-			estimated = ((target - current) / 1000)+1;
+			synchronized (this) {
+				estimated = ((target - current) / 1000)+1;
+			}
 			if(target<current)
 			{
 				System.out.println("End!");
@@ -49,7 +55,16 @@ public class FinalCountdown extends Thread{
 	
 	public long getRemainingTime()
 	{
-		return estimated;
+		long value = 0;
+		synchronized (this) {
+			value = estimated;
+		}
+		return value;
+	}
+	
+	public void interruptCountdown()
+	{
+		running = false;
 	}
 	
 }

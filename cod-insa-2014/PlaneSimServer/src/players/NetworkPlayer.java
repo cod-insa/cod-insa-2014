@@ -68,9 +68,7 @@ public class NetworkPlayer extends Player {
 //	private boolean isWaitingDataUpdate;
 //	private Object waitData;
 
-	public final String name;
-	String nickname = null;
-	
+	public String name;
 	public final int connectionId;
 	
 	TSimpleServer dataSender, commandsReceiver;
@@ -105,7 +103,7 @@ public class NetworkPlayer extends Player {
 //			{
 //				manager.setConnected(this);
 //			}
-			NetworkPlayer.this.nickname = nickname;
+			NetworkPlayer.this.name = nickname;
 			
 			manager.notifyConnect(NetworkPlayer.this);
 			
@@ -479,7 +477,7 @@ public class NetworkPlayer extends Player {
 	}
 
 	public String getNickname() {
-		return nickname;
+		return NetworkPlayer.this.name;
 	}
 	 
 }

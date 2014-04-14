@@ -30,6 +30,8 @@ public class Game {
 	
 	//private Controller stepUpdate;
 	private FinalCountdown clock;
+	private Scores scores;
+	
 	
 	Displayer disp;
 	private int nbPlayers;
@@ -71,6 +73,8 @@ public class Game {
 		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
+		this.scores = new Scores(nbplay);
+		
 		try {
 			this.mapLoader = new MapLoader(this, mapName);
 		} catch (FileNotFoundException | URISyntaxException e) {
@@ -79,6 +83,9 @@ public class Game {
 		}
 		this.converter = mapLoader.getConverter();
 		this.mapInfo = mapLoader.getM();
+				
+		//init countdown
+		clock = new FinalCountdown(20*60);	//in seconds
 				
 		
 		//this.stepUpdate = new Controller(update_period);
@@ -116,8 +123,7 @@ public class Game {
 	{
 		//TODO (called when all players have joined the game)
 		
-		//init countdown
-		clock = new FinalCountdown(20*60);	//in seconds
+		clock.start();
 		
 		//if (updateTimer == null) return;
 		
@@ -168,7 +174,7 @@ public class Game {
 		//if (updateTimer == null) return;
 		
 		log.info("Stopping simulation");
-		
+		clock.interruptCountdown();
 		updateTimer.cancel();
 		updateTimer.purge();
 		
@@ -190,6 +196,11 @@ public class Game {
 		removedEntities.add(e);
 		//if (disp != null)
 		disp.removeEntity(e);
+	}
+	
+	public Scores getScores()
+	{
+		return scores;
 	}
 	
 	void update()

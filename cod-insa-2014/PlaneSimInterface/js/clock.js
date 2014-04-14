@@ -1,6 +1,22 @@
 //clock.js
 //NV for CodINSA 2014
 
+
+//Score, player's name
+
+
+function initScoreTable()
+{
+	var iii = 0;
+	for(iii = 0 ;  iii < nbPlayers ; iii++)
+	{
+		$('#t'+(iii+1)).show();
+	}
+}
+
+
+
+//Clock
 var hours;
 var minutes;
 var seconds;
@@ -18,8 +34,6 @@ function setClock (h,m,s)
 
 function updateClock()
 {
-
-
   seconds = seconds - 1;
 
   if(seconds == -1)
@@ -45,15 +59,8 @@ function updateClock()
 
   // Compose the string for display
   var currentTimeString = hours + "h " + minutes + "m " + seconds + "s";
-
   // Update the time display
   document.getElementById("clock").innerHTML = currentTimeString;
-
-
-	
   timeout = setTimeout(updateClock,1000);
 }
 
-
-/*setClock(1,1,10);
-updateClock();*/

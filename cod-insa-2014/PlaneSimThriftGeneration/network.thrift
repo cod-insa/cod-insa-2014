@@ -34,7 +34,8 @@ struct PlaneBasicData { // These are the basic information of a plane
 	2: CoordData posit,
 	3: int ai_id,
 	4: double health,
-	5: bool canAttack
+	5: bool canAttack,
+	6: int planeTypeId
 }
 
 struct PlaneFullData { // This is when the plane is owned
@@ -43,9 +44,7 @@ struct PlaneFullData { // This is when the plane is owned
 	3: double remainingGaz, 
 	4: PlaneStateData state,
 	5: double militarResourceCarried,
-	6: double fuelResourceCarried,
-	7: double capacityHold,
-	8: double capacityTank
+	6: double fuelResourceCarried
 }
 
 struct BaseBasicData { // These are the basic information of a base
@@ -72,20 +71,21 @@ struct ProgressAxisInitData {
 }
 
 struct ProgressAxisData {
-	/* These are percentage, visible by anyone */
+	/* These are percentage, visible by anyone which see one of the two bases linked */
 	1: int id,
 	2: double progressBase1, 
 	3: double progressBase2 
 }
 
-struct CountryInitData {
-	1: CoordData country1,
-	2: CoordData country2
+struct RequestData {
+	1: int requestId,
+	2: double timeBeforePlaneBuilt,
+	3: int planeTypeId
 }
 
-struct CountryData {
-	/* This is sent only for one AI and represents its country */
-	1: list<int> PlanesIdInProductionChain
+struct CountryInitData {
+	1: int country_id,
+	2: CoordData country
 }
 
 struct ConnectionData {
@@ -99,8 +99,7 @@ struct InitData {
 	3: double mapHeight,
 	4: list<ProgressAxisInitData> progressAxis,
 	5: CountryInitData myCountry,
-	6: list<CountryInitData> othersCountry,
-	7: int initMoney
+	6: list<CountryInitData> othersCountry
 }
 
 struct Data {
@@ -108,10 +107,10 @@ struct Data {
 	2: list<PlaneFullData> owned_planes,
 	3: list<PlaneBasicData> not_owned_planes,
 	4: list<BaseFullData> owned_bases,
-	5: list<BaseBasicData> not_owned_bases,
-	6: list<ProgressAxisData> progressAxis,
-	7: CountryData myCountry,
-	8: int currentMoney
+	5: list<BaseFullData> not_owned_visible_bases,
+	6: list<BaseBasicData> not_owned_not_visible_bases,
+	7: list<ProgressAxisData> progressAxis,
+	8: list<RequestData> productionLine
 }
 
 # Bridge is like a bridge on the network, between PlaneSimProxy.proxy.Proxy (Bridge.Client) 
@@ -186,6 +185,11 @@ struct LoadResourcesCommandData {
 	3: double fuel_quantity
 }
 
+struct BuildPlaneCommandData {
+	1: CommandData c,
+	2: int planeTypeId
+}
+
 struct Response {
 	1: int code, # 0 : Success, -1 : Error on command, -2 : Error timeout
 	2: string message # empty if success
@@ -200,7 +204,8 @@ service CommandReceiver {
 	Response sendDropMilitarsCommand(1: DropMilitarsCommandData cmd, 2: int idConnection),
 	Response sendStoreFuelCommand(1: StoreFuelCommandData cmd, 2: int idConnection),
 	Response sendFillFuelTankCommand(1: FillFuelTankCommandData cmd, 2: int idConnection),
-	Response sendLoadResourcesCommand(1: LoadResourcesCommandData cmd, 2: int idConnection)
+	Response sendLoadResourcesCommand(1: LoadResourcesCommandData cmd, 2: int idConnection),
+	Response sendBuildPlaneCommand(1: BuildPlaneCommandData cmd, 2: int idConnection)
 }
 
 # Type dispo
