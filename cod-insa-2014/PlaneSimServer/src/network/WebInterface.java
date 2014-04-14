@@ -174,7 +174,7 @@ public class WebInterface extends WebSocketServer {
 			stringer.value(npm.getPlayer(i).getNickname());
 			//System.out.println(npm.getPlayer(i).getNickname());
 			stringer.key("score");
-			stringer.value(game.getScores().getScore(i));
+			// FIXME stringer.value(game.getScores().getScore(i));
 			stringer.endObject();
 		}
 		stringer.endArray();

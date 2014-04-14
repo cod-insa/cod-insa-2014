@@ -296,6 +296,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				15
 			);
 		
+		
 	}
 	
 }
