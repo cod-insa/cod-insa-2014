@@ -122,7 +122,7 @@ public class Game {
 	{
 		//TODO (called when all players have joined the game)
 		
-		//clock.start();
+		clock.start();
 		
 		//if (updateTimer == null) return;
 		
@@ -173,7 +173,7 @@ public class Game {
 		//if (updateTimer == null) return;
 		
 		log.info("Stopping simulation");
-		
+		clock.interruptCountdown();
 		updateTimer.cancel();
 		updateTimer.purge();
 		

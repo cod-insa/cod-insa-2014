@@ -12,6 +12,8 @@ public class FinalCountdown extends Thread{
 	private long current = 0;
 	private long estimated = 0;
 	
+	private boolean running = true;
+	
 	/**
 	 * @param time, in seconds
 	 */
@@ -28,7 +30,7 @@ public class FinalCountdown extends Thread{
 	public void run() {
 		super.run();
 		
-		while(true)
+		while(running)
 		{
 			current = System.currentTimeMillis() + 1000;
 			synchronized (this) {
@@ -58,6 +60,11 @@ public class FinalCountdown extends Thread{
 			value = estimated;
 		}
 		return value;
+	}
+	
+	public void interruptCountdown()
+	{
+		running = false;
 	}
 	
 }
