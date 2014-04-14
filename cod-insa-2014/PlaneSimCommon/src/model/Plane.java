@@ -189,6 +189,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		unAssign();
 		this.curBase = b;
 		b.planes.add(this);
+		assert b.ownerId() == ownerId();
 	}
 	
 	public void unAssign()

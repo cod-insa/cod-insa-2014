@@ -12,7 +12,7 @@ import common.Util;
 public abstract class AbstractBase extends MaterialEntity {
 	
 	
-	final List<Plane> planes;
+	public final List<Plane> planes;
 	public final Immutable<Coord.View> position;
 	
 	public abstract class View extends MaterialEntity.View {

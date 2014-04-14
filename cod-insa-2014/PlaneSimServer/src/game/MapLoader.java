@@ -190,7 +190,7 @@ public class MapLoader {
 				
 				
 				if (basesByName.containsKey(axis[0]) && basesByName.containsKey(axis[1]))
-					new GameAxis(g, basesByName.get(axis[0]).model(), basesByName.get(axis[1]).model());
+					new GameAxis(g, basesByName.get(axis[0]), basesByName.get(axis[1]));
 				else
 					throw new Error("Base name is unknown");
 					

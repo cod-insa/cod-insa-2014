@@ -1,7 +1,6 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import model.AbstractBase;
 import model.Base;
@@ -15,8 +14,13 @@ import common.Util;
 import common.Util.Converter;
 import common.Viewable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class World implements Viewable<World.View> {
-	
+
+	public static final Logger log = LoggerFactory.getLogger(World.class);
+
 	public static final boolean WORLD_WRAP = true;
 	
 	private static double S = 3;
@@ -36,6 +40,8 @@ public class World implements Viewable<World.View> {
 	public List<GameCountry> countries = new ArrayList<>();
 	
 //	public List<GameAxis> axes = new ArrayList<>();
+	
+	private boolean initialized = false;
 	
 	public World (Game sim) {
 		//sim.world = this;
@@ -175,13 +181,88 @@ public class World implements Viewable<World.View> {
 	public List<GameEntity> getEntities() {
 		return entities;
 	}
+
+
+	Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
 	
+	public void initialize(Game gam) {
+		
+		nextBaseToGoTo = new HashMap<>();
+		
+		boolean connected = true;
+				
+		for (GameBase src: bases) {
+			
+			Map<GameBase,GameBase> toGoTo = new HashMap<>();
+			nextBaseToGoTo.put(src, toGoTo);
+			
+			/// Performs a BFS to assign which base troops should go through
+			/// to go from src to all other bases
+
+			Set<GameBase> visited = new HashSet<>();
+			Queue<GameBase> toVisit = new LinkedList<>();
+			
+			toVisit.add(src);
+			
+			while (toVisit.size() != 0) {
+				GameBase current = toVisit.poll();
+				
+				for (GameAxis.Oriented arc: current.axes) {
+					GameBase target = arc.next;
+					if (!visited.contains(target)) {
+						visited.add(target);
+						toGoTo.put(target, current);
+					}
+				}
+			}
+			
+			connected = connected && visited.size() == bases.size();
+		}
+		if (!connected)
+			log.warn("The bases graph seems not to be one connected component!");
+
+		initialized = true;
+	}
 
 	public void update() {
 		update(1);
 	}
 	public void update(double period) {
 		
+		if (!initialized)
+			throw new Error("The World object was not initialized.");
+
+
+		//globalUnitNumber
+
+		// use distance to front as a heuristic?
+
+//		for (GameAxis ax: axes) {
+
+		Map<Integer,List<GameBase>> playerBases = new HashMap<>();
+		
+		for (GameBase b: bases) {
+			if (b.model.ownerId() != 0) {
+				List<GameBase> bases = playerBases.get(b.model.ownerId());
+				if (bases == null) {
+					bases = new ArrayList<GameBase>();
+					playerBases.put(b.model.ownerId(), bases);
+				}
+				bases.add(b);
+			}
+		}
+		
+		for (int pid: playerBases.keySet()) {
+			List<GameBase> bases = playerBases.get(pid);
+			double totalMilitary = 0;
+			for (GameBase b: bases) {
+				totalMilitary += b.model().militaryGarrison;
+			}
+		}
+		
+		
+
+
 		for (GameEntity e: entities) {
 			
 			e.update(period);
@@ -190,6 +271,7 @@ public class World implements Viewable<World.View> {
 
 		for (GameEntity e: entities)
 			e.afterUpdate(period);
+		
 		
 	}
 
@@ -200,6 +282,9 @@ public class World implements Viewable<World.View> {
 	public double getHeight() {
 		return height;
 	}
+	
+	
+	
 	
 	
 	
