@@ -44,6 +44,7 @@ public class MapLoader {
 		String name;
 		int basesCount;
 		int axisCount;
+		int max_num_player;
 		double center_lat;
 		double center_long;
 		double min_lat;
@@ -129,7 +130,7 @@ public class MapLoader {
 		String[] init_line_sep = init_line.split(",");
 		String name;
 
-		if(init_line_sep.length == 10)
+		if(init_line_sep.length == 11)
 		{
 			name = init_line_sep[0];
 			m.basesCount = Integer.parseInt(init_line_sep[1]);
@@ -141,18 +142,32 @@ public class MapLoader {
 			m.max_long = Double.parseDouble(init_line_sep[7]);
 			m.web_zoom = Integer.parseInt(init_line_sep[8]);
 			m.axisCount = Integer.parseInt(init_line_sep[9]);
+			m.max_num_player = Integer.parseInt(init_line_sep[10]);
 			
 			log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
 			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long);
 			this.converter.setWorldDimensions(w.getWidth(),w.getHeight());
 			//to fit the admin interface (if not called, 1 is used to multiply values).
 			
-
 			String line;
 			String[] coord;
 			Double latid;
 			Double longit;
 			Coord.Unique newBaseCoord;
+			
+			for (int i = 0; i < m.max_num_player;i++)
+			{
+				line = scanner.nextLine();
+				coord = line.split(",");
+				name = coord[0];
+				latid = Double.parseDouble(coord[1]);
+				longit = Double.parseDouble(coord[2]);
+				newBaseCoord = converter.toCartesianUnique(longit, latid);
+				GameCountry gc = new GameCountry(g, newBaseCoord,name);
+				gc.model().ownerId(i+1); // FIXME Do better ?
+				this.w.countries.add(gc);
+			}
+			
 			Map<String,GameBase> basesByName = new HashMap<String,GameBase>();
 			
 			for(int i = 0 ; i < m.basesCount ; i++)

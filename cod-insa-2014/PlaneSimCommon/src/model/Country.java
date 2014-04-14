@@ -1,15 +1,15 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.HashMap;
+import java.util.Map;
 
+import common.MapView;
 import common.Unique;
+import common.Util;
 import common.Viewable;
 
-public class Country extends AbstractBase {
-
-	public final List<Request> productionLine;
+public class Country extends AbstractBase implements Viewable<Country.View>{
+	public final Map<Integer, Request> productionLine;
 	
 	public class View extends AbstractBase.View {
 
@@ -17,31 +17,32 @@ public class Country extends AbstractBase {
 		public Country copied(Context context) {
 			return copy(context);
 		}
-		public List<Request> lines() { return productionLine; }
-		public boolean linesFull() { 
-			for (Request pl : productionLine) 
-				if (pl.requestedType == null)
-					return false;
-			return true;
+		public MapView<Integer, Request.View> productionLine() { return Util.view(productionLine); }
+		public boolean lineFull() { 
+			return productionLine.isEmpty();
 		}
 	}
 	
-	public class Request 
+	public static class Request implements Viewable<Request.View>
 	{
+		public final int rqId;
 		public double timeBeforePlaneBuilt;
 		public Plane.Type requestedType;
 		
-		public Request(double time, Plane.Type ptype)
+		public Request(int requestId, double time, Plane.Type ptype)
 		{
+			rqId = requestId;
 			timeBeforePlaneBuilt = time;
 			ptype = requestedType;
 		}
 		
 		public class View implements Viewable.View {
+			public int rqId() { return rqId; }
 			public double timeBeforePlaneBuilt() { return timeBeforePlaneBuilt(); }
 			public Plane.Type requestedType() { return requestedType; }
 		}
 		
+		@Override
 		public View view()
 		{
 			return new View();
@@ -52,12 +53,12 @@ public class Country extends AbstractBase {
 	
 	public Country(int id, Unique<Coord> pos) {
 		super(id, pos);
-		productionLine = new ArrayList<Request>();
+		productionLine = new HashMap<Integer,Request>();
 	}
 
 	public Country(View src, Context context) {
 		super(src, context);
-		productionLine = new ArrayList<Request>();
+		productionLine = new HashMap<Integer,Request>();
 	}
 
 	@Override

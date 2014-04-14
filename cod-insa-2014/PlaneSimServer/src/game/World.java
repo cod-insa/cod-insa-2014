@@ -5,12 +5,13 @@ import java.util.List;
 
 import model.AbstractBase;
 import model.Base;
+import model.Country;
 import model.Plane;
 import model.ProgressAxis;
-
 import common.Immutable;
 import common.ListView;
 import common.Unique;
+import common.Unique.Collection;
 import common.Util;
 import common.Util.Converter;
 import common.Viewable;
@@ -79,6 +80,7 @@ public class World implements Viewable<World.View> {
 		public final Immutable<ListView<Base.FullView>> bases;
 		public final Immutable<ListView<Plane.FullView>> planes;
 		public final Immutable<ListView<ProgressAxis.View>> axes;
+		public final Immutable<ListView<Country.View>> countries;
 		
 		public final double width, height;
 		
@@ -153,6 +155,11 @@ public class World implements Viewable<World.View> {
 			
 			axes = new Immutable<ListView<ProgressAxis.View>>(uaxes, Util.<ProgressAxis, ProgressAxis.View>getListViewer());
 			
+			ListView<Country> vcountries = Util.transformView (w.countries, new Converter<GameCountry, Country>() {
+				public Country convert(GameCountry src) { return src.model(); }
+			});
+			
+			countries = new Immutable<>(new Unique.Copy<>(vcountries.asUnmodifiableList(), Util.<Country>getListCopier()), Util.<Country, Country.View>getListViewer());
 			
 		}
 	}

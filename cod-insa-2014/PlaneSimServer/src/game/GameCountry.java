@@ -12,26 +12,28 @@ import display.CountryDisplay;
 import display.EntityDisplay;
 
 public class GameCountry extends MaterialGameEntity {
-
 	public static final double RADIUS = .08;
 	public final String countryname;
 	public final List<Request> productionLine;
 	
-	public GameCountry(Game sim, Unique<Coord> pos, String name, int productionLineNumber) {
+	public GameCountry(Game sim, Unique<Coord> pos, String name) {
 		super(new Country(makeNextId(),pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 		countryname = name;
 		productionLine = new ArrayList<Request>();
 	}
 	
-	
+	private static int _nbRq = 0;
+	private static int makeNextRqId() { return _nbRq++; }
 	public class Request
 	{
+		public final int RqId;
 		public double timeBeforePlaneBuilt;
 		public Plane.Type requestedType;
 
 		public Request(Plane.Type type)
 		{
+			RqId = makeNextRqId();
 			timeBeforePlaneBuilt = type.timeToBuild + totalTimeToBuild();
 			requestedType = type;
 		}
