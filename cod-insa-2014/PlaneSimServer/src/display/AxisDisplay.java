@@ -75,21 +75,24 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 		Pixel m1 = vtrans.getViewPos(bary1.view());
 		Pixel m2 = vtrans.getViewPos(bary2.view());
 
-		g2d.setColor(getPlayerColor(entity.modelView().base1().ownerId()));
+		float a = .3f;
+//		float a = 1.5f;
+		
+		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base1().ownerId()), a));
 		g2d.drawLine(
 				b1.x,
 				b1.y,
 				m1.x,
 				m1.y
 		);
-		g2d.setColor(getPlayerColor(0));
+		g2d.setColor(fadeColor(getPlayerColor(0), a));
 		g2d.drawLine(
 				m1.x,
 				m1.y,
 				m2.x,
 				m2.y
 		);
-		g2d.setColor(getPlayerColor(entity.modelView().base2().ownerId()));
+		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base2().ownerId()), a));
 		g2d.drawLine(
 				m2.x,
 				m2.y,

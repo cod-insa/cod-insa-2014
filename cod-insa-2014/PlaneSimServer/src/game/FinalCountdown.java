@@ -24,6 +24,11 @@ public class FinalCountdown extends Thread{
 			estimated = ((target - current) / 1000)+1;
 		}
 		//start(); //in game now
+		
+		//////////////////////////
+		// FIXME: prevents the server for correctly shutting down
+		//start();
+		//////////////////////////
 	}
 	
 	@Override
