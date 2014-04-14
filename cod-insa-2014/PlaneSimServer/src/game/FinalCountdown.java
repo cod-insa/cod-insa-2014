@@ -19,7 +19,11 @@ public class FinalCountdown extends Thread{
 		target = System.currentTimeMillis() + time*1000;
 		current = System.currentTimeMillis() + 1000;
 		estimated = ((target - current) / 1000)+1;
-		start();
+		
+		//////////////////////////
+		// FIXME: prevents the server for correctly shutting down
+		//start();
+		//////////////////////////
 	}
 	
 	@Override
