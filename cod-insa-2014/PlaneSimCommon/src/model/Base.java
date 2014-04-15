@@ -25,11 +25,25 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	public double militaryGarrison;
 	public double fuelInStock;
 	
+	/**
+	 * This class represents a Base seen, everything is visible
+	 */
 	public class FullView extends BasicView {
 
+		/**
+		 * @return The number of resources unit in the garrison of the Base
+		 */
 		public double militaryGarrison() { return militaryGarrison; }
+		
+		/**
+		 * @return The number of resources unit in the stock of the Base
+		 */
 		public double fuelInStock() { return fuelInStock; }
 		
+		/**
+		 * Returns whereas the base sees or not an entity
+		 * @param The entity
+		 */
 		public boolean canSee(MaterialEntity.View e) 
 		{
 			if (e instanceof Plane.FullView
@@ -45,9 +59,15 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 
 		
 		@Override
+		/**
+		 * Returns true if the base see the location given in parameter
+		 */
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange * radarRange;
 		}
+		/**
+		 * Returns true if the base is at the middle of the territory (i.e. if every base around this one have the same ownerId)
+		 */
 		public boolean isInTerritory()
 		{
 			for (ProgressAxis.Oriented pao : axes)
@@ -56,18 +76,28 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 			return true;
 		}
 		@Override
+		/**
+		 * A function in order to display a Base
+		 */
 		public String toString() { return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
 		
 	}
 	
+	/**
+	 * This class represents a Base which is not visible by the AI
+	 *
+	 */
 	public class BasicView extends AbstractBase.View {
 
+		/**
+		 * Get all the axes from which the base is linked to others
+		 */
 		public SetView<ProgressAxis.Oriented> axes() {
 			return Util.shallowView(axes);
 		}
 
 		@Override
-		public Base copied(Context context) {
+		Base copied(Context context) {
 			return copy(context);
 		}
 	}

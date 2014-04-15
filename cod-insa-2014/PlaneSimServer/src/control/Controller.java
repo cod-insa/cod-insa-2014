@@ -2,12 +2,14 @@ package control;
 
 import game.AutoPilot.Mode;
 import game.Game;
+import game.GameCountry;
 import game.GamePlane;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
+
 import command.AttackCommand;
 import command.BuildPlaneCommand;
 import command.Command;
@@ -19,7 +21,6 @@ import command.LoadResourcesCommand;
 import command.MoveCommand;
 import command.StoreFuelCommand;
 import command.WaitCommand;
-import common.NotSupportedException;
 
 public class Controller {
 	
@@ -49,10 +50,10 @@ public class Controller {
 		if (s.getCurrentFrame()%period == 0)
 			for (Player p: players)
 				for (Command c: p.flushCommands())
-					apply(c, s);
+					apply(c, s, p.id);
 	}
 	
-	public void apply (Command c, Game s) {
+	public void apply (Command c, Game s, int ai_id) {
 //		if (c instanceof MoveCommand) {
 //			MoveCommand mc = (MoveCommand) c;
 //			//s.getPlane(mc.planeId).autoPilot.goTo(mc.destination);
@@ -96,7 +97,8 @@ public class Controller {
 		catch (LoadResourcesCommand lrc) {
 			s.getPlane(lrc.planeSrc.id()).tradeResources(lrc.militarQuantity, lrc.fuelQuantity, 0, 0);
 		} catch (BuildPlaneCommand e) {
-			
+			GameCountry country = s.getCountryByAiId(ai_id);
+			country.buildPlane(country.new Request(e.requestedType));
 		}
 		
 	}

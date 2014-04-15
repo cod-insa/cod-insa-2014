@@ -303,6 +303,13 @@ public class Game {
 		return clock.getRemainingTime();
 	}
 
+	public GameCountry getCountryByAiId(int ai_id) {
+		for (GameCountry c : countries)
+			if (c.model().ownerId() == ai_id)
+				return c;
+		return null;
+	}
+
 	
 	
 }
