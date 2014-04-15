@@ -14,6 +14,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	public final Base base1;
 	public final Base base2;
 	public final Oriented toBase1, toBase2;
+	public final double length;
 
 	/**
 	 * Between 0 and one. For both, 0 represents no advancement from the base.
@@ -34,6 +35,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		toBase2 = new Oriented(b2);
 		b1.axes.add(toBase2);
 		b2.axes.add(toBase1);
+		length = b1.position().distanceTo(b2.position());
 	}
 
 	public ProgressAxis(ProgressAxis.View src, Context context) {
@@ -44,6 +46,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 //		toBase1 = src.model().toBase1.copied(context);
 		toBase1 = context.getSafe(src.model().toBase1);
 		toBase2 = context.getSafe(src.model().toBase2);
+		length = src.length();
 		
 		/**
 		 * The Base object, when copied, should copy its axes set too!
@@ -137,6 +140,8 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 
 		public double ratio1() { return ratio1; }
 		public double ratio2() { return ratio2; }
+
+		public double length() { return length; }
 		
 		public ProgressAxis copied(Context context) {
 			return copy(context);

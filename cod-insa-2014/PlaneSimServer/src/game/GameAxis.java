@@ -55,7 +55,8 @@ public class GameAxis extends GameEntity {
 		model().base2.militaryGarrison += militaryTransfer*period;
 		militaryTransfer = 0;
 		
-		double ratioSpeed1 = .002; // TODO: function of the fuel
+//		double ratioSpeed1 = .002;
+		double ratioSpeed1 = .002 / model().length; // TODO: function of the fuel
 		
 		if (model().base1.ownerId() == model().base2.ownerId()) {
 			
