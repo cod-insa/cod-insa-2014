@@ -125,12 +125,21 @@ public final class AutoPilot {
 		state = State.LANDING;
 	}
 	void land(GameBase b) {
+		
+		///////////////////////////
+		// FIXME TESTING
+		//b.model().ownerId(plane.model().ownerId());
+		b.capture(plane.model().ownerId());
+		b.model().militaryGarrison += plane.model().type.holdCapacity/2;
+		///////////////////////////
+		
 		state = State.AT_AIRPORT;
 		plane.model().assignTo(b.model());//addPlane();
 		//plane.model.speed = 0;
 //		for (ProgressAxis.Oriented pa: b.model().axes) {	
 //		}
-		b.model().ownerId(plane.model().ownerId());
+		
+		
 	}
 	void unland() {
 		if (state == State.AT_AIRPORT) {

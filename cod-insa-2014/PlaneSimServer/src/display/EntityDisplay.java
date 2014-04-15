@@ -39,9 +39,16 @@ public abstract class EntityDisplay<T extends GameEntity> {
 	public Color getPlayerColor() {
 		return getPlayerColor(entity.modelView().ownerId());
 	}
-	
+
 	public static Color fadeColor(Color c, float alpha) {
 		return new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, alpha);
+	}
+
+	/**
+	 * FIXME: out of range colors
+	 */
+	public static Color lightenColor(Color c, float coeff) {
+		return new Color(c.getRed()*coeff, c.getGreen()*coeff, (float)c.getBlue()*coeff);
 	}
 	
 	public void draw (Graphics2D g2d, ViewTransform vtrans) {
