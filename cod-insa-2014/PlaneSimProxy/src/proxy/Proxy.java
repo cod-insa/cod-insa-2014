@@ -323,7 +323,7 @@ public class Proxy
 	 * Get the planes that no longer exists in the game. 
 	 * If a plane is in this list, it means that he has been destroyed.
 	 * 
-	 * Warning : You should call this method only once per frame
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
 	 */
 	public MapView<Integer, Plane.FullView> getKilledPlanes()
 	{
@@ -333,7 +333,7 @@ public class Proxy
 	/**
 	 * Get the planes that your AI own
 	 * 
-	 * Warning : You should call this method only once per frame
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
 	 */
 	public MapView<Integer, Plane.FullView> getMyPlanes()
 	{
@@ -344,7 +344,7 @@ public class Proxy
 	 * Get all the visible ennemy planes
 	 * An ennemy plane is visible only if at least one of your entity sees it
 	 * 
-	 * Warning : You should call this method only once per frame
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
 	 */
 	public MapView<Integer, Plane.BasicView> getEnnemyPlanes()
 	{
@@ -359,8 +359,8 @@ public class Proxy
 	/**
 	 * Get all the bases of the game
 	 * 
-	 * You don't need to call this method more than once per game. Because no bases will be created or destroyed during the game :)
-	 */
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
+	 **/
 	public MapView<Integer,Base.BasicView> getAllBases()
 	{
 		return new MapView.Transform<>(all_bases, new Util.Converter<Base, Base.BasicView>() {
@@ -377,7 +377,7 @@ public class Proxy
 	/**
 	 * Get the bases which your AI own
 	 * 
-	 * Warning : You should call this method only once per frame
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
 	 */
 	public MapView<Integer,Base.FullView> getMyBases()
 	{
@@ -385,9 +385,21 @@ public class Proxy
 	}
 	
 	/**
+	 * Get all the bases visibles (owned and not owned)
+	 * 
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
+	 */
+	public MapView<Integer,Base.FullView> getVisibleBase()
+	{
+		Map<Integer, Base> res = new HashMap<Integer,Base>(ai_bases);
+		res.putAll(other_visible_bases);
+		return Util.view(res);
+	}
+	
+	/**
 	 * Get the bases which your AI see but does not own
 	 * 
-	 * Warning : You should call this method only once per frame
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
 	 */
 	public MapView<Integer,Base.FullView> getNotOwnedAndVisibleBases()
 	{
@@ -397,7 +409,7 @@ public class Proxy
 	/**
 	 * Get the bases which your AI neither see nor own
 	 * 
-	 * Warning : You should call this method only once per frame
+	 * Warning: This effectively creates a new map at every call and exposes a view of it
 	 */
 	public MapView<Integer,Base.BasicView> getNotOwnedAndNotVisibleBases()
 	{
@@ -411,8 +423,6 @@ public class Proxy
 	
 	/**
 	 * Get the country of your AI
-	 * 
-	 * Warning : You should call this method only once per frame
 	 */
 	public Country.View getCountry()
 	{

@@ -172,9 +172,8 @@ public class WebInterface extends WebSocketServer {
 			stringer.object();
 			stringer.key("name");
 			stringer.value(npm.getPlayer(i).getNickname());
-			//System.out.println(npm.getPlayer(i).getNickname());
 			stringer.key("score");
-			// FIXME stringer.value(game.getScores().getScore(i));
+			stringer.value(game.getScores().getScore(i+1));
 			stringer.endObject();
 		}
 		stringer.endArray();
@@ -211,18 +210,21 @@ public class WebInterface extends WebSocketServer {
 
 				stringer.key("health");
 				stringer.value(p.modelView().health());
+				
+				stringer.key("fuel");
+				stringer.value(p.modelView().fuelInTank());
 
-				stringer.key("radar");
-				stringer.value(p.modelView().radarRange());
+				//stringer.key("radar");
+				//stringer.value(p.modelView().radarRange());
 
 				stringer.key("rotation");
 				stringer.value(p.modelView().rotation());
 
-				stringer.key("speed");
-				stringer.value(p.modelView().speed());
+				//stringer.key("speed");
+				//stringer.value(p.modelView().speed());
 
-				stringer.key("state");
-				stringer.value(p.modelView().state());
+				//stringer.key("state");
+				//stringer.value(p.modelView().state());
 
 				stringer.endObject();
 			}

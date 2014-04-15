@@ -37,6 +37,10 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		protected Entity model() { return Entity.this; }
 	}
 	
+	public boolean owned() {
+		return ownerId != 0;
+	}
+	
 	//public Entity(int id, Coord.Unique pos) {
 //	public EntityModel(int id, Unique<Coord> pos) {
 	public Entity(int id) {

@@ -41,7 +41,7 @@ public class GameDisplayPanel extends JPanel {
     private static final int SCREEN_MOVE_MARGIN = 130;
     private static final double SCREEN_MOVE_COEFF = .001, VIEW_INERTIA_DAMPING = .9;
     
-    private static final double GAME_SHIFT_MARGIN = .2;
+    private static final double GAME_SHIFT_MARGIN = .4; //.2;
 
 	private static final boolean RESTRICT_ZONE = false;
     
@@ -300,6 +300,28 @@ public class GameDisplayPanel extends JPanel {
 					break;
 				
                 case MouseEvent.BUTTON3: // Right click
+
+					
+					////////////////////////////
+					// Bad dirty copy & paste
+					mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
+					b = null;
+					for (GameBase bb : sim.bases) {
+						if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
+							b = bb;
+					}
+					p = pls.get(1);
+					if (b == null) {
+						p.autoPilot.goTo(mousePos, Mode.IGNORE);
+					}
+					else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().planes().size() > 0 && b.modelView().planes().get(0).id() == p.modelView().id()) // ugly hack
+					{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
+					else pls.get(1).autoPilot.landAt(b);
+					////////////////////////////
+					
+					
+					
+					
 
 					rightBtnPressed = false;
 					

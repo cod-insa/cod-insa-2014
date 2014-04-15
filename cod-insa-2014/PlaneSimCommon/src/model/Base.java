@@ -19,7 +19,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	private static final long serialVersionUID = 1L;
 	
 
-	final Set<ProgressAxis.Oriented> axes;
+	public final Set<ProgressAxis.Oriented> axes;
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
 	public double militaryGarrison;
@@ -55,6 +55,9 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 					return false;
 			return true;
 		}
+		@Override
+		public String toString() { return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
+		
 	}
 	
 	public class BasicView extends AbstractBase.View {
@@ -68,7 +71,21 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 			return copy(context);
 		}
 	}
-	
+
+	/**
+	 * Must only be called from GameBase.capture
+	 */
+	@Deprecated
+	public void capture(int oId) {
+		if (ownerId() != oId) {
+			militaryGarrison = 0; // COULD_DO: garrison flees to neighboring bases?
+			// (In fact I think it doesn't actually happen to have militaryGarrison > 0 here)
+//			System.out.println(ownerId()+" "+oId);
+			for (ProgressAxis.Oriented arc: axes)
+				arc.ratio(0);
+		}
+		ownerId(oId);
+	}
 
 	public final FullView fullView; // = new FullView();
 	@Override

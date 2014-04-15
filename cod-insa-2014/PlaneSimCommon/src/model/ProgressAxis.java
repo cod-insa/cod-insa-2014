@@ -13,7 +13,12 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 //	public final Base.FullView base2;
 	public final Base base1;
 	public final Base base2;
-	
+	public final Oriented toBase1, toBase2;
+	public final double length;
+
+	/**
+	 * Between 0 and one. For both, 0 represents no advancement from the base.
+	 */
 	public double ratio1 = .3, ratio2 = .3; // TODO handle these correctly
 	
 //	public ProgressAxis(Base b1, Base b2) {
@@ -26,8 +31,11 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		base1 = b1;
 		base2 = b2;
 //		setBases();
-		b1.axes.add(new Oriented(b2));
-		b2.axes.add(new Oriented(b1));
+		toBase1 = new Oriented(b1);
+		toBase2 = new Oriented(b2);
+		b1.axes.add(toBase2);
+		b2.axes.add(toBase1);
+		length = b1.position().distanceTo(b2.position());
 	}
 
 	public ProgressAxis(ProgressAxis.View src, Context context) {
@@ -35,6 +43,10 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		context.putSafe(src.model(), this);
 		base1 = src.base1().copied(context);
 		base2 = src.base2().copied(context);
+//		toBase1 = src.model().toBase1.copied(context);
+		toBase1 = context.getSafe(src.model().toBase1);
+		toBase2 = context.getSafe(src.model().toBase2);
+		length = src.length();
 		
 		/**
 		 * The Base object, when copied, should copy its axes set too!
@@ -54,6 +66,14 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		return ret;
 	}
 	
+	public Oriented arcTo(Base b) {
+		if (b == base1)
+			return toBase1;
+		if (b == base2)
+			return toBase2;
+		throw new IllegalArgumentException();
+	}
+	
 	private Oriented mkOriented(Base next) {
 		return new Oriented(next);
 	}
@@ -67,8 +87,23 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		}
 
 		public final Base.FullView next() { return next.view(); };
-		
+
 		public ProgressAxis.View axis() { return view(); }
+		
+		public double ratio() {
+			if (next == base2)
+				return ratio1;
+			assert next == base1;
+			return ratio2;
+		}
+		void ratio(double val) {
+			if (next == base2)
+				ratio1 = val;
+			else {
+				assert next == base1;
+				ratio2 = val;
+			}
+		}
  
 		@Override
 		public Oriented copy(Context context) {
@@ -85,6 +120,7 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 			
 			return ret;
 		}
+		
 	}
 	
 	public interface Nothing {
@@ -104,11 +140,14 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 
 		public double ratio1() { return ratio1; }
 		public double ratio2() { return ratio2; }
+
+		public double length() { return length; }
 		
 		public ProgressAxis copied(Context context) {
 			return copy(context);
 		}
-		
+
+		protected ProgressAxis model() { return ProgressAxis.this; }
 	}
 	
 	@Override

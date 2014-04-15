@@ -18,6 +18,7 @@ import genbridge.WaitCommandData;
 import model.AbstractBase;
 import model.Base;
 import model.Coord;
+import model.Country;
 import model.Plane;
 import model.Plane.State;
 import command.AttackCommand;
@@ -69,10 +70,13 @@ public class CommandMaker {
 	}
 	
 	// Base checking
-	public static Base.FullView findBaseById(int idBase, World.Snapshot s) {
+	public static AbstractBase.View findBaseById(int idBase, World.Snapshot s, int ai_id) {
 		for (Base.FullView b : s.bases.view())
 			if (b.id() == idBase)
 				return b;
+		for (Country.View c : s.countries.view())
+			if (c.id() == idBase && c.ownerId() == ai_id)
+				return c;
 		return null;
 	}
 	static Couple<Nullable<Command>, Response> baseIdError(int idBase, World.Snapshot s) {
@@ -144,7 +148,7 @@ public class CommandMaker {
 			return planeIdError(data.pc.idPlane, s);
 
 		// check base
-		Base.FullView b = findBaseById(data.idBase, s);
+		AbstractBase.View b = findBaseById(data.idBase, s, p.ownerId()); // This is necessary the id of the AI
 		if (b == null)
 			return baseIdError(data.idBase, s);
 		
@@ -198,7 +202,7 @@ public class CommandMaker {
 			return planeIdError(data.pc.idPlane, s);
 		
 		// check target
-		Base.FullView b = findBaseById(data.base_id, s);
+		AbstractBase.View b = findBaseById(data.base_id, s,p.ownerId());
 		if (b == null)
 			return planeIdError(data.base_id, s);
 		
@@ -213,12 +217,25 @@ public class CommandMaker {
 					new Response(Command.ERROR_COMMAND,"Invalid quantity to drop: " + data.quantity + ". Can't drop more than " +p.militaryInHold()));
 		
 		// Not allowed to drop unit in the middle of the ennemy's territory
-		if (b.ownerId() != p.ownerId() && b.isInTerritory())
-			return new Couple<>(
+		if (b.ownerId() != p.ownerId() && 
+			b.ownerId() != 0 && 
+			b instanceof Base.FullView && 
+			((Base.FullView)b).isInTerritory())
+				return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Can't drop military resources over an enemy base in the middle of their territory !"));
 		
-		
+		if (b instanceof Base.BasicView)
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"You can't drop any militar resources over a base you don't see"));
+			
+		if (b instanceof Country.View && b.ownerId() != p.ownerId())
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Do you really think that you can drop something over an ennemy country ?"));
+			
+			
 		// Everything all right
 		return new Couple<>(
 				new Nullable<Command>(new DropMilitarsCommand(p, b, data.quantity)),

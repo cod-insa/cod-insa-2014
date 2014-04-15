@@ -61,7 +61,8 @@ public final class AutoPilot {
 	public void goTo(Coord.View aim, Mode m) {
 		unland();
 		entityAim = null;
-		_aim.set(aim);
+//		_aim.set(aim);
+		setAim(aim);
 		plane.model().state = State.GOING_TO;
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
@@ -76,7 +77,8 @@ public final class AutoPilot {
 			throw new IllegalArgumentException("Cannot follow oneself!");
 		unland();
 		entityAim = e;
-		_aim.set(entityAim.model().position());
+//		_aim.set(entityAim.model().position());
+		setAim(entityAim.model().position());
 //		plane.model.state = State.FOLLOWING;
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
@@ -104,14 +106,14 @@ public final class AutoPilot {
 	}
 	
 	
-	public void landAt(GameBase b) {
+	public void landAt(Landable b) {
 //		System.out.println("land");
 //		if (b.model().view().planes().containsTypeSafe(plane.modelView())) {
 //			assert state == State.AT_AIRPORT;
 //			System.out.println("already at airp");
 //			return;
 //		}
-		if (state == State.AT_AIRPORT && b.id() == plane.model().curBase.id) {
+		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase.id) {
 			assert Util.findFirst(b.model().view().planes(), new Predicate<Plane.FullView>(){
 				public Boolean convert(Plane.FullView src) {
 					return src.id() == plane.id();
@@ -121,20 +123,35 @@ public final class AutoPilot {
 		}
 		unland();
 		//System.out.println("land on "+b.id());
-		goTo(b, Mode.IGNORE);
+		goTo(b.asMaterialGameEntity(), Mode.IGNORE);
 		state = State.LANDING;
 	}
-	void land(GameBase b) {
+	void land(Landable b) {
+		
+		///////////////////////////
+		// FIXME TESTING
+		//b.model().ownerId(plane.model().ownerId());
+		if (b instanceof GameBase)
+		{
+			((GameBase)b).capture(plane.model().ownerId());
+			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
+		}
+		///////////////////////////
+		
 		state = State.AT_AIRPORT;
 		plane.model().assignTo(b.model());//addPlane();
 		//plane.model.speed = 0;
 //		for (ProgressAxis.Oriented pa: b.model().axes) {	
 //		}
-		b.model().ownerId(plane.model().ownerId());
+		
+		
 	}
+//	void unland(Mode newMode) {
 	void unland() {
 		if (state == State.AT_AIRPORT) {
 			state = State.IDLE;
+//			mode = newMode;
+			mode = Mode.ATTACK_ON_SIGHT;
 			//((GameBase)entityAim).model().planes.remove(plane);
 			plane.model().unAssign();
 		}
@@ -151,6 +168,15 @@ public final class AutoPilot {
 //		attacking = false;
 //		plane.model.state = State.IDLE;
 		state = State.IDLE;
+	}
+	
+	@SuppressWarnings("unused")
+	private void setAim(Coord.View pos) {
+		if ((entityAim != null && entityAim.model.ownerId() == plane.model().ownerId() && entityAim instanceof GameCountry)
+		 || (0 <= pos.x() && pos.x() <= sim.getWorld().width
+		     &&  0 <= pos.y() && pos.y() <= sim.getWorld().height))
+		then:
+			_aim.set(pos);
 	}
 	
 	private double aimAngle;
@@ -175,7 +201,8 @@ public final class AutoPilot {
 			if (entityAim != null) {
 				//if (entityAim.model.exists && ( plane.canSee(entityAim) || (state != State.FOLLOWING || plane.isFriend(entityAim)) ))
 				if (entityAim.model.exists && /*plane.knowsPositionOf(entityAim)*/ plane.model().view().knowsPositionOf(entityAim.model().view()))
-					 _aim.set(entityAim.model().position());
+//					_aim.set(entityAim.model().position());
+					setAim(entityAim.model().position());
 				else resetEntityAim();
 			}
 			
@@ -260,7 +287,7 @@ public final class AutoPilot {
 					
 					if (d <= entityAim.radius*.7)
 					{
-						land(((GameBase)entityAim));
+						land(((Landable)entityAim));
 					}
 					
 	//				targetSpeed = Plane.MAX_SPEED*Math.cos(aimAngle);

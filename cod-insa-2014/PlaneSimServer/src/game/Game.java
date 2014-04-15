@@ -30,7 +30,7 @@ public class Game {
 	
 	//private Controller stepUpdate;
 	private FinalCountdown clock;
-	//private Scores scores; // FIXME
+	private Scores scores;
 	
 	
 	Displayer disp;
@@ -73,7 +73,7 @@ public class Game {
 		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
-		//this.scores = new Scores(nbplay); // FIXME
+		this.scores = new Scores(nbplay); // FIXME
 		
 		try {
 			this.mapLoader = new MapLoader(this, mapName);
@@ -132,38 +132,42 @@ public class Game {
 		//if (updateTimer == null) new Timer();
 		//if (updateTimer == null) new Timer();
 		
-		if (!running)
+		if (!running) {
+
+			world.initialize(this);
+			
 			updateTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					
+
 					long time = System.currentTimeMillis();
 					//System.out.println(1f/(float)(time-lastTime));
-					fps = (int) (1000f/(float)(time-lastTime));
+					fps = (int) (1000f / (float) (time - lastTime));
 					lastTime = time;
-					
+
 					//System.out.println("A");
 					update();
 					Controller.get().update(Game.this);
-					
+
 					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0)
 						world.takeSnapshot();
-					
-					
+
+
 					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0) {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
 							double w = world.width, h = world.height;
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 3, Type.MILITARY);
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble()*w, Util.rand.nextDouble()*h), 4, Type.MILITARY);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 3, Type.MILITARY);
+							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 4, Type.MILITARY);
 						}
 					}
-					
+
 					current_frame++;
 					//throw new Error();
 					//System.out.println("B");
 				}
 			}, update_period, update_period);
+		}
 		
 		running = true;
 	}
@@ -197,12 +201,13 @@ public class Game {
 		//if (disp != null)
 		disp.removeEntity(e);
 	}
-	/* FIXME
+	
+	
 	public Scores getScores()
 	{
 		return scores;
 	}
-	*/
+	
 	void update()
 	{
 		disp.flushEntities();
@@ -260,6 +265,16 @@ public class Game {
 		return null;
 	}
 	
+	public Landable getLandable(int id) {
+		for (GameBase b: bases)
+			if (b.id() == id)
+				return b;
+		for (GameCountry c: countries)
+			if (c.id() == id)
+				return c;
+		return null;
+	}
+	
 
 	/*
 	public Controller getSetpUpdater() {
@@ -287,6 +302,7 @@ public class Game {
 	{
 		return clock.getRemainingTime();
 	}
+
 	
 	
 }
