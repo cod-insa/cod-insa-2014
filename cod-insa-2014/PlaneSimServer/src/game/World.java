@@ -191,39 +191,53 @@ public class World implements Viewable<World.View> {
 	//Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
 	
 	class BaseCache {
-//		final GameBase parent;
-//		final int distance;
+//		public final GameBase base, parent;
+		public final int distance;
+		public final GameAxis.Oriented arcToBase;
+//		public BaseCache(GameBase base, GameBase parent, int distance) {
+//			this.base = base;
+//			this.parent = parent;
+		public BaseCache(GameAxis.Oriented arcToBase, int distance) {
+			this.arcToBase = arcToBase;
+			this.distance = distance;
+		}
 	}
-	
-	Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
+
+//	Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
+	Map<GameBase,Map<GameBase,BaseCache>> baseCaches;
 	
 	public void initialize(Game gam) {
 		
-		nextBaseToGoTo = new HashMap<>();
+		baseCaches = new HashMap<>();
 		
 		boolean connected = true;
 				
 		for (GameBase src: bases) {
 			
-			Map<GameBase,GameBase> toGoTo = new HashMap<>();
-			nextBaseToGoTo.put(src, toGoTo);
+			Map<GameBase,BaseCache> baseCache = new HashMap<>();
+			baseCaches.put(src, baseCache);
 			
 			/// Performs a BFS to assign which base troops should go through
 			/// to go from src to all other bases
 
 			Set<GameBase> visited = new HashSet<>();
-			Queue<GameBase> toVisit = new LinkedList<>();
-			
-			toVisit.add(src);
+			Queue<BaseCache> toVisit = new LinkedList<>();
+
+//			toVisit.add(new BaseCache(src, null, 0));
+			toVisit.add(new BaseCache(null, 0));
 			
 			while (toVisit.size() != 0) {
-				GameBase current = toVisit.poll();
+				BaseCache current = toVisit.poll();
+				baseCache.put(current.arcToBase., current);
+				GameBase curBase = current.arcToBase == null? src: current.arcToBase.next;
 				
-				for (GameAxis.Oriented arc: current.axes) {
+				for (GameAxis.Oriented arc: curBase.axes) {
 					GameBase target = arc.next;
 					if (!visited.contains(target)) {
 						visited.add(target);
-						toGoTo.put(target, current);
+//						baseCache.put(target, current);
+//						toVisit.add(new BaseCache(target, current.base, current.distance+1));
+						toVisit.add(new BaseCache(arc, current.distance+1));
 					}
 				}
 			}
@@ -252,6 +266,7 @@ public class World implements Viewable<World.View> {
 //		for (GameAxis ax: axes) {
 
 		Map<Integer,List<GameBase>> playerBases = new HashMap<>();
+		Map<GameAxis,Double> axisBalance = new HashMap<>();
 		
 		for (GameBase b: bases) {
 			if (b.model.ownerId() != 0) {
@@ -261,15 +276,95 @@ public class World implements Viewable<World.View> {
 					playerBases.put(b.model.ownerId(), bases);
 				}
 				bases.add(b);
+//				for (GameAxis.Oriented arc: b.axes) {
+//					GameAxis ax = arc.axis();
+////					if (b.model.ownerId() != arc.next.model().ownerId()) {
+//					if (ax.base1.model().ownerId() != ax.base2.model().ownerId()) {
+//						double balance = axisBalance.containsKey(ax)? axisBalance.get(ax): 0;
+//						balance += ax.base1.model().ownerId() > ax.base2.model().ownerId()?
+//								ax.base1.model().militaryGarrison - ax.base2.model().militaryGarrison
+//							:   ax.base2.model().militaryGarrison - ax.base1.model().militaryGarrison;
+//						axisBalance.put(arc.axis(), balance);
+//					}
+//				}
+				double nbFronts = 0;
+				for (GameAxis.Oriented arc: b.axes) {
+					if (b.model.ownerId() != arc.next.model().ownerId())
+						nbFronts++;
+				}
+				for (GameAxis.Oriented arc: b.axes) {
+					GameAxis ax = arc.axis();
+					if (b.model.ownerId() != arc.next.model().ownerId()) {
+						double balance = axisBalance.containsKey(ax)? axisBalance.get(ax): 0;
+						balance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * b.model().militaryGarrison / nbFronts;
+						axisBalance.put(arc.axis(), balance);
+					}
+				}
+				
 			}
 		}
 		
+		
+		// TODO: also populate the inner bases
+		
 		for (int pid: playerBases.keySet()) {
 			List<GameBase> bases = playerBases.get(pid);
+			
 			double totalMilitary = 0;
+			double totalOpposition = 0;
+			
+			Map<GameBase, Double> idealAdditionalGarrison = new HashMap<>();
+			
 			for (GameBase b: bases) {
 				totalMilitary += b.model().militaryGarrison;
+//				double currentIdealGarrison = 0;
+				double baseBalance = 0;
+				for (GameAxis.Oriented arc: b.axes) {
+					if (b.model.ownerId() != arc.next.model().ownerId()) {
+//						axisBalance.get(arc.axis());
+						baseBalance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * axisBalance.get(arc.axis());
+					}
+				}
+				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
 			}
+
+			for (GameBase b: bases) {
+				Map<GameBase,BaseCache> baseCache = baseCaches.get(b);
+				for (GameBase c: bases) {
+					baseCache.get(c).parent
+				}
+			}
+			
+			
+			
+			
+//			Map<GameBase, Double> idealGarrison = new HashMap<>();
+//			for (GameBase b: bases) {
+//				double forcesBalanceSum = 0;
+//				for (ProgressAxis.Oriented arc: b.model().axes) {
+//					double forcesBalance = 0;
+//					if (arc.next().ownerId() != b.model.ownerId()) {
+//						Base.FullView ennemy = arc.next();
+////						opposingForces += 2 * ennemy.militaryGarrison();
+//						forcesBalance -= ennemy.militaryGarrison();
+//						for (ProgressAxis.Oriented ennemyArc: ennemy.axes()) {
+//							if (ennemyArc.next().ownerId() != ennemy.ownerId())
+//								forcesBalance += ennemyArc.next().militaryGarrison();
+//						}
+//					}
+//					assert forcesBalance < 0;
+//					totalOpposition -= forcesBalance;
+//					forcesBalanceSum += forcesBalance - b.model().militaryGarrison; // only count once our mil garr, after the sub-loop
+//				}
+//				forcesBalanceSum += b.model().militaryGarrison;
+//				
+//				// handle special case forcesBalanceSum < 0 => we don't send any troops?
+//				
+//				idealGarrison.put(b, forcesBalanceSum);
+//				
+//			}
+			
+			
 		}
 		
 		
