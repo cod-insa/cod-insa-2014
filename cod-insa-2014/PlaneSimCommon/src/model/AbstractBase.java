@@ -16,14 +16,21 @@ public abstract class AbstractBase extends MaterialEntity {
 	public final Immutable<Coord.View> position;
 	
 	public abstract class View extends MaterialEntity.View {
+		/**
+		 * @return The position of the AbstractBase which can't be modified
+		 */
 		public Immutable<Coord.View> getPosition() {
 			return AbstractBase.this.position;
 		}
 		
+		/**
+		 * @return All the planes at the airport of the AbstractBase
+		 */
 		public ListView<Plane.FullView> planes() {
 			return Util.view(planes);
 		}
-		public abstract AbstractBase copied(Context context);
+		
+		abstract AbstractBase copied(Context context);
 	}
 
 	@Override

@@ -25,6 +25,9 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 		public String toString() { return "id: " + id(); }
 	}
 	
+	/**
+	 * This class represents a request in the production line
+	 */
 	public static class Request implements Viewable<Request.View>
 	{
 		public final int rqId;
@@ -38,9 +41,22 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 			ptype = requestedType;
 		}
 		
+		/**
+		 * This class represents the view of a request in the production line
+		 */
 		public class View implements Viewable.View {
+			/**
+			 * Get the id of the request
+			 */
 			public int rqId() { return rqId; }
+			/**
+			 * Get the time before the corresponding plane will be built
+			 */
 			public double timeBeforePlaneBuilt() { return timeBeforePlaneBuilt(); }
+			
+			/**
+			 * Get the type of the plane requested
+			 */
 			public Plane.Type requestedType() { return requestedType; }
 		}
 		
