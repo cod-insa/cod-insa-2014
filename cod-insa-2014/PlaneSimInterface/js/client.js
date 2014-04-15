@@ -151,8 +151,8 @@ var initServerConnection = function (ipad) {
 			setClock(hh,mm,ss);
 				
 			//refresh teams' scores
-			var ind = 0
-			for(ind = 0 ; ind < 6 ; ind++)
+			var ind = 0;
+			for(ind = 0 ; ind < nbPlayers ; ind++)
 				document.getElementById("t"+(ind+1)).innerHTML = json.snap.players[ind].name + ":" + json.snap.players[ind].score;
 
 
