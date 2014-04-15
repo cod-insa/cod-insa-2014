@@ -21,6 +21,8 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 		public boolean lineFull() { 
 			return productionLine.isEmpty();
 		}
+		@Override
+		public String toString() { return "id: " + id(); }
 	}
 	
 	public static class Request implements Viewable<Request.View>

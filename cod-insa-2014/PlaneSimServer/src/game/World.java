@@ -66,7 +66,6 @@ public class World implements Viewable<World.View> {
 //		bases.add(new Base(sim, new Coord.Unique(.7,.6)));
 		
     	/*************************************/
-		
 	}
 	
 	class View implements Viewable.ViewOf<World> {

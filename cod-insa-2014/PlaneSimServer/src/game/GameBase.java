@@ -2,20 +2,19 @@ package game;
 
 import model.Base;
 import model.Coord;
-
 import common.Unique;
-
 import display.BaseDisplay;
 import display.EntityDisplay;
 import model.Plane;
 import model.ProgressAxis;
+import model.Plane.State;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 
-public class GameBase extends MaterialGameEntity {
+public class GameBase extends MaterialGameEntity implements Landable {
 	
 	public static final double RADIUS = .04; // .05;
 	public final String cityname;
@@ -68,16 +67,23 @@ public class GameBase extends MaterialGameEntity {
 		
 	}
 
+	
 	@Override
 	public EntityDisplay<GameBase> getDisplay() {
 		return new BaseDisplay(this);
 	}
 	
 	@Override
-	Base model() { return (Base) model; }
+	public Base model() { return (Base) model; }
 	
 	@Override
+	public MaterialGameEntity asMaterialGameEntity() {
+		return this;
+	}
+	@Override
 	public Base.FullView modelView() { return model().view(); }
+
+	
 	
 }
 

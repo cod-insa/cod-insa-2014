@@ -6,11 +6,12 @@ import java.util.Scanner;
 
 import model.AbstractBase;
 import model.Base;
+import model.Coord;
 import model.Plane;
 import model.Plane.BasicView;
-
 import command.AttackCommand;
 import command.Command;
+import command.DropMilitarsCommand;
 import command.LandCommand;
 import command.MoveCommand;
 import common.MapView;
@@ -60,23 +61,58 @@ public class ConsoleAI extends AbstractAI
 					case "exit":
 						break main_loop;
 					case "move": {
-						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-						for (Plane.FullView p: planes.valuesView())
-							coms.add(new MoveCommand(p, b.position()));
+						if (cmd.length == 2)
+						{
+							int id = Integer.parseInt(cmd[1]);
+							Base.BasicView b = bases.get(id);
+							Coord.View c = null;
+							
+							if (b == null)
+								if (game.getCountry().id() != id)
+								{
+									System.err.println("This id isn't corresponding neither to a base nor your country");
+									break;
+								}
+								else
+									c = game.getCountry().position();
+							else
+								c = b.position();
+							
+							for (Plane.FullView p: planes.valuesView())
+								coms.add(new MoveCommand(p, c));
+						}
 						break;
 					}
 					case "land": {
-						Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-						if (b instanceof Base.FullView)
-							for (Plane.FullView p : planes.valuesView())
-								coms.add(new LandCommand(p, (Base.FullView)b));
+						int id = Integer.parseInt(cmd[1]);
+						Base.BasicView b = bases.get(id);
+						AbstractBase.View c = null;
+						
+						if (b == null)
+							if (game.getCountry().id() != id)
+							{
+								System.err.println("You can't see this base, move around it before you land");
+								break;
+							}
+							else
+								c = game.getCountry();
 						else
-							System.err.println("You can't see this base, move around it before you land");
+							c = b;
+						
+						for (Plane.FullView p: planes.valuesView())
+							coms.add(new LandCommand(p, c));
+						
 						break;
 					}
 					case "attk":
+						Plane.BasicView ep = ennemy_planes.get(Integer.parseInt(cmd[1]));
+						if (ep == null)
+						{
+							System.err.println("Bad id, this plane does not exists");
+							break;
+						}
 						for (Plane.FullView p : planes.valuesView())
-							coms.add(new AttackCommand(p, ennemy_planes.get(Integer.parseInt(cmd[1]))));
+							coms.add(new AttackCommand(p, ep));
 						break;
 					case "list":
 						System.out.println();
@@ -86,6 +122,11 @@ public class ConsoleAI extends AbstractAI
 						System.out.println(">> Ennemy planes:");
 						for (Plane.BasicView p : ennemy_planes.valuesView())
 							System.out.println(p);
+						System.out.println(">> Visible bases :");
+						for (Base.FullView b : game.getVisibleBase().valuesView())
+							System.out.println(b);
+						System.out.println(">> Your Country");
+						System.out.println(game.getCountry());
 						break;
 					default:
 						recognized = false;
