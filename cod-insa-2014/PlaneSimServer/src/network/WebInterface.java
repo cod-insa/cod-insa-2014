@@ -173,7 +173,7 @@ public class WebInterface extends WebSocketServer {
 			stringer.key("name");
 			stringer.value(npm.getPlayer(i).getNickname());
 			stringer.key("score");
-			stringer.value(game.getScores().getScore(i));
+			stringer.value(game.getScores().getScore(i+1));
 			stringer.endObject();
 		}
 		stringer.endArray();

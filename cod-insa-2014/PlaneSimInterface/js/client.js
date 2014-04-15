@@ -241,7 +241,7 @@ var initServerConnection = function (ipad) {
 
         }
 
-	//console.log(message.data);
+	console.log(message.data);
     };
     
 	/*input.keydown(function(e) {

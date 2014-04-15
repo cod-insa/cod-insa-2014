@@ -31,6 +31,8 @@ public class World implements Viewable<World.View> {
 	private Snapshot currentSnapshot;
 	public final Object snapshotsMonitor = new Object();
 	
+	private Game gameForScore;
+	
 	public List<GameBase> bases = new ArrayList<>();
 	
 	// All the current entities of the game
@@ -44,7 +46,7 @@ public class World implements Viewable<World.View> {
 	
 	public World (Game sim) {
 		//sim.world = this;
-		
+		this.gameForScore = sim;
 		
     	/********** FIXME DEV TEST: **********/
 		
@@ -168,6 +170,10 @@ public class World implements Viewable<World.View> {
 	}
 	
 	public void takeSnapshot() {
+		
+		/* Updating scores */
+		gameForScore.getScores().addScoreWithBases(bases);
+		
 		currentSnapshot = new Snapshot(this);
 		++currentSnapshotId;
 		

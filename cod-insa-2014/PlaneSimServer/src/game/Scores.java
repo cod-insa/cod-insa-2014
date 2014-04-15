@@ -1,5 +1,7 @@
 package game;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -11,14 +13,16 @@ public class Scores {
 
 	private Logger log = Logger.getLogger(this.getClass());
 	private int[] scores;
+	private int nbplayers;
 
 	public Scores(int nbPlayers) {
-		scores = new int[nbPlayers];
+		scores = new int[nbPlayers+1];
+		nbplayers = nbPlayers;
 	}
 
 	protected void addPoints(int idPlayer, int scoreToAdd)
 	{
-		if(scoreToAdd > 0 && idPlayer >= 0 && idPlayer < scores.length)
+		if(scoreToAdd >= 0 && idPlayer >= 0 && idPlayer < scores.length)
 			scores[idPlayer] += scoreToAdd;
 		else
 			log.error("Please specify a known idPlayer and a positive scoreToAdd");
@@ -26,7 +30,7 @@ public class Scores {
 
 	protected void removePoints(int idPlayer, int scoreToRem)
 	{
-		if(scoreToRem > 0 && idPlayer >= 0 && idPlayer < scores.length)
+		if(scoreToRem >= 0 && idPlayer >= 0 && idPlayer < scores.length)
 		{
 			scores[idPlayer] -= scoreToRem;
 			if(scores[idPlayer] < 0)
@@ -61,6 +65,30 @@ public class Scores {
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @param bases, all bases from game
+	 */
+	public void addScoreWithBases(List<GameBase> bases)
+	{
+		int[] scoresToAdd = new int[nbplayers+1];
+		
+		for(int index = 0; index < bases.size() ; index++)
+		{
+			GameBase ba = bases.get(index);
+			
+			if(ba.model().owned())
+			{
+				scoresToAdd[ba.model().ownerId()]++;
+			}			
+		}
+		
+		for(int i = 0 ; i < nbplayers+1 ; i++)
+		{
+			addPoints(i,scoresToAdd[i]);
+		}
+	}
+	
 	//Tests
 	/*public static void main(String[] args) {
 		Scores s = new Scores(4);
