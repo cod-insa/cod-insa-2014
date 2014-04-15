@@ -60,6 +60,11 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 			}
 		}
 	}
+	public void buildPlane(Request r)
+	{
+		productionLine.add(r);
+	}
+	
 	private double totalTimeToBuild()
 	{
 		int s = 0;
@@ -76,8 +81,11 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 	@Override
 	public void updateSpecialized(double period) {
 		super.updateSpecialized(period);
-		for (Request pl : productionLine)
+		
+		// Avoid concurrent access exception because we modify productionLine
+		for (Object o : productionLine.toArray()) 
 		{
+			Request pl = (Request)o;
 			pl.continueConstruction();
 			if (pl.isPlaneBuilt())
 			{

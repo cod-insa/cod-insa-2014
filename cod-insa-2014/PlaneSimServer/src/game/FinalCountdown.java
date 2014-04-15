@@ -6,7 +6,7 @@ package game;
  * @author NV
  *
  */
-public class FinalCountdown extends Thread{
+public class /* this is the */ FinalCountdown extends Thread{
 
 	private long target = 0;
 	private long current = 0;
