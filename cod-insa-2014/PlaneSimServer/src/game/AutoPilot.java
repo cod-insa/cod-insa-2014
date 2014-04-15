@@ -106,14 +106,14 @@ public final class AutoPilot {
 	}
 	
 	
-	public void landAt(GameBase b) {
+	public void landAt(Landable b) {
 //		System.out.println("land");
 //		if (b.model().view().planes().containsTypeSafe(plane.modelView())) {
 //			assert state == State.AT_AIRPORT;
 //			System.out.println("already at airp");
 //			return;
 //		}
-		if (state == State.AT_AIRPORT && b.id() == plane.model().curBase.id) {
+		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase.id) {
 			assert Util.findFirst(b.model().view().planes(), new Predicate<Plane.FullView>(){
 				public Boolean convert(Plane.FullView src) {
 					return src.id() == plane.id();
@@ -123,16 +123,19 @@ public final class AutoPilot {
 		}
 		unland();
 		//System.out.println("land on "+b.id());
-		goTo(b, Mode.IGNORE);
+		goTo(b.asMaterialGameEntity(), Mode.IGNORE);
 		state = State.LANDING;
 	}
-	void land(GameBase b) {
+	void land(Landable b) {
 		
 		///////////////////////////
 		// FIXME TESTING
 		//b.model().ownerId(plane.model().ownerId());
-		b.capture(plane.model().ownerId());
-		b.model().militaryGarrison += plane.model().type.holdCapacity/2;
+		if (b instanceof GameBase)
+		{
+			((GameBase)b).capture(plane.model().ownerId());
+			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
+		}
 		///////////////////////////
 		
 		state = State.AT_AIRPORT;
@@ -284,7 +287,7 @@ public final class AutoPilot {
 					
 					if (d <= entityAim.radius*.7)
 					{
-						land(((GameBase)entityAim));
+						land(((Landable)entityAim));
 					}
 					
 	//				targetSpeed = Plane.MAX_SPEED*Math.cos(aimAngle);

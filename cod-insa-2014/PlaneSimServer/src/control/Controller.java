@@ -68,7 +68,8 @@ public class Controller {
 			s.getPlane(mc.plane.id()).autoPilot.goTo(mc.destination.view, Mode.IGNORE); // FIXME get the right mode
 		}
 		catch (LandCommand lc) {
-			s.getPlane(lc.plane.id()).autoPilot.landAt(s.getBase(lc.base.id()));
+			
+			s.getPlane(lc.plane.id()).autoPilot.landAt(s.getLandable(lc.base.id()));
 		}
 //		catch (TakeOffCommand toc) {
 //			s.getPlane(toc.planeId).autoPilot.takeOff();

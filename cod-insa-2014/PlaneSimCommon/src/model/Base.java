@@ -55,6 +55,9 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 					return false;
 			return true;
 		}
+		@Override
+		public String toString() { return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
+		
 	}
 	
 	public class BasicView extends AbstractBase.View {

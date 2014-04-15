@@ -264,6 +264,16 @@ public class Game {
 		return null;
 	}
 	
+	public Landable getLandable(int id) {
+		for (GameBase b: bases)
+			if (b.id() == id)
+				return b;
+		for (GameCountry c: countries)
+			if (c.id() == id)
+				return c;
+		return null;
+	}
+	
 
 	/*
 	public Controller getSetpUpdater() {
@@ -291,6 +301,7 @@ public class Game {
 	{
 		return clock.getRemainingTime();
 	}
+
 	
 	
 }

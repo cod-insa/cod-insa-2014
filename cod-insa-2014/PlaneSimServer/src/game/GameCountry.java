@@ -7,11 +7,12 @@ import model.Coord;
 import model.Country;
 import model.Entity;
 import model.Plane;
+import model.Plane.State;
 import common.Unique;
 import display.CountryDisplay;
 import display.EntityDisplay;
 
-public class GameCountry extends MaterialGameEntity {
+public class GameCountry extends MaterialGameEntity implements Landable {
 	public static final double RADIUS = .08;
 	public final String countryname;
 	public final List<Request> productionLine;
@@ -59,7 +60,6 @@ public class GameCountry extends MaterialGameEntity {
 			}
 		}
 	}
-
 	private double totalTimeToBuild()
 	{
 		int s = 0;
@@ -93,9 +93,13 @@ public class GameCountry extends MaterialGameEntity {
 	}
 
 	@Override
-	Country model() { return (Country) model; }
-
+	public Country model() { return (Country) model; }
+	@Override
+	public MaterialGameEntity asMaterialGameEntity() {
+		return this;
+	}
 	@Override
 	public Country.View modelView() { return model().view(); }
+
 	
 }
