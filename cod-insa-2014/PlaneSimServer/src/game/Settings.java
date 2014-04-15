@@ -6,5 +6,8 @@ public interface Settings {
 		DEBUG_NO_WAIT_FOR_PLAYERS = true,// false //true
 		DEBUG_GOD_MODE = true
 	;
+
+	public static final boolean WORLD_WRAP = false;
+	
 	
 }

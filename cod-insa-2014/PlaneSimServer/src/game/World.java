@@ -22,8 +22,6 @@ public class World implements Viewable<World.View> {
 
 	public static final Logger log = LoggerFactory.getLogger(World.class);
 
-	public static final boolean WORLD_WRAP = true;
-	
 	private static double S = 3;
 	private static final double DEFAULT_WIDTH = S, DEFAULT_HEIGHT = S;
 	
@@ -189,6 +187,13 @@ public class World implements Viewable<World.View> {
 	}
 
 
+	//Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
+	
+	class BaseCache {
+//		final GameBase parent;
+//		final int distance;
+	}
+	
 	Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
 	
 	public void initialize(Game gam) {

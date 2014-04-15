@@ -53,7 +53,7 @@ public abstract class MaterialGameEntity extends GameEntity {
 			model.position.y += model.inertia.y * period;
 			
 			
-			if (World.WORLD_WRAP)
+			if (Settings.WORLD_WRAP)
 			{
 				World w = sim.getWorld();
 				if (model.position.x < 0) {
