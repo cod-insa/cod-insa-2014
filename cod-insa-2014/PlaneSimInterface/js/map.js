@@ -128,7 +128,7 @@ function doMovePlane(index,latitudeTo, longitudeTo) {
 
 	if( (newlat-latitudeTo) > pas || (newlong-longitudeTo) > pas)
 	{
-	setTimeout(function(){doMovePlane(index,latitudeTo,longitudeTo);},refreshtime);
+		setTimeout(function(){doMovePlane(index,latitudeTo,longitudeTo);},refreshtime);
 	} 
 	}
 }

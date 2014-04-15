@@ -210,18 +210,21 @@ public class WebInterface extends WebSocketServer {
 
 				stringer.key("health");
 				stringer.value(p.modelView().health());
+				
+				stringer.key("fuel");
+				stringer.value(p.modelView().fuelInTank());
 
-				stringer.key("radar");
-				stringer.value(p.modelView().radarRange());
+				//stringer.key("radar");
+				//stringer.value(p.modelView().radarRange());
 
 				stringer.key("rotation");
 				stringer.value(p.modelView().rotation());
 
-				stringer.key("speed");
-				stringer.value(p.modelView().speed());
+				//stringer.key("speed");
+				//stringer.value(p.modelView().speed());
 
-				stringer.key("state");
-				stringer.value(p.modelView().state());
+				//stringer.key("state");
+				//stringer.value(p.modelView().state());
 
 				stringer.endObject();
 			}

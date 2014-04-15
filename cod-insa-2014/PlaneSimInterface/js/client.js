@@ -5,6 +5,8 @@
 //Two snapshot from the server to perform smooth animation
 var lastSnap;
 var nextSnap;
+var lastTime;
+var newTime;
 
 var nbPlayers = 0;
 
@@ -19,13 +21,14 @@ var json;
 var urlserver = ":14588";
 
 //Plane object: containing more info about each plane
-function Plane(health,radar,rotation,speed,state)
+function Plane(health,fuel,rotation)//,radar,speed,state)
 {
 	this.health = health;
-	this.radar = radar;
+	this.fuel = fuel;
 	this.rotation = rotation;
-	this.speed = speed;
-	this.state = state;
+	//this.radar = radar;
+	//this.speed = speed;
+	//this.state = state;
 }
 
 //Hasmap of planes info : key = id
@@ -119,6 +122,8 @@ var initServerConnection = function (ipad) {
 		if(json.snap && !lastSnap)
 		{
 			lastSnap = json;
+			var ddd = new Date();
+			lastTime = ddd.getTime();
 
 			//Look at ownerid to refresh bases colors
 			/* for(var i = 0 ; i<base_count ; i++){
@@ -141,7 +146,9 @@ var initServerConnection = function (ipad) {
 
 		if(json.snap && lastSnap)
 		{
-			 nextSnap = json;
+			nextSnap = json;
+			var ddd = new Date();
+			newTime = ddd.getTime();
 
 			//handling time
 			var time = json.snap.time;
@@ -183,23 +190,27 @@ var initServerConnection = function (ipad) {
 					zIndex:200
 					}));
 
-					planesInfo.put(key,new Plane(current_plane.health,current_plane.radar,current_plane.rotation,current_plane.speed,current_plane.state));
+					planesInfo.put(key,new Plane(current_plane.health,current_plane.fuel,current_plane.rotation));//,current_plane.radar,current_plane.speed,current_plane.state));
 
 				}
 				else
 				{
 					//console.log("updating");
 					/*getExisting.position = new google.maps.LatLng(current_plane.latitude,current_plane.longitude);
-					getExisting.title = "plane updated";
-					getExisting.setMap(mymap);*/
+					*/
+					var infoToUpdate = planesInfo.get(key);
+					//infoToUpdate.state = current_plane.state;
+					//infoToUpdate.speed = current_plane.speed;
+					infoToUpdate.rotation = current_plane.rotation;
+					infoToUpdate.fuel = current_plane.fuel;
+					//infoToUpdate.radar = current_plane.radar;
+					infoToUpdate.health = current_plane.health;
+					getExisting.title = "Health:"+infoToUpdate.health+"\n"+"Fuel:"+infoToUpdate.fuel;
+					//getExisting.setMap(mymap);
+
 					doMovePlane(key,current_plane.latitude, current_plane.longitude)
 
-					infoToUpdate = planesInfo.get(key);
-					infoToUpdate.state = current_plane.state;
-					infoToUpdate.speed = current_plane.speed;
-					infoToUpdate.rotation = current_plane.rotation;
-					infoToUpdate.radar = current_plane.radar;
-					infoToUpdate.health = current_plane.health;
+
 				}
 			}
 
@@ -241,7 +252,8 @@ var initServerConnection = function (ipad) {
 
         }
 
-	console.log(message.data);
+	lastTime = newTime;
+	//console.log(message.data);
     };
     
 	/*input.keydown(function(e) {
