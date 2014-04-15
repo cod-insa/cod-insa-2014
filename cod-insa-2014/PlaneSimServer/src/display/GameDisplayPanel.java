@@ -41,7 +41,7 @@ public class GameDisplayPanel extends JPanel {
     private static final int SCREEN_MOVE_MARGIN = 130;
     private static final double SCREEN_MOVE_COEFF = .001, VIEW_INERTIA_DAMPING = .9;
     
-    private static final double GAME_SHIFT_MARGIN = .2;
+    private static final double GAME_SHIFT_MARGIN = .4; //.2;
 
 	private static final boolean RESTRICT_ZONE = false;
     
