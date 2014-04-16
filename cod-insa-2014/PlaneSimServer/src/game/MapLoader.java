@@ -147,8 +147,10 @@ public class MapLoader {
 			m.max_num_player = Integer.parseInt(init_line_sep[10]);
 			
 			log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
-			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long);
-			this.converter.setWorldDimensions(w.getWidth(),w.getHeight());
+			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long,Settings.WORLD_ZOOM);
+			w.width = converter.getWidth();
+			w.height = converter.getHeight();
+			
 			//to fit the admin interface (if not called, 1 is used to multiply values).
 			
 			String line;

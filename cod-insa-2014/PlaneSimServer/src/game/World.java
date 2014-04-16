@@ -25,7 +25,7 @@ public class World implements Viewable<World.View> {
 	private static double S = 3;
 	private static final double DEFAULT_WIDTH = S, DEFAULT_HEIGHT = S;
 	
-	public final double width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
+	public double width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
 	
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
@@ -47,6 +47,7 @@ public class World implements Viewable<World.View> {
 	public World (Game sim) {
 		//sim.world = this;
 		this.gameForScore = sim;
+		
 		
     	/********** FIXME DEV TEST: **********/
 		

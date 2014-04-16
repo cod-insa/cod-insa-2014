@@ -83,7 +83,7 @@ public class Game {
 		}
 		this.converter = mapLoader.getConverter();
 		this.mapInfo = mapLoader.getM();
-				
+		
 		//init countdown
 		clock = new FinalCountdown(20*60);	//in seconds
 				
