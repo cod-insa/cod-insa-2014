@@ -76,10 +76,11 @@ public class GameBase extends MaterialGameEntity implements Landable {
 		
 	}
 
-	
+	final BaseDisplay disp = new BaseDisplay(this);
 	@Override
 	public EntityDisplay<GameBase> getDisplay() {
-		return new BaseDisplay(this);
+//		return new BaseDisplay(this);
+		return disp;
 	}
 	
 	@Override
