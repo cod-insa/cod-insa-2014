@@ -30,7 +30,7 @@ public class MapLoader {
 	private String path_file;
 
 	//path
-	private String location = "/rsc/maps/";
+	private String location = "rsc/maps/";
 	//public static String[] maps = {"france","usa","europe","middleeast"};
 
 	//Object for the game
@@ -53,6 +53,7 @@ public class MapLoader {
 		double max_lat;
 		double max_long;
 		int web_zoom;
+		double coef_coord;
 		
 		public int getBasesCount() {
 			return basesCount;
@@ -60,6 +61,7 @@ public class MapLoader {
 		public int getAxisCount() {
 			return axisCount;
 		}
+		
 		public double getCenter_lat() {
 			return center_lat;
 		}
@@ -97,18 +99,17 @@ public class MapLoader {
 		this.m = new MapInfo();
 		this.m.name = mapName;
 		
+		
 		/*if(checkMapName(mapName))
 		{*/
-			path_file = location+mapName+".map";
 			//System.out.println(MapLoader.class.getResource(location+mapName+".map"));
 			//try {
 //				scanner = new Scanner(new File(path_file));
-				URL url = MapLoader.class.getResource(location+mapName+".map");
-				if(url == null)
-					throw new FileNotFoundException("Map not found exception");
 				
 				// Need an InputStream to make it works in a Jar.
-				InputStream f = MapLoader.class.getClassLoader().getResourceAsStream("rsc/maps/france.map");
+				InputStream f = MapLoader.class.getClassLoader().getResourceAsStream(location+mapName+".map");
+				if (f == null)
+					throw new FileNotFoundException("Map not found exception");
 				scanner = new Scanner(f);
 			/*} catch (FileNotFoundException | URISyntaxException e) {
 				throw new Error(e);
@@ -132,7 +133,7 @@ public class MapLoader {
 		String[] init_line_sep = init_line.split(",");
 		String name;
 
-		if(init_line_sep.length == 11)
+		if(init_line_sep.length == 12)
 		{
 			name = init_line_sep[0];
 			m.basesCount = Integer.parseInt(init_line_sep[1]);
@@ -145,11 +146,15 @@ public class MapLoader {
 			m.web_zoom = Integer.parseInt(init_line_sep[8]);
 			m.axisCount = Integer.parseInt(init_line_sep[9]);
 			m.max_num_player = Integer.parseInt(init_line_sep[10]);
+			m.coef_coord = Double.parseDouble(init_line_sep[11]);
 			
 			log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
-			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long,Settings.WORLD_ZOOM);
+			
+
+			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long,m.coef_coord);
 			w.width = converter.getWidth();
 			w.height = converter.getHeight();
+			
 			
 			//to fit the admin interface (if not called, 1 is used to multiply values).
 			
@@ -171,7 +176,9 @@ public class MapLoader {
 				gc.model().ownerId(i+1); // FIXME Do better ?
 				this.w.countries.add(gc);
 			}
-			
+			/*this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long,Settings.WORLD_ZOOM);
+			w.width = converter.getWidth();
+			w.height = converter.getHeight();*/
 			Map<String,GameBase> basesByName = new HashMap<String,GameBase>();
 			
 			for(int i = 0 ; i < m.basesCount ; i++)
