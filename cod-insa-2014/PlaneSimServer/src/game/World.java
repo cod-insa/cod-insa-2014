@@ -220,21 +220,24 @@ public class World implements Viewable<World.View> {
 			/// Performs a BFS to assign which base troops should go through
 			/// to go from src to all other bases
 
-			Set<GameBase> visited = new HashSet<>();
+			Set<GameBase> discovered = new HashSet<>();
 			Queue<BaseCache> toVisit = new LinkedList<>();
 
 //			toVisit.add(new BaseCache(src, null, 0));
 			toVisit.add(new BaseCache(null, 0));
+			discovered.add(src);
 			
 			while (toVisit.size() != 0) {
 				BaseCache current = toVisit.poll();
-				baseCache.put(current.arcToBase., current);
+//				baseCache.put(current.arcToBase., current);
 				GameBase curBase = current.arcToBase == null? src: current.arcToBase.next;
+//				visited.add(curBase);
+				baseCache.put(curBase, current);
 				
 				for (GameAxis.Oriented arc: curBase.axes) {
 					GameBase target = arc.next;
-					if (!visited.contains(target)) {
-						visited.add(target);
+					if (!discovered.contains(target)) {
+						discovered.add(target);
 //						baseCache.put(target, current);
 //						toVisit.add(new BaseCache(target, current.base, current.distance+1));
 						toVisit.add(new BaseCache(arc, current.distance+1));
@@ -242,7 +245,7 @@ public class World implements Viewable<World.View> {
 				}
 			}
 			
-			connected = connected && visited.size() == bases.size();
+			connected = connected && discovered.size() == bases.size();
 		}
 		if (!connected)
 			log.warn("The bases graph seems not to be one connected component!");
@@ -311,7 +314,9 @@ public class World implements Viewable<World.View> {
 			List<GameBase> bases = playerBases.get(pid);
 			
 			double totalMilitary = 0;
-			double totalOpposition = 0;
+//			double totalOpposition = 0;
+			double globalMilitaryNeed = 0;
+//			double globalMilitaryExcess = 0;
 			
 			Map<GameBase, Double> idealAdditionalGarrison = new HashMap<>();
 			
@@ -325,13 +330,46 @@ public class World implements Viewable<World.View> {
 						baseBalance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * axisBalance.get(arc.axis());
 					}
 				}
-				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
+//				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
+				idealAdditionalGarrison.put(b, -baseBalance);
+				globalMilitaryNeed += baseBalance < 0? -baseBalance: 0;
+//				globalMilitaryExcess += baseBalance > 0? baseBalance: 0;
 			}
 
-			for (GameBase b: bases) {
-				Map<GameBase,BaseCache> baseCache = baseCaches.get(b);
-				for (GameBase c: bases) {
-					baseCache.get(c).parent
+			for (GameBase baseInNeed: bases) {
+//				double toRedistribute = -idealAdditionalGarrison.get(inNeed);
+				double toReceive = idealAdditionalGarrison.get(baseInNeed);
+				if (toReceive > 0) {
+//					double toRedistribute = b.model().militaryGarrison + idealAdditionalGarrison.get(b);
+					Map<GameBase,BaseCache> baseCache = baseCaches.get(baseInNeed);
+					for (GameBase baseInExcess: bases) {
+						double excess = -idealAdditionalGarrison.get(baseInNeed);
+						if (excess > 0) {
+							
+//							double sent = baseInExcess.model().militaryGarrison * toReceive/globalMilitaryNeed;
+							double toSend = excess * toReceive/globalMilitaryNeed;
+							
+							baseCache.get(baseInExcess).arcToBase.send(-toSend);
+							
+						}
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						BaseCache cache = baseCache.get(baseInExcess); assert cache.arcToBase != null || baseInExcess == baseInNeed;
+						if (cache.arcToBase != null) {
+	//						if (cache.arcToBase.current.model().militaryGarrison > 
+	//						if (idealAdditionalGarrison.get(cache.arcToBase.current) < 0) {
+							if (idealAdditionalGarrison.get(baseInExcess) < 0) {
+								
+							}
+						}
+					}
 				}
 			}
 			
