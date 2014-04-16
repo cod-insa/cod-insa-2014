@@ -151,7 +151,7 @@ public class MapLoader {
 			log.info("New Map : "+name+" centered on "+m.center_lat+" "+m.center_long+" with "+m.basesCount+" bases");
 			
 
-			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long,m.coef_coord);
+			this.converter = new CoordConverter(m.min_lat, m.max_lat, m.min_long, m.max_long,m.coef_coord*Settings.WORLD_ZOOM);
 			w.width = converter.getWidth();
 			w.height = converter.getHeight();
 			
