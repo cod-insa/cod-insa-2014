@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class GameBase extends MaterialGameEntity {
 	
-	public static final double RADIUS = .04; // .05;
+	public static final double RADIUS = .08; //.04; // .05;
 	public final String cityname;
 	public Set<GameAxis.Oriented> axes = new HashSet<>();
 

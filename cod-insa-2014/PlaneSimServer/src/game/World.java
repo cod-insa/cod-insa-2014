@@ -240,7 +240,7 @@ public class World implements Viewable<World.View> {
 						discovered.add(target);
 //						baseCache.put(target, current);
 //						toVisit.add(new BaseCache(target, current.base, current.distance+1));
-						toVisit.add(new BaseCache(arc, current.distance+1));
+						toVisit.add(new BaseCache(arc, current.distance + 1));
 					}
 				}
 			}
@@ -292,12 +292,13 @@ public class World implements Viewable<World.View> {
 //				}
 				double nbFronts = 0;
 				for (GameAxis.Oriented arc: b.axes) {
-					if (b.model.ownerId() != arc.next.model().ownerId())
+					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0)
 						nbFronts++;
 				}
+//				if (nbFronts == 0)
 				for (GameAxis.Oriented arc: b.axes) {
 					GameAxis ax = arc.axis();
-					if (b.model.ownerId() != arc.next.model().ownerId()) {
+					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0) {
 						double balance = axisBalance.containsKey(ax)? axisBalance.get(ax): 0;
 						balance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * b.model().militaryGarrison / nbFronts;
 						axisBalance.put(arc.axis(), balance);
@@ -324,11 +325,17 @@ public class World implements Viewable<World.View> {
 				totalMilitary += b.model().militaryGarrison;
 //				double currentIdealGarrison = 0;
 				double baseBalance = 0;
+				int nbFronts = 0;
 				for (GameAxis.Oriented arc: b.axes) {
-					if (b.model.ownerId() != arc.next.model().ownerId()) {
+					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0) {
+						nbFronts++;
 //						axisBalance.get(arc.axis());
 						baseBalance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * axisBalance.get(arc.axis());
 					}
+				}
+				if (nbFronts == 0) {
+					assert baseBalance == 0;
+					baseBalance = b.model().militaryGarrison;
 				}
 //				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
 				idealAdditionalGarrison.put(b, -baseBalance);
@@ -343,8 +350,9 @@ public class World implements Viewable<World.View> {
 //					double toRedistribute = b.model().militaryGarrison + idealAdditionalGarrison.get(b);
 					Map<GameBase,BaseCache> baseCache = baseCaches.get(baseInNeed);
 					for (GameBase baseInExcess: bases) {
-						double excess = -idealAdditionalGarrison.get(baseInNeed);
+						double excess = -idealAdditionalGarrison.get(baseInExcess);
 						if (excess > 0) {
+							assert baseCache.get(baseInExcess).arcToBase != null; // since baseInExcess cannot be baseInNeed
 							
 //							double sent = baseInExcess.model().militaryGarrison * toReceive/globalMilitaryNeed;
 							double toSend = excess * toReceive/globalMilitaryNeed;

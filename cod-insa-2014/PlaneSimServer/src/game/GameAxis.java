@@ -70,8 +70,8 @@ public class GameAxis extends GameEntity {
 		
 		assert militaryTransfer == 0 || model().base1.ownerId() == model().base2.ownerId();
 		
-		model().base1.militaryGarrison -= militaryTransfer*period;
-		model().base2.militaryGarrison += militaryTransfer*period;
+		model().base1.militaryGarrison -= militaryTransfer * period * Settings.MILITARY_TRANSFER_RATE;
+		model().base2.militaryGarrison += militaryTransfer * period * Settings.MILITARY_TRANSFER_RATE;
 //		militaryTransfer = 0;
 		
 //		double ratioSpeed1 = .002;
@@ -142,7 +142,7 @@ public class GameAxis extends GameEntity {
 				}
 			} else {
 
-				double dyingSpeed  = .01;
+				//double dyingSpeed  = .01;
 				double balanceImportance  = .3;
 
 				//		if (clashing) {
@@ -150,9 +150,9 @@ public class GameAxis extends GameEntity {
 				double balance2 = 1/balance1;
 
 				model().base1.militaryGarrison -=
-						period * dyingSpeed * (1 + balanceImportance * balance2);
+						period * Settings.DYING_RATE * (1 + balanceImportance * balance2);
 				model().base2.militaryGarrison -=
-						period * dyingSpeed * (1 + balanceImportance * balance1);
+						period * Settings.DYING_RATE * (1 + balanceImportance * balance1);
 
 				model().ratio1 += ratioSpeed1 * (model().base1.militaryGarrison - model().base2.militaryGarrison)
 						/ (model().base1.militaryGarrison + model().base2.militaryGarrison);
