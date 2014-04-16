@@ -3,27 +3,25 @@
 <head>
 	<meta charset="utf-8" />
 	
-		<!-- Set the viewport width to device width for mobile -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-		<title>Cod'INSA - Plane simulation interface</title>	
+	<title>Cod'INSA - Plane simulation interface</title>	
 		
-		<!-- Included CSS Files -->
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<!-- Included CSS Files -->
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
     	<link rel="stylesheet" href="../css/bootstrap-responsive.min.css"> 
-    
-		<link rel="stylesheet" href="../css/dark-hive/jquery-ui-1.10.4.custom.min.css">
-		<link rel="stylesheet" href="../css/custom.css">
+	<link rel="stylesheet" href="../css/dark-hive/jquery-ui-1.10.4.custom.min.css">
+	<link rel="stylesheet" href="../css/custom.css">
         <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon"/>
-		<link rel="icon" href="../img/favicon.ico" type="image/x-icon"/>
+	<link rel="icon" href="../img/favicon.ico" type="image/x-icon"/>
 		
-		<!--JS-->
-		<script src="../js/jquery-1.10.2.js"></script>
-		<script src="../js/jquery-ui-1.10.4.custom.min.js"></script>
-		<script src="../js/bootstrap.min.js"></script>
-		
-		
+	<!--JS-->
+	<script src="../js/jquery-1.10.2.js"></script>
+	<script src="../js/jquery-ui-1.10.4.custom.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 </head>
+
 
 <body id="input" onload="showModal()">
 	
@@ -45,14 +43,11 @@
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 	
-	
-	
 	<!-- Map container -->
 	<div id="mapcontain"></div>
 	
 	<!-- Top container -->
 	<div class="row-fluid">
-		
 		<div id="topcontain" class="span4">
 			<div class="row">
 				<div class="span"><h3><img id="logobutton" src="../img/logo.png"/>Finale Cod'INSA 2014</h3></div>
@@ -60,87 +55,48 @@
 		</div>
 		
 		<div id="topright" class="span2">
-		
-					<div class="row">
-						<div class="span" id="time"><h4><span id="clock"></span></h4></div>
-					</div>
-								<div class="row">
-						<div class="span6" id="t1" style="display:none">Team1</div><div class="span6" id="t2" style="display:none">Team2</div>
-					</div>
-								
-					<div class="row">
-						<div class="span6" id="t3" style="display:none">Team3</div><div class="span6" id="t4" style="display:none">Team4</div>
-					</div>
-					<div class="row">
-						<div class="span6" id="t5" style="display:none">Team5</div><div class="span6" id="t6" style="display:none">Team6</div>
-					</div>
-					
-						
+			<div class="row">
+				<div class="span" id="time"><h4><span id="clock"></span></h4></div>
+			</div>
+			<div class="row">
+				<div class="span6" id="t1" style="display:none">Team1</div><div class="span6" id="t2" style="display:none">Team2</div>
+			</div>
+			<div class="row">
+				<div class="span6" id="t3" style="display:none">Team3</div><div class="span6" id="t4" style="display:none">Team4</div>
+			</div>
+			<div class="row">
+				<div class="span6" id="t5" style="display:none">Team5</div><div class="span6" id="t6" style="display:none">Team6</div>
+			</div>					
 		</div>
-	
 	</div>
 	
-	
+	<!-- for alignment -->
 	<div class="row-fluid">
 		<div class="span2"></div>
-		</div>
-		
-		
-	<!-- Left center and right columns -->
-	<!--div class="container-fluid">
-	    
-	    <div class="row-fluid">
-	    
-		    <div id="leftcontain" class="span3">
-		    	
-				 <div class="row-fluid closeleft">
-						<div class="span4">
-					    </div>
-					    <div class="span4">
-			    			 <span id="trashonleft" class="text-right ui-icon ui-icon-trash"></span>
-					    </div>
-						 <div class="span4">
-			    			 <span id="closeonleft" class="text-right ui-icon ui-icon-circle-close"></span>
-					    </div>
-			      </div>
-				      
-				 <div class="content row-fluid">
-						 <div class="span12">
-					    </div>
-			      </div>
-		        	
-		    </div>
-		    
-		    <div class="span9">
-		    </div>
-		    
-		   
-		    
-	    </div>
-    </div-->
+	</div>
     
-	
-	<!-- Bottom container -->
-	<div class="row-fluid bottomdiv">
-		
+	<!-- Footer -->
+	<div class="row-fluid bottomdiv">	
 		<div id="bottomcontain" class="span4">
 			<div class="row">
 				<div class="span12"><h6>&copy <a href="http://codinsa.org">Cod'INSA</a> April 2014 - Plane Simulation by TV-LP-NV</h6></div>
 			</div>
 		</div>
-	
-		
 	</div>
-
-
 </body>
 		
 		<!-- HashMap lib -->
 		<script src="../js/hashmap.js"></script>
 		
-		<!-- JS client -->
+		<!-- clock -->
 		<script src="../js/clock.js"></script>
 		
+		<!-- Settings -->
+		<script src="../js/resources.js"></script>
+
+		<!-- Settings -->
+		<script src="../js/settings.js"></script>
+
 		<!-- JS maps -->
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4fwla7hbGlT5Iqe4d-XMAdyOI0BnjguA&sensor=false"></script>
 		<script src="../js/map.js"></script>
@@ -148,7 +104,7 @@
 		<!-- JS client -->
 		<script src="../js/client.js"></script>
 		
-		<!-- Pop up -->
+		<!-- Pop up : start everything -->
 		<script src="../js/popup.js"></script>
 		
 </html>
