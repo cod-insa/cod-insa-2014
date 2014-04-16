@@ -104,10 +104,10 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	}
 
 	public boolean canExpand() {
-		return militaryGarrison > Settings.MINIMUM_BASE_GARRISON;
+		return militaryGarrison > GameSettings.MINIMUM_BASE_GARRISON;
 	}
 	public boolean canCapture() {
-		return militaryGarrison > Settings.MINIMUM_BASE_GARRISON*2;
+		return militaryGarrison > GameSettings.MINIMUM_BASE_GARRISON*2;
 	}
 
 	/**

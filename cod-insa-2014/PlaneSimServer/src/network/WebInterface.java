@@ -336,7 +336,7 @@ public class WebInterface extends WebSocketServer {
 	}
 
 	/*public static void main(String[] args) {
-		Game mapInfo = null;
+		GameSettings mapInfo = null;
 		World world = null;
 		WebInterface ww = startWebInterface(mapInfo);
 	}*/

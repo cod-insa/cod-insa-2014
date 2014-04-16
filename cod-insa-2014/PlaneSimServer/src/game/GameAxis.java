@@ -1,6 +1,7 @@
 package game;
 
 import model.Base;
+import model.GameSettings;
 import model.ProgressAxis;
 import display.AxisDisplay;
 import display.EntityDisplay;
@@ -70,8 +71,8 @@ public class GameAxis extends GameEntity {
 		
 		assert militaryTransfer == 0 || model().base1.ownerId() == model().base2.ownerId();
 		
-		model().base1.militaryGarrison -= militaryTransfer * period * Settings.MILITARY_TRANSFER_RATE;
-		model().base2.militaryGarrison += militaryTransfer * period * Settings.MILITARY_TRANSFER_RATE;
+		model().base1.militaryGarrison -= militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
+		model().base2.militaryGarrison += militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
 //		militaryTransfer = 0;
 		
 //		double ratioSpeed1 = .002;
@@ -125,8 +126,8 @@ public class GameAxis extends GameEntity {
 //					if (model().base2.ownerId() == 0)
 					if (model().base2.militaryGarrison == 0 && model().base1.canExpand()) {
 						base2.capture(model().base1.ownerId());
-						base2.model().militaryGarrison += Settings.MINIMUM_BASE_GARRISON;
-						base1.model().militaryGarrison -= Settings.MINIMUM_BASE_GARRISON;
+						base2.model().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
+						base1.model().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
 					}
 
 					if (model().base2.owned())
@@ -139,8 +140,8 @@ public class GameAxis extends GameEntity {
 					
 					if (model().base1.militaryGarrison == 0 && model().base2.canExpand()) {
 						base1.capture(model().base2.ownerId());
-						base1.model().militaryGarrison += Settings.MINIMUM_BASE_GARRISON;
-						base2.model().militaryGarrison -= Settings.MINIMUM_BASE_GARRISON;
+						base1.model().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
+						base2.model().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
 					}
 
 					if (model().base1.owned())
@@ -157,9 +158,9 @@ public class GameAxis extends GameEntity {
 				double balance2 = 1/balance1;
 
 				model().base1.militaryGarrison -=
-						period * Settings.DYING_RATE * (1 + balanceImportance * balance2);
+						period * GameSettings.DYING_RATE * (1 + balanceImportance * balance2);
 				model().base2.militaryGarrison -=
-						period * Settings.DYING_RATE * (1 + balanceImportance * balance1);
+						period * GameSettings.DYING_RATE * (1 + balanceImportance * balance1);
 
 				model().ratio1 += ratioSpeed1 * (model().base1.militaryGarrison - model().base2.militaryGarrison)
 						/ (model().base1.militaryGarrison + model().base2.militaryGarrison);

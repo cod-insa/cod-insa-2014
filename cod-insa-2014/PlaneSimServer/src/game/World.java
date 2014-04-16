@@ -2,15 +2,10 @@ package game;
 
 import java.util.*;
 
-import model.AbstractBase;
-import model.Base;
-import model.Country;
-import model.Plane;
-import model.ProgressAxis;
+import model.*;
 import common.Immutable;
 import common.ListView;
 import common.Unique;
-import common.Unique.Collection;
 import common.Util;
 import common.Util.Converter;
 import common.Viewable;
@@ -341,10 +336,10 @@ public class World implements Viewable<World.View> {
 				}
 				if (nbFronts == 0) {
 					assert baseBalance == 0;
-					baseBalance = b.model().militaryGarrison - Settings.MINIMUM_BASE_GARRISON;
+					baseBalance = b.model().militaryGarrison - GameSettings.MINIMUM_BASE_GARRISON;
 				}
-				else if (b.model().militaryGarrison < Settings.MINIMUM_BASE_GARRISON && baseBalance > -Settings.MINIMUM_BASE_GARRISON) {
-					baseBalance = -Settings.MINIMUM_BASE_GARRISON;
+				else if (b.model().militaryGarrison < GameSettings.MINIMUM_BASE_GARRISON && baseBalance > -GameSettings.MINIMUM_BASE_GARRISON) {
+					baseBalance = -GameSettings.MINIMUM_BASE_GARRISON;
 				}
 				
 //				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);

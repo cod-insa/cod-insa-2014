@@ -1,6 +1,6 @@
 package model;
 
-public class Game {
+public class GameSettings {
 	
 	public static final int TIME_UNITS_PER_FRAME = 50;
 	
@@ -10,7 +10,13 @@ public class Game {
 	;
 	
 	public static final boolean FRIENDLY_FIRE = false;
-	
+
+	public static double
+		DYING_RATE = .01,
+		MILITARY_TRANSFER_RATE = .015,
+		// ^ should be slightly greater than DYING_RATE to be able to save a base
+		MINIMUM_BASE_GARRISON = .5
+	;
 	
 	
 }

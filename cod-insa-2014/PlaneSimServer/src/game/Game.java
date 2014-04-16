@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Coord;
+import model.GameSettings;
 import model.Plane.Type;
 
 import org.slf4j.Logger;
@@ -169,12 +170,12 @@ public class Game {
 					update();
 					Controller.get().update(Game.this);
 
-					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0)
+					if (current_frame % GameSettings.TIME_UNITS_PER_FRAME == 0)
 						world.takeSnapshot();
 
 					/////////////////////////////////////
 					// FIXME: testing
-					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0) {
+					if (current_frame % GameSettings.TIME_UNITS_PER_FRAME == 0) {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
 							double w = world.width, h = world.height;
