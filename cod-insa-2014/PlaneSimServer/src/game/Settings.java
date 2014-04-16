@@ -11,8 +11,9 @@ public interface Settings {
 
 	public static double
 		DYING_RATE = .01,
-		MILITARY_TRANSFER_RATE = .015
+		MILITARY_TRANSFER_RATE = .015,
 		// ^ should be slightly greater than DYING_RATE to be able to save a base
+		MINIMUM_BASE_GARRISON = .5
 	;
 	
 }

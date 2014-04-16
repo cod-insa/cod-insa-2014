@@ -39,8 +39,17 @@ public class GameBase extends MaterialGameEntity {
 		if (model().militaryGarrison <= 0) {
 			model().militaryGarrison = 0;
 //			model().capture(0);
-			capture(0);
+			
+			/////
+//			capture(0);
+			/////
+			
+			for (GameAxis.Oriented arc: axes) {
+				arc.current.model().resetAxes();
+				arc.axis().clashing = false;
+			}
 		}
+		
 	}
 	
 	@SuppressWarnings("deprecated")

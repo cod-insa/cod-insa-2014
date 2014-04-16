@@ -120,10 +120,11 @@ public class GameAxis extends GameEntity {
 					model().ratio1 = 1;
 					
 					// TODO: handle siege when militaryGarrison > 0
-					
-					
+
+
 //					if (model().base2.ownerId() == 0)
-//						base2.capture(model().base1.ownerId());
+					if (model().base2.militaryGarrison == 0)
+						base2.capture(model().base1.ownerId());
 
 					if (model().base2.owned())
 						clashing = true;
@@ -133,8 +134,8 @@ public class GameAxis extends GameEntity {
 					model().ratio2 = 1;
 					
 					
-//					if (model().base1.ownerId() == 0)
-//						base1.capture(model().base2.ownerId());
+					if (model().base1.militaryGarrison == 0)
+						base1.capture(model().base2.ownerId());
 
 					if (model().base1.owned())
 						clashing = true;

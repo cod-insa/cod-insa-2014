@@ -335,7 +335,7 @@ public class World implements Viewable<World.View> {
 				}
 				if (nbFronts == 0) {
 					assert baseBalance == 0;
-					baseBalance = b.model().militaryGarrison;
+					baseBalance = b.model().militaryGarrison - Settings.MINIMUM_BASE_GARRISON;
 				}
 //				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
 				idealAdditionalGarrison.put(b, -baseBalance);
@@ -367,7 +367,7 @@ public class World implements Viewable<World.View> {
 						
 						
 						
-						
+						/***
 						
 						BaseCache cache = baseCache.get(baseInExcess); assert cache.arcToBase != null || baseInExcess == baseInNeed;
 						if (cache.arcToBase != null) {
@@ -377,6 +377,9 @@ public class World implements Viewable<World.View> {
 								
 							}
 						}
+						
+						*/
+						
 					}
 				}
 			}
