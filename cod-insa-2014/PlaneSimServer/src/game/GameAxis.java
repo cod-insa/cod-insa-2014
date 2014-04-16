@@ -65,7 +65,7 @@ public class GameAxis extends GameEntity {
 	}
 	
 	@Override
-	public void updateSpecialized(double period) {
+	public void updateSpecialized(final double period) {
 		
 		double militaryTransfer = toBase2.flushMilitarySent() - toBase1.flushMilitarySent();
 		
@@ -76,7 +76,7 @@ public class GameAxis extends GameEntity {
 //		militaryTransfer = 0;
 		
 //		double ratioSpeed1 = .002;
-		double ratioSpeed1 = .002 / model().length; // TODO: function of the fuel
+		final double ratioSpeed1 = .002 / model().length; // TODO: function of the fuel
 		
 		if (model().base1.ownerId() == model().base2.ownerId()) {
 			
@@ -87,68 +87,97 @@ public class GameAxis extends GameEntity {
 
 		} else {
 			
-			if (!model().base1.owned()) {
-				model().ratio1 = 0;
-				clashing = false;
-			}
-			if (!model().base2.owned()) {
-				model().ratio2 = 0;
-				clashing = false;
-			}
-			if (model().base1.militaryGarrison <= 0 || model().base2.militaryGarrison <= 0)
-				clashing = false;
+			
+			
+			abstract class Closure {
+				
+				abstract double ratioA();
+				abstract void ratioA(double value);
+				abstract GameBase baseA();
+				Base baseAm() { return baseA().model(); }
 
-			//assert !(model().base1.militaryGarrison > 0) || model().base1.owned();
-			assert model().base1.owned() || !(model().base1.militaryGarrison > 0);
-			assert model().base2.owned() || !(model().base2.militaryGarrison > 0);
+				abstract double ratioB();
+				abstract void ratioB(double value);
+				abstract GameBase baseB();
+				Base baseBm() { return baseB().model(); }
 
-			if (!clashing) {
-				//			if (model().base1.owned() && model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0)
-				if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0 && model().base1.canExpand())
-					model().ratio1 += ratioSpeed1 * period;
-				if (model().ratio2 < 1 - model().ratio1 && model().base2.militaryGarrison > 0 && model().base2.canExpand())
-					model().ratio2 += ratioSpeed1 * period;
-				if (model().ratio1 > 1 - model().ratio2
-						//					&& model().base1.owned()
-						//					&& model().base2.owned()
-						&& model().base1.militaryGarrison > 0
-						&& model().base2.militaryGarrison > 0) {
-					clashing = true;
-					model().ratio1 = (model().ratio1 + (1 - model().ratio2)) / 2;
-					model().ratio2 = 1 - model().ratio1;
-				}
-				if (model().ratio1 >= 1) {
-					model().ratio1 = 1;
-					
-					// TODO: handle siege when militaryGarrison > 0
+				void main(){
 
-
-//					if (model().base2.ownerId() == 0)
-					if (model().base2.militaryGarrison == 0 && model().base1.canExpand()) {
-						base2.capture(model().base1.ownerId());
-						base2.model().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
-						base1.model().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
+					if ( ! baseAm().owned()) {
+						ratioA(0);
 					}
-
-					if (model().base2.owned())
-						clashing = true;
+					assert baseAm().owned() || !(baseAm().militaryGarrison > 0);
 					
-				}
-				if (model().ratio2 >= 1) {
-					model().ratio2 = 1;
-					
-					
-					if (model().base1.militaryGarrison == 0 && model().base2.canExpand()) {
-						base1.capture(model().base2.ownerId());
-						base1.model().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
-						base2.model().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
+					if (ratioA() != ratioB()) {
+						assert ratioA() < ratioB();
+						
+//						if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0 && model().base1.canExpand())
+//							model().ratio1 += ratioSpeed1 * period;
+						
 					}
-
-					if (model().base1.owned())
-						clashing = true;
 					
+				};
+				
+				void progress() {
+					if (baseAm().canExpand())
+						ratioA(ratioA() + ratioSpeed1 * period);
 				}
-			} else {
+				
+				void capture() {
+					if (baseBm().militaryGarrison == 0 && baseAm().canCapture()) {
+						baseB().capture(baseAm().ownerId());
+						baseBm().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
+						baseAm().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
+					}
+				}
+				
+				
+				void checkValid(){
+					if (ratioA() > 1)
+						ratioA(1);
+					else if (ratioA() < 0)
+						ratioA(0);
+				};
+				
+			}
+			Closure A = new Closure(){
+				double ratioA() { return model().ratio1; }
+				void ratioA(double value) { model().ratio1 = value; }
+				GameBase baseA() { return base1; }
+				double ratioB() { return 1 - model().ratio2; }
+				void ratioB(double value) { model().ratio2 = 1 - value; }
+				GameBase baseB() { return base2; }
+			};
+			Closure B = new Closure(){
+				double ratioA() { return model().ratio2; }
+				void ratioA(double value) { model().ratio2 = value; }
+				GameBase baseA() { return base2; }
+				double ratioB() { return 1 - model().ratio1; }
+				void ratioB(double value) { model().ratio1 = 1 - value; }
+				GameBase baseB() { return base1; }
+			};
+
+
+			A.main();
+			B.main();
+
+			A.progress();
+			B.progress();
+
+			if (model().ratio1 > 1 - model().ratio2
+					&& model().base1.militaryGarrison > 0
+					&& model().base2.militaryGarrison > 0) {
+				model().ratio1 = (model().ratio1 + (1 - model().ratio2)) / 2;
+				model().ratio2 = 1 - model().ratio1;
+			}
+
+			A.capture();
+			B.capture();
+
+			if (model().ratio2 == 1 - model().ratio1
+					&& model().base1.militaryGarrison > 0
+					&& model().base2.militaryGarrison > 0
+			) {
 
 				//double dyingSpeed  = .01;
 				double balanceImportance  = .3;
@@ -167,16 +196,111 @@ public class GameAxis extends GameEntity {
 				model().ratio2 = 1 - model().ratio1;
 
 			}
-
-			if (model().ratio1 > 1)
-				model().ratio1 = 1;
-			else if (model().ratio1 < 0)
-				model().ratio1 = 0;
 			
-			if (model().ratio2 > 1)
-				model().ratio2 = 1;
-			else if (model().ratio2 < 0)
-				model().ratio2 = 0;
+			
+			A.checkValid();
+			B.checkValid();
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+//			if (!model().base1.owned()) {
+//				model().ratio1 = 0;
+//				clashing = false;
+//			}
+//			if (!model().base2.owned()) {
+//				model().ratio2 = 0;
+//				clashing = false;
+//			}
+//			if (model().base1.militaryGarrison <= 0 || model().base2.militaryGarrison <= 0)
+//				clashing = false;
+//
+//			//assert !(model().base1.militaryGarrison > 0) || model().base1.owned();
+//			assert model().base1.owned() || !(model().base1.militaryGarrison > 0);
+//			assert model().base2.owned() || !(model().base2.militaryGarrison > 0);
+//
+//			if (!clashing) {
+//				//			if (model().base1.owned() && model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0)
+//				if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0 && model().base1.canExpand())
+//					model().ratio1 += ratioSpeed1 * period;
+//				if (model().ratio2 < 1 - model().ratio1 && model().base2.militaryGarrison > 0 && model().base2.canExpand())
+//					model().ratio2 += ratioSpeed1 * period;
+//				if (model().ratio1 > 1 - model().ratio2
+//						//					&& model().base1.owned()
+//						//					&& model().base2.owned()
+//						&& model().base1.militaryGarrison > 0
+//						&& model().base2.militaryGarrison > 0) {
+//					clashing = true;
+//					model().ratio1 = (model().ratio1 + (1 - model().ratio2)) / 2;
+//					model().ratio2 = 1 - model().ratio1;
+//				}
+//				if (model().ratio1 >= 1) {
+//					model().ratio1 = 1;
+//					
+//					// TODO: handle siege when militaryGarrison > 0
+//
+//
+////					if (model().base2.ownerId() == 0)
+//					if (model().base2.militaryGarrison == 0 && model().base1.canExpand()) {
+//						base2.capture(model().base1.ownerId());
+//						base2.model().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
+//						base1.model().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
+//					}
+//
+//					if (model().base2.owned())
+//						clashing = true;
+//					
+//				}
+//				if (model().ratio2 >= 1) {
+//					model().ratio2 = 1;
+//					
+//					
+//					if (model().base1.militaryGarrison == 0 && model().base2.canExpand()) {
+//						base1.capture(model().base2.ownerId());
+//						base1.model().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
+//						base2.model().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
+//					}
+//
+//					if (model().base1.owned())
+//						clashing = true;
+//					
+//				}
+//			} else {
+//
+//				//double dyingSpeed  = .01;
+//				double balanceImportance  = .3;
+//
+//				//		if (clashing) {
+//				double balance1 = model().base1.militaryGarrison / model().base2.militaryGarrison;
+//				double balance2 = 1/balance1;
+//
+//				model().base1.militaryGarrison -=
+//						period * GameSettings.DYING_RATE * (1 + balanceImportance * balance2);
+//				model().base2.militaryGarrison -=
+//						period * GameSettings.DYING_RATE * (1 + balanceImportance * balance1);
+//
+//				model().ratio1 += ratioSpeed1 * (model().base1.militaryGarrison - model().base2.militaryGarrison)
+//						/ (model().base1.militaryGarrison + model().base2.militaryGarrison);
+//				model().ratio2 = 1 - model().ratio1;
+//
+//			}
+//
+//			if (model().ratio1 > 1)
+//				model().ratio1 = 1;
+//			else if (model().ratio1 < 0)
+//				model().ratio1 = 0;
+//			
+//			if (model().ratio2 > 1)
+//				model().ratio2 = 1;
+//			else if (model().ratio2 < 0)
+//				model().ratio2 = 0;
+//			
 		}
 		
 	}

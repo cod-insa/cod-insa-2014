@@ -122,9 +122,13 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 			for (ProgressAxis.Oriented arc: axes) {
 //				if (arc.next.ownerId() == newId)
 				arc.ratio(0);
-				if (arc.next.ownerId() == ownerId()) {
-					arc.opposite().ratio(0);
-				}
+				
+				
+//				if (arc.next.ownerId() == ownerId()) {
+//					arc.opposite().ratio(0);
+//				}
+				
+				
 			}
 		}
 		ownerId(newId);
