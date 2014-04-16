@@ -103,9 +103,9 @@ public class GameAxis extends GameEntity {
 
 			if (!clashing) {
 				//			if (model().base1.owned() && model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0)
-				if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0)
+				if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0 && model().base1.canExpand())
 					model().ratio1 += ratioSpeed1 * period;
-				if (model().ratio2 < 1 - model().ratio1 && model().base2.militaryGarrison > 0)
+				if (model().ratio2 < 1 - model().ratio1 && model().base2.militaryGarrison > 0 && model().base2.canExpand())
 					model().ratio2 += ratioSpeed1 * period;
 				if (model().ratio1 > 1 - model().ratio2
 						//					&& model().base1.owned()
@@ -123,8 +123,11 @@ public class GameAxis extends GameEntity {
 
 
 //					if (model().base2.ownerId() == 0)
-					if (model().base2.militaryGarrison == 0)
+					if (model().base2.militaryGarrison == 0 && model().base1.canExpand()) {
 						base2.capture(model().base1.ownerId());
+						base2.model().militaryGarrison += Settings.MINIMUM_BASE_GARRISON;
+						base1.model().militaryGarrison -= Settings.MINIMUM_BASE_GARRISON;
+					}
 
 					if (model().base2.owned())
 						clashing = true;
@@ -134,8 +137,11 @@ public class GameAxis extends GameEntity {
 					model().ratio2 = 1;
 					
 					
-					if (model().base1.militaryGarrison == 0)
+					if (model().base1.militaryGarrison == 0 && model().base2.canExpand()) {
 						base1.capture(model().base2.ownerId());
+						base1.model().militaryGarrison += Settings.MINIMUM_BASE_GARRISON;
+						base2.model().militaryGarrison -= Settings.MINIMUM_BASE_GARRISON;
+					}
 
 					if (model().base1.owned())
 						clashing = true;

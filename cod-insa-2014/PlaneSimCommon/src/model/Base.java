@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import game.Settings;
 import model.Plane.State;
 import common.Immutable;
 import common.ListView;
@@ -42,7 +43,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		
 		/**
 		 * Returns whereas the base sees or not an entity
-		 * @param The entity
+		 * @param e The entity
 		 */
 		public boolean canSee(MaterialEntity.View e) 
 		{
@@ -102,6 +103,13 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		}
 	}
 
+	public boolean canExpand() {
+		return militaryGarrison > Settings.MINIMUM_BASE_GARRISON;
+	}
+	public boolean canCapture() {
+		return militaryGarrison > Settings.MINIMUM_BASE_GARRISON*2;
+	}
+
 	/**
 	 * Must only be called from GameBase.capture
 	 */
@@ -114,6 +122,9 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 			for (ProgressAxis.Oriented arc: axes) {
 //				if (arc.next.ownerId() == newId)
 				arc.ratio(0);
+				if (arc.next.ownerId() == ownerId()) {
+					arc.opposite().ratio(0);
+				}
 			}
 		}
 		ownerId(newId);

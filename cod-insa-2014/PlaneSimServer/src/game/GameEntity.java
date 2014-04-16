@@ -160,6 +160,16 @@ public abstract class GameEntity {
 	}
 	
 	public abstract EntityDisplay<?> getDisplay();
+
+	
+	public String toStringInfo() {
+		return "[Entity "+model.id+"]";
+	}
+	@Override
+	public String toString() {
+		return toStringInfo();
+	}
+	
 	
 }
 

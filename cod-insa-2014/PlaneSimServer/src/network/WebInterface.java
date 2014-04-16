@@ -139,7 +139,7 @@ public class WebInterface extends WebSocketServer {
 				str.key("id");
 				str.value(b.id());
 				str.key("cname");
-				str.value(b.cityname);
+				str.value(b.cityName);
 				str.key("lati");
 				str.value(converter.getLatFromY(b.lastPosition.y()));
 				str.key("longi");

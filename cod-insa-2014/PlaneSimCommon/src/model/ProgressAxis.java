@@ -113,6 +113,12 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 				ratio2 = val;
 			}
 		}
+		public Oriented opposite() {
+			if (next == base2)
+				return toBase1;
+			assert next == base1;
+			return toBase2;
+		}
  
 		@Override
 		/**

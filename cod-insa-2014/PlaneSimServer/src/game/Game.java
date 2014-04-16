@@ -138,14 +138,22 @@ public class Game {
 			
 			/////////////////////////////////////
 			// FIXME: testing
+			
 			world.bases.get(0).model().ownerId(1);
 			world.bases.get(0).model().militaryGarrison = 8;
 			world.bases.get(1).model().ownerId(1);
 			world.bases.get(1).model().militaryGarrison = 10;
-//			world.bases.get(17).model().ownerId(2);
-//			world.bases.get(17).model().militaryGarrison = 10;
 			getBase(17).model().ownerId(2);
 			getBase(17).model().militaryGarrison = 15;
+
+//			getBase(17).model().ownerId(2);
+//			getBase(17).model().militaryGarrison = 2;
+//			getBase(2).model().ownerId(2);
+//			getBase(2).model().militaryGarrison = .3;
+//			getBase(17).ownerId(2);
+//			getBase(17).model().militaryGarrison = 15;
+			
+			
 			/////////////////////////////////////
 			
 			updateTimer.schedule(new TimerTask() {

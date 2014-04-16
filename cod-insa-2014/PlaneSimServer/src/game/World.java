@@ -342,6 +342,10 @@ public class World implements Viewable<World.View> {
 					assert baseBalance == 0;
 					baseBalance = b.model().militaryGarrison - Settings.MINIMUM_BASE_GARRISON;
 				}
+				else if (b.model().militaryGarrison < Settings.MINIMUM_BASE_GARRISON && baseBalance > -Settings.MINIMUM_BASE_GARRISON) {
+					baseBalance = -Settings.MINIMUM_BASE_GARRISON;
+				}
+				
 //				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
 				idealAdditionalGarrison.put(b, -baseBalance);
 				globalMilitaryNeed += baseBalance < 0? -baseBalance: 0;
