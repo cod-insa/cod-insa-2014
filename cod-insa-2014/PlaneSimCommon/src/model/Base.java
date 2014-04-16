@@ -106,15 +106,21 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	 * Must only be called from GameBase.capture
 	 */
 	@Deprecated
-	public void capture(int oId) {
-		if (ownerId() != oId) {
+	public void capture(int newId) {
+		if (ownerId() != newId) {
 			militaryGarrison = 0; // COULD_DO: garrison flees to neighboring bases?
 			// (In fact I think it doesn't actually happen to have militaryGarrison > 0 here)
-//			System.out.println(ownerId()+" "+oId);
-			for (ProgressAxis.Oriented arc: axes)
+//			System.out.println(ownerId()+" "+newId);
+			for (ProgressAxis.Oriented arc: axes) {
+//				if (arc.next.ownerId() == newId)
 				arc.ratio(0);
+			}
 		}
-		ownerId(oId);
+		ownerId(newId);
+	}
+	public void resetAxes() {
+		for (ProgressAxis.Oriented arc: axes)
+			arc.ratio(0);
 	}
 
 	public final FullView fullView; // = new FullView();

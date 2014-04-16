@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class GameBase extends MaterialGameEntity implements Landable {
 	
-	public static final double RADIUS = .04; // .05;
+	public static final double RADIUS = .08; //.04; // .05;
 	public final String cityname;
 	public Set<GameAxis.Oriented> axes = new HashSet<>();
 
@@ -38,8 +38,17 @@ public class GameBase extends MaterialGameEntity implements Landable {
 		if (model().militaryGarrison <= 0) {
 			model().militaryGarrison = 0;
 //			model().capture(0);
-			capture(0);
+			
+			/////
+//			capture(0);
+			/////
+			
+			for (GameAxis.Oriented arc: axes) {
+				arc.current.model().resetAxes();
+				arc.axis().clashing = false;
+			}
 		}
+		
 	}
 	
 	@SuppressWarnings("deprecated")

@@ -136,6 +136,18 @@ public class Game {
 
 			world.initialize(this);
 			
+			/////////////////////////////////////
+			// FIXME: testing
+			world.bases.get(0).model().ownerId(1);
+			world.bases.get(0).model().militaryGarrison = 8;
+			world.bases.get(1).model().ownerId(1);
+			world.bases.get(1).model().militaryGarrison = 10;
+//			world.bases.get(17).model().ownerId(2);
+//			world.bases.get(17).model().militaryGarrison = 10;
+			getBase(17).model().ownerId(2);
+			getBase(17).model().militaryGarrison = 15;
+			/////////////////////////////////////
+			
 			updateTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
@@ -152,7 +164,8 @@ public class Game {
 					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0)
 						world.takeSnapshot();
 
-
+					/////////////////////////////////////
+					// FIXME: testing
 					if (current_frame % model.Game.TIME_UNITS_PER_FRAME == 0) {
 						int N = 0;
 						for (int i = 0; i < N; i++) {
@@ -161,6 +174,7 @@ public class Game {
 							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 4, Type.MILITARY);
 						}
 					}
+					/////////////////////////////////////
 
 					current_frame++;
 					//throw new Error();
