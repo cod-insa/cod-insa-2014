@@ -11,10 +11,12 @@ public class MovingEntity extends MaterialEntity {
 	
 	public double speed = 0; // TODO add to ctor
 	
-	
+	/**
+	 * This class represents a Moving Entity
+	 */
 	public class View extends MaterialEntity.View {
 		public double speed() { return speed; }
-		public Coord.View inertia() { return inertia.view(); }
+		Coord.View inertia() { return inertia.view(); }
 	}
 	
 	public MovingEntity(int id, Unique<Coord> pos, Unique<Coord> ine) {

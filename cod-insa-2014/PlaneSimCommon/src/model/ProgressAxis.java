@@ -86,10 +86,19 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 			this.next = next;
 		}
 
+		/**
+		 * Return the other base on the axes (if you call this for A, you get B)
+		 */
 		public final Base.FullView next() { return next.view(); };
 
+		/**
+		 * Return the view of the axis
+		 */
 		public ProgressAxis.View axis() { return view(); }
 		
+		/**
+		 * Get the ratio of the base from which this is called
+		 */
 		public double ratio() {
 			if (next == base2)
 				return ratio1;
@@ -106,6 +115,9 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		}
  
 		@Override
+		/**
+		 * Return a copy of the axis
+		 */
 		public Oriented copy(Context context) {
 			if (context.containsKey(this))
 				return context.getSafe(this);
@@ -134,16 +146,31 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	}
 	
 	public class View extends Entity.View {
+		/**
+		 * Return the first base of the axis
+		 */
 		public Base.FullView base1() { return base1.view(); }
+		/**
+		 * Return the second base of the axis
+		 */
 		public Base.FullView base2() { return base2.view(); }
-//		private ProgressAxis model() { return ProgressAxis.this; }
 
+		/**
+		 * Return the ration of the first base of the axis
+		 */
 		public double ratio1() { return ratio1; }
+		
+		/**
+		 * Return the ratio of the second base of the axis
+		 */
 		public double ratio2() { return ratio2; }
-
+		
+		/**
+		 * Return the length of the axis i.e. the distance between the two bases
+		 */
 		public double length() { return length; }
 		
-		public ProgressAxis copied(Context context) {
+		ProgressAxis copied(Context context) {
 			return copy(context);
 		}
 

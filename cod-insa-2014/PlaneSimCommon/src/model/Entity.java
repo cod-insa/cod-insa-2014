@@ -16,20 +16,41 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	//public int ownerId = 0;
 	private int ownerId = 0;
 
+	/**
+	 * This class represents an entity
+	 */
 	public class View implements Viewable.View {
 		
+		/**
+		 * Return the id of the entity
+		 */
 		public int id() { return id; }
+		/**
+		 * This function will return true if the entity is still in the game
+		 */
 		public boolean exists() { return exists; }
+		/**
+		 * Return the ownerId of the entity
+		 */
 		public int ownerId() { return ownerId; }
-//		public boolean canSee(Entity.View e) {
-//			return false;
-//		}
+		/**
+		 * Returns false by default (for an Entity)
+		 */
 		public boolean isWithinRadar(Coord.View pos) {
 			return false;
 		}
+		/**
+		 * Return if the unit e is of the same AI
+		 * @param e The potential friend
+		 */
 		public boolean isFriend(Entity.View e) {
 			return ownerId == e.ownerId();
 		}
+		
+		/**
+		 * Return if the unit is an ennemy
+		 * @param e The potential ennemy
+		 */
 		public final boolean isEnemy(Entity.View e) {
 			return ownerId > 0 && ownerId != e.ownerId();
 		}
