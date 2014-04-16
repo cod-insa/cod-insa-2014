@@ -1,6 +1,7 @@
 package game;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
@@ -106,7 +107,8 @@ public class MapLoader {
 				if(url == null)
 					throw new FileNotFoundException("Map not found exception");
 				
-				File f = new File(url.toURI());
+				// Need an InputStream to make it works in a Jar.
+				InputStream f = MapLoader.class.getClassLoader().getResourceAsStream("rsc/maps/france.map");
 				scanner = new Scanner(f);
 			/*} catch (FileNotFoundException | URISyntaxException e) {
 				throw new Error(e);
