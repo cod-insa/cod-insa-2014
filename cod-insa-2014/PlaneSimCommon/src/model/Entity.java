@@ -9,6 +9,7 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	public final int id;
 	
 	public boolean exists = true;
+	public boolean isAiObject = false;
 	
 	/**
 	 * Nil (0) if this entity belongs to no one (player ids start at 1)

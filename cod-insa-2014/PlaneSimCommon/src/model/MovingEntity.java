@@ -15,8 +15,23 @@ public class MovingEntity extends MaterialEntity {
 	 * This class represents a Moving Entity
 	 */
 	public class View extends MaterialEntity.View {
-		public double speed() { return speed; }
-		Coord.View inertia() { return inertia.view(); }
+		/**
+		 * This will throw an error if you call it because this information is not available
+		 */
+		public double speed() { 
+			if (isAiObject)
+				throw new Error("Cannot access to this function");
+			return speed; 
+		}
+		
+		/**
+		 * This will throw an error if you call it because this information is not available
+		 */
+		Coord.View inertia() { 
+			if (isAiObject)
+				throw new Error("Cannot access to this function");
+			return inertia.view(); 
+		}
 	}
 	
 	public MovingEntity(int id, Unique<Coord> pos, Unique<Coord> ine) {
