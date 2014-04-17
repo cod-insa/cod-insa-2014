@@ -115,20 +115,19 @@ public class WebInterface extends WebSocketServer {
 		JSONStringer str = new JSONStringer();
 
 		str.object()
-		.key("nbp")
-		.value(game.getNbPlayers())
-		.key("map")
-		.object()
-		.key("name")
-		.value(mapInfo.getName())
-		.key("bazc")
-		.value(mapInfo.getBasesCount())
-		.key("lati")
-		.value(mapInfo.getCenter_lat())
-		.key("longi")
-		.value(mapInfo.getCenter_long())
-		.key("zoom")
-		.value(mapInfo.getWeb_zoom());
+				.key("nbp")
+					.value(game.getNbPlayers())
+				.key("map").object()
+					.key("name")
+					.value(mapInfo.getName())
+					.key("bazc")
+					.value(mapInfo.getBasesCount())
+					.key("lati")
+					.value(mapInfo.getCenter_lat())
+					.key("longi")
+					.value(mapInfo.getCenter_long())
+					.key("zoom")
+					.value(mapInfo.getWeb_zoom());
 
 		//Bases
 		str.key("bases").array();
@@ -173,7 +172,7 @@ public class WebInterface extends WebSocketServer {
 			stringer.key("name");
 			stringer.value(npm.getPlayer(i).getNickname());
 			stringer.key("score");
-			stringer.value(game.getScores().getScore(i+1));
+			stringer.value(game.getScores().getScore(i));
 			stringer.endObject();
 		}
 		stringer.endArray();

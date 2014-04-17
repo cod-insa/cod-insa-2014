@@ -2,6 +2,7 @@ package main;
 
 import game.Game;
 import game.Settings;
+import model.GameSettings;
 import network.WebInterface;
 
 import org.apache.thrift.transport.TTransportException;
@@ -49,8 +50,9 @@ public class Main {
 			
 //			System.out.println("--- CODINSA 2014 --- Plane simulation server ---");
 			log.info("--- CODINSA 2014 --- Plane simulation server ---");
-			
-			new Controller(50);
+
+//			new Controller(50);
+			new Controller(GameSettings.TIME_UNITS_PER_FRAME);
 			
 			int nbplay = (args.length-2)/2;
 			

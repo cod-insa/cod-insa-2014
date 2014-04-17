@@ -1,6 +1,7 @@
 package display;
 
 import game.GameBase;
+import model.GameSettings;
 
 import java.awt.*;
 
@@ -29,24 +30,67 @@ public class BaseDisplay extends EntityDisplay<GameBase> {
 			);
 		*/
 		
-//		g2d.setColor(getPlayerColor());
-		if (entity.model().ownerId() == 0)
-		     g2d.setColor(getPlayerColor());
-		else g2d.setColor(lightenColor(getPlayerColor()));
+////		g2d.setColor(getPlayerColor());
+//		if (entity.model().ownerId() == 0)
+//		     g2d.setColor(getPlayerColor());
+//		else g2d.setColor(lightenColor(getPlayerColor()));
+//		
+//		//double size = 5E-2;
+//		double size = entity.radius()*2;
+//		Pixel topLeft = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
+//		Pixel bottomRight = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
+//		
+//		g2d.fillOval (
+//				topLeft.x,
+//				topLeft.y,
+//				bottomRight.x-topLeft.x,
+//				bottomRight.y-topLeft.y
+//			);
+////		java.awt.Font.
 		
-		//double size = 5E-2;
+		
 		double size = entity.radius()*2;
 		Pixel topLeft = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
 		Pixel bottomRight = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
-		
+
+		g2d.setColor(getPlayerColor(0));
+
 		g2d.fillOval (
 				topLeft.x,
 				topLeft.y,
 				bottomRight.x-topLeft.x,
 				bottomRight.y-topLeft.y
-			);
-//		java.awt.Font.
+		);
 		
+		if (entity.model().ownerId() != 0) {
+			
+			g2d.setColor(lightenColor(getPlayerColor()));
+
+//			size = entity.radius() * 2 * (1 - Math.exp(-entity.model().militaryGarrison/30d));//(Math.E - Math.exp(-entity.model().militaryGarrison/30d))/Math.E;
+			double minSize = AxisDisplay.AXIS_WIDH/1000d;
+			size = minSize + (entity.radius() * 2 - minSize) * (1 - Math.exp(-entity.model().militaryGarrison/30d));
+			
+
+			topLeft = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
+			bottomRight = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());
+
+			g2d.fillOval (
+					topLeft.x,
+					topLeft.y,
+					bottomRight.x-topLeft.x,
+					bottomRight.y-topLeft.y
+			);
+			
+		}
+
+
+
+
+
+
+
+
+
 	}
 	
 	@Override
