@@ -70,7 +70,7 @@ public class GameDisplayPanel extends JPanel {
 //    	int nb = 5;
     	int nb = 2;
     	for (int i = 0; i < nb; i++) {
-    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.MILITARY);
+    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble()*s.getWorld().width, r.nextDouble()*s.getWorld().height), (i<nb/2?1:2), Type.MILITARY);
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
 	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
@@ -425,7 +425,7 @@ public class GameDisplayPanel extends JPanel {
 		//g2d.setStroke(new BasicStroke(getWidth()/1000f*4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 		EntityDisplay.fineStroke = new BasicStroke(getWidth()/1000f*2f*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 		EntityDisplay.largeStroke = new BasicStroke(getWidth()/1000f*4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
-		EntityDisplay.axisStroke = new BasicStroke(getWidth()/1000f*30*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		EntityDisplay.axisStroke = new BasicStroke(getWidth()/1000f*AxisDisplay.AXIS_WIDH*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 		
 		
         

@@ -12,6 +12,8 @@ import model.Coord;
  * Created by LP on 28/03/2014.
  */
 public class AxisDisplay extends EntityDisplay<GameAxis> {
+	
+	public static float AXIS_WIDH = 30;
 
 	public AxisDisplay (GameAxis b) {
 		super(b);
@@ -87,7 +89,8 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 				m1.x,
 				m1.y
 		);
-		g2d.setColor(fadeColor(getPlayerColor(0), a));
+//		g2d.setColor(fadeColor(getPlayerColor(0), a));
+		g2d.setColor(getPlayerColor(0));
 		g2d.drawLine(
 				m1.x,
 				m1.y,
