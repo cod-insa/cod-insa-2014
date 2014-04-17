@@ -245,7 +245,9 @@ public class GameDisplayPanel extends JPanel {
 						if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
 							b = bb;
 				
-				GamePlane p = pls.get(e.getButton() == MouseEvent.BUTTON1? 0: 1);
+				int pid = e.getButton() == MouseEvent.BUTTON1? 0: 1;
+				
+				GamePlane p = pls.get(pid);
 				if (b == null) {
 					p.autoPilot.goTo(mousePos, Mode.IGNORE);
 //                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
@@ -256,7 +258,7 @@ public class GameDisplayPanel extends JPanel {
 				}
 				else if (p.modelView().state() == State.AT_AIRPORT && b.model().view().planes().size() > 0 && b.model().view().planes().get(0).id() == p.modelView().id()) // ugly hack
 				{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
-				else pls.get(0).autoPilot.landAt(b);
+				else pls.get(pid).autoPilot.landAt(b);
 
 			}
         	
