@@ -17,9 +17,8 @@ import command.DropMilitarsCommand;
 import command.FillFuelTankCommand;
 import command.FollowCommand;
 import command.LandCommand;
-import command.LoadResourcesCommand;
+import command.ExchangeResourcesCommand;
 import command.MoveCommand;
-import command.StoreFuelCommand;
 import command.WaitCommand;
 
 public class Controller {
@@ -86,16 +85,17 @@ public class Controller {
 			s.getPlane(ac.planeSrc.id()).autoPilot.attackSpecific(s.getPlane(ac.planeTarget.id()));
 		}
 		catch (DropMilitarsCommand dmc) {
-			s.getPlane(dmc.planeSrc.id()).tradeResources(0, 0, dmc.quantity, 0);
-		}
-		catch (StoreFuelCommand sfc) {
-			s.getPlane(sfc.planeSrc.id()).tradeResources(0, 0, 0, sfc.quantity);
+			// Something like :
+			// s.getPlane(ac.planeSrc.id()).autoPilot.depositAt(-dmc.quantity,dmc.baseTarget);
+			
+			// Then call this to drop units when plan is over the base and the drop is done
+			// s.getPlane(dmc.planeSrc.id()).exchangeResources(-dmc.quantity, 0, false);
 		}
 		catch (FillFuelTankCommand fftc) {
 			s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity);
 		}
-		catch (LoadResourcesCommand lrc) {
-			s.getPlane(lrc.planeSrc.id()).tradeResources(lrc.militarQuantity, lrc.fuelQuantity, 0, 0);
+		catch (ExchangeResourcesCommand lrc) {
+			s.getPlane(lrc.planeSrc.id()).exchangeResources(lrc.militarQuantity, lrc.fuelQuantity, lrc.deleteResources);
 		} catch (BuildPlaneCommand e) {
 			GameCountry country = s.getCountryByAiId(ai_id);
 			country.buildPlane(country.new Request(e.requestedType));

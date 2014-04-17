@@ -107,13 +107,13 @@ public class GameAxis extends GameEntity {
 		}
 
 		void progress(double ratioSpeed1) {
-			if (baseAm().canExpand())
+			if (baseAm().view().canExpand())
 //				ratioA(ratioA() + ratioSpeed1 * period);
 				ratioA(ratioA() + ratioSpeed1);
 		}
 
 		void capture() {
-			if (ratioA() >= 1 && baseAm().canCapture() && baseBm().militaryGarrison <= 0) {
+			if (ratioA() >= 1 && baseAm().view().canCapture() && baseBm().militaryGarrison <= 0) {
 				baseB().capture(baseAm().ownerId());
 				baseBm().militaryGarrison += GameSettings.MINIMUM_CAPTURE_GARRISON/2;
 				baseAm().militaryGarrison -= GameSettings.MINIMUM_CAPTURE_GARRISON/2;

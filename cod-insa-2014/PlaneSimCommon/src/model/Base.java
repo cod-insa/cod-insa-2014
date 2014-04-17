@@ -75,6 +75,20 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 					return false;
 			return true;
 		}
+		
+		/**
+		 * Determine if there is enough military garrison to expand automatically
+		 */
+		public boolean canExpand() {
+			return militaryGarrison > GameSettings.MINIMUM_BASE_GARRISON;
+		}
+		/**
+		 * Determine if there is enough military garrison to capture automatically
+		 */
+		public boolean canCapture() {
+			return militaryGarrison > GameSettings.MINIMUM_CAPTURE_GARRISON;
+		}
+		
 		@Override
 		/**
 		 * A function in order to display a Base
@@ -100,14 +114,10 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		Base copied(Context context) {
 			return copy(context);
 		}
+
+		
 	}
 
-	public boolean canExpand() {
-		return militaryGarrison > GameSettings.MINIMUM_BASE_GARRISON;
-	}
-	public boolean canCapture() {
-		return militaryGarrison > GameSettings.MINIMUM_CAPTURE_GARRISON;
-	}
 
 	/**
 	 * Must only be called from GameBase.capture

@@ -51,10 +51,28 @@ function updateMapWithInfoFromServer()
 }
 
 /*
+* Update a plane position
+*/
+function updatePosition(index,latitude,longitude)
+{
+var currentplane = planesArray.get(index);
+
+	if(currentplane === undefined)
+	{
+		console.error("Trying to move a plane that does not exist...");
+	}
+	else
+	{
+		currentplane.marker.position = new google.maps.LatLng(latitude,longitude);
+		currentplane.marker.setMap(mymap);
+	}
+}
+
+/*
 * Function to move a plane from LatLongFrom to LatLongTo
 * TODO improve/optimize this function
 */
-function doMovePlane(index,latitudeTo, longitudeTo) {
+/*function doMovePlane(index,latitudeTo, longitudeTo) {
 	
 	var currentplane = planesArray.get(index);
 
@@ -99,13 +117,13 @@ function doMovePlane(index,latitudeTo, longitudeTo) {
 			setTimeout(function(){doMovePlane(index,latitudeTo,longitudeTo);},refreshtime);
 		} 
 	}
-}
+}*/
 
 /*
 * Function to test doMovePlane
 * A yellow plane moves from France to Spain
 */
-function testMove()
+/*function testMove()
 {
 	planesArray.put("0",new google.maps.Marker({
 		position: new google.maps.LatLng(48.0,2.0),
@@ -115,5 +133,5 @@ function testMove()
 		title:"plane attacking"
 		}));
 	doMovePlane("0",40.0,-2.0);
-}
+}*/
 

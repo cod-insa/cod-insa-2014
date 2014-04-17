@@ -36,9 +36,13 @@ public abstract class MaterialEntity extends Entity {
 		public Coord.View position() { return position; }
 		
 		/**
-		 * This will return 0, you don't need to use this function as an AI.
+		 * This will throw an error if you call it because this information is not available
 		 */
-		public double rotation() { return rotation; }
+		public double rotation() { 
+			if (isAiObject)
+				throw new Error("Cannot access to this function");
+			return rotation; 
+		}
 		/**
 		 * Return the radar range
 		 */

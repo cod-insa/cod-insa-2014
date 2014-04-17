@@ -3,7 +3,6 @@ import genbridge.Data;
 import genbridge.InitData;
 import genbridge.PlaneFullData;
 import genbridge.PlaneStateData;
-import genbridge.ProductionLineData;
 import genbridge.ProgressAxisData;
 import genbridge.RequestData;
 
@@ -14,16 +13,15 @@ import model.Base;
 import model.Coord;
 import model.Country;
 import model.Plane;
-import model.Coord.Unique;
 import model.Plane.BasicView;
 import model.Plane.State;
 import model.ProgressAxis;
 
-import org.junit.runner.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.AbstractAI;
+
 import command.Command;
 import common.MapView;
 import common.Util;
@@ -93,6 +91,7 @@ public class Proxy
 		for (genbridge.BaseInitData b : d.bases)
 		{
 			Base base = new Base(b.base_id, new Coord.Unique(b.posit.x,b.posit.y));
+			base.isAiObject = true;
 			other_notvisible_bases.put(base.id, base);
 			all_bases.put(base.id, base);
 		}
@@ -101,11 +100,16 @@ public class Proxy
 		
 		for (genbridge.ProgressAxisInitData a : d.progressAxis)
 			if (all_bases.containsKey(a.base1_id) && all_bases.containsKey(a.base2_id))
-				map_axis.put(a.id,new ProgressAxis(a.id, all_bases.get(a.base1_id), all_bases.get(a.base2_id)));
+			{
+				ProgressAxis pa = new ProgressAxis(a.id, all_bases.get(a.base1_id), all_bases.get(a.base2_id));
+				pa.isAiObject = true;
+				map_axis.put(a.id,pa);
+			}
 			else
 				log.error("One or both of the base " + a.base1_id + " and " + a.base2_id + " are unknown. Failed to add the axis");
 		
 		ai_country = new Country(d.myCountry.country_id, new Coord.Unique(d.myCountry.country.x,d.myCountry.country.y));
+		ai_country.isAiObject = true;
 	}
 	
 	/**
@@ -215,6 +219,7 @@ public class Proxy
 			else // The plane wasn't existing (unknown id) so we add it to the ai_planes list
 			{
 				Plane plane = new Plane(p.basic_info.plane_id, new Coord.Unique(p.basic_info.posit.x, p.basic_info.posit.y), Plane.Type.get(p.basic_info.planeTypeId));
+				plane.isAiObject = true;
 				new UpdateFullInfo(plane, p);
 				ai_planes.put(plane.id, plane);
 			}
@@ -233,6 +238,7 @@ public class Proxy
 			else // First time that the plane appears
 			{
 				Plane plane = new Plane(p.plane_id, new Coord.Unique(p.posit.x,p.posit.y), Plane.Type.get(p.planeTypeId));
+				plane.isAiObject = true;
 				new UpdateBasicInfo(plane,p);
 				ennemy_planes.put(plane.id, plane);
 			}

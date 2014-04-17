@@ -6,14 +6,13 @@ import genbridge.CommandData;
 import genbridge.CommandReceiver;
 import genbridge.CoordData;
 import genbridge.DropMilitarsCommandData;
+import genbridge.ExchangeResourcesCommandData;
 import genbridge.FillFuelTankCommandData;
 import genbridge.FollowCommandData;
 import genbridge.LandCommandData;
-import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
 import genbridge.PlaneCommandData;
 import genbridge.Response;
-import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.LinkedList;
@@ -31,12 +30,11 @@ import command.AttackCommand;
 import command.BuildPlaneCommand;
 import command.Command;
 import command.DropMilitarsCommand;
+import command.ExchangeResourcesCommand;
 import command.FillFuelTankCommand;
 import command.FollowCommand;
 import command.LandCommand;
-import command.LoadResourcesCommand;
 import command.MoveCommand;
-import command.StoreFuelCommand;
 import command.WaitCommand;
 
 public class CommandSender extends Thread {
@@ -143,14 +141,11 @@ public class CommandSender extends Thread {
 			} catch (DropMilitarsCommand c) {
 				r = client.sendDropMilitarsCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
-			} catch (StoreFuelCommand c) {
-				r = client.sendStoreFuelCommand(
-						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			} catch (FillFuelTankCommand c) {
 				r = client.sendFillFuelTankCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
-			} catch (LoadResourcesCommand c) {
-				r = client.sendLoadResourcesCommand(
+			} catch (ExchangeResourcesCommand c) {
+				r = client.sendExchangeResourcesCommandData(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			} catch (BuildPlaneCommand c) {
 				r = client.sendBuildPlaneCommand(
@@ -235,19 +230,14 @@ public class CommandSender extends Thread {
 					numFrame),cmd.planeSrc.id()), cmd.baseTarget.id(), cmd.quantity);
 		}
 		
-		static StoreFuelCommandData make(StoreFuelCommand cmd, int numFrame) {
-			return new StoreFuelCommandData(new PlaneCommandData(new CommandData(
-					numFrame),cmd.planeSrc.id()),cmd.quantity); 
-		}
-		
 		static FillFuelTankCommandData make(FillFuelTankCommand cmd, int numFrame) {
 			return new FillFuelTankCommandData(new PlaneCommandData(new CommandData(
 					numFrame),cmd.planeSrc.id()),cmd.quantity); 
 		}
 		
-		static LoadResourcesCommandData make(LoadResourcesCommand cmd, int numFrame) {
-			return new LoadResourcesCommandData(new PlaneCommandData(new CommandData(
-					numFrame),cmd.planeSrc.id()),cmd.militarQuantity, cmd.fuelQuantity); 
+		static ExchangeResourcesCommandData make(ExchangeResourcesCommand cmd, int numFrame) {
+			return new ExchangeResourcesCommandData(new PlaneCommandData(new CommandData(
+					numFrame),cmd.planeSrc.id()),cmd.militarQuantity, cmd.fuelQuantity, cmd.deleteResources); 
 		}
 	}
 }

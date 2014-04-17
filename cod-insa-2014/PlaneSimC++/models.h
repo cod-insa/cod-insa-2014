@@ -1,5 +1,7 @@
 #ifndef MODELS_H
 #define MODELS_H
+#include <list>
+#include <map>
 
 struct Coord
 {
@@ -26,21 +28,10 @@ struct Plane
             radius,
             timeToBuild;
 
-        Type(int a, double b, double c, double d, double e, double f, double g, double h, double i)
-            :   id(a),
-                firingRange(b),
-                radarRange(c),
-                fullHealth(d),
-                holdCapacity(e),
-                tankCapacity(f),
-                fuelConsumptionPerDistanceUnit(g),
-                radius(h),
-                timeToBuild(i) {}
+        static const Type *const MILITARY;
+        static const Type *const COMMERCIAL;
 
-        static Type *MILITARY;
-        static Type *COMMERCIAL;
-
-        static Type *types[2];
+        static const Type *const types[2];
 
     };
 
@@ -56,9 +47,9 @@ struct Plane
     Type *type;
 };
 
-Plane::Type *Plane::Type::MILITARY = new Plane::Type(0, 0.7, 0.7, 100, 10, 10, 1, .03, 15);
+const Plane::Type *const Plane::Type::MILITARY = new Plane::Type{0, 0.7, 0.7, 100, 10, 10, 1, .03, 15};
 
-Plane::Type *Plane::Type::COMMERCIAL = new Plane::Type(
+const Plane::Type *const Plane::Type::COMMERCIAL = new Plane::Type{
     1,
     0,
     Plane::Type::MILITARY->radarRange,
@@ -68,9 +59,9 @@ Plane::Type *Plane::Type::COMMERCIAL = new Plane::Type(
     Plane::Type::MILITARY->fuelConsumptionPerDistanceUnit*3,
     Plane::Type::MILITARY->radius*2,
     15
-);
+};
 
-Plane::Type *Plane::Type::types[] = {Plane::Type::MILITARY, Plane::Type::COMMERCIAL};
+const Plane::Type *const Plane::Type::types[] = {Plane::Type::MILITARY, Plane::Type::COMMERCIAL};
 
 struct Base;
 
