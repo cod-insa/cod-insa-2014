@@ -27,20 +27,22 @@ public class Projectile extends MaterialGameEntity {
 	
 	//public Projectile(MovingEntity model, Sim sim, Unique<Coord> pos, Altitude alt, double direction) {
 		//super(model, sim, pos, alt);
-	public Projectile (Game sim, Unique<Coord> pos, Unique<Coord> ine, int ownerId, double direction) {
+	public Projectile (Game sim, Unique<Coord> pos, Unique<Coord> ine, int ownerId, double direction, double distance) {
 		super(new MovingEntity(makeNextId(), pos, ine), sim, Altitude.SKY);
 //		model.rotation = direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION;
 		model().rotation(direction -INITIAL_ANGLUAR_IMPRECISION/2 + Util.rand.nextDouble()*INITIAL_ANGLUAR_IMPRECISION);
 		model().speed = SPEED;
 		model().ownerId(ownerId);
-		distToCover = GamePlane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
+//		distToCover = GamePlane.VISION_DIST - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
+		distToCover = distance - DISTANCE_RANDOMNESS/2 + Util.rand.nextDouble()*DISTANCE_RANDOMNESS + INEFFECTIVE_RANGE;
 	}
 	
 	@Override
 	public final void updateSpecialized (double period) {
 		super.updateSpecialized(period);
-		distToCover -= model().position().distanceTo(lastPosition); // FIXME useless calculations...
-//		timeToLive -= SPEED; // FIXME WorldWrap hack
+//		distToCover -= model().position().distanceTo(lastPosition); // FIXMED useless calculations...
+		distToCover -= model().speed;
+//		timeToLive -= SPEED; // FIXMED WorldWrap hack
 		
 		if (distToCover < 0) {
 			die();
