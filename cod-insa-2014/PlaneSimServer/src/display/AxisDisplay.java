@@ -19,8 +19,9 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 
 	@Override
 	public Stroke getStroke(ViewTransform vtrans) {
-		return new BasicStroke(25*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+//		return new BasicStroke(25*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 		// entity.modelView().base1().radius // nope
+		return axisStroke;
 	}
 	
 	@Override
@@ -78,7 +79,8 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 		float a = .3f;
 //		float a = 1.5f;
 		
-		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base1().ownerId()), a));
+//		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base1().ownerId()), a));
+		g2d.setColor(lightenColor(getPlayerColor(entity.modelView().base1().ownerId())));
 		g2d.drawLine(
 				b1.x,
 				b1.y,
@@ -92,7 +94,8 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 				m2.x,
 				m2.y
 		);
-		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base2().ownerId()), a));
+//		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base2().ownerId()), a));
+		g2d.setColor(lightenColor(getPlayerColor(entity.modelView().base2().ownerId())));
 		g2d.drawLine(
 				m2.x,
 				m2.y,

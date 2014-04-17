@@ -421,8 +421,13 @@ public class GameDisplayPanel extends JPanel {
         g2d.setRenderingHints(rh);
         
 //        g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-        g2d.setStroke(new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-        
+//        g2d.setStroke(new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		//g2d.setStroke(new BasicStroke(getWidth()/1000f*4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		EntityDisplay.fineStroke = new BasicStroke(getWidth()/1000f*2f*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		EntityDisplay.largeStroke = new BasicStroke(getWidth()/1000f*4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		EntityDisplay.axisStroke = new BasicStroke(getWidth()/1000f*30*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		
+		
         
         g2d.setColor(Color.lightGray);
         g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -461,7 +466,7 @@ public class GameDisplayPanel extends JPanel {
 
 		g2d.setColor(Color.white);
 		g2d.setFont(infoFont);
-		g2d.drawString(sim.getInfoString(), 0, 10);
+//		g2d.drawString(sim.getInfoString(), 0, 10);
 		g2d.drawString(sim.getInfoString(), 2, 12);
         
 

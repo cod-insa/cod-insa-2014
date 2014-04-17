@@ -29,7 +29,10 @@ public class BaseDisplay extends EntityDisplay<GameBase> {
 			);
 		*/
 		
-		g2d.setColor(getPlayerColor());
+//		g2d.setColor(getPlayerColor());
+		if (entity.model().ownerId() == 0)
+		     g2d.setColor(getPlayerColor());
+		else g2d.setColor(lightenColor(getPlayerColor()));
 		
 		//double size = 5E-2;
 		double size = entity.radius()*2;
