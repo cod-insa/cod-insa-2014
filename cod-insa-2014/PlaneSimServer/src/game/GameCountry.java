@@ -44,10 +44,10 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 			return timeBeforePlaneBuilt <= 0;
 		}
 		
-		public void continueConstruction()
+		public void continueConstruction(double period)
 		{
 			// TODO Check if this is ok
-			timeBeforePlaneBuilt--;
+			timeBeforePlaneBuilt -= period;
 		}
 		
 		public void createPlane()
@@ -87,7 +87,7 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 		for (Object o : productionLine.toArray()) 
 		{
 			Request pl = (Request)o;
-			pl.continueConstruction();
+			pl.continueConstruction(period);
 			if (pl.isPlaneBuilt())
 			{
 				productionLine.remove(pl);
