@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.*;
+import model.Country.Request.View;
 import model.Plane.State;
 import common.Unique;
 import display.CountryDisplay;
@@ -83,16 +84,34 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 		// Avoid concurrent access exception because we modify productionLine
 		for (Object o : productionLine.toArray()) 
 		{
-			Request pl = (Request)o;
-			pl.continueConstruction(period);
-			if (pl.isPlaneBuilt())
+			Request r = (Request)o;
+			r.continueConstruction(period);
+			if (r.isPlaneBuilt())
 			{
-				productionLine.remove(pl);
-				pl.createPlane();
+				productionLine.remove(r);
+				r.createPlane();
 			}
 		}
 	}
 
+	public void cancelRequest(View request) {
+		boolean found = false;
+		Request foundR = null;
+		for (Object o : productionLine.toArray())
+		{
+			Request r = (Request)o;
+			if (!found && r.RqId == request.rqId())
+			{
+				found = true;
+				foundR = r;
+			}
+			else if (found)
+				r.timeBeforePlaneBuilt -= foundR.timeBeforePlaneBuilt;
+			// else i.e. !found && this isn't the request
+			// means that the request is not impacted
+		}
+	}
+	
 	@Override
 	public void afterUpdate(double period) {
 		// ...
@@ -111,6 +130,7 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 	
 	@Override
 	public int landingCapacity() { return GameSettings.MAX_PLANES_PER_COUNTRY; }
+
 	
 }
 

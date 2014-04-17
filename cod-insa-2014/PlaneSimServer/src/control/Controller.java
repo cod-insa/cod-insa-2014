@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
-
 import command.AttackCommand;
 import command.BuildPlaneCommand;
+import command.CancelRequestCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.FillFuelTankCommand;
@@ -99,6 +99,9 @@ public class Controller {
 		} catch (BuildPlaneCommand e) {
 			GameCountry country = s.getCountryByAiId(ai_id);
 			country.buildPlane(country.new Request(e.requestedType));
+		} catch (CancelRequestCommand crc) {
+			GameCountry country = s.getCountryByAiId(ai_id);
+			country.cancelRequest(crc.request);
 		}
 		
 	}
