@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import game.Settings;
 import model.Plane.State;
 import common.Immutable;
 import common.ListView;
