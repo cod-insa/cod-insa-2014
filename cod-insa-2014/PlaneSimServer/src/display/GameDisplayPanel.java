@@ -7,13 +7,7 @@ import game.GameEntity;
 import game.GamePlane;
 import game.World;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -380,6 +374,7 @@ public class GameDisplayPanel extends JPanel {
     	repaint_timer.cancel();
     }
 
+	static Font infoFont = new Font("Arial", Font.PLAIN, 12);
 
 	@Override
     public void paintComponent(Graphics g) {
@@ -435,10 +430,12 @@ public class GameDisplayPanel extends JPanel {
         Pixel top_left = vtrans.getViewPos(new Coord(0,0).view());
         Pixel bottom_right = vtrans.getViewPos(new Coord(sim.getWorld().width, sim.getWorld().height).view());
         g2d.drawRect(top_left.x, top_left.y, bottom_right.x-top_left.x, bottom_right.y-top_left.y);
-        
-        
-        g2d.setColor(Color.white);
-        g2d.drawString(sim.getInfoString(), 0, 10);
+
+
+		g2d.setColor(Color.white);
+		g2d.setFont(infoFont);
+		g2d.drawString(sim.getInfoString(), 0, 10);
+		g2d.drawString(sim.getInfoString(), 2, 12);
         
 
 

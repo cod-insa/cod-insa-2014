@@ -26,7 +26,7 @@ public class Game {
 	
 	public static final Logger log = LoggerFactory.getLogger(Game.class);
 	
-	public final static long update_period = 30;
+	public final static long update_period = Settings.GAME_FRAMES_PER_SECOND; //30;
 //	public final static long world_snapshot_frame_period = 50;
 	
 	//private Controller stepUpdate;
@@ -55,6 +55,8 @@ public class Game {
 	//final Timer updateTimer = null;
 	Timer updateTimer = null;
 	
+	public final long timeOut;
+	
 	int fps = 0;
 	long lastTime = -1;
 	
@@ -72,6 +74,8 @@ public class Game {
 	
 	public Game (Displayer disp, int nbplay, String mapName, long seconds) {
 		
+		this.timeOut = seconds;
+		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
 		this.scores = new Scores(nbplay); // FIXME
@@ -86,7 +90,7 @@ public class Game {
 		this.mapInfo = mapLoader.getM();
 		
 		//init countdown
-		clock = new FinalCountdown(20*60);	//in seconds
+//		clock = new FinalCountdown(20*60);	//in seconds
 				
 		
 		//this.stepUpdate = new Controller(update_period);
@@ -124,7 +128,8 @@ public class Game {
 	{
 		//TODO (called when all players have joined the game)
 		
-		clock.start();
+		if (clock != null)
+			clock.start();
 		
 		//if (updateTimer == null) return;
 		
@@ -156,38 +161,55 @@ public class Game {
 			
 			
 			/////////////////////////////////////
+
+			final long launchTime = System.currentTimeMillis();
 			
 			updateTimer.schedule(new TimerTask() {
 				@Override
 				public void run() {
 
-					long time = System.currentTimeMillis();
-					//System.out.println(1f/(float)(time-lastTime));
-					fps = (int) (1000f / (float) (time - lastTime));
-					lastTime = time;
+					if (current_frame/Settings.GAME_FRAMES_PER_SECOND < timeOut) {
 
-					//System.out.println("A");
-					update();
-					Controller.get().update(Game.this);
+						long time = System.currentTimeMillis();
+						//System.out.println(1f/(float)(time-lastTime));
+						fps = (int) (1000f / (float) (time - lastTime));
+						lastTime = time;
 
-					if (current_frame % GameSettings.TIME_UNITS_PER_FRAME == 0)
-						world.takeSnapshot();
+						//System.out.println("A");
+						update();
+						Controller.get().update(Game.this);
 
-					/////////////////////////////////////
-					// FIXME: testing
-					if (current_frame % GameSettings.TIME_UNITS_PER_FRAME == 0) {
-						int N = 0;
-						for (int i = 0; i < N; i++) {
-							double w = world.width, h = world.height;
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 3, Type.MILITARY);
-							new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 4, Type.MILITARY);
+						if (current_frame % GameSettings.TIME_UNITS_PER_FRAME == 0)
+							world.takeSnapshot();
+
+						/////////////////////////////////////
+						// FIXME: testing
+						if (current_frame % GameSettings.TIME_UNITS_PER_FRAME == 0) {
+							int N = 0;
+							for (int i = 0; i < N; i++) {
+								double w = world.width, h = world.height;
+								new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 3, Type.MILITARY);
+								new GamePlane(Game.this, new Coord.Unique(Util.rand.nextDouble() * w, Util.rand.nextDouble() * h), 4, Type.MILITARY);
+							}
 						}
-					}
-					/////////////////////////////////////
+						/////////////////////////////////////
 
-					current_frame++;
-					//throw new Error();
-					//System.out.println("B");
+						current_frame++;
+						//throw new Error();
+						//System.out.println("B");
+						
+					} else {
+						
+						// TODO: game ending
+						
+						log.info("Game ended after "+current_frame+" frames ("+timeOut+" theoretical seconds)."
+								+" Real time spent: "+Math.round(((double)(System.currentTimeMillis()-launchTime))/100d)/10d+" seconds.");
+
+//						updateTimer.cancel();
+						stop();
+						
+					}
+					
 				}
 			}, update_period, update_period);
 		}
@@ -201,7 +223,8 @@ public class Game {
 		//if (updateTimer == null) return;
 		
 		log.info("Stopping simulation");
-		clock.interruptCountdown();
+		if (clock != null)
+			clock.interruptCountdown();
 		updateTimer.cancel();
 		updateTimer.purge();
 		
@@ -314,7 +337,8 @@ public class Game {
 //	}
 
 	public String getInfoString() {
-		return "Entities: "+world.entities.size()+" | FPS: "+fps;
+//		return "Entities: "+world.entities.size()+" | FPS: "+fps+" | Seconds left: "+getTimeLeft()+"/"+timeOut;
+		return "Entities: "+world.entities.size()+" | FPS: "+fps+" | Time: "+(current_frame/Settings.GAME_FRAMES_PER_SECOND)+" of "+timeOut+" seconds";
 	}
 
 	public World getWorld() {
@@ -323,7 +347,8 @@ public class Game {
 	
 	public long getTimeLeft()
 	{
-		return clock.getRemainingTime();
+//		return clock.getRemainingTime();
+		return timeOut - current_frame/Settings.GAME_FRAMES_PER_SECOND;
 	}
 
 	public GameCountry getCountryByAiId(int ai_id) {
