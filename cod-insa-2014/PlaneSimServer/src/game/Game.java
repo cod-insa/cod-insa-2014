@@ -124,6 +124,11 @@ public class Game {
 		
 	}
 	
+	private void deb_base(int id, int owner, double garrison) {
+		getBase(id).model().ownerId(owner);
+		getBase(id).model().militaryGarrison = garrison;
+	}
+	
 	public void start()
 	{
 		//TODO (called when all players have joined the game)
@@ -145,12 +150,12 @@ public class Game {
 			/////////////////////////////////////
 			// FIXME: testing
 			
-			world.bases.get(0).model().ownerId(1);
-			world.bases.get(0).model().militaryGarrison = 8;
-			world.bases.get(1).model().ownerId(1);
-			world.bases.get(1).model().militaryGarrison = 10;
-			getBase(17).model().ownerId(2);
-			getBase(17).model().militaryGarrison = 15;
+//			world.bases.get(0).model().ownerId(1);
+//			world.bases.get(0).model().militaryGarrison = 8;
+//			world.bases.get(1).model().ownerId(1);
+//			world.bases.get(1).model().militaryGarrison = 10;
+//			getBase(17).model().ownerId(2);
+//			getBase(17).model().militaryGarrison = 15;
 
 //			getBase(17).model().ownerId(2);
 //			getBase(17).model().militaryGarrison = 2;
@@ -158,6 +163,15 @@ public class Game {
 //			getBase(2).model().militaryGarrison = .3;
 //			getBase(17).ownerId(2);
 //			getBase(17).model().militaryGarrison = 15;
+
+			deb_base( 2, 1, .5);
+			deb_base(11, 1, .5);
+			deb_base(17, 1, .5);
+			deb_base( 3, 1, .5);
+			deb_base(15, 1, .5);
+			deb_base(22, 1, .5);
+
+			deb_base( 8, 2,  5);
 			
 			
 			/////////////////////////////////////

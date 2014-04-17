@@ -435,6 +435,12 @@ public class World implements Viewable<World.View> {
 			
 		}
 
+//		for (GameBase b: bases)
+//			b.updateTransfers(period);
+
+		for (GameEntity e: entities)
+			if (e instanceof  GameAxis)
+				((GameAxis)e).updateTransfers(period);
 
 
 		for (GameEntity e: entities)

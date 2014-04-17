@@ -15,9 +15,15 @@ public class GameSettings {
 	public static final int MAX_PLANES_PER_COUNTRY = MAX_PLANES_PER_BASE*3;
 
 	public static double
-		DYING_RATE = .01,
-		MILITARY_TRANSFER_RATE = .015,
-		// ^ should be slightly greater than DYING_RATE to be able to save a base
+		
+//		DYING_RATE = .01,
+//		MILITARY_TRANSFER_RATE = .015,
+//		// ^ should be slightly greater than DYING_RATE to be able to save a base
+
+		MILITARY_TRANSFER_RATE = .025,
+		DYING_RATE_PERCENTAGE = .01,
+	
+	
 		MINIMUM_BASE_GARRISON = .3,
 		MINIMUM_CAPTURE_GARRISON = MINIMUM_BASE_GARRISON*2
 	;

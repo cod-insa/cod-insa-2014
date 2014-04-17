@@ -16,6 +16,8 @@ public class GameBase extends MaterialGameEntity implements Landable {
 	public static final double RADIUS = .08; //.04; // .05;
 	public final String cityName;
 	public Set<GameAxis.Oriented> axes = new HashSet<>();
+	
+	int nbClashes = 0;
 
 	public GameBase(Game sim, Unique<Coord> pos, String name) {
 		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
@@ -37,7 +39,7 @@ public class GameBase extends MaterialGameEntity implements Landable {
 //			model().capture(0);
 			
 			/////
-//			capture(0);
+			capture(0);
 			/////
 			
 			for (GameAxis.Oriented arc: axes) {
@@ -45,7 +47,7 @@ public class GameBase extends MaterialGameEntity implements Landable {
 				arc.axis().clashing = false;
 			}
 		}
-		
+		nbClashes = 0;
 	}
 	
 	@SuppressWarnings("deprecated")
