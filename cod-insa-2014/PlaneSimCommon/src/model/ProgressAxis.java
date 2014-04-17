@@ -19,7 +19,8 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 	/**
 	 * Between 0 and one. For both, 0 represents no advancement from the base.
 	 */
-	public double ratio1 = .3, ratio2 = .3; // TODO handle these correctly
+//	public double ratio1 = .3, ratio2 = .3; // TODONE handle these correctly
+	public double ratio1 = 0, ratio2 = 0;
 	
 //	public ProgressAxis(Base b1, Base b2) {
 //		base1 = b1.view();
@@ -65,7 +66,12 @@ public class ProgressAxis extends Entity implements Serializable, Viewable<Progr
 		ProgressAxis ret = new ProgressAxis(view(), context);
 		return ret;
 	}
-	
+
+	@Override
+	public int ownerId() {
+		return base1.ownerId() == base2.ownerId()? base1.ownerId(): 0;
+	}
+
 	public Oriented arcTo(Base b) {
 		if (b == base1)
 			return toBase1;

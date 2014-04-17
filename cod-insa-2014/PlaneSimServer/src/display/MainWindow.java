@@ -105,9 +105,10 @@ public class MainWindow {
 
 		ImageIcon image = new ImageIcon(getClass().getResource(Resources.PLANE_ICON));
 		frmPlaneSim.setIconImage(image.getImage());
-        
-        
-        frmPlaneSim.setBounds(100, 100, 728, 599);
+
+
+//		frmPlaneSim.setBounds(100, 100, 728, 599);
+		frmPlaneSim.setBounds(100, 100, 1000, 800);
         
         frmPlaneSim.setLocationRelativeTo( null );
         

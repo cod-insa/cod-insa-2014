@@ -155,10 +155,13 @@ public abstract class GameEntity {
 	
 	public abstract void updateSpecialized(double period);
 
-	public void afterUpdate(double period) {
+	public void beforeUpdate(double period) {
 		
 	}
-	
+
+	public void afterUpdate(double period) {
+
+	}
 	public abstract EntityDisplay<?> getDisplay();
 
 	

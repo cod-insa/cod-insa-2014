@@ -66,8 +66,9 @@ public class GameDisplayPanel extends JPanel {
         
         //s.setDisplayer(disp);
         this.disp = disp;
-        
-        vtrans.zoomIn(1./2);
+
+//		vtrans.zoomIn(1./2);
+		vtrans.zoomIn(1./4);
         
         final GameDisplayPanel that = this;
         

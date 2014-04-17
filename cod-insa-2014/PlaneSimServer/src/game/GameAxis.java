@@ -50,7 +50,10 @@ public class GameAxis extends GameEntity {
 		public GameAxis axis() { return GameAxis.this; }
 		
 		public void send(double mil) {
-			assert mil > 0;
+			assert base1.model().ownerId() == base2.model().ownerId();
+			
+//			assert mil > 0;
+			assert mil < 0;
 			
 			militarySent += mil;
 			
@@ -63,17 +66,26 @@ public class GameAxis extends GameEntity {
 		}
 
 	}
+
+	@Override
+	public void beforeUpdate(double period) {
+		double militaryTransfer = toBase2.flushMilitarySent() - toBase1.flushMilitarySent();
+
+		model().base1.militaryGarrison -= militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
+		model().base2.militaryGarrison += militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
+	}
 	
 	@Override
 	public void updateSpecialized(final double period) {
 		
-		double militaryTransfer = toBase2.flushMilitarySent() - toBase1.flushMilitarySent();
+//		double militaryTransfer = toBase2.flushMilitarySent() - toBase1.flushMilitarySent();
+//		
+////		assert militaryTransfer == 0 || model().base1.ownerId() == model().base2.ownerId();
+//		
+//		model().base1.militaryGarrison -= militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
+//		model().base2.militaryGarrison += militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
+////		militaryTransfer = 0;
 		
-		assert militaryTransfer == 0 || model().base1.ownerId() == model().base2.ownerId();
-		
-		model().base1.militaryGarrison -= militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
-		model().base2.militaryGarrison += militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
-//		militaryTransfer = 0;
 		
 //		double ratioSpeed1 = .002;
 		final double ratioSpeed1 = .002 / model().length; // TODO: function of the fuel
@@ -108,13 +120,14 @@ public class GameAxis extends GameEntity {
 					}
 					assert baseAm().owned() || !(baseAm().militaryGarrison > 0);
 					
-					if (ratioA() != ratioB()) {
-						assert ratioA() < ratioB();
-						
-//						if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0 && model().base1.canExpand())
-//							model().ratio1 += ratioSpeed1 * period;
-						
-					}
+//					if (ratioA() != ratioB()) {
+////						if (ratioA() >= ratioB()) throw new Error();
+//						assert ratioA() < ratioB();
+//						
+////						if (model().ratio1 < 1 - model().ratio2 && model().base1.militaryGarrison > 0 && model().base1.canExpand())
+////							model().ratio1 += ratioSpeed1 * period;
+//						
+//					}
 					
 				};
 				
@@ -124,7 +137,7 @@ public class GameAxis extends GameEntity {
 				}
 				
 				void capture() {
-					if (baseBm().militaryGarrison == 0 && baseAm().canCapture()) {
+					if (ratioA() >= 1 && baseAm().canCapture() && baseBm().militaryGarrison <= 0) {
 						baseB().capture(baseAm().ownerId());
 						baseBm().militaryGarrison += GameSettings.MINIMUM_BASE_GARRISON;
 						baseAm().militaryGarrison -= GameSettings.MINIMUM_BASE_GARRISON;
@@ -137,6 +150,8 @@ public class GameAxis extends GameEntity {
 						ratioA(1);
 					else if (ratioA() < 0)
 						ratioA(0);
+					if (baseAm().militaryGarrison < 0)
+						baseAm().militaryGarrison = 0;
 				};
 				
 			}
@@ -171,8 +186,8 @@ public class GameAxis extends GameEntity {
 				model().ratio2 = 1 - model().ratio1;
 			}
 
-			A.capture();
-			B.capture();
+//			A.capture();
+//			B.capture();
 
 			if (model().ratio2 == 1 - model().ratio1
 					&& model().base1.militaryGarrison > 0
@@ -196,12 +211,15 @@ public class GameAxis extends GameEntity {
 				model().ratio2 = 1 - model().ratio1;
 
 			}
-			
-			
+
 			A.checkValid();
 			B.checkValid();
-			
-			
+
+
+			A.capture();
+			B.capture();
+
+
 			
 			
 			

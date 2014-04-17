@@ -7,7 +7,7 @@ public interface Settings {
 		DEBUG_GOD_MODE = true
 	;
 	
-	public static final double WORLD_ZOOM = 1;
+	public static final double WORLD_ZOOM = .5;
 	
 	public static final boolean WORLD_WRAP = false;
 

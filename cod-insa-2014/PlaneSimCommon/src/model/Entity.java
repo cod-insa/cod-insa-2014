@@ -32,7 +32,7 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		/**
 		 * Return the ownerId of the entity
 		 */
-		public int ownerId() { return ownerId; }
+		public int ownerId() { return Entity.this.ownerId(); }
 		/**
 		 * Returns false by default (for an Entity)
 		 */
@@ -44,7 +44,7 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		 * @param e The potential friend
 		 */
 		public boolean isFriend(Entity.View e) {
-			return ownerId == e.ownerId();
+			return ownerId() == e.ownerId();
 		}
 		
 		/**
@@ -52,14 +52,14 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		 * @param e The potential ennemy
 		 */
 		public final boolean isEnemy(Entity.View e) {
-			return ownerId > 0 && ownerId != e.ownerId();
+			return ownerId() > 0 && ownerId() != e.ownerId();
 		}
 		
 		protected Entity model() { return Entity.this; }
 	}
 	
 	public boolean owned() {
-		return ownerId != 0;
+		return ownerId() != 0;
 	}
 	
 	//public Entity(int id, Coord.Unique pos) {

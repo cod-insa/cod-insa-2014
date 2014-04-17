@@ -15,7 +15,8 @@ public class GameSettings {
 		DYING_RATE = .01,
 		MILITARY_TRANSFER_RATE = .015,
 		// ^ should be slightly greater than DYING_RATE to be able to save a base
-		MINIMUM_BASE_GARRISON = .5
+		MINIMUM_BASE_GARRISON = .3,
+		MINIMUM_CAPTURE_GARRISON = MINIMUM_BASE_GARRISON*2
 	;
 	
 	

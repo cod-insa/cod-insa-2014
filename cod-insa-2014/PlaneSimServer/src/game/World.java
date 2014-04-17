@@ -327,19 +327,21 @@ public class World implements Viewable<World.View> {
 //				double currentIdealGarrison = 0;
 				double baseBalance = 0;
 				int nbFronts = 0;
+				int nbFalseFronts = 0; // includes fronts with nobody on the other size (deserted base)
 				for (GameAxis.Oriented arc: b.axes) {
+					if (b.model.ownerId() != arc.next.model().ownerId()) nbFalseFronts++;
 					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0) {
 						nbFronts++;
 //						axisBalance.get(arc.axis());
 						baseBalance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * axisBalance.get(arc.axis());
 					}
 				}
-				if (nbFronts == 0) {
+				if (nbFalseFronts == 0) {
 					assert baseBalance == 0;
 					baseBalance = b.model().militaryGarrison - GameSettings.MINIMUM_BASE_GARRISON;
 				}
-				else if (b.model().militaryGarrison < GameSettings.MINIMUM_BASE_GARRISON && baseBalance > -GameSettings.MINIMUM_BASE_GARRISON) {
-					baseBalance = -GameSettings.MINIMUM_BASE_GARRISON;
+				else if (b.model().militaryGarrison < GameSettings.MINIMUM_CAPTURE_GARRISON && baseBalance > -GameSettings.MINIMUM_CAPTURE_GARRISON) {
+					baseBalance = -GameSettings.MINIMUM_CAPTURE_GARRISON;
 				}
 				
 //				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
@@ -348,6 +350,9 @@ public class World implements Viewable<World.View> {
 //				globalMilitaryExcess += baseBalance > 0? baseBalance: 0;
 			}
 
+			// FIXME maybe: this poorly handles having several connected components;
+			// units won't be able to flow from one base to the other normally
+			
 			for (GameBase baseInNeed: bases) {
 //				double toRedistribute = -idealAdditionalGarrison.get(inNeed);
 				double toReceive = idealAdditionalGarrison.get(baseInNeed);
@@ -357,13 +362,22 @@ public class World implements Viewable<World.View> {
 					for (GameBase baseInExcess: bases) {
 						double excess = -idealAdditionalGarrison.get(baseInExcess);
 						if (excess > 0) {
-							assert baseCache.get(baseInExcess).arcToBase != null; // since baseInExcess cannot be baseInNeed
+//							assert baseCache.containsKey(baseInExcess);
 							
-//							double sent = baseInExcess.model().militaryGarrison * toReceive/globalMilitaryNeed;
-							double toSend = excess * toReceive/globalMilitaryNeed;
-							
-							baseCache.get(baseInExcess).arcToBase.send(-toSend);
-							
+							if (baseCache.containsKey(baseInExcess)) // can fail when graph isn't connex
+							{
+								assert (baseCache.get(baseInExcess).arcToBase != null) : (baseInExcess == baseInNeed ? "" : "???"); // since baseInExcess cannot be baseInNeed
+
+								//							double sent = baseInExcess.model().militaryGarrison * toReceive/globalMilitaryNeed;
+								double toSend = excess * toReceive / globalMilitaryNeed;
+
+								//							if (baseCache.get(baseInExcess).arcToBase.model.axis().ownerId() == baseInExcess.model.ownerId()) // Ugly hack
+
+								// (using the axis ownerId to check the axis is really ours:)
+								//							System.out.println(baseCache.get(baseInExcess).arcToBase.model.axis().ownerId()+" "+pid);
+								if (baseCache.get(baseInExcess).arcToBase.model.axis().ownerId() == pid) // Ugly hack
+									baseCache.get(baseInExcess).arcToBase.send(-toSend);
+							}
 						}
 						
 						
@@ -420,9 +434,11 @@ public class World implements Viewable<World.View> {
 			
 			
 		}
-		
-		
 
+
+
+		for (GameEntity e: entities)
+			e.beforeUpdate(period);
 
 		for (GameEntity e: entities) {
 			
