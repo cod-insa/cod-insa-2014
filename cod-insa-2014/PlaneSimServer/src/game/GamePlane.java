@@ -130,20 +130,31 @@ public final class GamePlane extends MaterialGameEntity {
 //				model().speedVector(),
 //				model.ownerId()
 //		));
+		
+		double blastPowerRandomness = .4;
 
 //		for (Point2D.Double p: disp.shape.points) {
 		int s = disp.shape.points.size();
 		for (int i = 0; i < s; i++) {
 //			Point2D.Double p1 = disp.shape.points.get(i), p2 = disp.shape.points.get(i%s);
 			//final int nbDebs = Math.random() > .5? 1: 2;
-			final int nbDebs = Util.rand.nextInt(max_pieces)+min_pieces;
+//			final int nbDebs = Util.rand.nextInt(max_pieces)+min_pieces;
+			int nbDebs = Util.rand.nextInt(max_pieces)+min_pieces;
 
 //			Coord.View prevPt = model().position();
 //			Coord.View prevPt = new Coord(p1).view();
 //			final Coord.View endPt = new Coord(p2).view();
-			int nbDebsRemaining = nbDebs;
+
 			Coord.View prevPt = new Coord(disp.shape.points.get(i)).addedTo(model().position()).view();
 			final Coord.View endPt = new Coord(disp.shape.points.get((i+1)%s)).addedTo(model().position()).view();
+
+			
+//			System.out.println(prevPt.distanceTo(endPt));
+//			nbDebs = (prevPt.distanceTo(endPt) > 0.05)? 1: 2; // FIXME: doesn't work?
+			nbDebs = 1;
+			
+			int nbDebsRemaining = nbDebs;
+			
 			for (int j = 0; j < nbDebs; j++) {
 //				Coord.View bary = Coord.barycenter(prevPt, endPt, ((double)j+1)/(nbDebs)).view();
 				Coord.View bary = Coord.barycenter(prevPt, endPt, ((double)1)/(nbDebsRemaining)).view();
@@ -151,7 +162,7 @@ public final class GamePlane extends MaterialGameEntity {
 				//double blastPower = .003; // .005;
 				
 				Coord blast = prevPt.addedTo(model().position(), -1);
-				blast.mult(blastPower/blast.norm());
+				blast.mult(blastPower/blast.norm() * (1 - blastPowerRandomness/2 + blastPowerRandomness * Math.random()));
 //				Unique<Coord> inertia = model().speedVector();
 				Coord.Unique inertia = new Coord.Unique(model().speedVector());
 				inertia.mult(.5); // .5 ??? otherwise it's 2x too fast...

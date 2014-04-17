@@ -28,14 +28,14 @@ public abstract class EntityDisplay<T extends GameEntity> {
 			return Color.blue;
 		case 2:
 			return Color.red;
-		case 3:
-			return Color.green;
 		case 4:
+			return Color.orange;
+		case 3:
 			return Color.magenta;
 		case 5:
-			return Color.cyan;
+			return Color.green;
 		case 6:
-			return Color.orange;
+			return Color.cyan;	
 		default:
 			return Color.black;
 		}

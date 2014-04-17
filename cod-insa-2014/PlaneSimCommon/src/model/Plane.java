@@ -311,9 +311,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 
 		public static final Type MILITARY = new Type(
 				// firingRange
-				0.7,
+				0.8, // 0.7
 				// radarRange
-				0.7,
+				0.9, // 0.7
 				// fullHealth
 				100,
 				// holdCapacity

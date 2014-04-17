@@ -57,8 +57,8 @@ public class GameDisplayPanel extends JPanel {
         //s.setDisplayer(disp);
         this.disp = disp;
 
-//		vtrans.zoomIn(1./2);
-		vtrans.zoomIn(1./4);
+		vtrans.zoomIn(1./2);
+//		vtrans.zoomIn(1./4);
         
         final GameDisplayPanel that = this;
         
@@ -82,6 +82,9 @@ public class GameDisplayPanel extends JPanel {
 //	    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
 //	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
     	}
+
+		pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 3, Type.MILITARY));
+		
     	
 		//new Base(sim, new Coord(.3,.6));
     	

@@ -79,7 +79,10 @@ public class Scores {
 			
 			if(ba.model().owned())
 			{
-				scoresToAdd[ba.model().ownerId()-1]++;
+				if (ba.model().ownerId()-1 < scoresToAdd.length)
+					scoresToAdd[ba.model().ownerId()-1]++;
+				else
+					log.warn("Found a base owned by an unknown player, of id: "+ba.model().ownerId());
 			}			
 		}
 		

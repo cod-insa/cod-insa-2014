@@ -22,14 +22,96 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 
 	public PlaneDisplay (GamePlane p) {
 		super(p);
+
+		ArrayList<Point2D.Double> half = new ArrayList<>();
+
+		double siz;
+		
+		if (p.model().type == Plane.Type.MILITARY) {
+			
+//			half.add(new Point2D.Double(5, 0));
+//			half.add(new Point2D.Double(-10, -5));
+//			half.add(new Point2D.Double(-10, 5));
+
+//			half.add(new Point2D.Double(5, 0));
+//			half.add(new Point2D.Double(-10, 5));
+
+			
+//			half.add(new Point2D.Double(  10,   2));
+//			half.add(new Point2D.Double(   4, 2.2));
+//			half.add(new Point2D.Double( 4.5,  12));
+//			half.add(new Point2D.Double( 5.5,  12));
+//			half.add(new Point2D.Double( 6.5,  2.2));
+//			half.add(new Point2D.Double(-8,  1.5));
+//			half.add(new Point2D.Double(-12,  5));
+
+			
+			
+//			half.add(new Point2D.Double(  12,   1));
+//			half.add(new Point2D.Double(  10,   2));
+			
+//			half.add(new Point2D.Double(  10,   1));
+//			half.add(new Point2D.Double(   7,   2));
+//			half.add(new Point2D.Double(   3, 2.2));
+
+			half.add(new Point2D.Double(  9,   1));
+			half.add(new Point2D.Double(   8,   2));
+			half.add(new Point2D.Double(   2, 2.2));
+			half.add(new Point2D.Double(   1,  12));
+			half.add(new Point2D.Double(   0,  13));
+			half.add(new Point2D.Double(  -2,  12));
+			half.add(new Point2D.Double(  -3, 2.2));
+			half.add(new Point2D.Double(-10,  1.5));
+			half.add(new Point2D.Double(-14,  5));
+			
+
+			siz = 3E-3;
+			
+		} else if (p.model().type == Plane.Type.COMMERCIAL) {
+
+//			half.add(new Point2D.Double( 12,  0));
+//			half.add(new Point2D.Double( 10,  2));
+//			half.add(new Point2D.Double(  4,  3));
+//			half.add(new Point2D.Double(  2,  12));
+////			half.add(new Point2D.Double(  -1,  13));
+//			half.add(new Point2D.Double(  -1.5,  13));
+//			half.add(new Point2D.Double(  0,  3));
+//			half.add(new Point2D.Double(-8,  1.5));
+//			half.add(new Point2D.Double(-12,  5));
+			
+			half.add(new Point2D.Double( 13,  0));
+			half.add(new Point2D.Double( 11,  2));
+			half.add(new Point2D.Double(  5,  3));
+			half.add(new Point2D.Double(  3,  12));
+//			half.add(new Point2D.Double(  -1,  13));
+			half.add(new Point2D.Double(  -1.5,  13));
+			half.add(new Point2D.Double(  0,  3));
+			half.add(new Point2D.Double(-8,  1.5));
+			half.add(new Point2D.Double(-12,  5));
+			
+
+
+			siz = 5E-3;
+
+		} else throw new AssertionError(); //assert false;
 		
 		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
+
+		points.addAll(half);
 		
-		points.add(new Point2D.Double(5, 0));
-		points.add(new Point2D.Double(-10, -5));
-		points.add(new Point2D.Double(-10, 5));
+//		for (Point2D.Double p: half) {
+		for (int i = half.size()-1; i >= 0; i--) {
+			Point2D.Double p2d = half.get(i);
+//			points.add(p2d);
+			if (p2d.getY() != 0)
+				points.add(new Point2D.Double(p2d.getX(), -p2d.getY()));
+		}
 		
-		shape = new PolygonShape(points, 3E-3);
+		// TODO center the shape...
+		
+//		shape = new PolygonShape(points, 3E-3);
+		shape = new PolygonShape(points, siz);
+
 	}
 
 	@Override

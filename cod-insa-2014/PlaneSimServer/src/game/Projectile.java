@@ -17,7 +17,7 @@ public class Projectile extends MaterialGameEntity {
 		INITIAL_ANGLUAR_IMPRECISION = Math.PI*.01, // = Math.PI*.01,
 		DISTANCE_RANDOMNESS = .5,
 		INEFFECTIVE_RANGE = .4,
-		HIT_POINTS = 10//3
+		HIT_POINTS = 4//10//3
 	;
 	
 	ProjectileDisplay disp = new ProjectileDisplay(this);
