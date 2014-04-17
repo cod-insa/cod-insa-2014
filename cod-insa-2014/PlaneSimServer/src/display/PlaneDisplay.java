@@ -95,7 +95,7 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 		
 		
 		/////////////////////////////////////////////////
-//		// DEBUG
+//		// DEBUG_MODE
 //		
 //		g2d.setColor(getPlayerColor(0));
 //		

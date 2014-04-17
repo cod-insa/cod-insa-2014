@@ -1,6 +1,7 @@
 package game;
 
 import model.Coord;
+import model.GameSettings;
 import model.MovingEntity;
 
 import common.Unique;
@@ -55,7 +56,7 @@ public class Projectile extends MaterialGameEntity {
 //			}
 //		}
 		for (GamePlane p : sim.planes) {
-			if (p.model().ownerId() != model.ownerId() && p.isFlying() && model().position().distanceTo(p.model().position()) < radius + p.radius) {
+			if ((GameSettings.FRIENDLY_FIRE || p.model().ownerId() != model.ownerId()) && p.isFlying() && model().position().distanceTo(p.model().position()) < radius + p.radius) {
 				p.takeHit(HIT_POINTS); // TODO add some randomness/distance dependency
 				die();
 			}

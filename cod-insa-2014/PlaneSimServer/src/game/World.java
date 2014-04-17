@@ -2,15 +2,10 @@ package game;
 
 import java.util.*;
 
-import model.AbstractBase;
-import model.Base;
-import model.Country;
-import model.Plane;
-import model.ProgressAxis;
+import model.*;
 import common.Immutable;
 import common.ListView;
 import common.Unique;
-import common.Unique.Collection;
 import common.Util;
 import common.Util.Converter;
 import common.Viewable;
@@ -25,7 +20,7 @@ public class World implements Viewable<World.View> {
 	private static double S = 3;
 	private static final double DEFAULT_WIDTH = S, DEFAULT_HEIGHT = S;
 	
-	public final double width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
+	public double width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
 	
 	private int currentSnapshotId = 0;
 	private Snapshot currentSnapshot;
@@ -47,6 +42,7 @@ public class World implements Viewable<World.View> {
 	public World (Game sim) {
 		//sim.world = this;
 		this.gameForScore = sim;
+		
 		
     	/********** FIXME DEV TEST: **********/
 		
@@ -196,44 +192,61 @@ public class World implements Viewable<World.View> {
 	//Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
 	
 	class BaseCache {
-//		final GameBase parent;
-//		final int distance;
+//		public final GameBase base, parent;
+		public final int distance;
+		public final GameAxis.Oriented arcToBase;
+//		public BaseCache(GameBase base, GameBase parent, int distance) {
+//			this.base = base;
+//			this.parent = parent;
+		public BaseCache(GameAxis.Oriented arcToBase, int distance) {
+			this.arcToBase = arcToBase;
+			this.distance = distance;
+		}
 	}
-	
-	Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
+
+//	Map<GameBase,Map<GameBase,GameBase>> nextBaseToGoTo;
+	Map<GameBase,Map<GameBase,BaseCache>> baseCaches;
 	
 	public void initialize(Game gam) {
 		
-		nextBaseToGoTo = new HashMap<>();
+		baseCaches = new HashMap<>();
 		
 		boolean connected = true;
 				
 		for (GameBase src: bases) {
 			
-			Map<GameBase,GameBase> toGoTo = new HashMap<>();
-			nextBaseToGoTo.put(src, toGoTo);
+			Map<GameBase,BaseCache> baseCache = new HashMap<>();
+			baseCaches.put(src, baseCache);
 			
 			/// Performs a BFS to assign which base troops should go through
 			/// to go from src to all other bases
 
-			Set<GameBase> visited = new HashSet<>();
-			Queue<GameBase> toVisit = new LinkedList<>();
-			
-			toVisit.add(src);
+			Set<GameBase> discovered = new HashSet<>();
+			Queue<BaseCache> toVisit = new LinkedList<>();
+
+//			toVisit.add(new BaseCache(src, null, 0));
+			toVisit.add(new BaseCache(null, 0));
+			discovered.add(src);
 			
 			while (toVisit.size() != 0) {
-				GameBase current = toVisit.poll();
+				BaseCache current = toVisit.poll();
+//				baseCache.put(current.arcToBase., current);
+				GameBase curBase = current.arcToBase == null? src: current.arcToBase.next;
+//				visited.add(curBase);
+				baseCache.put(curBase, current);
 				
-				for (GameAxis.Oriented arc: current.axes) {
+				for (GameAxis.Oriented arc: curBase.axes) {
 					GameBase target = arc.next;
-					if (!visited.contains(target)) {
-						visited.add(target);
-						toGoTo.put(target, current);
+					if (!discovered.contains(target)) {
+						discovered.add(target);
+//						baseCache.put(target, current);
+//						toVisit.add(new BaseCache(target, current.base, current.distance+1));
+						toVisit.add(new BaseCache(arc, current.distance + 1));
 					}
 				}
 			}
 			
-			connected = connected && visited.size() == bases.size();
+			connected = connected && discovered.size() == bases.size();
 		}
 		if (!connected)
 			log.warn("The bases graph seems not to be one connected component!");
@@ -257,6 +270,7 @@ public class World implements Viewable<World.View> {
 //		for (GameAxis ax: axes) {
 
 		Map<Integer,List<GameBase>> playerBases = new HashMap<>();
+		Map<GameAxis,Double> axisBalance = new HashMap<>();
 		
 		for (GameBase b: bases) {
 			if (b.model.ownerId() != 0) {
@@ -266,19 +280,165 @@ public class World implements Viewable<World.View> {
 					playerBases.put(b.model.ownerId(), bases);
 				}
 				bases.add(b);
+//				for (GameAxis.Oriented arc: b.axes) {
+//					GameAxis ax = arc.axis();
+////					if (b.model.ownerId() != arc.next.model().ownerId()) {
+//					if (ax.base1.model().ownerId() != ax.base2.model().ownerId()) {
+//						double balance = axisBalance.containsKey(ax)? axisBalance.get(ax): 0;
+//						balance += ax.base1.model().ownerId() > ax.base2.model().ownerId()?
+//								ax.base1.model().militaryGarrison - ax.base2.model().militaryGarrison
+//							:   ax.base2.model().militaryGarrison - ax.base1.model().militaryGarrison;
+//						axisBalance.put(arc.axis(), balance);
+//					}
+//				}
+				double nbFronts = 0;
+				for (GameAxis.Oriented arc: b.axes) {
+					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0)
+						nbFronts++;
+				}
+//				if (nbFronts == 0)
+				for (GameAxis.Oriented arc: b.axes) {
+					GameAxis ax = arc.axis();
+					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0) {
+						double balance = axisBalance.containsKey(ax)? axisBalance.get(ax): 0;
+						balance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * b.model().militaryGarrison / nbFronts;
+						axisBalance.put(arc.axis(), balance);
+					}
+				}
+				
 			}
 		}
+		
+		
+		// TODO: also populate the inner bases
 		
 		for (int pid: playerBases.keySet()) {
 			List<GameBase> bases = playerBases.get(pid);
+			
 			double totalMilitary = 0;
+//			double totalOpposition = 0;
+			double globalMilitaryNeed = 0;
+//			double globalMilitaryExcess = 0;
+			
+			Map<GameBase, Double> idealAdditionalGarrison = new HashMap<>();
+			
 			for (GameBase b: bases) {
 				totalMilitary += b.model().militaryGarrison;
+//				double currentIdealGarrison = 0;
+				double baseBalance = 0;
+				int nbFronts = 0;
+				int nbFalseFronts = 0; // includes fronts with nobody on the other size (deserted base)
+				for (GameAxis.Oriented arc: b.axes) {
+					if (b.model.ownerId() != arc.next.model().ownerId()) nbFalseFronts++;
+					if (b.model.ownerId() != arc.next.model().ownerId() && arc.next.model().ownerId() != 0) {
+						nbFronts++;
+//						axisBalance.get(arc.axis());
+						baseBalance += (b.model.ownerId() > arc.next.model().ownerId()? 1: -1) * axisBalance.get(arc.axis());
+					}
+				}
+				if (nbFalseFronts == 0) {
+					assert baseBalance == 0;
+					baseBalance = b.model().militaryGarrison - GameSettings.MINIMUM_BASE_GARRISON;
+				}
+				else if (b.model().militaryGarrison < GameSettings.MINIMUM_CAPTURE_GARRISON && baseBalance > -GameSettings.MINIMUM_CAPTURE_GARRISON) {
+					baseBalance = -GameSettings.MINIMUM_CAPTURE_GARRISON;
+				}
+				
+//				idealAdditionalGarrison.put(b, baseBalance < 0? -baseBalance: 0);
+				idealAdditionalGarrison.put(b, -baseBalance);
+				globalMilitaryNeed += baseBalance < 0? -baseBalance: 0;
+//				globalMilitaryExcess += baseBalance > 0? baseBalance: 0;
 			}
-		}
-		
-		
 
+			// FIXME maybe: this poorly handles having several connected components;
+			// units won't be able to flow from one base to the other normally
+			
+			for (GameBase baseInNeed: bases) {
+//				double toRedistribute = -idealAdditionalGarrison.get(inNeed);
+				double toReceive = idealAdditionalGarrison.get(baseInNeed);
+				if (toReceive > 0) {
+//					double toRedistribute = b.model().militaryGarrison + idealAdditionalGarrison.get(b);
+					Map<GameBase,BaseCache> baseCache = baseCaches.get(baseInNeed);
+					for (GameBase baseInExcess: bases) {
+						double excess = -idealAdditionalGarrison.get(baseInExcess);
+						if (excess > 0) {
+//							assert baseCache.containsKey(baseInExcess);
+							
+							if (baseCache.containsKey(baseInExcess)) // can fail when graph isn't connex
+							{
+								assert (baseCache.get(baseInExcess).arcToBase != null) : (baseInExcess == baseInNeed ? "" : "???"); // since baseInExcess cannot be baseInNeed
+
+								//							double sent = baseInExcess.model().militaryGarrison * toReceive/globalMilitaryNeed;
+								double toSend = excess * toReceive / globalMilitaryNeed;
+
+								//							if (baseCache.get(baseInExcess).arcToBase.model.axis().ownerId() == baseInExcess.model.ownerId()) // Ugly hack
+
+								// (using the axis ownerId to check the axis is really ours:)
+								//							System.out.println(baseCache.get(baseInExcess).arcToBase.model.axis().ownerId()+" "+pid);
+								if (baseCache.get(baseInExcess).arcToBase.model.axis().ownerId() == pid) // Ugly hack
+									baseCache.get(baseInExcess).arcToBase.send(-toSend);
+							}
+						}
+						
+						
+						
+						
+						
+						
+						
+						/***
+						
+						BaseCache cache = baseCache.get(baseInExcess); assert cache.arcToBase != null || baseInExcess == baseInNeed;
+						if (cache.arcToBase != null) {
+	//						if (cache.arcToBase.current.model().militaryGarrison > 
+	//						if (idealAdditionalGarrison.get(cache.arcToBase.current) < 0) {
+							if (idealAdditionalGarrison.get(baseInExcess) < 0) {
+								
+							}
+						}
+						
+						*/
+						
+					}
+				}
+			}
+			
+			
+			
+			
+//			Map<GameBase, Double> idealGarrison = new HashMap<>();
+//			for (GameBase b: bases) {
+//				double forcesBalanceSum = 0;
+//				for (ProgressAxis.Oriented arc: b.model().axes) {
+//					double forcesBalance = 0;
+//					if (arc.next().ownerId() != b.model.ownerId()) {
+//						Base.FullView ennemy = arc.next();
+////						opposingForces += 2 * ennemy.militaryGarrison();
+//						forcesBalance -= ennemy.militaryGarrison();
+//						for (ProgressAxis.Oriented ennemyArc: ennemy.axes()) {
+//							if (ennemyArc.next().ownerId() != ennemy.ownerId())
+//								forcesBalance += ennemyArc.next().militaryGarrison();
+//						}
+//					}
+//					assert forcesBalance < 0;
+//					totalOpposition -= forcesBalance;
+//					forcesBalanceSum += forcesBalance - b.model().militaryGarrison; // only count once our mil garr, after the sub-loop
+//				}
+//				forcesBalanceSum += b.model().militaryGarrison;
+//				
+//				// handle special case forcesBalanceSum < 0 => we don't send any troops?
+//				
+//				idealGarrison.put(b, forcesBalanceSum);
+//				
+//			}
+			
+			
+		}
+
+
+
+		for (GameEntity e: entities)
+			e.beforeUpdate(period);
 
 		for (GameEntity e: entities) {
 			

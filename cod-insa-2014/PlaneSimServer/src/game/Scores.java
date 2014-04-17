@@ -79,7 +79,7 @@ public class Scores {
 			
 			if(ba.model().owned())
 			{
-				scoresToAdd[ba.model().ownerId()]++;
+				scoresToAdd[ba.model().ownerId()-1]++;
 			}			
 		}
 		

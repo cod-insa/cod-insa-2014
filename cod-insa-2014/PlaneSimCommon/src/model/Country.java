@@ -11,17 +11,23 @@ import common.Viewable;
 public class Country extends AbstractBase implements Viewable<Country.View>{
 	public final Map<Integer, Request> productionLine;
 	
+	/**
+	 * This class represent your country
+	 */
 	public class View extends AbstractBase.View {
 
 		@Override
-		public Country copied(Context context) {
+		Country copied(Context context) {
 			return copy(context);
 		}
+		/**
+		 * Get the production line of the country
+		 */
 		public MapView<Integer, Request.View> productionLine() { return Util.view(productionLine); }
-		public boolean lineFull() { 
-			return productionLine.isEmpty();
-		}
 		@Override
+		/**
+		 * Get a string representation of the country
+		 */
 		public String toString() { return "id: " + id(); }
 	}
 	

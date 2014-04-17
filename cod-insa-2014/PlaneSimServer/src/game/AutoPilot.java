@@ -137,6 +137,9 @@ public final class AutoPilot {
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
 		}
 		///////////////////////////
+		if (b instanceof GameCountry)
+			plane.model().fuelInTank = plane.model().type.tankCapacity;
+		
 		
 		state = State.AT_AIRPORT;
 		plane.model().assignTo(b.model());//addPlane();

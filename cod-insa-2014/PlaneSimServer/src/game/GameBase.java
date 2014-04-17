@@ -16,15 +16,15 @@ import java.util.Set;
 
 public class GameBase extends MaterialGameEntity implements Landable {
 	
-	public static final double RADIUS = .04; // .05;
-	public final String cityname;
+	public static final double RADIUS = .08; //.04; // .05;
+	public final String cityName;
 	public Set<GameAxis.Oriented> axes = new HashSet<>();
 
 	public GameBase(Game sim, Unique<Coord> pos, String name) {
 		//super(new model.BaseModel(getNextId(), pos), sim, pos, Altitude.GROUND);
 		super(new Base(makeNextId(), pos), sim, Altitude.GROUND);
 		radius = RADIUS;
-		cityname = name;
+		cityName = name;
 	}
 	
 	@Override
@@ -38,8 +38,17 @@ public class GameBase extends MaterialGameEntity implements Landable {
 		if (model().militaryGarrison <= 0) {
 			model().militaryGarrison = 0;
 //			model().capture(0);
-			capture(0);
+			
+			/////
+//			capture(0);
+			/////
+			
+			for (GameAxis.Oriented arc: axes) {
+				arc.current.model().resetAxes();
+				arc.axis().clashing = false;
+			}
 		}
+		
 	}
 	
 	@SuppressWarnings("deprecated")
@@ -67,10 +76,11 @@ public class GameBase extends MaterialGameEntity implements Landable {
 		
 	}
 
-	
+	final BaseDisplay disp = new BaseDisplay(this);
 	@Override
 	public EntityDisplay<GameBase> getDisplay() {
-		return new BaseDisplay(this);
+//		return new BaseDisplay(this);
+		return disp;
 	}
 	
 	@Override
@@ -83,6 +93,10 @@ public class GameBase extends MaterialGameEntity implements Landable {
 	@Override
 	public Base.FullView modelView() { return model().view(); }
 
+	@Override
+	public String toString() {
+		return super.toStringInfo()+" Base "+cityName;
+	}
 	
 	
 }

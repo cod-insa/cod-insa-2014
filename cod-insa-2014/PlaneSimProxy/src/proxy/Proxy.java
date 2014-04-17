@@ -171,23 +171,27 @@ public class Proxy
 		// So we begin by doing killed_planes = ai_planes and then ai_planes = empty
 
 		killed_planes.putAll(ai_planes); // We put all the planes in killed_planes as if all planes were destroyed
+		for (Plane p : ai_planes.values()) // And so is exists
+			p.exists = false;
 		ai_planes.clear();
 		
+		// Closure to update all the basic info
 		class UpdateBasicInfo { public UpdateBasicInfo(Plane plane, genbridge.PlaneBasicData p) {
+			plane.exists = true;
 			plane.position.x = p.posit.x;
 			plane.position.y = p.posit.y;
 			plane.health = p.health;
 			plane.ownerId(p.ai_id);
 		}}
 		
-		// Closure for the poor
+		// Closure to update all the full info
 		class UpdateFullInfo { public UpdateFullInfo(Plane plane, PlaneFullData p) {
 			new UpdateBasicInfo(plane,p.basic_info);
 			plane.fuelInTank = p.remainingGaz;
 			plane.militaryInHold = p.militarResourceCarried;
 			plane.fuelInHold = p.fuelResourceCarried;
 			
-			// fireRange and radarRange not updated
+			// fireRange and radarRange not updated because they are never updated
 
 			plane.state = StateConverter.make(p.state);
 			if (plane.state == State.AT_AIRPORT) // Update the plane 

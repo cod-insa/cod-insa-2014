@@ -13,7 +13,7 @@ import display.CountryDisplay;
 import display.EntityDisplay;
 
 public class GameCountry extends MaterialGameEntity implements Landable {
-	public static final double RADIUS = .08;
+	public static final double RADIUS = GameBase.RADIUS * 2;
 	public final String countryname;
 	public final List<Request> productionLine;
 	
@@ -44,10 +44,10 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 			return timeBeforePlaneBuilt <= 0;
 		}
 		
-		public void continueConstruction()
+		public void continueConstruction(double period)
 		{
 			// TODO Check if this is ok
-			timeBeforePlaneBuilt--;
+			timeBeforePlaneBuilt -= period;
 		}
 		
 		public void createPlane()
@@ -72,10 +72,11 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 			s += r.timeBeforePlaneBuilt;
 		return s;
 	}
-	
+
+	final CountryDisplay disp = new CountryDisplay(this);
 	@Override
 	public EntityDisplay<GameCountry> getDisplay() {
-		return new CountryDisplay(this);
+		return disp;
 	}
 	
 	@Override
@@ -86,7 +87,7 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 		for (Object o : productionLine.toArray()) 
 		{
 			Request pl = (Request)o;
-			pl.continueConstruction();
+			pl.continueConstruction(period);
 			if (pl.isPlaneBuilt())
 			{
 				productionLine.remove(pl);

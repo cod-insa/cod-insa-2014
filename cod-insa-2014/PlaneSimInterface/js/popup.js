@@ -5,13 +5,13 @@ function doCheckAndConnect()
 {
 	$('#connectmodal').modal('hide');
 	var ip = $('#ipad').val();
-	//window.alert(ip);
 	initServerConnection(ip);
 }
 
 function showModal()
 {
 	$('#connectmodal').modal('show');
+	initialisationMaps();
 }
 
 function displayError()

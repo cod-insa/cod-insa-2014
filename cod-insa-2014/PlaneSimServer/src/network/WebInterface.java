@@ -115,17 +115,17 @@ public class WebInterface extends WebSocketServer {
 		JSONStringer str = new JSONStringer();
 
 		str.object()
-		.key("nbplayers")
+		.key("nbp")
 		.value(game.getNbPlayers())
 		.key("map")
 		.object()
 		.key("name")
 		.value(mapInfo.getName())
-		.key("basecount")
+		.key("bazc")
 		.value(mapInfo.getBasesCount())
-		.key("latitude")
+		.key("lati")
 		.value(mapInfo.getCenter_lat())
-		.key("longitude")
+		.key("longi")
 		.value(mapInfo.getCenter_long())
 		.key("zoom")
 		.value(mapInfo.getWeb_zoom());
@@ -138,13 +138,13 @@ public class WebInterface extends WebSocketServer {
 
 				str.key("id");
 				str.value(b.id());
-				str.key("cityname");
-				str.value(b.cityname);
-				str.key("latitude");
+				str.key("cname");
+				str.value(b.cityName);
+				str.key("lati");
 				str.value(converter.getLatFromY(b.lastPosition.y()));
-				str.key("longitude");
+				str.key("longi");
 				str.value(converter.getLongFromX(b.lastPosition.x()));
-				str.key("ownerid");
+				str.key("oid");
 				str.value(b.modelView().ownerId());
 
 				str.endObject();
@@ -336,7 +336,7 @@ public class WebInterface extends WebSocketServer {
 	}
 
 	/*public static void main(String[] args) {
-		Game mapInfo = null;
+		GameSettings mapInfo = null;
 		World world = null;
 		WebInterface ww = startWebInterface(mapInfo);
 	}*/

@@ -60,7 +60,14 @@ public class BaseDisplay extends EntityDisplay<GameBase> {
 			//		g2d.setColor(Color.white);
 			//		g2d.drawString(entity.cityname, left.x, right.y);
 			g2d.setColor(Color.black);
-			g2d.drawString(entity.cityname, topLeft.x, bottomRight.y + font.getSize() + margin);
+			g2d.drawString(
+
+					/////////////////////////////////////
+					// FIXME: testing
+					"("+entity.id()+") "+
+					/////////////////////////////////////
+					
+					entity.cityName, topLeft.x, bottomRight.y + font.getSize() + margin);
 			g2d.setColor(Color.red);
 			g2d.drawString("Mil: " + Math.round(10*entity.modelView().militaryGarrison())/10.0,
 					topLeft.x, bottomRight.y + font.getSize() * 2 + margin * 2);

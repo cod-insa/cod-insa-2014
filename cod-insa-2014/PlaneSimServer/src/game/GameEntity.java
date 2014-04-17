@@ -155,11 +155,24 @@ public abstract class GameEntity {
 	
 	public abstract void updateSpecialized(double period);
 
-	public void afterUpdate(double period) {
+	public void beforeUpdate(double period) {
 		
 	}
-	
+
+	public void afterUpdate(double period) {
+
+	}
 	public abstract EntityDisplay<?> getDisplay();
+
+	
+	public String toStringInfo() {
+		return "[Entity "+model.id+"]";
+	}
+	@Override
+	public String toString() {
+		return toStringInfo();
+	}
+	
 	
 }
 

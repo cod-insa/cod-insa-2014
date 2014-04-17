@@ -39,33 +39,65 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //	
 //	private static final double DEFAULT_INIT_GAZ = 10;
 
-	// Basically, FullView is a BasicView plus some additional visible things 
+	/**
+	 *  Basically, FullView is a BasicView plus some additional visible things 
+	 */
 	public class FullView extends BasicView
 	{
+		/**
+		 * Get the state of the plane see Plane.State for more details
+		 */
 		public State state() { return state; }
+		/**
+		 * Return the base where your plane is currently.
+		 * Warning : This function returns null if the plane is not at an airport !
+		 */
 		public AbstractBase.View curBase() { return curBase == null ? null : curBase.view(); }
 		
+		/**
+		 * Get the number of military resources hold
+		 */
 		public double militaryInHold() { return militaryInHold; }
+		/**
+		 * Get the number of fuel resources hold
+		 */
 		public double fuelInHold() { return fuelInHold; }
+		
+		/**
+		 * Get the number of fuel resources 
+		 */
 		public double fuelInTank() { return fuelInTank; }
 //		public double holdCapacity() { return holdCapacity; }
 //		public double tankCapacity() { return tankCapacity; }
 		
+		/**
+		 * Get the remaining health of the plane
+		 */
 		public double health() { return health; }
 		
+		/**
+		 * Get the type (military or commercial) of the plane
+		 */
 		public final Type type = Plane.this.type;
 		
+		/**
+		 * Tell if the position in parameter is visible by the plane
+		 */
 		@Override
 		public boolean isWithinRadar(Coord.View pos) {
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
 		
-		public Plane copied(Context context) {
+		Plane copied(Context context) {
 //			if (context.contains(PlaneModel.this)) return PlaneModel.this;
 //			return new BaseModel(BaseModel.this);
 			return copy(context);
 		}
 
+		/**
+		 * Tell if the plane knows the position of an entity (an ally is always seen)
+		 * @param e The entity
+		 */
 		public boolean knowsPositionOf(MaterialEntity.View e) {
 			if (e instanceof Base.FullView)
 				return true;
@@ -73,18 +105,27 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 		
 		@Override
-//		public boolean canSee(Entity.View e) {
+		/**
+		 * Tell if the plane see an entity
+		 * @param e The entity
+		 */
 		public boolean canSee(MaterialEntity.View e) {
 			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
 				return false;
 			return isWithinRadar(e.position);
 		}
 		
-		public boolean canAttack(Plane.FullView e) {
+		/**
+		 * Tell if the plane can attack the plane in parameter
+		 */
+		public boolean canAttack(Plane.BasicView e) {
 			return isEnemy(e) && canSee(e);
 		}
 		
 		@Override
+		/**
+		 * Return the string representation of a plane
+		 */
 		public String toString() { return super.toString()+" state:"+state()+" fuel:"+fuelInHold()+" mil:"+militaryInHold(); }
 		
 		

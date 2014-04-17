@@ -30,11 +30,24 @@ public abstract class MaterialEntity extends Entity {
 	public class View extends Entity.View {
 		
 		public final Coord.View position = MaterialEntity.this.position();
+		/**
+		 * Return the position
+		 */
 		public Coord.View position() { return position; }
 		
+		/**
+		 * This will return 0, you don't need to use this function as an AI.
+		 */
 		public double rotation() { return rotation; }
+		/**
+		 * Return the radar range
+		 */
 		public double radarRange() { return radarRange; }
 
+		/**
+		 * Return false by default (in the case of an MaterialEntity)
+		 * @param e The entity to see
+		 */
 		public boolean canSee(MaterialEntity.View e) {
 			return false;
 		}

@@ -2,53 +2,19 @@
 //Map for CodINSA final contest interface
 //Plane simulation
 
+//THE MAP!
 var mymap;
-
-//Map Info from server
-var map_name;
-var base_count;
-var center_lat = 48.0;
-var center_long = 2.0;
-var zoom_level = 5;
 
 //Objects to draw
 var basesArray = new Array();	
 var planesArray = new HashMap();
 
-//Moving planes
-var pas = 0.2;
-var refreshtime = 40;	//~25fps
+//See settings.js for other variables
+//See resources.js for markers images
 
-//Images
-
-var base_icon = new Array(
-	"../img/home/home_white.png", 
-	"../img/home/home_red.png", 
-	"../img/home/home_green.png", 
-	"../img/home/home_blue.png", 
-	"../img/home/home_yellow.png", 
-	"../img/home/home_pink.png", 
-	"../img/home/home_black.png");
-
-var fighter_icon = new Array(
-	"../img/army/air_force_white.png",
-	"../img/army/air_force_red.png", 
-	"../img/army/air_force_green.png", 
-	"../img/army/air_force_blue.png", 	
-	"../img/army/air_force_yellow.png", 
-	"../img/army/air_force_pink.png",
-	"../img/army/air_force_black.png");
-
-var civilian_icon = new Array(
-	"../img/people/plane_white.png",
-	"../img/people/plane_red.png", 
-	"../img/people/plane_green.png", 
-	"../img/people/plane_blue.png", 	
-	"../img/people/plane_yellow.png", 
-	"../img/people/plane_pink.png", 
-	"../img/people/plane_black.png");
-
-//Initialization	
+/*
+* Initializes the map before the connection with the server	
+*/
 function initialisationMaps(){
 
 		 // Current location
@@ -72,71 +38,75 @@ function initialisationMaps(){
 		mymap = new google.maps.Map(document.getElementById("mapcontain"), myOptions);
 		mymap.setOptions({draggable: true, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
 		google.maps.event.clearInstanceListeners(mymap);
-
 }
-initialisationMaps();
 
+/*
+* Update the displayed location according to first info sent by the server
+* (ie: server sends map info as first frame, so we use it)
+*/
 function updateMapWithInfoFromServer()
 {
 	mymap.center = new google.maps.LatLng(center_lat,center_long);
 	mymap.setZoom(zoom_level);
 }
 
+/*
+* Function to move a plane from LatLongFrom to LatLongTo
+* TODO improve/optimize this function
+*/
 function doMovePlane(index,latitudeTo, longitudeTo) {
+	
 	var currentplane = planesArray.get(index);
 
-	if(currentplane === undefined){}else{
-
-	var latitudeFrom = currentplane.position.lat();
-	var longitudeFrom = currentplane.position.lng();
-	
-	//console.log("MovePlane: ("+latitudeFrom+":"+longitudeFrom+") to ("+latitudeTo+":"+longitudeTo+")");
-
-	var newlat = 0;
-	var newlong = 0;
-
-	if(latitudeTo > latitudeFrom)
+	if(currentplane === undefined)
 	{
-		newlat = latitudeFrom + pas;
+		console.error("Trying to move a plane that does not exist...");
 	}
 	else
 	{
-		newlat = latitudeFrom - pas;
-	}
+		//From and to initialization
+		var latitudeFrom = currentplane.position.lat();
+		var longitudeFrom = currentplane.position.lng();
+		var newlat = 0;
+		var newlong = 0;
 
-	if(longitudeTo > longitudeFrom)
-	{
-		newlong = longitudeFrom + pas;
-	}
-	else
-	{
-		newlong = longitudeFrom - pas;
-	}
+		//Moving a step ahead
+		if(latitudeTo > latitudeFrom){
+			newlat = latitudeFrom + pas;
+		}else{
+			newlat = latitudeFrom - pas;
+		}
 
-	if(Math.abs(latitudeFrom - latitudeTo) < pas)
-	{
-		newlat = latitudeTo;
-	}
+		if(longitudeTo > longitudeFrom){
+			newlong = longitudeFrom + pas;
+		}else{
+			newlong = longitudeFrom - pas;
+		}
 
-	if(Math.abs(longitudeFrom - longitudeTo) < pas)
-	{
-		newlong = longitudeTo;
-	}	
+		if(Math.abs(latitudeFrom - latitudeTo) < pas){
+			newlat = latitudeTo;
+		}
 
-	currentplane.position = new google.maps.LatLng(newlat,newlong);
-	currentplane.setMap(mymap);
+		if(Math.abs(longitudeFrom - longitudeTo) < pas){
+			newlong = longitudeTo;
+		}	
 
-	if( (newlat-latitudeTo) > pas || (newlong-longitudeTo) > pas)
-	{
-		setTimeout(function(){doMovePlane(index,latitudeTo,longitudeTo);},refreshtime);
-	} 
+		currentplane.position = new google.maps.LatLng(newlat,newlong);
+		currentplane.setMap(mymap);
+
+		if( (newlat-latitudeTo) > pas || (newlong-longitudeTo) > pas)
+		{
+			setTimeout(function(){doMovePlane(index,latitudeTo,longitudeTo);},refreshtime);
+		} 
 	}
 }
 
-
+/*
+* Function to test doMovePlane
+* A yellow plane moves from France to Spain
+*/
 function testMove()
 {
-
 	planesArray.put("0",new google.maps.Marker({
 		position: new google.maps.LatLng(48.0,2.0),
 		map: mymap,
@@ -144,9 +114,6 @@ function testMove()
 		icon:fighter_icon[4],
 		title:"plane attacking"
 		}));
-
 	doMovePlane("0",40.0,-2.0);
-
-
 }
 
