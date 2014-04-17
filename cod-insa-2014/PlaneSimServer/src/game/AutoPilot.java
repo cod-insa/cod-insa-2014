@@ -175,6 +175,8 @@ public final class AutoPilot {
 	
 	@SuppressWarnings("unused")
 	private void setAim(Coord.View pos) {
+//		if (entityAim instanceof GameCountry)
+//			System.out.println("!!");
 		if ((entityAim != null && entityAim.model.ownerId() == plane.model().ownerId() && entityAim instanceof GameCountry)
 		 || (0 <= pos.x() && pos.x() <= sim.getWorld().width
 		     &&  0 <= pos.y() && pos.y() <= sim.getWorld().height))
