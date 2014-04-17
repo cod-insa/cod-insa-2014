@@ -3,10 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Coord;
-import model.Country;
-import model.Entity;
-import model.Plane;
+import model.*;
 import model.Plane.State;
 import common.Unique;
 import display.CountryDisplay;
@@ -103,12 +100,21 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 
 	@Override
 	public Country model() { return (Country) model; }
+	
 	@Override
 	public MaterialGameEntity asMaterialGameEntity() {
 		return this;
 	}
+	
 	@Override
 	public Country.View modelView() { return model().view(); }
-
+	
+	@Override
+	public int landingCapacity() { return GameSettings.MAX_PLANES_PER_COUNTRY; }
 	
 }
+
+
+
+
+

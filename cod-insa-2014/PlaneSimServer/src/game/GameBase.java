@@ -1,12 +1,9 @@
 package game;
 
-import model.Base;
-import model.Coord;
+import model.*;
 import common.Unique;
 import display.BaseDisplay;
 import display.EntityDisplay;
-import model.Plane;
-import model.ProgressAxis;
 import model.Plane.State;
 
 import java.util.HashSet;
@@ -97,7 +94,9 @@ public class GameBase extends MaterialGameEntity implements Landable {
 	public String toString() {
 		return super.toStringInfo()+" Base "+cityName;
 	}
-	
+
+	@Override
+	public int landingCapacity() { return GameSettings.MAX_PLANES_PER_COUNTRY; }
 	
 }
 
