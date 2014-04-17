@@ -1,5 +1,7 @@
 #ifndef MODELS_H
 #define MODELS_H
+#include <list>
+#include <map>
 
 struct Coord
 {
