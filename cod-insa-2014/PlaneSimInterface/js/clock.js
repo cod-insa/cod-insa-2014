@@ -1,10 +1,9 @@
 //clock.js
 //NV for CodINSA 2014
 
-
-//Score, player's name
-
-
+/*
+* Score, player's name
+*/
 function initScoreTable()
 {
 	var iii = 0;
@@ -14,14 +13,15 @@ function initScoreTable()
 	}
 }
 
-
-
 //Clock
 var hours;
 var minutes;
 var seconds;
 var timeout;
 
+/**
+* Initializes clock value
+*/
 function setClock (h,m,s)
 {
 	hours = h;
@@ -31,36 +31,38 @@ function setClock (h,m,s)
   	document.getElementById("clock").innerHTML = currentTimeString;
 }
 
-
+/*
+* Run the countdown
+*/
 function updateClock()
 {
-  seconds = seconds - 1;
+  	seconds = seconds - 1;
 
-  if(seconds == -1)
-{
-	seconds = 59;
-	minutes = minutes - 1;
-}
+  	if(seconds == -1)
+	{
+		seconds = 59;
+		minutes = minutes - 1;
+	}
 
-  if(minutes == -1)
-{
-	minutes = 59;
-	hours = hours - 1;
-}
+ 	if(minutes == -1)
+	{
+		minutes = 59;
+		hours = hours - 1;
+	}
 
-  if(hours == -1)
-{
-	hours = 0;
-	minutes = 0;
-	seconds = 0;
-	clearTimeout(timeout);
-	return;
-}
+  	if(hours == -1)
+	{
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+		clearTimeout(timeout);
+		return;
+	}
 
-  // Compose the string for display
-  var currentTimeString = hours + "h " + minutes + "m " + seconds + "s";
-  // Update the time display
-  document.getElementById("clock").innerHTML = currentTimeString;
-  timeout = setTimeout(updateClock,1000);
+	// Compose the string for display
+	var currentTimeString = hours + "h " + minutes + "m " + seconds + "s";
+	// Update the time display
+	document.getElementById("clock").innerHTML = currentTimeString;
+	timeout = setTimeout(updateClock,1000);
 }
 

@@ -4,16 +4,16 @@ import game.World;
 import game.World.Snapshot;
 import genbridge.AttackCommandData;
 import genbridge.BuildPlaneCommandData;
+import genbridge.CancelBuildRequestCommandData;
 import genbridge.CommandData;
 import genbridge.CoordData;
 import genbridge.DropMilitarsCommandData;
+import genbridge.ExchangeResourcesCommandData;
 import genbridge.FillFuelTankCommandData;
 import genbridge.FollowCommandData;
 import genbridge.LandCommandData;
-import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
 import genbridge.Response;
-import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 import model.AbstractBase;
 import model.Base;
@@ -25,12 +25,11 @@ import command.AttackCommand;
 import command.BuildPlaneCommand;
 import command.Command;
 import command.DropMilitarsCommand;
+import command.ExchangeResourcesCommand;
 import command.FillFuelTankCommand;
 import command.FollowCommand;
 import command.LandCommand;
-import command.LoadResourcesCommand;
 import command.MoveCommand;
-import command.StoreFuelCommand;
 import command.WaitCommand;
 import common.Couple;
 import common.Nullable;
@@ -223,13 +222,14 @@ public class CommandMaker {
 			((Base.FullView)b).isInTerritory())
 				return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Can't drop military resources over an enemy base in the middle of their territory !"));
+					new Response(Command.ERROR_COMMAND,"Cannot drop military resources over an enemy base in the middle of their territory !"));
 		
 		if (b instanceof Base.BasicView)
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"You can't drop any militar resources over a base you don't see"));
-			
+		
+		// Should not happen
 		if (b instanceof Country.View && b.ownerId() != p.ownerId())
 			return new Couple<>(
 					new Nullable<Command>(),
@@ -258,24 +258,24 @@ public class CommandMaker {
 		if (p.state() != State.AT_AIRPORT)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut etre dans un aeroport pour remplir le reservoir"));
+					new Response(Command.ERROR_COMMAND,"Cannot fill the tank in flight"));
 		
 		// check quantity
-		if (data.quantity < 0) 
+		if (p.fuelInTank() + data.quantity < 0) 
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Can't fill the tank with a negative quantity of fuel !"));
+					new Response(Command.ERROR_COMMAND,"Cannot deposit " + data.quantity + " fuel from tank. Minimum is : " + p.fuelInTank()));
 		if (data.quantity > p.type.tankCapacity - p.fuelInTank())
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Can't fill this much fuel !"));
+					new Response(Command.ERROR_COMMAND,"Too much fuel to fill"));
 			
 		// check if enough fuel in base
 		if (p.curBase() instanceof Base.FullView)
 			if (data.quantity > ((Base.FullView)p.curBase()).fuelInStock())
 				return new Couple<>(
 						new Nullable<Command>(new FillFuelTankCommand(p, ((Base.FullView)p.curBase()).fuelInStock())),
-						new Response(Command.WARNING_COMMAND,"Not enough fuel in base stock. All fuel has been taken"));
+						new Response(Command.WARNING_COMMAND,"Not enough fuel in base stock. All fuel in the base have been taken instead."));
 		
 		// Everything all right
 		return new Couple<>(
@@ -307,7 +307,7 @@ public class CommandMaker {
 		);
 	}
 
-	static public Couple<Nullable<Command>,Response> make(LoadResourcesCommandData data, World.Snapshot s)	{
+	static public Couple<Nullable<Command>,Response> make(ExchangeResourcesCommandData data, World.Snapshot s)	{
 		
 		// check id
 		if (!checkFrameId(data.pc.c, s))
@@ -318,66 +318,42 @@ public class CommandMaker {
 		if (p == null)
 			return planeIdError(data.pc.idPlane, s);
 		
-		if (data.fuel_quantity < 0 || data.militar_quantity < 0) 
+		// check negative fuel post exchange
+		if (p.fuelInHold() + data.fuel_quantity < 0) 
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Can't get a negative quantity of resources !"));
+					new Response(Command.ERROR_COMMAND,"Cannot deposit " + data.fuel_quantity + ". Minimum is : " + -p.fuelInHold()));
 		
-		// check if at airport
-		if (p.state() != State.AT_AIRPORT)
+		// check negative military post exchange
+		if (p.militaryInHold() + data.militar_quantity < 0)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut etre dans un aeroport pour remplir le reservoir"));
+					new Response(Command.ERROR_COMMAND,"Cannot deposit " + data.militar_quantity + ". Minimum is : " + -p.militaryInHold()));
+			
+		// check if at airport if not deleting resources
+		if (p.state() != State.AT_AIRPORT && !data.deleteResources)
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Cannot exchange resources if in flight and not deleting resources"));
 		
-		// check quantity
+		// check that delete resources => data.military_quantity < 0 && data.fuel_quantity < 0
+		if (data.deleteResources && (data.militar_quantity > 0 || data.fuel_quantity > 0))
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"Cannot load resources in delete mode. The quantity must be negative to delete resources"));
+		
+			
+		// check if too much quantity is loaded
 		if (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold() > p.type.holdCapacity)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Too much resources to load. Maximum is " + 
+					new Response(Command.ERROR_COMMAND,"Too much resources to load. Maximum additionned quantity is " + 
 							(p.type.holdCapacity - (data.fuel_quantity + data.militar_quantity + p.militaryInHold() + p.fuelInHold()))
 					));
 		
 		// Everything all right
 		return new Couple<>(
-				new Nullable<Command>(new LoadResourcesCommand(p,data.militar_quantity,data.fuel_quantity)),
-				new Response(Command.SUCCESS, "")
-		);
-	}
-
-	static public Couple<Nullable<Command>,Response> make(StoreFuelCommandData data, World.Snapshot s)	{
-		
-		// check id
-		if (!checkFrameId(data.pc.c, s))
-			return frameIdError(data.pc.c, s);
-		
-		// check plane (source)
-		Plane.FullView p = findPlaneById(data.pc.idPlane, s);
-		if (p == null)
-			return planeIdError(data.pc.idPlane, s);
-		
-		if (data.quantity < 0) 
-			return new Couple<>(
-					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Can't store a negative quantity of resources !"));
-		
-		// check if at airport
-		if (p.state() != State.AT_AIRPORT)
-			return new Couple<>(
-					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Il faut etre dans un aeroport pour remplir le reservoir"));
-		
-		
-		// check quantity
-		if (data.quantity > p.militaryInHold())
-			return new Couple<>(
-					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Too much resources to store. The plane contains " + 
-							p.militaryInHold() + " resources at maximum"
-					));
-		
-		// Everything all right
-		return new Couple<>(
-				new Nullable<Command>(new StoreFuelCommand(p,data.quantity)),
+				new Nullable<Command>(new ExchangeResourcesCommand(p,data.militar_quantity,data.fuel_quantity,data.deleteResources)),
 				new Response(Command.SUCCESS, "")
 		);
 	}
@@ -401,6 +377,14 @@ public class CommandMaker {
 				new Nullable<Command>(new BuildPlaneCommand(Plane.Type.get(data.planeTypeId))),
 				new Response(Command.SUCCESS, "")
 		);
+	}
+
+	public static Couple<Nullable<Command>, Response> make(
+			CancelBuildRequestCommandData cmdData, Snapshot currentSnapshot) {
+		return new Couple<>(
+				new Nullable<Command>(),
+				new Response(Command.ERROR_COMMAND,"Not implemented command yet"
+				));
 	}
 
 	

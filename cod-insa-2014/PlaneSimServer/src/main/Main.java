@@ -1,5 +1,8 @@
+package main;
+
 import game.Game;
-import game.World;
+import game.Settings;
+import model.GameSettings;
 import network.WebInterface;
 
 import org.apache.thrift.transport.TTransportException;
@@ -16,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Main {
+	
+	public static boolean DEBUG_MODE = false;
 	
 	static volatile boolean offline = false;
 	
@@ -45,20 +50,26 @@ public class Main {
 			
 //			System.out.println("--- CODINSA 2014 --- Plane simulation server ---");
 			log.info("--- CODINSA 2014 --- Plane simulation server ---");
-			
-			new Controller(50);
+
+//			new Controller(50);
+			new Controller(GameSettings.TIME_UNITS_PER_FRAME);
 			
 			int nbplay = (args.length-2)/2;
 			
 			long seconds = 0;
 			try {
 				seconds = Long.parseLong(args[1]);
+				if (seconds < 0) {
+					if (seconds == -42)
+						DEBUG_MODE = true;
+					seconds = Long.MAX_VALUE;
+				}
 			}
 			catch(Exception e)
 			{
 				printUsageAndExit(-1);
 			}
-			
+
 			final Displayer disp = new Displayer();
 			final Game planeSim = new Game(disp, nbplay, args[0], seconds);
 			
@@ -213,7 +224,8 @@ public class Main {
 	public static void printUsageAndExit(int exitCode) {
 		(exitCode==0? System.out: System.err).println("Usage:\n" +
 //				"\tjava Main playerName1 ip:port playerName2 ip:port ..."
-				"\tjava Main mapName timeinseconds playerName1 port1 playerName2 port2 ..."
+				"\tjava Main mapName timeInSeconds playerName1 port1 playerName2 port2 ..." +
+				"\tset time to -1 for unlimited; -42 for debug mode"
 			);
 		System.exit(exitCode);
 	}

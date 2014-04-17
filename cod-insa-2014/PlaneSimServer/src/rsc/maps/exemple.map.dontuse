@@ -1,4 +1,4 @@
-﻿mapName,basesCount,centerLat,centerLong,minLat,minLong,maxLat,maxLong,webZoom,axisCount,maxNumPlayer
+﻿mapName,basesCount,centerLat,centerLong,minLat,minLong,maxLat,maxLong,webZoom,axisCount,maxNumPlayer,coordCoefOfMap
 country1,country1Lat,country1Long # maxNumPlayer line(s)
 town1,town1lat,town1long # basesCount line(s)
 axe1townA,axe1townB # axisCount line(s)

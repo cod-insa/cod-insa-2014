@@ -2,7 +2,8 @@ package game;
 
 import model.AbstractBase;
 
-interface Landable {
+public interface Landable {
 	public AbstractBase model();
 	public MaterialGameEntity asMaterialGameEntity();
+	public int landingCapacity();
 }

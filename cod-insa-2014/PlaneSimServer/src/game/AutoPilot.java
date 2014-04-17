@@ -137,11 +137,18 @@ public final class AutoPilot {
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
 		}
 		///////////////////////////
+		if (b instanceof GameCountry)
+			plane.model().fuelInTank = plane.model().type.tankCapacity;
+		
+		if (b.model().planes.size()+1 > b.landingCapacity()) {
+//			b.model().planes.get(0).unAssign();
+			sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?
+		}
 		
 		state = State.AT_AIRPORT;
 		plane.model().assignTo(b.model());//addPlane();
 		//plane.model.speed = 0;
-//		for (ProgressAxis.Oriented pa: b.model().axes) {	
+//		for (ProgressAxis.Oriented pa: b.model().axes) {
 //		}
 		
 		
@@ -172,6 +179,8 @@ public final class AutoPilot {
 	
 	@SuppressWarnings("unused")
 	private void setAim(Coord.View pos) {
+//		if (entityAim instanceof GameCountry)
+//			System.out.println("!!");
 		if ((entityAim != null && entityAim.model.ownerId() == plane.model().ownerId() && entityAim instanceof GameCountry)
 		 || (0 <= pos.x() && pos.x() <= sim.getWorld().width
 		     &&  0 <= pos.y() && pos.y() <= sim.getWorld().height))

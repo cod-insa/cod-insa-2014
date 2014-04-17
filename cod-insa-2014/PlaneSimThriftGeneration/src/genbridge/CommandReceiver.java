@@ -48,13 +48,13 @@ public class CommandReceiver {
 
     public Response sendDropMilitarsCommand(DropMilitarsCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
-    public Response sendStoreFuelCommand(StoreFuelCommandData cmd, int idConnection) throws org.apache.thrift.TException;
-
     public Response sendFillFuelTankCommand(FillFuelTankCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
-    public Response sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException;
+    public Response sendExchangeResourcesCommandData(ExchangeResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
     public Response sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection) throws org.apache.thrift.TException;
+
+    public Response sendCancelBuildRequestCommandData(CancelBuildRequestCommandData cmd, int idConnection) throws org.apache.thrift.TException;
 
   }
 
@@ -72,13 +72,13 @@ public class CommandReceiver {
 
     public void sendDropMilitarsCommand(DropMilitarsCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void sendStoreFuelCommand(StoreFuelCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
-
     public void sendFillFuelTankCommand(FillFuelTankCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void sendExchangeResourcesCommandData(ExchangeResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
     public void sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+
+    public void sendCancelBuildRequestCommandData(CancelBuildRequestCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -246,30 +246,6 @@ public class CommandReceiver {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendDropMilitarsCommand failed: unknown result");
     }
 
-    public Response sendStoreFuelCommand(StoreFuelCommandData cmd, int idConnection) throws org.apache.thrift.TException
-    {
-      send_sendStoreFuelCommand(cmd, idConnection);
-      return recv_sendStoreFuelCommand();
-    }
-
-    public void send_sendStoreFuelCommand(StoreFuelCommandData cmd, int idConnection) throws org.apache.thrift.TException
-    {
-      sendStoreFuelCommand_args args = new sendStoreFuelCommand_args();
-      args.setCmd(cmd);
-      args.setIdConnection(idConnection);
-      sendBase("sendStoreFuelCommand", args);
-    }
-
-    public Response recv_sendStoreFuelCommand() throws org.apache.thrift.TException
-    {
-      sendStoreFuelCommand_result result = new sendStoreFuelCommand_result();
-      receiveBase(result, "sendStoreFuelCommand");
-      if (result.isSetSuccess()) {
-        return result.success;
-      }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendStoreFuelCommand failed: unknown result");
-    }
-
     public Response sendFillFuelTankCommand(FillFuelTankCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
       send_sendFillFuelTankCommand(cmd, idConnection);
@@ -294,28 +270,28 @@ public class CommandReceiver {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendFillFuelTankCommand failed: unknown result");
     }
 
-    public Response sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    public Response sendExchangeResourcesCommandData(ExchangeResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
-      send_sendLoadResourcesCommand(cmd, idConnection);
-      return recv_sendLoadResourcesCommand();
+      send_sendExchangeResourcesCommandData(cmd, idConnection);
+      return recv_sendExchangeResourcesCommandData();
     }
 
-    public void send_sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    public void send_sendExchangeResourcesCommandData(ExchangeResourcesCommandData cmd, int idConnection) throws org.apache.thrift.TException
     {
-      sendLoadResourcesCommand_args args = new sendLoadResourcesCommand_args();
+      sendExchangeResourcesCommandData_args args = new sendExchangeResourcesCommandData_args();
       args.setCmd(cmd);
       args.setIdConnection(idConnection);
-      sendBase("sendLoadResourcesCommand", args);
+      sendBase("sendExchangeResourcesCommandData", args);
     }
 
-    public Response recv_sendLoadResourcesCommand() throws org.apache.thrift.TException
+    public Response recv_sendExchangeResourcesCommandData() throws org.apache.thrift.TException
     {
-      sendLoadResourcesCommand_result result = new sendLoadResourcesCommand_result();
-      receiveBase(result, "sendLoadResourcesCommand");
+      sendExchangeResourcesCommandData_result result = new sendExchangeResourcesCommandData_result();
+      receiveBase(result, "sendExchangeResourcesCommandData");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendLoadResourcesCommand failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendExchangeResourcesCommandData failed: unknown result");
     }
 
     public Response sendBuildPlaneCommand(BuildPlaneCommandData cmd, int idConnection) throws org.apache.thrift.TException
@@ -340,6 +316,30 @@ public class CommandReceiver {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendBuildPlaneCommand failed: unknown result");
+    }
+
+    public Response sendCancelBuildRequestCommandData(CancelBuildRequestCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    {
+      send_sendCancelBuildRequestCommandData(cmd, idConnection);
+      return recv_sendCancelBuildRequestCommandData();
+    }
+
+    public void send_sendCancelBuildRequestCommandData(CancelBuildRequestCommandData cmd, int idConnection) throws org.apache.thrift.TException
+    {
+      sendCancelBuildRequestCommandData_args args = new sendCancelBuildRequestCommandData_args();
+      args.setCmd(cmd);
+      args.setIdConnection(idConnection);
+      sendBase("sendCancelBuildRequestCommandData", args);
+    }
+
+    public Response recv_sendCancelBuildRequestCommandData() throws org.apache.thrift.TException
+    {
+      sendCancelBuildRequestCommandData_result result = new sendCancelBuildRequestCommandData_result();
+      receiveBase(result, "sendCancelBuildRequestCommandData");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendCancelBuildRequestCommandData failed: unknown result");
     }
 
   }
@@ -570,41 +570,6 @@ public class CommandReceiver {
       }
     }
 
-    public void sendStoreFuelCommand(StoreFuelCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
-      checkReady();
-      sendStoreFuelCommand_call method_call = new sendStoreFuelCommand_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class sendStoreFuelCommand_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private StoreFuelCommandData cmd;
-      private int idConnection;
-      public sendStoreFuelCommand_call(StoreFuelCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-        this.cmd = cmd;
-        this.idConnection = idConnection;
-      }
-
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("sendStoreFuelCommand", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        sendStoreFuelCommand_args args = new sendStoreFuelCommand_args();
-        args.setCmd(cmd);
-        args.setIdConnection(idConnection);
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      public Response getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new IllegalStateException("Method call not finished!");
-        }
-        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_sendStoreFuelCommand();
-      }
-    }
-
     public void sendFillFuelTankCommand(FillFuelTankCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
       sendFillFuelTankCommand_call method_call = new sendFillFuelTankCommand_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
@@ -640,25 +605,25 @@ public class CommandReceiver {
       }
     }
 
-    public void sendLoadResourcesCommand(LoadResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void sendExchangeResourcesCommandData(ExchangeResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      sendLoadResourcesCommand_call method_call = new sendLoadResourcesCommand_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
+      sendExchangeResourcesCommandData_call method_call = new sendExchangeResourcesCommandData_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class sendLoadResourcesCommand_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private LoadResourcesCommandData cmd;
+    public static class sendExchangeResourcesCommandData_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private ExchangeResourcesCommandData cmd;
       private int idConnection;
-      public sendLoadResourcesCommand_call(LoadResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public sendExchangeResourcesCommandData_call(ExchangeResourcesCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.cmd = cmd;
         this.idConnection = idConnection;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("sendLoadResourcesCommand", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        sendLoadResourcesCommand_args args = new sendLoadResourcesCommand_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("sendExchangeResourcesCommandData", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        sendExchangeResourcesCommandData_args args = new sendExchangeResourcesCommandData_args();
         args.setCmd(cmd);
         args.setIdConnection(idConnection);
         args.write(prot);
@@ -671,7 +636,7 @@ public class CommandReceiver {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_sendLoadResourcesCommand();
+        return (new Client(prot)).recv_sendExchangeResourcesCommandData();
       }
     }
 
@@ -710,6 +675,41 @@ public class CommandReceiver {
       }
     }
 
+    public void sendCancelBuildRequestCommandData(CancelBuildRequestCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      sendCancelBuildRequestCommandData_call method_call = new sendCancelBuildRequestCommandData_call(cmd, idConnection, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class sendCancelBuildRequestCommandData_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private CancelBuildRequestCommandData cmd;
+      private int idConnection;
+      public sendCancelBuildRequestCommandData_call(CancelBuildRequestCommandData cmd, int idConnection, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cmd = cmd;
+        this.idConnection = idConnection;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("sendCancelBuildRequestCommandData", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        sendCancelBuildRequestCommandData_args args = new sendCancelBuildRequestCommandData_args();
+        args.setCmd(cmd);
+        args.setIdConnection(idConnection);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Response getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_sendCancelBuildRequestCommandData();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -729,10 +729,10 @@ public class CommandReceiver {
       processMap.put("sendFollowCommand", new sendFollowCommand());
       processMap.put("sendAttackCommand", new sendAttackCommand());
       processMap.put("sendDropMilitarsCommand", new sendDropMilitarsCommand());
-      processMap.put("sendStoreFuelCommand", new sendStoreFuelCommand());
       processMap.put("sendFillFuelTankCommand", new sendFillFuelTankCommand());
-      processMap.put("sendLoadResourcesCommand", new sendLoadResourcesCommand());
+      processMap.put("sendExchangeResourcesCommandData", new sendExchangeResourcesCommandData());
       processMap.put("sendBuildPlaneCommand", new sendBuildPlaneCommand());
+      processMap.put("sendCancelBuildRequestCommandData", new sendCancelBuildRequestCommandData());
       return processMap;
     }
 
@@ -856,26 +856,6 @@ public class CommandReceiver {
       }
     }
 
-    public static class sendStoreFuelCommand<I extends Iface> extends org.apache.thrift.ProcessFunction<I, sendStoreFuelCommand_args> {
-      public sendStoreFuelCommand() {
-        super("sendStoreFuelCommand");
-      }
-
-      public sendStoreFuelCommand_args getEmptyArgsInstance() {
-        return new sendStoreFuelCommand_args();
-      }
-
-      protected boolean isOneway() {
-        return false;
-      }
-
-      public sendStoreFuelCommand_result getResult(I iface, sendStoreFuelCommand_args args) throws org.apache.thrift.TException {
-        sendStoreFuelCommand_result result = new sendStoreFuelCommand_result();
-        result.success = iface.sendStoreFuelCommand(args.cmd, args.idConnection);
-        return result;
-      }
-    }
-
     public static class sendFillFuelTankCommand<I extends Iface> extends org.apache.thrift.ProcessFunction<I, sendFillFuelTankCommand_args> {
       public sendFillFuelTankCommand() {
         super("sendFillFuelTankCommand");
@@ -896,22 +876,22 @@ public class CommandReceiver {
       }
     }
 
-    public static class sendLoadResourcesCommand<I extends Iface> extends org.apache.thrift.ProcessFunction<I, sendLoadResourcesCommand_args> {
-      public sendLoadResourcesCommand() {
-        super("sendLoadResourcesCommand");
+    public static class sendExchangeResourcesCommandData<I extends Iface> extends org.apache.thrift.ProcessFunction<I, sendExchangeResourcesCommandData_args> {
+      public sendExchangeResourcesCommandData() {
+        super("sendExchangeResourcesCommandData");
       }
 
-      public sendLoadResourcesCommand_args getEmptyArgsInstance() {
-        return new sendLoadResourcesCommand_args();
+      public sendExchangeResourcesCommandData_args getEmptyArgsInstance() {
+        return new sendExchangeResourcesCommandData_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public sendLoadResourcesCommand_result getResult(I iface, sendLoadResourcesCommand_args args) throws org.apache.thrift.TException {
-        sendLoadResourcesCommand_result result = new sendLoadResourcesCommand_result();
-        result.success = iface.sendLoadResourcesCommand(args.cmd, args.idConnection);
+      public sendExchangeResourcesCommandData_result getResult(I iface, sendExchangeResourcesCommandData_args args) throws org.apache.thrift.TException {
+        sendExchangeResourcesCommandData_result result = new sendExchangeResourcesCommandData_result();
+        result.success = iface.sendExchangeResourcesCommandData(args.cmd, args.idConnection);
         return result;
       }
     }
@@ -936,6 +916,26 @@ public class CommandReceiver {
       }
     }
 
+    public static class sendCancelBuildRequestCommandData<I extends Iface> extends org.apache.thrift.ProcessFunction<I, sendCancelBuildRequestCommandData_args> {
+      public sendCancelBuildRequestCommandData() {
+        super("sendCancelBuildRequestCommandData");
+      }
+
+      public sendCancelBuildRequestCommandData_args getEmptyArgsInstance() {
+        return new sendCancelBuildRequestCommandData_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public sendCancelBuildRequestCommandData_result getResult(I iface, sendCancelBuildRequestCommandData_args args) throws org.apache.thrift.TException {
+        sendCancelBuildRequestCommandData_result result = new sendCancelBuildRequestCommandData_result();
+        result.success = iface.sendCancelBuildRequestCommandData(args.cmd, args.idConnection);
+        return result;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -955,10 +955,10 @@ public class CommandReceiver {
       processMap.put("sendFollowCommand", new sendFollowCommand());
       processMap.put("sendAttackCommand", new sendAttackCommand());
       processMap.put("sendDropMilitarsCommand", new sendDropMilitarsCommand());
-      processMap.put("sendStoreFuelCommand", new sendStoreFuelCommand());
       processMap.put("sendFillFuelTankCommand", new sendFillFuelTankCommand());
-      processMap.put("sendLoadResourcesCommand", new sendLoadResourcesCommand());
+      processMap.put("sendExchangeResourcesCommandData", new sendExchangeResourcesCommandData());
       processMap.put("sendBuildPlaneCommand", new sendBuildPlaneCommand());
+      processMap.put("sendCancelBuildRequestCommandData", new sendCancelBuildRequestCommandData());
       return processMap;
     }
 
@@ -1268,57 +1268,6 @@ public class CommandReceiver {
       }
     }
 
-    public static class sendStoreFuelCommand<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, sendStoreFuelCommand_args, Response> {
-      public sendStoreFuelCommand() {
-        super("sendStoreFuelCommand");
-      }
-
-      public sendStoreFuelCommand_args getEmptyArgsInstance() {
-        return new sendStoreFuelCommand_args();
-      }
-
-      public AsyncMethodCallback<Response> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
-        final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new AsyncMethodCallback<Response>() { 
-          public void onComplete(Response o) {
-            sendStoreFuelCommand_result result = new sendStoreFuelCommand_result();
-            result.success = o;
-            try {
-              fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
-              return;
-            } catch (Exception e) {
-              LOGGER.error("Exception writing to internal frame buffer", e);
-            }
-            fb.close();
-          }
-          public void onError(Exception e) {
-            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
-            org.apache.thrift.TBase msg;
-            sendStoreFuelCommand_result result = new sendStoreFuelCommand_result();
-            {
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (org.apache.thrift.TBase)new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-              return;
-            } catch (Exception ex) {
-              LOGGER.error("Exception writing to internal frame buffer", ex);
-            }
-            fb.close();
-          }
-        };
-      }
-
-      protected boolean isOneway() {
-        return false;
-      }
-
-      public void start(I iface, sendStoreFuelCommand_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
-        iface.sendStoreFuelCommand(args.cmd, args.idConnection,resultHandler);
-      }
-    }
-
     public static class sendFillFuelTankCommand<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, sendFillFuelTankCommand_args, Response> {
       public sendFillFuelTankCommand() {
         super("sendFillFuelTankCommand");
@@ -1370,20 +1319,20 @@ public class CommandReceiver {
       }
     }
 
-    public static class sendLoadResourcesCommand<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, sendLoadResourcesCommand_args, Response> {
-      public sendLoadResourcesCommand() {
-        super("sendLoadResourcesCommand");
+    public static class sendExchangeResourcesCommandData<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, sendExchangeResourcesCommandData_args, Response> {
+      public sendExchangeResourcesCommandData() {
+        super("sendExchangeResourcesCommandData");
       }
 
-      public sendLoadResourcesCommand_args getEmptyArgsInstance() {
-        return new sendLoadResourcesCommand_args();
+      public sendExchangeResourcesCommandData_args getEmptyArgsInstance() {
+        return new sendExchangeResourcesCommandData_args();
       }
 
       public AsyncMethodCallback<Response> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new AsyncMethodCallback<Response>() { 
           public void onComplete(Response o) {
-            sendLoadResourcesCommand_result result = new sendLoadResourcesCommand_result();
+            sendExchangeResourcesCommandData_result result = new sendExchangeResourcesCommandData_result();
             result.success = o;
             try {
               fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
@@ -1396,7 +1345,7 @@ public class CommandReceiver {
           public void onError(Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TBase msg;
-            sendLoadResourcesCommand_result result = new sendLoadResourcesCommand_result();
+            sendExchangeResourcesCommandData_result result = new sendExchangeResourcesCommandData_result();
             {
               msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
               msg = (org.apache.thrift.TBase)new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
@@ -1416,8 +1365,8 @@ public class CommandReceiver {
         return false;
       }
 
-      public void start(I iface, sendLoadResourcesCommand_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
-        iface.sendLoadResourcesCommand(args.cmd, args.idConnection,resultHandler);
+      public void start(I iface, sendExchangeResourcesCommandData_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
+        iface.sendExchangeResourcesCommandData(args.cmd, args.idConnection,resultHandler);
       }
     }
 
@@ -1469,6 +1418,57 @@ public class CommandReceiver {
 
       public void start(I iface, sendBuildPlaneCommand_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
         iface.sendBuildPlaneCommand(args.cmd, args.idConnection,resultHandler);
+      }
+    }
+
+    public static class sendCancelBuildRequestCommandData<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, sendCancelBuildRequestCommandData_args, Response> {
+      public sendCancelBuildRequestCommandData() {
+        super("sendCancelBuildRequestCommandData");
+      }
+
+      public sendCancelBuildRequestCommandData_args getEmptyArgsInstance() {
+        return new sendCancelBuildRequestCommandData_args();
+      }
+
+      public AsyncMethodCallback<Response> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new AsyncMethodCallback<Response>() { 
+          public void onComplete(Response o) {
+            sendCancelBuildRequestCommandData_result result = new sendCancelBuildRequestCommandData_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+              return;
+            } catch (Exception e) {
+              LOGGER.error("Exception writing to internal frame buffer", e);
+            }
+            fb.close();
+          }
+          public void onError(Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TBase msg;
+            sendCancelBuildRequestCommandData_result result = new sendCancelBuildRequestCommandData_result();
+            {
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TBase)new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+              return;
+            } catch (Exception ex) {
+              LOGGER.error("Exception writing to internal frame buffer", ex);
+            }
+            fb.close();
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, sendCancelBuildRequestCommandData_args args, org.apache.thrift.async.AsyncMethodCallback<Response> resultHandler) throws TException {
+        iface.sendCancelBuildRequestCommandData(args.cmd, args.idConnection,resultHandler);
       }
     }
 
@@ -6370,822 +6370,6 @@ public class CommandReceiver {
 
   }
 
-  public static class sendStoreFuelCommand_args implements org.apache.thrift.TBase<sendStoreFuelCommand_args, sendStoreFuelCommand_args._Fields>, java.io.Serializable, Cloneable, Comparable<sendStoreFuelCommand_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendStoreFuelCommand_args");
-
-    private static final org.apache.thrift.protocol.TField CMD_FIELD_DESC = new org.apache.thrift.protocol.TField("cmd", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-    private static final org.apache.thrift.protocol.TField ID_CONNECTION_FIELD_DESC = new org.apache.thrift.protocol.TField("idConnection", org.apache.thrift.protocol.TType.I32, (short)2);
-
-    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-    static {
-      schemes.put(StandardScheme.class, new sendStoreFuelCommand_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new sendStoreFuelCommand_argsTupleSchemeFactory());
-    }
-
-    public StoreFuelCommandData cmd; // required
-    public int idConnection; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CMD((short)1, "cmd"),
-      ID_CONNECTION((short)2, "idConnection");
-
-      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-      static {
-        for (_Fields field : EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 1: // CMD
-            return CMD;
-          case 2: // ID_CONNECTION
-            return ID_CONNECTION;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      public static _Fields findByName(String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final String _fieldName;
-
-      _Fields(short thriftId, String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    private static final int __IDCONNECTION_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
-    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CMD, new org.apache.thrift.meta_data.FieldMetaData("cmd", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, StoreFuelCommandData.class)));
-      tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
-      metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendStoreFuelCommand_args.class, metaDataMap);
-    }
-
-    public sendStoreFuelCommand_args() {
-    }
-
-    public sendStoreFuelCommand_args(
-      StoreFuelCommandData cmd,
-      int idConnection)
-    {
-      this();
-      this.cmd = cmd;
-      this.idConnection = idConnection;
-      setIdConnectionIsSet(true);
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public sendStoreFuelCommand_args(sendStoreFuelCommand_args other) {
-      __isset_bitfield = other.__isset_bitfield;
-      if (other.isSetCmd()) {
-        this.cmd = new StoreFuelCommandData(other.cmd);
-      }
-      this.idConnection = other.idConnection;
-    }
-
-    public sendStoreFuelCommand_args deepCopy() {
-      return new sendStoreFuelCommand_args(this);
-    }
-
-    @Override
-    public void clear() {
-      this.cmd = null;
-      setIdConnectionIsSet(false);
-      this.idConnection = 0;
-    }
-
-    public StoreFuelCommandData getCmd() {
-      return this.cmd;
-    }
-
-    public sendStoreFuelCommand_args setCmd(StoreFuelCommandData cmd) {
-      this.cmd = cmd;
-      return this;
-    }
-
-    public void unsetCmd() {
-      this.cmd = null;
-    }
-
-    /** Returns true if field cmd is set (has been assigned a value) and false otherwise */
-    public boolean isSetCmd() {
-      return this.cmd != null;
-    }
-
-    public void setCmdIsSet(boolean value) {
-      if (!value) {
-        this.cmd = null;
-      }
-    }
-
-    public int getIdConnection() {
-      return this.idConnection;
-    }
-
-    public sendStoreFuelCommand_args setIdConnection(int idConnection) {
-      this.idConnection = idConnection;
-      setIdConnectionIsSet(true);
-      return this;
-    }
-
-    public void unsetIdConnection() {
-      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
-    }
-
-    /** Returns true if field idConnection is set (has been assigned a value) and false otherwise */
-    public boolean isSetIdConnection() {
-      return EncodingUtils.testBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
-    }
-
-    public void setIdConnectionIsSet(boolean value) {
-      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IDCONNECTION_ISSET_ID, value);
-    }
-
-    public void setFieldValue(_Fields field, Object value) {
-      switch (field) {
-      case CMD:
-        if (value == null) {
-          unsetCmd();
-        } else {
-          setCmd((StoreFuelCommandData)value);
-        }
-        break;
-
-      case ID_CONNECTION:
-        if (value == null) {
-          unsetIdConnection();
-        } else {
-          setIdConnection((Integer)value);
-        }
-        break;
-
-      }
-    }
-
-    public Object getFieldValue(_Fields field) {
-      switch (field) {
-      case CMD:
-        return getCmd();
-
-      case ID_CONNECTION:
-        return Integer.valueOf(getIdConnection());
-
-      }
-      throw new IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new IllegalArgumentException();
-      }
-
-      switch (field) {
-      case CMD:
-        return isSetCmd();
-      case ID_CONNECTION:
-        return isSetIdConnection();
-      }
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-      if (that == null)
-        return false;
-      if (that instanceof sendStoreFuelCommand_args)
-        return this.equals((sendStoreFuelCommand_args)that);
-      return false;
-    }
-
-    public boolean equals(sendStoreFuelCommand_args that) {
-      if (that == null)
-        return false;
-
-      boolean this_present_cmd = true && this.isSetCmd();
-      boolean that_present_cmd = true && that.isSetCmd();
-      if (this_present_cmd || that_present_cmd) {
-        if (!(this_present_cmd && that_present_cmd))
-          return false;
-        if (!this.cmd.equals(that.cmd))
-          return false;
-      }
-
-      boolean this_present_idConnection = true;
-      boolean that_present_idConnection = true;
-      if (this_present_idConnection || that_present_idConnection) {
-        if (!(this_present_idConnection && that_present_idConnection))
-          return false;
-        if (this.idConnection != that.idConnection)
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 0;
-    }
-
-    @Override
-    public int compareTo(sendStoreFuelCommand_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = Boolean.valueOf(isSetCmd()).compareTo(other.isSetCmd());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCmd()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cmd, other.cmd);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = Boolean.valueOf(isSetIdConnection()).compareTo(other.isSetIdConnection());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetIdConnection()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.idConnection, other.idConnection);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder("sendStoreFuelCommand_args(");
-      boolean first = true;
-
-      sb.append("cmd:");
-      if (this.cmd == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.cmd);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("idConnection:");
-      sb.append(this.idConnection);
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-      if (cmd != null) {
-        cmd.validate();
-      }
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-      try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class sendStoreFuelCommand_argsStandardSchemeFactory implements SchemeFactory {
-      public sendStoreFuelCommand_argsStandardScheme getScheme() {
-        return new sendStoreFuelCommand_argsStandardScheme();
-      }
-    }
-
-    private static class sendStoreFuelCommand_argsStandardScheme extends StandardScheme<sendStoreFuelCommand_args> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, sendStoreFuelCommand_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 1: // CMD
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.cmd = new StoreFuelCommandData();
-                struct.cmd.read(iprot);
-                struct.setCmdIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // ID_CONNECTION
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.idConnection = iprot.readI32();
-                struct.setIdConnectionIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, sendStoreFuelCommand_args struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.cmd != null) {
-          oprot.writeFieldBegin(CMD_FIELD_DESC);
-          struct.cmd.write(oprot);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldBegin(ID_CONNECTION_FIELD_DESC);
-        oprot.writeI32(struct.idConnection);
-        oprot.writeFieldEnd();
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class sendStoreFuelCommand_argsTupleSchemeFactory implements SchemeFactory {
-      public sendStoreFuelCommand_argsTupleScheme getScheme() {
-        return new sendStoreFuelCommand_argsTupleScheme();
-      }
-    }
-
-    private static class sendStoreFuelCommand_argsTupleScheme extends TupleScheme<sendStoreFuelCommand_args> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, sendStoreFuelCommand_args struct) throws org.apache.thrift.TException {
-        TTupleProtocol oprot = (TTupleProtocol) prot;
-        BitSet optionals = new BitSet();
-        if (struct.isSetCmd()) {
-          optionals.set(0);
-        }
-        if (struct.isSetIdConnection()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetCmd()) {
-          struct.cmd.write(oprot);
-        }
-        if (struct.isSetIdConnection()) {
-          oprot.writeI32(struct.idConnection);
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, sendStoreFuelCommand_args struct) throws org.apache.thrift.TException {
-        TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(2);
-        if (incoming.get(0)) {
-          struct.cmd = new StoreFuelCommandData();
-          struct.cmd.read(iprot);
-          struct.setCmdIsSet(true);
-        }
-        if (incoming.get(1)) {
-          struct.idConnection = iprot.readI32();
-          struct.setIdConnectionIsSet(true);
-        }
-      }
-    }
-
-  }
-
-  public static class sendStoreFuelCommand_result implements org.apache.thrift.TBase<sendStoreFuelCommand_result, sendStoreFuelCommand_result._Fields>, java.io.Serializable, Cloneable, Comparable<sendStoreFuelCommand_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendStoreFuelCommand_result");
-
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
-
-    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-    static {
-      schemes.put(StandardScheme.class, new sendStoreFuelCommand_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new sendStoreFuelCommand_resultTupleSchemeFactory());
-    }
-
-    public Response success; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
-
-      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-      static {
-        for (_Fields field : EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 0: // SUCCESS
-            return SUCCESS;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      public static _Fields findByName(String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final String _fieldName;
-
-      _Fields(short thriftId, String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Response.class)));
-      metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendStoreFuelCommand_result.class, metaDataMap);
-    }
-
-    public sendStoreFuelCommand_result() {
-    }
-
-    public sendStoreFuelCommand_result(
-      Response success)
-    {
-      this();
-      this.success = success;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public sendStoreFuelCommand_result(sendStoreFuelCommand_result other) {
-      if (other.isSetSuccess()) {
-        this.success = new Response(other.success);
-      }
-    }
-
-    public sendStoreFuelCommand_result deepCopy() {
-      return new sendStoreFuelCommand_result(this);
-    }
-
-    @Override
-    public void clear() {
-      this.success = null;
-    }
-
-    public Response getSuccess() {
-      return this.success;
-    }
-
-    public sendStoreFuelCommand_result setSuccess(Response success) {
-      this.success = success;
-      return this;
-    }
-
-    public void unsetSuccess() {
-      this.success = null;
-    }
-
-    /** Returns true if field success is set (has been assigned a value) and false otherwise */
-    public boolean isSetSuccess() {
-      return this.success != null;
-    }
-
-    public void setSuccessIsSet(boolean value) {
-      if (!value) {
-        this.success = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, Object value) {
-      switch (field) {
-      case SUCCESS:
-        if (value == null) {
-          unsetSuccess();
-        } else {
-          setSuccess((Response)value);
-        }
-        break;
-
-      }
-    }
-
-    public Object getFieldValue(_Fields field) {
-      switch (field) {
-      case SUCCESS:
-        return getSuccess();
-
-      }
-      throw new IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new IllegalArgumentException();
-      }
-
-      switch (field) {
-      case SUCCESS:
-        return isSetSuccess();
-      }
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-      if (that == null)
-        return false;
-      if (that instanceof sendStoreFuelCommand_result)
-        return this.equals((sendStoreFuelCommand_result)that);
-      return false;
-    }
-
-    public boolean equals(sendStoreFuelCommand_result that) {
-      if (that == null)
-        return false;
-
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
-      if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
-          return false;
-        if (!this.success.equals(that.success))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 0;
-    }
-
-    @Override
-    public int compareTo(sendStoreFuelCommand_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-      }
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder("sendStoreFuelCommand_result(");
-      boolean first = true;
-
-      sb.append("success:");
-      if (this.success == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.success);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-      if (success != null) {
-        success.validate();
-      }
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class sendStoreFuelCommand_resultStandardSchemeFactory implements SchemeFactory {
-      public sendStoreFuelCommand_resultStandardScheme getScheme() {
-        return new sendStoreFuelCommand_resultStandardScheme();
-      }
-    }
-
-    private static class sendStoreFuelCommand_resultStandardScheme extends StandardScheme<sendStoreFuelCommand_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, sendStoreFuelCommand_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.success = new Response();
-                struct.success.read(iprot);
-                struct.setSuccessIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, sendStoreFuelCommand_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          struct.success.write(oprot);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class sendStoreFuelCommand_resultTupleSchemeFactory implements SchemeFactory {
-      public sendStoreFuelCommand_resultTupleScheme getScheme() {
-        return new sendStoreFuelCommand_resultTupleScheme();
-      }
-    }
-
-    private static class sendStoreFuelCommand_resultTupleScheme extends TupleScheme<sendStoreFuelCommand_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, sendStoreFuelCommand_result struct) throws org.apache.thrift.TException {
-        TTupleProtocol oprot = (TTupleProtocol) prot;
-        BitSet optionals = new BitSet();
-        if (struct.isSetSuccess()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetSuccess()) {
-          struct.success.write(oprot);
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, sendStoreFuelCommand_result struct) throws org.apache.thrift.TException {
-        TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          struct.success = new Response();
-          struct.success.read(iprot);
-          struct.setSuccessIsSet(true);
-        }
-      }
-    }
-
-  }
-
   public static class sendFillFuelTankCommand_args implements org.apache.thrift.TBase<sendFillFuelTankCommand_args, sendFillFuelTankCommand_args._Fields>, java.io.Serializable, Cloneable, Comparable<sendFillFuelTankCommand_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendFillFuelTankCommand_args");
 
@@ -8002,19 +7186,19 @@ public class CommandReceiver {
 
   }
 
-  public static class sendLoadResourcesCommand_args implements org.apache.thrift.TBase<sendLoadResourcesCommand_args, sendLoadResourcesCommand_args._Fields>, java.io.Serializable, Cloneable, Comparable<sendLoadResourcesCommand_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendLoadResourcesCommand_args");
+  public static class sendExchangeResourcesCommandData_args implements org.apache.thrift.TBase<sendExchangeResourcesCommandData_args, sendExchangeResourcesCommandData_args._Fields>, java.io.Serializable, Cloneable, Comparable<sendExchangeResourcesCommandData_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendExchangeResourcesCommandData_args");
 
     private static final org.apache.thrift.protocol.TField CMD_FIELD_DESC = new org.apache.thrift.protocol.TField("cmd", org.apache.thrift.protocol.TType.STRUCT, (short)1);
     private static final org.apache.thrift.protocol.TField ID_CONNECTION_FIELD_DESC = new org.apache.thrift.protocol.TField("idConnection", org.apache.thrift.protocol.TType.I32, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new sendLoadResourcesCommand_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new sendLoadResourcesCommand_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new sendExchangeResourcesCommandData_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new sendExchangeResourcesCommandData_argsTupleSchemeFactory());
     }
 
-    public LoadResourcesCommandData cmd; // required
+    public ExchangeResourcesCommandData cmd; // required
     public int idConnection; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -8085,18 +7269,18 @@ public class CommandReceiver {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CMD, new org.apache.thrift.meta_data.FieldMetaData("cmd", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, LoadResourcesCommandData.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ExchangeResourcesCommandData.class)));
       tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendLoadResourcesCommand_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendExchangeResourcesCommandData_args.class, metaDataMap);
     }
 
-    public sendLoadResourcesCommand_args() {
+    public sendExchangeResourcesCommandData_args() {
     }
 
-    public sendLoadResourcesCommand_args(
-      LoadResourcesCommandData cmd,
+    public sendExchangeResourcesCommandData_args(
+      ExchangeResourcesCommandData cmd,
       int idConnection)
     {
       this();
@@ -8108,16 +7292,16 @@ public class CommandReceiver {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public sendLoadResourcesCommand_args(sendLoadResourcesCommand_args other) {
+    public sendExchangeResourcesCommandData_args(sendExchangeResourcesCommandData_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetCmd()) {
-        this.cmd = new LoadResourcesCommandData(other.cmd);
+        this.cmd = new ExchangeResourcesCommandData(other.cmd);
       }
       this.idConnection = other.idConnection;
     }
 
-    public sendLoadResourcesCommand_args deepCopy() {
-      return new sendLoadResourcesCommand_args(this);
+    public sendExchangeResourcesCommandData_args deepCopy() {
+      return new sendExchangeResourcesCommandData_args(this);
     }
 
     @Override
@@ -8127,11 +7311,11 @@ public class CommandReceiver {
       this.idConnection = 0;
     }
 
-    public LoadResourcesCommandData getCmd() {
+    public ExchangeResourcesCommandData getCmd() {
       return this.cmd;
     }
 
-    public sendLoadResourcesCommand_args setCmd(LoadResourcesCommandData cmd) {
+    public sendExchangeResourcesCommandData_args setCmd(ExchangeResourcesCommandData cmd) {
       this.cmd = cmd;
       return this;
     }
@@ -8155,7 +7339,7 @@ public class CommandReceiver {
       return this.idConnection;
     }
 
-    public sendLoadResourcesCommand_args setIdConnection(int idConnection) {
+    public sendExchangeResourcesCommandData_args setIdConnection(int idConnection) {
       this.idConnection = idConnection;
       setIdConnectionIsSet(true);
       return this;
@@ -8180,7 +7364,7 @@ public class CommandReceiver {
         if (value == null) {
           unsetCmd();
         } else {
-          setCmd((LoadResourcesCommandData)value);
+          setCmd((ExchangeResourcesCommandData)value);
         }
         break;
 
@@ -8226,12 +7410,12 @@ public class CommandReceiver {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof sendLoadResourcesCommand_args)
-        return this.equals((sendLoadResourcesCommand_args)that);
+      if (that instanceof sendExchangeResourcesCommandData_args)
+        return this.equals((sendExchangeResourcesCommandData_args)that);
       return false;
     }
 
-    public boolean equals(sendLoadResourcesCommand_args that) {
+    public boolean equals(sendExchangeResourcesCommandData_args that) {
       if (that == null)
         return false;
 
@@ -8262,7 +7446,7 @@ public class CommandReceiver {
     }
 
     @Override
-    public int compareTo(sendLoadResourcesCommand_args other) {
+    public int compareTo(sendExchangeResourcesCommandData_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -8306,7 +7490,7 @@ public class CommandReceiver {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("sendLoadResourcesCommand_args(");
+      StringBuilder sb = new StringBuilder("sendExchangeResourcesCommandData_args(");
       boolean first = true;
 
       sb.append("cmd:");
@@ -8350,15 +7534,15 @@ public class CommandReceiver {
       }
     }
 
-    private static class sendLoadResourcesCommand_argsStandardSchemeFactory implements SchemeFactory {
-      public sendLoadResourcesCommand_argsStandardScheme getScheme() {
-        return new sendLoadResourcesCommand_argsStandardScheme();
+    private static class sendExchangeResourcesCommandData_argsStandardSchemeFactory implements SchemeFactory {
+      public sendExchangeResourcesCommandData_argsStandardScheme getScheme() {
+        return new sendExchangeResourcesCommandData_argsStandardScheme();
       }
     }
 
-    private static class sendLoadResourcesCommand_argsStandardScheme extends StandardScheme<sendLoadResourcesCommand_args> {
+    private static class sendExchangeResourcesCommandData_argsStandardScheme extends StandardScheme<sendExchangeResourcesCommandData_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, sendLoadResourcesCommand_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, sendExchangeResourcesCommandData_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -8370,7 +7554,7 @@ public class CommandReceiver {
           switch (schemeField.id) {
             case 1: // CMD
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.cmd = new LoadResourcesCommandData();
+                struct.cmd = new ExchangeResourcesCommandData();
                 struct.cmd.read(iprot);
                 struct.setCmdIsSet(true);
               } else { 
@@ -8396,7 +7580,7 @@ public class CommandReceiver {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, sendLoadResourcesCommand_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, sendExchangeResourcesCommandData_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -8414,16 +7598,16 @@ public class CommandReceiver {
 
     }
 
-    private static class sendLoadResourcesCommand_argsTupleSchemeFactory implements SchemeFactory {
-      public sendLoadResourcesCommand_argsTupleScheme getScheme() {
-        return new sendLoadResourcesCommand_argsTupleScheme();
+    private static class sendExchangeResourcesCommandData_argsTupleSchemeFactory implements SchemeFactory {
+      public sendExchangeResourcesCommandData_argsTupleScheme getScheme() {
+        return new sendExchangeResourcesCommandData_argsTupleScheme();
       }
     }
 
-    private static class sendLoadResourcesCommand_argsTupleScheme extends TupleScheme<sendLoadResourcesCommand_args> {
+    private static class sendExchangeResourcesCommandData_argsTupleScheme extends TupleScheme<sendExchangeResourcesCommandData_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, sendLoadResourcesCommand_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, sendExchangeResourcesCommandData_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetCmd()) {
@@ -8442,11 +7626,11 @@ public class CommandReceiver {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, sendLoadResourcesCommand_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, sendExchangeResourcesCommandData_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.cmd = new LoadResourcesCommandData();
+          struct.cmd = new ExchangeResourcesCommandData();
           struct.cmd.read(iprot);
           struct.setCmdIsSet(true);
         }
@@ -8459,15 +7643,15 @@ public class CommandReceiver {
 
   }
 
-  public static class sendLoadResourcesCommand_result implements org.apache.thrift.TBase<sendLoadResourcesCommand_result, sendLoadResourcesCommand_result._Fields>, java.io.Serializable, Cloneable, Comparable<sendLoadResourcesCommand_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendLoadResourcesCommand_result");
+  public static class sendExchangeResourcesCommandData_result implements org.apache.thrift.TBase<sendExchangeResourcesCommandData_result, sendExchangeResourcesCommandData_result._Fields>, java.io.Serializable, Cloneable, Comparable<sendExchangeResourcesCommandData_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendExchangeResourcesCommandData_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new sendLoadResourcesCommand_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new sendLoadResourcesCommand_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new sendExchangeResourcesCommandData_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new sendExchangeResourcesCommandData_resultTupleSchemeFactory());
     }
 
     public Response success; // required
@@ -8537,13 +7721,13 @@ public class CommandReceiver {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Response.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendLoadResourcesCommand_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendExchangeResourcesCommandData_result.class, metaDataMap);
     }
 
-    public sendLoadResourcesCommand_result() {
+    public sendExchangeResourcesCommandData_result() {
     }
 
-    public sendLoadResourcesCommand_result(
+    public sendExchangeResourcesCommandData_result(
       Response success)
     {
       this();
@@ -8553,14 +7737,14 @@ public class CommandReceiver {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public sendLoadResourcesCommand_result(sendLoadResourcesCommand_result other) {
+    public sendExchangeResourcesCommandData_result(sendExchangeResourcesCommandData_result other) {
       if (other.isSetSuccess()) {
         this.success = new Response(other.success);
       }
     }
 
-    public sendLoadResourcesCommand_result deepCopy() {
-      return new sendLoadResourcesCommand_result(this);
+    public sendExchangeResourcesCommandData_result deepCopy() {
+      return new sendExchangeResourcesCommandData_result(this);
     }
 
     @Override
@@ -8572,7 +7756,7 @@ public class CommandReceiver {
       return this.success;
     }
 
-    public sendLoadResourcesCommand_result setSuccess(Response success) {
+    public sendExchangeResourcesCommandData_result setSuccess(Response success) {
       this.success = success;
       return this;
     }
@@ -8631,12 +7815,12 @@ public class CommandReceiver {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof sendLoadResourcesCommand_result)
-        return this.equals((sendLoadResourcesCommand_result)that);
+      if (that instanceof sendExchangeResourcesCommandData_result)
+        return this.equals((sendExchangeResourcesCommandData_result)that);
       return false;
     }
 
-    public boolean equals(sendLoadResourcesCommand_result that) {
+    public boolean equals(sendExchangeResourcesCommandData_result that) {
       if (that == null)
         return false;
 
@@ -8658,7 +7842,7 @@ public class CommandReceiver {
     }
 
     @Override
-    public int compareTo(sendLoadResourcesCommand_result other) {
+    public int compareTo(sendExchangeResourcesCommandData_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -8692,7 +7876,7 @@ public class CommandReceiver {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("sendLoadResourcesCommand_result(");
+      StringBuilder sb = new StringBuilder("sendExchangeResourcesCommandData_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -8730,15 +7914,15 @@ public class CommandReceiver {
       }
     }
 
-    private static class sendLoadResourcesCommand_resultStandardSchemeFactory implements SchemeFactory {
-      public sendLoadResourcesCommand_resultStandardScheme getScheme() {
-        return new sendLoadResourcesCommand_resultStandardScheme();
+    private static class sendExchangeResourcesCommandData_resultStandardSchemeFactory implements SchemeFactory {
+      public sendExchangeResourcesCommandData_resultStandardScheme getScheme() {
+        return new sendExchangeResourcesCommandData_resultStandardScheme();
       }
     }
 
-    private static class sendLoadResourcesCommand_resultStandardScheme extends StandardScheme<sendLoadResourcesCommand_result> {
+    private static class sendExchangeResourcesCommandData_resultStandardScheme extends StandardScheme<sendExchangeResourcesCommandData_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, sendLoadResourcesCommand_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, sendExchangeResourcesCommandData_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -8768,7 +7952,7 @@ public class CommandReceiver {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, sendLoadResourcesCommand_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, sendExchangeResourcesCommandData_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -8783,16 +7967,16 @@ public class CommandReceiver {
 
     }
 
-    private static class sendLoadResourcesCommand_resultTupleSchemeFactory implements SchemeFactory {
-      public sendLoadResourcesCommand_resultTupleScheme getScheme() {
-        return new sendLoadResourcesCommand_resultTupleScheme();
+    private static class sendExchangeResourcesCommandData_resultTupleSchemeFactory implements SchemeFactory {
+      public sendExchangeResourcesCommandData_resultTupleScheme getScheme() {
+        return new sendExchangeResourcesCommandData_resultTupleScheme();
       }
     }
 
-    private static class sendLoadResourcesCommand_resultTupleScheme extends TupleScheme<sendLoadResourcesCommand_result> {
+    private static class sendExchangeResourcesCommandData_resultTupleScheme extends TupleScheme<sendExchangeResourcesCommandData_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, sendLoadResourcesCommand_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, sendExchangeResourcesCommandData_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -8805,7 +7989,7 @@ public class CommandReceiver {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, sendLoadResourcesCommand_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, sendExchangeResourcesCommandData_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -9622,6 +8806,822 @@ public class CommandReceiver {
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, sendBuildPlaneCommand_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new Response();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class sendCancelBuildRequestCommandData_args implements org.apache.thrift.TBase<sendCancelBuildRequestCommandData_args, sendCancelBuildRequestCommandData_args._Fields>, java.io.Serializable, Cloneable, Comparable<sendCancelBuildRequestCommandData_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendCancelBuildRequestCommandData_args");
+
+    private static final org.apache.thrift.protocol.TField CMD_FIELD_DESC = new org.apache.thrift.protocol.TField("cmd", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ID_CONNECTION_FIELD_DESC = new org.apache.thrift.protocol.TField("idConnection", org.apache.thrift.protocol.TType.I32, (short)2);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new sendCancelBuildRequestCommandData_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new sendCancelBuildRequestCommandData_argsTupleSchemeFactory());
+    }
+
+    public CancelBuildRequestCommandData cmd; // required
+    public int idConnection; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      CMD((short)1, "cmd"),
+      ID_CONNECTION((short)2, "idConnection");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CMD
+            return CMD;
+          case 2: // ID_CONNECTION
+            return ID_CONNECTION;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __IDCONNECTION_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CMD, new org.apache.thrift.meta_data.FieldMetaData("cmd", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CancelBuildRequestCommandData.class)));
+      tmpMap.put(_Fields.ID_CONNECTION, new org.apache.thrift.meta_data.FieldMetaData("idConnection", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "int")));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendCancelBuildRequestCommandData_args.class, metaDataMap);
+    }
+
+    public sendCancelBuildRequestCommandData_args() {
+    }
+
+    public sendCancelBuildRequestCommandData_args(
+      CancelBuildRequestCommandData cmd,
+      int idConnection)
+    {
+      this();
+      this.cmd = cmd;
+      this.idConnection = idConnection;
+      setIdConnectionIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public sendCancelBuildRequestCommandData_args(sendCancelBuildRequestCommandData_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      if (other.isSetCmd()) {
+        this.cmd = new CancelBuildRequestCommandData(other.cmd);
+      }
+      this.idConnection = other.idConnection;
+    }
+
+    public sendCancelBuildRequestCommandData_args deepCopy() {
+      return new sendCancelBuildRequestCommandData_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cmd = null;
+      setIdConnectionIsSet(false);
+      this.idConnection = 0;
+    }
+
+    public CancelBuildRequestCommandData getCmd() {
+      return this.cmd;
+    }
+
+    public sendCancelBuildRequestCommandData_args setCmd(CancelBuildRequestCommandData cmd) {
+      this.cmd = cmd;
+      return this;
+    }
+
+    public void unsetCmd() {
+      this.cmd = null;
+    }
+
+    /** Returns true if field cmd is set (has been assigned a value) and false otherwise */
+    public boolean isSetCmd() {
+      return this.cmd != null;
+    }
+
+    public void setCmdIsSet(boolean value) {
+      if (!value) {
+        this.cmd = null;
+      }
+    }
+
+    public int getIdConnection() {
+      return this.idConnection;
+    }
+
+    public sendCancelBuildRequestCommandData_args setIdConnection(int idConnection) {
+      this.idConnection = idConnection;
+      setIdConnectionIsSet(true);
+      return this;
+    }
+
+    public void unsetIdConnection() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
+    }
+
+    /** Returns true if field idConnection is set (has been assigned a value) and false otherwise */
+    public boolean isSetIdConnection() {
+      return EncodingUtils.testBit(__isset_bitfield, __IDCONNECTION_ISSET_ID);
+    }
+
+    public void setIdConnectionIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IDCONNECTION_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case CMD:
+        if (value == null) {
+          unsetCmd();
+        } else {
+          setCmd((CancelBuildRequestCommandData)value);
+        }
+        break;
+
+      case ID_CONNECTION:
+        if (value == null) {
+          unsetIdConnection();
+        } else {
+          setIdConnection((Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CMD:
+        return getCmd();
+
+      case ID_CONNECTION:
+        return Integer.valueOf(getIdConnection());
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CMD:
+        return isSetCmd();
+      case ID_CONNECTION:
+        return isSetIdConnection();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof sendCancelBuildRequestCommandData_args)
+        return this.equals((sendCancelBuildRequestCommandData_args)that);
+      return false;
+    }
+
+    public boolean equals(sendCancelBuildRequestCommandData_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_cmd = true && this.isSetCmd();
+      boolean that_present_cmd = true && that.isSetCmd();
+      if (this_present_cmd || that_present_cmd) {
+        if (!(this_present_cmd && that_present_cmd))
+          return false;
+        if (!this.cmd.equals(that.cmd))
+          return false;
+      }
+
+      boolean this_present_idConnection = true;
+      boolean that_present_idConnection = true;
+      if (this_present_idConnection || that_present_idConnection) {
+        if (!(this_present_idConnection && that_present_idConnection))
+          return false;
+        if (this.idConnection != that.idConnection)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(sendCancelBuildRequestCommandData_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetCmd()).compareTo(other.isSetCmd());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCmd()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cmd, other.cmd);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetIdConnection()).compareTo(other.isSetIdConnection());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIdConnection()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.idConnection, other.idConnection);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("sendCancelBuildRequestCommandData_args(");
+      boolean first = true;
+
+      sb.append("cmd:");
+      if (this.cmd == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cmd);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("idConnection:");
+      sb.append(this.idConnection);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cmd != null) {
+        cmd.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class sendCancelBuildRequestCommandData_argsStandardSchemeFactory implements SchemeFactory {
+      public sendCancelBuildRequestCommandData_argsStandardScheme getScheme() {
+        return new sendCancelBuildRequestCommandData_argsStandardScheme();
+      }
+    }
+
+    private static class sendCancelBuildRequestCommandData_argsStandardScheme extends StandardScheme<sendCancelBuildRequestCommandData_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, sendCancelBuildRequestCommandData_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CMD
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cmd = new CancelBuildRequestCommandData();
+                struct.cmd.read(iprot);
+                struct.setCmdIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // ID_CONNECTION
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.idConnection = iprot.readI32();
+                struct.setIdConnectionIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, sendCancelBuildRequestCommandData_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cmd != null) {
+          oprot.writeFieldBegin(CMD_FIELD_DESC);
+          struct.cmd.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(ID_CONNECTION_FIELD_DESC);
+        oprot.writeI32(struct.idConnection);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class sendCancelBuildRequestCommandData_argsTupleSchemeFactory implements SchemeFactory {
+      public sendCancelBuildRequestCommandData_argsTupleScheme getScheme() {
+        return new sendCancelBuildRequestCommandData_argsTupleScheme();
+      }
+    }
+
+    private static class sendCancelBuildRequestCommandData_argsTupleScheme extends TupleScheme<sendCancelBuildRequestCommandData_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, sendCancelBuildRequestCommandData_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetCmd()) {
+          optionals.set(0);
+        }
+        if (struct.isSetIdConnection()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetCmd()) {
+          struct.cmd.write(oprot);
+        }
+        if (struct.isSetIdConnection()) {
+          oprot.writeI32(struct.idConnection);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, sendCancelBuildRequestCommandData_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.cmd = new CancelBuildRequestCommandData();
+          struct.cmd.read(iprot);
+          struct.setCmdIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.idConnection = iprot.readI32();
+          struct.setIdConnectionIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class sendCancelBuildRequestCommandData_result implements org.apache.thrift.TBase<sendCancelBuildRequestCommandData_result, sendCancelBuildRequestCommandData_result._Fields>, java.io.Serializable, Cloneable, Comparable<sendCancelBuildRequestCommandData_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendCancelBuildRequestCommandData_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new sendCancelBuildRequestCommandData_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new sendCancelBuildRequestCommandData_resultTupleSchemeFactory());
+    }
+
+    public Response success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Response.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendCancelBuildRequestCommandData_result.class, metaDataMap);
+    }
+
+    public sendCancelBuildRequestCommandData_result() {
+    }
+
+    public sendCancelBuildRequestCommandData_result(
+      Response success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public sendCancelBuildRequestCommandData_result(sendCancelBuildRequestCommandData_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new Response(other.success);
+      }
+    }
+
+    public sendCancelBuildRequestCommandData_result deepCopy() {
+      return new sendCancelBuildRequestCommandData_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public Response getSuccess() {
+      return this.success;
+    }
+
+    public sendCancelBuildRequestCommandData_result setSuccess(Response success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Response)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof sendCancelBuildRequestCommandData_result)
+        return this.equals((sendCancelBuildRequestCommandData_result)that);
+      return false;
+    }
+
+    public boolean equals(sendCancelBuildRequestCommandData_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(sendCancelBuildRequestCommandData_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("sendCancelBuildRequestCommandData_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class sendCancelBuildRequestCommandData_resultStandardSchemeFactory implements SchemeFactory {
+      public sendCancelBuildRequestCommandData_resultStandardScheme getScheme() {
+        return new sendCancelBuildRequestCommandData_resultStandardScheme();
+      }
+    }
+
+    private static class sendCancelBuildRequestCommandData_resultStandardScheme extends StandardScheme<sendCancelBuildRequestCommandData_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, sendCancelBuildRequestCommandData_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new Response();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, sendCancelBuildRequestCommandData_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class sendCancelBuildRequestCommandData_resultTupleSchemeFactory implements SchemeFactory {
+      public sendCancelBuildRequestCommandData_resultTupleScheme getScheme() {
+        return new sendCancelBuildRequestCommandData_resultTupleScheme();
+      }
+    }
+
+    private static class sendCancelBuildRequestCommandData_resultTupleScheme extends TupleScheme<sendCancelBuildRequestCommandData_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, sendCancelBuildRequestCommandData_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, sendCancelBuildRequestCommandData_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {

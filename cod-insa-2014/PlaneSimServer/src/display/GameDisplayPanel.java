@@ -1,19 +1,9 @@
 package display;
 
+import game.*;
 import game.AutoPilot.Mode;
-import game.Game;
-import game.GameBase;
-import game.GameEntity;
-import game.GamePlane;
-import game.World;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -66,8 +56,9 @@ public class GameDisplayPanel extends JPanel {
         
         //s.setDisplayer(disp);
         this.disp = disp;
-        
-        vtrans.zoomIn(1./2);
+
+//		vtrans.zoomIn(1./2);
+		vtrans.zoomIn(1./4);
         
         final GameDisplayPanel that = this;
         
@@ -79,14 +70,16 @@ public class GameDisplayPanel extends JPanel {
 //    	int nb = 5;
     	int nb = 2;
     	for (int i = 0; i < nb; i++) {
-    		GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.MILITARY);
+//			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble()*s.getWorld().width, r.nextDouble()*s.getWorld().height), (i<nb/2?1:2), Type.MILITARY);
+			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.MILITARY);
 	    	pls.add(p);
 	    	//sim._debug_backdoor().add(p);
-	    	p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
+//			p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
+			p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.IGNORE);
     	}
     	if (pls.size() > 1) {
-	    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
-	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
+//	    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
+//	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
     	}
     	
 		//new Base(sim, new Coord(.3,.6));
@@ -241,6 +234,35 @@ public class GameDisplayPanel extends JPanel {
 //        	public void mouseExited(MouseEvent e) {
 //        		
 //        	}
+			
+			public void landCom(MouseEvent e) {
+
+				Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
+				Landable b = null;
+				for (GameCountry bb : sim.countries)
+					if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
+						b = bb;
+				if (b == null)
+					for (GameBase bb : sim.bases)
+						if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
+							b = bb;
+				
+				int pid = e.getButton() == MouseEvent.BUTTON1? 0: 1;
+				
+				GamePlane p = pls.get(pid);
+				if (b == null) {
+					p.autoPilot.goTo(mousePos, Mode.IGNORE);
+//                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
+
+
+//           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
+					//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
+				}
+				else if (p.modelView().state() == State.AT_AIRPORT && b.model().view().planes().size() > 0 && b.model().view().planes().get(0).id() == p.modelView().id()) // ugly hack
+				{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
+				else pls.get(pid).autoPilot.landAt(b);
+
+			}
         	
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -265,25 +287,26 @@ public class GameDisplayPanel extends JPanel {
                 		p.autoPilot.goTo(vtrans.getCoord(new Pixel(e.getX(), e.getY())).view(), Mode.IGNORE);
 					*/
                 	
-                	Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
-                	GameBase b = null;
-                	for (GameBase bb : sim.bases) {
-                		if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
-                			b = bb;
-                	}
-                	GamePlane p = pls.get(0);
-                	if (b == null) {
-                		p.autoPilot.goTo(mousePos, Mode.IGNORE);
-//                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
-                		
-                		
-//           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
-                	//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
-                	}
-                    else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().planes().size() > 0 && b.modelView().planes().get(0).id() == p.modelView().id()) // ugly hack
-                		{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
-                	else pls.get(0).autoPilot.landAt(b);
+//                	Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
+//                	GameBase b = null;
+//                	for (GameBase bb : sim.bases) {
+//                		if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
+//                			b = bb;
+//                	}
+//                	GamePlane p = pls.get(0);
+//                	if (b == null) {
+//                		p.autoPilot.goTo(mousePos, Mode.IGNORE);
+////                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
+//                		
+//                		
+////           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
+//                	//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
+//                	}
+//                    else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().planes().size() > 0 && b.modelView().planes().get(0).id() == p.modelView().id()) // ugly hack
+//                		{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
+//                	else pls.get(0).autoPilot.landAt(b);
                 	
+					landCom(e);
                 	
                 	/*for (Plane p: pls)
                 		((NetworkPlayer)DataUpdater.get().getPlayers().get(0)).addCommand(
@@ -302,23 +325,24 @@ public class GameDisplayPanel extends JPanel {
                 case MouseEvent.BUTTON3: // Right click
 
 					
-					////////////////////////////
-					// Bad dirty copy & paste
-					mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
-					b = null;
-					for (GameBase bb : sim.bases) {
-						if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
-							b = bb;
-					}
-					p = pls.get(1);
-					if (b == null) {
-						p.autoPilot.goTo(mousePos, Mode.IGNORE);
-					}
-					else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().planes().size() > 0 && b.modelView().planes().get(0).id() == p.modelView().id()) // ugly hack
-					{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
-					else pls.get(1).autoPilot.landAt(b);
-					////////////////////////////
-					
+//					////////////////////////////
+//					// Bad dirty copy & paste
+//					mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
+//					b = null;
+//					for (GameBase bb : sim.bases) {
+//						if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
+//							b = bb;
+//					}
+//					p = pls.get(1);
+//					if (b == null) {
+//						p.autoPilot.goTo(mousePos, Mode.IGNORE);
+//					}
+//					else if (p.modelView().state() == State.AT_AIRPORT && b.modelView().planes().size() > 0 && b.modelView().planes().get(0).id() == p.modelView().id()) // ugly hack
+//					{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
+//					else pls.get(1).autoPilot.landAt(b);
+//					////////////////////////////
+
+					landCom(e);
 					
 					
 					
@@ -379,6 +403,7 @@ public class GameDisplayPanel extends JPanel {
     	repaint_timer.cancel();
     }
 
+	static Font infoFont = new Font("Arial", Font.PLAIN, 12);
 
 	@Override
     public void paintComponent(Graphics g) {
@@ -398,8 +423,13 @@ public class GameDisplayPanel extends JPanel {
         g2d.setRenderingHints(rh);
         
 //        g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-        g2d.setStroke(new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-        
+//        g2d.setStroke(new BasicStroke(4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		//g2d.setStroke(new BasicStroke(getWidth()/1000f*4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		EntityDisplay.fineStroke = new BasicStroke(getWidth()/1000f*2f*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		EntityDisplay.largeStroke = new BasicStroke(getWidth()/1000f*4*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		EntityDisplay.axisStroke = new BasicStroke(getWidth()/1000f*AxisDisplay.AXIS_WIDH*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+		
+		
         
         g2d.setColor(Color.lightGray);
         g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -434,10 +464,12 @@ public class GameDisplayPanel extends JPanel {
         Pixel top_left = vtrans.getViewPos(new Coord(0,0).view());
         Pixel bottom_right = vtrans.getViewPos(new Coord(sim.getWorld().width, sim.getWorld().height).view());
         g2d.drawRect(top_left.x, top_left.y, bottom_right.x-top_left.x, bottom_right.y-top_left.y);
-        
-        
-        g2d.setColor(Color.white);
-        g2d.drawString(sim.getInfoString(), 0, 10);
+
+
+		g2d.setColor(Color.white);
+		g2d.setFont(infoFont);
+//		g2d.drawString(sim.getInfoString(), 0, 10);
+		g2d.drawString(sim.getInfoString(), 2, 12);
         
 
 

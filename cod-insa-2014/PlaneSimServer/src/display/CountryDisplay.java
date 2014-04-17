@@ -13,9 +13,14 @@ public class CountryDisplay extends EntityDisplay<GameCountry> {
 	public CountryDisplay(GameCountry entity) {
 		super(entity);
 	}
+	
 	@Override
 	public void draw(Graphics2D g2d, ViewTransform vtrans) {
 		super.draw(g2d, vtrans);
+
+//		g2d.setColor(getPlayerColor());
+		g2d.setColor(lightenColor(getPlayerColor()));
+
 		double size = entity.radius()*2;
 		Pixel topLeft = vtrans.getViewPos(entity.modelView().position().shifted(-size/2).view());
 		Pixel bottomRight = vtrans.getViewPos(entity.modelView().position().shifted(size/2).view());

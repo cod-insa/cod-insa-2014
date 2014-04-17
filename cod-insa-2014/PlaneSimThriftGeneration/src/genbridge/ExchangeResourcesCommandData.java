@@ -32,28 +32,31 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadResourcesCommandData, LoadResourcesCommandData._Fields>, java.io.Serializable, Cloneable, Comparable<LoadResourcesCommandData> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadResourcesCommandData");
+public class ExchangeResourcesCommandData implements org.apache.thrift.TBase<ExchangeResourcesCommandData, ExchangeResourcesCommandData._Fields>, java.io.Serializable, Cloneable, Comparable<ExchangeResourcesCommandData> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ExchangeResourcesCommandData");
 
   private static final org.apache.thrift.protocol.TField PC_FIELD_DESC = new org.apache.thrift.protocol.TField("pc", org.apache.thrift.protocol.TType.STRUCT, (short)1);
   private static final org.apache.thrift.protocol.TField MILITAR_QUANTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("militar_quantity", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
   private static final org.apache.thrift.protocol.TField FUEL_QUANTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("fuel_quantity", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField DELETE_RESOURCES_FIELD_DESC = new org.apache.thrift.protocol.TField("deleteResources", org.apache.thrift.protocol.TType.BOOL, (short)4);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new LoadResourcesCommandDataStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new LoadResourcesCommandDataTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new ExchangeResourcesCommandDataStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new ExchangeResourcesCommandDataTupleSchemeFactory());
   }
 
   public PlaneCommandData pc; // required
   public double militar_quantity; // required
   public double fuel_quantity; // required
+  public boolean deleteResources; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     PC((short)1, "pc"),
     MILITAR_QUANTITY((short)2, "militar_quantity"),
-    FUEL_QUANTITY((short)3, "fuel_quantity");
+    FUEL_QUANTITY((short)3, "fuel_quantity"),
+    DELETE_RESOURCES((short)4, "deleteResources");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -74,6 +77,8 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
           return MILITAR_QUANTITY;
         case 3: // FUEL_QUANTITY
           return FUEL_QUANTITY;
+        case 4: // DELETE_RESOURCES
+          return DELETE_RESOURCES;
         default:
           return null;
       }
@@ -116,6 +121,7 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
   // isset id assignments
   private static final int __MILITAR_QUANTITY_ISSET_ID = 0;
   private static final int __FUEL_QUANTITY_ISSET_ID = 1;
+  private static final int __DELETERESOURCES_ISSET_ID = 2;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -126,17 +132,20 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.FUEL_QUANTITY, new org.apache.thrift.meta_data.FieldMetaData("fuel_quantity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.DELETE_RESOURCES, new org.apache.thrift.meta_data.FieldMetaData("deleteResources", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LoadResourcesCommandData.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ExchangeResourcesCommandData.class, metaDataMap);
   }
 
-  public LoadResourcesCommandData() {
+  public ExchangeResourcesCommandData() {
   }
 
-  public LoadResourcesCommandData(
+  public ExchangeResourcesCommandData(
     PlaneCommandData pc,
     double militar_quantity,
-    double fuel_quantity)
+    double fuel_quantity,
+    boolean deleteResources)
   {
     this();
     this.pc = pc;
@@ -144,22 +153,25 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
     setMilitar_quantityIsSet(true);
     this.fuel_quantity = fuel_quantity;
     setFuel_quantityIsSet(true);
+    this.deleteResources = deleteResources;
+    setDeleteResourcesIsSet(true);
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public LoadResourcesCommandData(LoadResourcesCommandData other) {
+  public ExchangeResourcesCommandData(ExchangeResourcesCommandData other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetPc()) {
       this.pc = new PlaneCommandData(other.pc);
     }
     this.militar_quantity = other.militar_quantity;
     this.fuel_quantity = other.fuel_quantity;
+    this.deleteResources = other.deleteResources;
   }
 
-  public LoadResourcesCommandData deepCopy() {
-    return new LoadResourcesCommandData(this);
+  public ExchangeResourcesCommandData deepCopy() {
+    return new ExchangeResourcesCommandData(this);
   }
 
   @Override
@@ -169,13 +181,15 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
     this.militar_quantity = 0.0;
     setFuel_quantityIsSet(false);
     this.fuel_quantity = 0.0;
+    setDeleteResourcesIsSet(false);
+    this.deleteResources = false;
   }
 
   public PlaneCommandData getPc() {
     return this.pc;
   }
 
-  public LoadResourcesCommandData setPc(PlaneCommandData pc) {
+  public ExchangeResourcesCommandData setPc(PlaneCommandData pc) {
     this.pc = pc;
     return this;
   }
@@ -199,7 +213,7 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
     return this.militar_quantity;
   }
 
-  public LoadResourcesCommandData setMilitar_quantity(double militar_quantity) {
+  public ExchangeResourcesCommandData setMilitar_quantity(double militar_quantity) {
     this.militar_quantity = militar_quantity;
     setMilitar_quantityIsSet(true);
     return this;
@@ -222,7 +236,7 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
     return this.fuel_quantity;
   }
 
-  public LoadResourcesCommandData setFuel_quantity(double fuel_quantity) {
+  public ExchangeResourcesCommandData setFuel_quantity(double fuel_quantity) {
     this.fuel_quantity = fuel_quantity;
     setFuel_quantityIsSet(true);
     return this;
@@ -239,6 +253,29 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
 
   public void setFuel_quantityIsSet(boolean value) {
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __FUEL_QUANTITY_ISSET_ID, value);
+  }
+
+  public boolean isDeleteResources() {
+    return this.deleteResources;
+  }
+
+  public ExchangeResourcesCommandData setDeleteResources(boolean deleteResources) {
+    this.deleteResources = deleteResources;
+    setDeleteResourcesIsSet(true);
+    return this;
+  }
+
+  public void unsetDeleteResources() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DELETERESOURCES_ISSET_ID);
+  }
+
+  /** Returns true if field deleteResources is set (has been assigned a value) and false otherwise */
+  public boolean isSetDeleteResources() {
+    return EncodingUtils.testBit(__isset_bitfield, __DELETERESOURCES_ISSET_ID);
+  }
+
+  public void setDeleteResourcesIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DELETERESOURCES_ISSET_ID, value);
   }
 
   public void setFieldValue(_Fields field, Object value) {
@@ -267,6 +304,14 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       }
       break;
 
+    case DELETE_RESOURCES:
+      if (value == null) {
+        unsetDeleteResources();
+      } else {
+        setDeleteResources((Boolean)value);
+      }
+      break;
+
     }
   }
 
@@ -280,6 +325,9 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
 
     case FUEL_QUANTITY:
       return Double.valueOf(getFuel_quantity());
+
+    case DELETE_RESOURCES:
+      return Boolean.valueOf(isDeleteResources());
 
     }
     throw new IllegalStateException();
@@ -298,6 +346,8 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       return isSetMilitar_quantity();
     case FUEL_QUANTITY:
       return isSetFuel_quantity();
+    case DELETE_RESOURCES:
+      return isSetDeleteResources();
     }
     throw new IllegalStateException();
   }
@@ -306,12 +356,12 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof LoadResourcesCommandData)
-      return this.equals((LoadResourcesCommandData)that);
+    if (that instanceof ExchangeResourcesCommandData)
+      return this.equals((ExchangeResourcesCommandData)that);
     return false;
   }
 
-  public boolean equals(LoadResourcesCommandData that) {
+  public boolean equals(ExchangeResourcesCommandData that) {
     if (that == null)
       return false;
 
@@ -342,6 +392,15 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
         return false;
     }
 
+    boolean this_present_deleteResources = true;
+    boolean that_present_deleteResources = true;
+    if (this_present_deleteResources || that_present_deleteResources) {
+      if (!(this_present_deleteResources && that_present_deleteResources))
+        return false;
+      if (this.deleteResources != that.deleteResources)
+        return false;
+    }
+
     return true;
   }
 
@@ -351,7 +410,7 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
   }
 
   @Override
-  public int compareTo(LoadResourcesCommandData other) {
+  public int compareTo(ExchangeResourcesCommandData other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
@@ -388,6 +447,16 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetDeleteResources()).compareTo(other.isSetDeleteResources());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetDeleteResources()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.deleteResources, other.deleteResources);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -405,7 +474,7 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("LoadResourcesCommandData(");
+    StringBuilder sb = new StringBuilder("ExchangeResourcesCommandData(");
     boolean first = true;
 
     sb.append("pc:");
@@ -422,6 +491,10 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
     if (!first) sb.append(", ");
     sb.append("fuel_quantity:");
     sb.append(this.fuel_quantity);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("deleteResources:");
+    sb.append(this.deleteResources);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -453,15 +526,15 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
     }
   }
 
-  private static class LoadResourcesCommandDataStandardSchemeFactory implements SchemeFactory {
-    public LoadResourcesCommandDataStandardScheme getScheme() {
-      return new LoadResourcesCommandDataStandardScheme();
+  private static class ExchangeResourcesCommandDataStandardSchemeFactory implements SchemeFactory {
+    public ExchangeResourcesCommandDataStandardScheme getScheme() {
+      return new ExchangeResourcesCommandDataStandardScheme();
     }
   }
 
-  private static class LoadResourcesCommandDataStandardScheme extends StandardScheme<LoadResourcesCommandData> {
+  private static class ExchangeResourcesCommandDataStandardScheme extends StandardScheme<ExchangeResourcesCommandData> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, LoadResourcesCommandData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, ExchangeResourcesCommandData struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -496,6 +569,14 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 4: // DELETE_RESOURCES
+            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+              struct.deleteResources = iprot.readBool();
+              struct.setDeleteResourcesIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -507,7 +588,7 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, LoadResourcesCommandData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, ExchangeResourcesCommandData struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -522,22 +603,25 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       oprot.writeFieldBegin(FUEL_QUANTITY_FIELD_DESC);
       oprot.writeDouble(struct.fuel_quantity);
       oprot.writeFieldEnd();
+      oprot.writeFieldBegin(DELETE_RESOURCES_FIELD_DESC);
+      oprot.writeBool(struct.deleteResources);
+      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
 
   }
 
-  private static class LoadResourcesCommandDataTupleSchemeFactory implements SchemeFactory {
-    public LoadResourcesCommandDataTupleScheme getScheme() {
-      return new LoadResourcesCommandDataTupleScheme();
+  private static class ExchangeResourcesCommandDataTupleSchemeFactory implements SchemeFactory {
+    public ExchangeResourcesCommandDataTupleScheme getScheme() {
+      return new ExchangeResourcesCommandDataTupleScheme();
     }
   }
 
-  private static class LoadResourcesCommandDataTupleScheme extends TupleScheme<LoadResourcesCommandData> {
+  private static class ExchangeResourcesCommandDataTupleScheme extends TupleScheme<ExchangeResourcesCommandData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, LoadResourcesCommandData struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, ExchangeResourcesCommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
       if (struct.isSetPc()) {
@@ -549,7 +633,10 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       if (struct.isSetFuel_quantity()) {
         optionals.set(2);
       }
-      oprot.writeBitSet(optionals, 3);
+      if (struct.isSetDeleteResources()) {
+        optionals.set(3);
+      }
+      oprot.writeBitSet(optionals, 4);
       if (struct.isSetPc()) {
         struct.pc.write(oprot);
       }
@@ -559,12 +646,15 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       if (struct.isSetFuel_quantity()) {
         oprot.writeDouble(struct.fuel_quantity);
       }
+      if (struct.isSetDeleteResources()) {
+        oprot.writeBool(struct.deleteResources);
+      }
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, LoadResourcesCommandData struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, ExchangeResourcesCommandData struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(3);
+      BitSet incoming = iprot.readBitSet(4);
       if (incoming.get(0)) {
         struct.pc = new PlaneCommandData();
         struct.pc.read(iprot);
@@ -577,6 +667,10 @@ public class LoadResourcesCommandData implements org.apache.thrift.TBase<LoadRes
       if (incoming.get(2)) {
         struct.fuel_quantity = iprot.readDouble();
         struct.setFuel_quantityIsSet(true);
+      }
+      if (incoming.get(3)) {
+        struct.deleteResources = iprot.readBool();
+        struct.setDeleteResourcesIsSet(true);
       }
     }
   }

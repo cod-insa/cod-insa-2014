@@ -2,8 +2,7 @@ package display;
 
 import game.Projectile;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 import model.Coord;
 
@@ -13,6 +12,11 @@ public class ProjectileDisplay extends EntityDisplay<Projectile> {
 	public ProjectileDisplay (Projectile p) {
 		super(p);
 		
+	}
+	
+	@Override
+	public Stroke getStroke(ViewTransform vtrans) {
+		return fineStroke;
 	}
 
 	@Override

@@ -12,6 +12,8 @@ import model.Coord;
  * Created by LP on 28/03/2014.
  */
 public class AxisDisplay extends EntityDisplay<GameAxis> {
+	
+	public static float AXIS_WIDH = 30;
 
 	public AxisDisplay (GameAxis b) {
 		super(b);
@@ -19,8 +21,9 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 
 	@Override
 	public Stroke getStroke(ViewTransform vtrans) {
-		return new BasicStroke(25*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+//		return new BasicStroke(25*(float)vtrans._scale.x, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 		// entity.modelView().base1().radius // nope
+		return axisStroke;
 	}
 	
 	@Override
@@ -78,21 +81,24 @@ public class AxisDisplay extends EntityDisplay<GameAxis> {
 		float a = .3f;
 //		float a = 1.5f;
 		
-		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base1().ownerId()), a));
+//		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base1().ownerId()), a));
+		g2d.setColor(lightenColor(getPlayerColor(entity.modelView().base1().ownerId())));
 		g2d.drawLine(
 				b1.x,
 				b1.y,
 				m1.x,
 				m1.y
 		);
-		g2d.setColor(fadeColor(getPlayerColor(0), a));
+//		g2d.setColor(fadeColor(getPlayerColor(0), a));
+		g2d.setColor(getPlayerColor(0));
 		g2d.drawLine(
 				m1.x,
 				m1.y,
 				m2.x,
 				m2.y
 		);
-		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base2().ownerId()), a));
+//		g2d.setColor(fadeColor(getPlayerColor(entity.modelView().base2().ownerId()), a));
+		g2d.setColor(lightenColor(getPlayerColor(entity.modelView().base2().ownerId())));
 		g2d.drawLine(
 				m2.x,
 				m2.y,

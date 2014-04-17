@@ -71,7 +71,7 @@ public class MainWindow {
         slots.add(0,"All");
         some_comboBox = new JComboBox(slots.toArray());
         
-        btnBar.setText("Bar");
+        btnBar.setText("Pause");
 
         //initialize();
         //frmPlaneSim.setVisible(true);
@@ -105,9 +105,10 @@ public class MainWindow {
 
 		ImageIcon image = new ImageIcon(getClass().getResource(Resources.PLANE_ICON));
 		frmPlaneSim.setIconImage(image.getImage());
-        
-        
-        frmPlaneSim.setBounds(100, 100, 728, 599);
+
+
+//		frmPlaneSim.setBounds(100, 100, 728, 599);
+		frmPlaneSim.setBounds(100, 100, 1000, 800);
         
         frmPlaneSim.setLocationRelativeTo( null );
         
@@ -166,12 +167,13 @@ public class MainWindow {
 		
         JPanel panel_top_btns = new JPanel();
         panel_top_btns.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        final JButton btnBaz = new JButton("Baz");
+        final JButton btnBaz = new JButton("Info");
         btnBaz.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	// TODO
             }
         });
+		btnBaz.setEnabled(false);
         
         frmPlaneSim.getContentPane().setLayout(new BorderLayout(0, 0));
         
@@ -181,12 +183,13 @@ public class MainWindow {
             }
         });
         
-        JButton btnFoo = new JButton("Foo");
+        JButton btnFoo = new JButton("Terminate game");
         btnFoo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO
             }
         });
+		btnFoo.setEnabled(false);
         
         JButton btnExit = new JButton("<<  Exit  >>");
         btnExit.addActionListener(new ActionListener() {

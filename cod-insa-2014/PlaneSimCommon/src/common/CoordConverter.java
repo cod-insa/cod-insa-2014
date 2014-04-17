@@ -20,31 +20,25 @@ public class CoordConverter {
 	private double widthWorld;
 	private double heightWorld;
 	
-	public CoordConverter(double minla, double maxla, double minlo, double maxlo) {
+	public CoordConverter(double minla, double maxla, double minlo, double maxlo, double zoom) {
 		min_lat = minla;
 		max_lat = maxla;
 		min_long = minlo;
 		max_long = maxlo;
 		
-		widthWorld = 1;
-		heightWorld = 1;
-		
 		latAmplitude = max_lat - min_lat;
 		longAmplitude = max_long - min_long;
+
+		widthWorld = longAmplitude * zoom;
+		heightWorld = latAmplitude * zoom;
 	}
 	
-	public void setWorldDimensions(double width, double height)
-	{
-		widthWorld = width;
-		heightWorld = height;
-	}
-
 	public double getWidth() {
-		return longAmplitude;
+		return widthWorld;
 	}
 
 	public double getHeight() {
-		return latAmplitude;
+		return heightWorld;
 	}
 
 	/*public Coord toDegrees(double longitude, double latitude) {
