@@ -127,7 +127,7 @@ public class NetworkPlayer extends Player {
 				
 				synchronized(world.snapshotsMonitor) {
 					try {
-						world.wait();
+						world.snapshotsMonitor.wait();
 					} catch (InterruptedException e) {
 //						e.printStackTrace();
 						log.error("Snapshot waiting interrupted!", e);
