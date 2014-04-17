@@ -7,18 +7,18 @@ import game.World.Snapshot;
 import genbridge.AttackCommandData;
 import genbridge.Bridge;
 import genbridge.BuildPlaneCommandData;
+import genbridge.CancelBuildRequestCommandData;
 import genbridge.CommandReceiver;
 import genbridge.ConnectionData;
 import genbridge.Data;
 import genbridge.DropMilitarsCommandData;
+import genbridge.ExchangeResourcesCommandData;
 import genbridge.FillFuelTankCommandData;
 import genbridge.FollowCommandData;
 import genbridge.InitData;
 import genbridge.LandCommandData;
-import genbridge.LoadResourcesCommandData;
 import genbridge.MoveCommandData;
 import genbridge.Response;
-import genbridge.StoreFuelCommandData;
 import genbridge.WaitCommandData;
 
 import java.util.ArrayDeque;
@@ -40,6 +40,7 @@ import org.apache.thrift.transport.TTransportException;
 import command.Command;
 import common.Couple;
 import common.Nullable;
+
 import control.CommandMaker;
 
 /**
@@ -263,13 +264,6 @@ public class NetworkPlayer extends Player {
 		}
 
 		@Override
-		public Response sendStoreFuelCommand(StoreFuelCommandData cmdDat,
-				int idConnection) throws TException {
-		
-			return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
-		}
-
-		@Override
 		public Response sendFillFuelTankCommand(FillFuelTankCommandData cmdDat,
 				int idConnection) throws TException {
 			
@@ -277,8 +271,8 @@ public class NetworkPlayer extends Player {
 		}
 
 		@Override
-		public Response sendLoadResourcesCommand(
-				LoadResourcesCommandData cmdData, int idConnection)
+		public Response sendExchangeResourcesCommandData(
+				ExchangeResourcesCommandData cmdData, int idConnection)
 				throws TException {
 			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot()));
 		}
@@ -288,6 +282,15 @@ public class NetworkPlayer extends Player {
 				BuildPlaneCommandData cmdData, int idConnection) 
 				throws TException {
 			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot()));
+		}
+
+		@Override
+		public Response sendCancelBuildRequestCommandData(
+				CancelBuildRequestCommandData cmdData, int idConnection)
+				throws TException {
+			//fixme;
+			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot()));
+			// TODO FIXME URGENT
 		}
 		
 	}

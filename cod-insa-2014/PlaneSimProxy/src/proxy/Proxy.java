@@ -3,7 +3,6 @@ import genbridge.Data;
 import genbridge.InitData;
 import genbridge.PlaneFullData;
 import genbridge.PlaneStateData;
-import genbridge.ProductionLineData;
 import genbridge.ProgressAxisData;
 import genbridge.RequestData;
 
@@ -14,16 +13,15 @@ import model.Base;
 import model.Coord;
 import model.Country;
 import model.Plane;
-import model.Coord.Unique;
 import model.Plane.BasicView;
 import model.Plane.State;
 import model.ProgressAxis;
 
-import org.junit.runner.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.AbstractAI;
+
 import command.Command;
 import common.MapView;
 import common.Util;

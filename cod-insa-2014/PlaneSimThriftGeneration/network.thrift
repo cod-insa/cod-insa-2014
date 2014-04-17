@@ -169,17 +169,12 @@ struct DropMilitarsCommandData {
 	3: double quantity
 }
 
-struct StoreFuelCommandData {
-	1: PlaneCommandData pc,
-	2: double quantity
-}
-
 struct FillFuelTankCommandData {
 	1: PlaneCommandData pc,
 	2: double quantity
 }
 
-struct LoadResourcesCommandData {
+struct ExchangeResourcesCommandData {
 	1: PlaneCommandData pc,
 	2: double militar_quantity,
 	3: double fuel_quantity
@@ -188,6 +183,11 @@ struct LoadResourcesCommandData {
 struct BuildPlaneCommandData {
 	1: CommandData c,
 	2: int planeTypeId
+}
+
+struct CancelBuildRequestCommandData {
+	1: CommandData c,
+	2: int id_request
 }
 
 struct Response {
@@ -202,10 +202,10 @@ service CommandReceiver {
 	Response sendFollowCommand(1: FollowCommandData cmd, 2: int idConnection),
 	Response sendAttackCommand(1: AttackCommandData cmd, 2: int idConnection),
 	Response sendDropMilitarsCommand(1: DropMilitarsCommandData cmd, 2: int idConnection),
-	Response sendStoreFuelCommand(1: StoreFuelCommandData cmd, 2: int idConnection),
 	Response sendFillFuelTankCommand(1: FillFuelTankCommandData cmd, 2: int idConnection),
-	Response sendLoadResourcesCommand(1: LoadResourcesCommandData cmd, 2: int idConnection),
-	Response sendBuildPlaneCommand(1: BuildPlaneCommandData cmd, 2: int idConnection)
+	Response sendExchangeResourcesCommandData(1: ExchangeResourcesCommandData cmd, 2: int idConnection),
+	Response sendBuildPlaneCommand(1: BuildPlaneCommandData cmd, 2: int idConnection),
+	Response sendCancelBuildRequestCommandData(1: CancelBuildRequestCommandData cmd, 2: int idConnection)
 }
 
 # Type dispo
