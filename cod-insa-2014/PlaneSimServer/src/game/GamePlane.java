@@ -185,16 +185,16 @@ public final class GamePlane extends MaterialGameEntity {
 		
 	}
 	
-	public void tradeResources(double mWithdraw, double fWithdraw, double mDeposit, double fDeposit)
+	public void exchangeResources(double milQuantity, double fuelQuantity, boolean deleteResources)
 	{
-		model().militaryInHold += mWithdraw - mDeposit;
-		model().fuelInHold += fWithdraw - fDeposit;
+		model().militaryInHold += milQuantity;
+		model().fuelInHold += fuelQuantity;
 		
 		// If the plane is in a base
-		if (model().curBase instanceof Base)
+		if (model().curBase instanceof Base && ! deleteResources)
 		{
-			((Base)model().curBase).fuelInStock += fDeposit - fWithdraw;
-			((Base)model().curBase).militaryGarrison += mDeposit - mWithdraw;
+			((Base)model().curBase).fuelInStock += fuelQuantity;
+			((Base)model().curBase).militaryGarrison += milQuantity;
 		}
 	}
 	

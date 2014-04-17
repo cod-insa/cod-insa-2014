@@ -21,9 +21,8 @@ public abstract class Command extends Throwable {
 		AttackCommand,
 		FollowCommand, 
 		DropMilitarsCommand, 
-		StoreFuelCommand, 
 		FillFuelTankCommand, 
-		LoadResourcesCommand, 
+		ExchangeResourcesCommand, 
 		BuildPlaneCommand
 	;
 	

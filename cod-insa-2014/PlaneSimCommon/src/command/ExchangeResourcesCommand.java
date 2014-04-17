@@ -5,20 +5,22 @@ import model.Plane;
 import common.Util;
 
 
-public class LoadResourcesCommand extends Command {
+public class ExchangeResourcesCommand extends Command {
 
 	//public final Plane plane;
 	public final Plane.FullView planeSrc;
 	
 	public final double militarQuantity;
 	public final double fuelQuantity;
+	public final boolean deleteResources;
 	
-	public LoadResourcesCommand(Plane.FullView p, double mq, double fq)
+	public ExchangeResourcesCommand(Plane.FullView p, double mq, double fq, boolean delete)
 	{
 		Util.checkNull(p);
 		planeSrc = p;
 		militarQuantity = mq;
 		fuelQuantity = fq;
+		deleteResources = delete;
 	}
 	
 	@Override
@@ -27,7 +29,7 @@ public class LoadResourcesCommand extends Command {
 	}
 
 	@Override
-	public void match() throws LoadResourcesCommand {
+	public void match() throws ExchangeResourcesCommand {
 		throw this;
 	}
 	
