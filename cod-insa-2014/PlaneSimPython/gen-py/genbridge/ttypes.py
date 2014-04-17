@@ -1914,79 +1914,6 @@ class DropMilitarsCommandData:
   def __ne__(self, other):
     return not (self == other)
 
-class StoreFuelCommandData:
-  """
-  Attributes:
-   - pc
-   - quantity
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRUCT, 'pc', (PlaneCommandData, PlaneCommandData.thrift_spec), None, ), # 1
-    (2, TType.DOUBLE, 'quantity', None, None, ), # 2
-  )
-
-  def __init__(self, pc=None, quantity=None,):
-    self.pc = pc
-    self.quantity = quantity
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRUCT:
-          self.pc = PlaneCommandData()
-          self.pc.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.DOUBLE:
-          self.quantity = iprot.readDouble();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('StoreFuelCommandData')
-    if self.pc is not None:
-      oprot.writeFieldBegin('pc', TType.STRUCT, 1)
-      self.pc.write(oprot)
-      oprot.writeFieldEnd()
-    if self.quantity is not None:
-      oprot.writeFieldBegin('quantity', TType.DOUBLE, 2)
-      oprot.writeDouble(self.quantity)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
 class FillFuelTankCommandData:
   """
   Attributes:
@@ -2060,7 +1987,7 @@ class FillFuelTankCommandData:
   def __ne__(self, other):
     return not (self == other)
 
-class LoadResourcesCommandData:
+class ExchangeResourcesCommandData:
   """
   Attributes:
    - pc
@@ -2114,7 +2041,7 @@ class LoadResourcesCommandData:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('LoadResourcesCommandData')
+    oprot.writeStructBegin('ExchangeResourcesCommandData')
     if self.pc is not None:
       oprot.writeFieldBegin('pc', TType.STRUCT, 1)
       self.pc.write(oprot)
@@ -2199,6 +2126,79 @@ class BuildPlaneCommandData:
     if self.planeTypeId is not None:
       oprot.writeFieldBegin('planeTypeId', TType.I32, 2)
       oprot.writeI32(self.planeTypeId)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class CancelBuildRequestCommandData:
+  """
+  Attributes:
+   - c
+   - id_request
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRUCT, 'c', (CommandData, CommandData.thrift_spec), None, ), # 1
+    (2, TType.I32, 'id_request', None, None, ), # 2
+  )
+
+  def __init__(self, c=None, id_request=None,):
+    self.c = c
+    self.id_request = id_request
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRUCT:
+          self.c = CommandData()
+          self.c.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I32:
+          self.id_request = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('CancelBuildRequestCommandData')
+    if self.c is not None:
+      oprot.writeFieldBegin('c', TType.STRUCT, 1)
+      self.c.write(oprot)
+      oprot.writeFieldEnd()
+    if self.id_request is not None:
+      oprot.writeFieldBegin('id_request', TType.I32, 2)
+      oprot.writeI32(self.id_request)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

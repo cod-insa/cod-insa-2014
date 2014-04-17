@@ -66,14 +66,6 @@ class Iface:
     """
     pass
 
-  def sendStoreFuelCommand(self, cmd, idConnection):
-    """
-    Parameters:
-     - cmd
-     - idConnection
-    """
-    pass
-
   def sendFillFuelTankCommand(self, cmd, idConnection):
     """
     Parameters:
@@ -82,7 +74,7 @@ class Iface:
     """
     pass
 
-  def sendLoadResourcesCommand(self, cmd, idConnection):
+  def sendExchangeResourcesCommandData(self, cmd, idConnection):
     """
     Parameters:
      - cmd
@@ -91,6 +83,14 @@ class Iface:
     pass
 
   def sendBuildPlaneCommand(self, cmd, idConnection):
+    """
+    Parameters:
+     - cmd
+     - idConnection
+    """
+    pass
+
+  def sendCancelBuildRequestCommandData(self, cmd, idConnection):
     """
     Parameters:
      - cmd
@@ -298,38 +298,6 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "sendDropMilitarsCommand failed: unknown result");
 
-  def sendStoreFuelCommand(self, cmd, idConnection):
-    """
-    Parameters:
-     - cmd
-     - idConnection
-    """
-    self.send_sendStoreFuelCommand(cmd, idConnection)
-    return self.recv_sendStoreFuelCommand()
-
-  def send_sendStoreFuelCommand(self, cmd, idConnection):
-    self._oprot.writeMessageBegin('sendStoreFuelCommand', TMessageType.CALL, self._seqid)
-    args = sendStoreFuelCommand_args()
-    args.cmd = cmd
-    args.idConnection = idConnection
-    args.write(self._oprot)
-    self._oprot.writeMessageEnd()
-    self._oprot.trans.flush()
-
-  def recv_sendStoreFuelCommand(self):
-    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
-    if mtype == TMessageType.EXCEPTION:
-      x = TApplicationException()
-      x.read(self._iprot)
-      self._iprot.readMessageEnd()
-      raise x
-    result = sendStoreFuelCommand_result()
-    result.read(self._iprot)
-    self._iprot.readMessageEnd()
-    if result.success is not None:
-      return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "sendStoreFuelCommand failed: unknown result");
-
   def sendFillFuelTankCommand(self, cmd, idConnection):
     """
     Parameters:
@@ -362,37 +330,37 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "sendFillFuelTankCommand failed: unknown result");
 
-  def sendLoadResourcesCommand(self, cmd, idConnection):
+  def sendExchangeResourcesCommandData(self, cmd, idConnection):
     """
     Parameters:
      - cmd
      - idConnection
     """
-    self.send_sendLoadResourcesCommand(cmd, idConnection)
-    return self.recv_sendLoadResourcesCommand()
+    self.send_sendExchangeResourcesCommandData(cmd, idConnection)
+    return self.recv_sendExchangeResourcesCommandData()
 
-  def send_sendLoadResourcesCommand(self, cmd, idConnection):
-    self._oprot.writeMessageBegin('sendLoadResourcesCommand', TMessageType.CALL, self._seqid)
-    args = sendLoadResourcesCommand_args()
+  def send_sendExchangeResourcesCommandData(self, cmd, idConnection):
+    self._oprot.writeMessageBegin('sendExchangeResourcesCommandData', TMessageType.CALL, self._seqid)
+    args = sendExchangeResourcesCommandData_args()
     args.cmd = cmd
     args.idConnection = idConnection
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_sendLoadResourcesCommand(self):
+  def recv_sendExchangeResourcesCommandData(self):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = sendLoadResourcesCommand_result()
+    result = sendExchangeResourcesCommandData_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "sendLoadResourcesCommand failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "sendExchangeResourcesCommandData failed: unknown result");
 
   def sendBuildPlaneCommand(self, cmd, idConnection):
     """
@@ -426,6 +394,38 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "sendBuildPlaneCommand failed: unknown result");
 
+  def sendCancelBuildRequestCommandData(self, cmd, idConnection):
+    """
+    Parameters:
+     - cmd
+     - idConnection
+    """
+    self.send_sendCancelBuildRequestCommandData(cmd, idConnection)
+    return self.recv_sendCancelBuildRequestCommandData()
+
+  def send_sendCancelBuildRequestCommandData(self, cmd, idConnection):
+    self._oprot.writeMessageBegin('sendCancelBuildRequestCommandData', TMessageType.CALL, self._seqid)
+    args = sendCancelBuildRequestCommandData_args()
+    args.cmd = cmd
+    args.idConnection = idConnection
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_sendCancelBuildRequestCommandData(self):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = sendCancelBuildRequestCommandData_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "sendCancelBuildRequestCommandData failed: unknown result");
+
 
 class Processor(Iface, TProcessor):
   def __init__(self, handler):
@@ -437,10 +437,10 @@ class Processor(Iface, TProcessor):
     self._processMap["sendFollowCommand"] = Processor.process_sendFollowCommand
     self._processMap["sendAttackCommand"] = Processor.process_sendAttackCommand
     self._processMap["sendDropMilitarsCommand"] = Processor.process_sendDropMilitarsCommand
-    self._processMap["sendStoreFuelCommand"] = Processor.process_sendStoreFuelCommand
     self._processMap["sendFillFuelTankCommand"] = Processor.process_sendFillFuelTankCommand
-    self._processMap["sendLoadResourcesCommand"] = Processor.process_sendLoadResourcesCommand
+    self._processMap["sendExchangeResourcesCommandData"] = Processor.process_sendExchangeResourcesCommandData
     self._processMap["sendBuildPlaneCommand"] = Processor.process_sendBuildPlaneCommand
+    self._processMap["sendCancelBuildRequestCommandData"] = Processor.process_sendCancelBuildRequestCommandData
 
   def process(self, iprot, oprot):
     (name, type, seqid) = iprot.readMessageBegin()
@@ -523,17 +523,6 @@ class Processor(Iface, TProcessor):
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_sendStoreFuelCommand(self, seqid, iprot, oprot):
-    args = sendStoreFuelCommand_args()
-    args.read(iprot)
-    iprot.readMessageEnd()
-    result = sendStoreFuelCommand_result()
-    result.success = self._handler.sendStoreFuelCommand(args.cmd, args.idConnection)
-    oprot.writeMessageBegin("sendStoreFuelCommand", TMessageType.REPLY, seqid)
-    result.write(oprot)
-    oprot.writeMessageEnd()
-    oprot.trans.flush()
-
   def process_sendFillFuelTankCommand(self, seqid, iprot, oprot):
     args = sendFillFuelTankCommand_args()
     args.read(iprot)
@@ -545,13 +534,13 @@ class Processor(Iface, TProcessor):
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_sendLoadResourcesCommand(self, seqid, iprot, oprot):
-    args = sendLoadResourcesCommand_args()
+  def process_sendExchangeResourcesCommandData(self, seqid, iprot, oprot):
+    args = sendExchangeResourcesCommandData_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = sendLoadResourcesCommand_result()
-    result.success = self._handler.sendLoadResourcesCommand(args.cmd, args.idConnection)
-    oprot.writeMessageBegin("sendLoadResourcesCommand", TMessageType.REPLY, seqid)
+    result = sendExchangeResourcesCommandData_result()
+    result.success = self._handler.sendExchangeResourcesCommandData(args.cmd, args.idConnection)
+    oprot.writeMessageBegin("sendExchangeResourcesCommandData", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -563,6 +552,17 @@ class Processor(Iface, TProcessor):
     result = sendBuildPlaneCommand_result()
     result.success = self._handler.sendBuildPlaneCommand(args.cmd, args.idConnection)
     oprot.writeMessageBegin("sendBuildPlaneCommand", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_sendCancelBuildRequestCommandData(self, seqid, iprot, oprot):
+    args = sendCancelBuildRequestCommandData_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = sendCancelBuildRequestCommandData_result()
+    result.success = self._handler.sendCancelBuildRequestCommandData(args.cmd, args.idConnection)
+    oprot.writeMessageBegin("sendCancelBuildRequestCommandData", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -1368,139 +1368,6 @@ class sendDropMilitarsCommand_result:
   def __ne__(self, other):
     return not (self == other)
 
-class sendStoreFuelCommand_args:
-  """
-  Attributes:
-   - cmd
-   - idConnection
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRUCT, 'cmd', (StoreFuelCommandData, StoreFuelCommandData.thrift_spec), None, ), # 1
-    (2, TType.I32, 'idConnection', None, None, ), # 2
-  )
-
-  def __init__(self, cmd=None, idConnection=None,):
-    self.cmd = cmd
-    self.idConnection = idConnection
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRUCT:
-          self.cmd = StoreFuelCommandData()
-          self.cmd.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.I32:
-          self.idConnection = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('sendStoreFuelCommand_args')
-    if self.cmd is not None:
-      oprot.writeFieldBegin('cmd', TType.STRUCT, 1)
-      self.cmd.write(oprot)
-      oprot.writeFieldEnd()
-    if self.idConnection is not None:
-      oprot.writeFieldBegin('idConnection', TType.I32, 2)
-      oprot.writeI32(self.idConnection)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class sendStoreFuelCommand_result:
-  """
-  Attributes:
-   - success
-  """
-
-  thrift_spec = (
-    (0, TType.STRUCT, 'success', (Response, Response.thrift_spec), None, ), # 0
-  )
-
-  def __init__(self, success=None,):
-    self.success = success
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 0:
-        if ftype == TType.STRUCT:
-          self.success = Response()
-          self.success.read(iprot)
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('sendStoreFuelCommand_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.STRUCT, 0)
-      self.success.write(oprot)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
 class sendFillFuelTankCommand_args:
   """
   Attributes:
@@ -1634,7 +1501,7 @@ class sendFillFuelTankCommand_result:
   def __ne__(self, other):
     return not (self == other)
 
-class sendLoadResourcesCommand_args:
+class sendExchangeResourcesCommandData_args:
   """
   Attributes:
    - cmd
@@ -1643,7 +1510,7 @@ class sendLoadResourcesCommand_args:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'cmd', (LoadResourcesCommandData, LoadResourcesCommandData.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'cmd', (ExchangeResourcesCommandData, ExchangeResourcesCommandData.thrift_spec), None, ), # 1
     (2, TType.I32, 'idConnection', None, None, ), # 2
   )
 
@@ -1662,7 +1529,7 @@ class sendLoadResourcesCommand_args:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.cmd = LoadResourcesCommandData()
+          self.cmd = ExchangeResourcesCommandData()
           self.cmd.read(iprot)
         else:
           iprot.skip(ftype)
@@ -1680,7 +1547,7 @@ class sendLoadResourcesCommand_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('sendLoadResourcesCommand_args')
+    oprot.writeStructBegin('sendExchangeResourcesCommandData_args')
     if self.cmd is not None:
       oprot.writeFieldBegin('cmd', TType.STRUCT, 1)
       self.cmd.write(oprot)
@@ -1707,7 +1574,7 @@ class sendLoadResourcesCommand_args:
   def __ne__(self, other):
     return not (self == other)
 
-class sendLoadResourcesCommand_result:
+class sendExchangeResourcesCommandData_result:
   """
   Attributes:
    - success
@@ -1744,7 +1611,7 @@ class sendLoadResourcesCommand_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('sendLoadResourcesCommand_result')
+    oprot.writeStructBegin('sendExchangeResourcesCommandData_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
@@ -1878,6 +1745,139 @@ class sendBuildPlaneCommand_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('sendBuildPlaneCommand_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.STRUCT, 0)
+      self.success.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class sendCancelBuildRequestCommandData_args:
+  """
+  Attributes:
+   - cmd
+   - idConnection
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRUCT, 'cmd', (CancelBuildRequestCommandData, CancelBuildRequestCommandData.thrift_spec), None, ), # 1
+    (2, TType.I32, 'idConnection', None, None, ), # 2
+  )
+
+  def __init__(self, cmd=None, idConnection=None,):
+    self.cmd = cmd
+    self.idConnection = idConnection
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRUCT:
+          self.cmd = CancelBuildRequestCommandData()
+          self.cmd.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I32:
+          self.idConnection = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('sendCancelBuildRequestCommandData_args')
+    if self.cmd is not None:
+      oprot.writeFieldBegin('cmd', TType.STRUCT, 1)
+      self.cmd.write(oprot)
+      oprot.writeFieldEnd()
+    if self.idConnection is not None:
+      oprot.writeFieldBegin('idConnection', TType.I32, 2)
+      oprot.writeI32(self.idConnection)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class sendCancelBuildRequestCommandData_result:
+  """
+  Attributes:
+   - success
+  """
+
+  thrift_spec = (
+    (0, TType.STRUCT, 'success', (Response, Response.thrift_spec), None, ), # 0
+  )
+
+  def __init__(self, success=None,):
+    self.success = success
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.STRUCT:
+          self.success = Response()
+          self.success.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('sendCancelBuildRequestCommandData_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
