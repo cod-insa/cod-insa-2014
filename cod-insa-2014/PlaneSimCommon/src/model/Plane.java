@@ -71,13 +71,6 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //		public double tankCapacity() { return tankCapacity; }
 		
 		/**
-		 * Get the remaining health of the plane
-		 */
-		public double health() { return health; }
-		
-		
-		
-		/**
 		 * Tell if the position in parameter is visible by the plane
 		 */
 		@Override
