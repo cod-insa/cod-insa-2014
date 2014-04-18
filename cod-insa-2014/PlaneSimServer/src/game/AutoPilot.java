@@ -93,6 +93,8 @@ public final class AutoPilot {
 	}
 
 	public void attackSpecific(MaterialGameEntity e) {
+		if (e == null)
+			System.out.println("LOL");;
 		unland();
 		goTo(e, Mode.IGNORE);
 		//specifically_attacking = true;

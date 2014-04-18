@@ -305,7 +305,13 @@ public class Game {
 	}
 	
 	
-	public GamePlane getPlane(int planeId) {
+	public static class EntityNotFound extends RuntimeException {
+		public EntityNotFound(String name, int id) {
+			super("Cannot find "+name+" entity of id "+id);
+		}
+	};
+	
+	public GamePlane getPlane(int planeId) throws EntityNotFound {
 		// FIXME use a hashmap instead
 //		for (Entity<?> e: entities)
 //			if (e instanceof Plane && ((Plane)e).id() == planeId)
@@ -315,24 +321,27 @@ public class Game {
 				return p;
 		
 		//throw new Error("Not found"); // FIXME better exception
-		return null;
+//		return null;
+		throw new EntityNotFound("Plane", planeId);
 	}
-	public GameBase getBase(int baseId) {
+	public GameBase getBase(int baseId) throws EntityNotFound {
 		// FIXME use a hashmap instead
 		for (GameBase b: bases)
 			if (b.id() == baseId)
 				return b;
-		return null;
+//		return null;
+		throw new EntityNotFound("Base", baseId);
 	}
 	
-	public Landable getLandable(int id) {
+	public Landable getLandable(int id) throws EntityNotFound {
 		for (GameBase b: bases)
 			if (b.id() == id)
 				return b;
 		for (GameCountry c: countries)
 			if (c.id() == id)
 				return c;
-		return null;
+//		return null;
+		throw new EntityNotFound("Landable", id);
 	}
 	
 

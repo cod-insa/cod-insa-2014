@@ -63,46 +63,44 @@ public class Controller {
 //		} else {
 //			throw new Error("Unrecognized command!");
 //		}
-		try { c.match(); }
-		catch (MoveCommand mc) {
-			s.getPlane(mc.plane.id()).autoPilot.goTo(mc.destination.view, Mode.IGNORE); // FIXME get the right mode
+		try {
+			try {
+				c.match();
+			} catch (MoveCommand mc) {
+				s.getPlane(mc.plane.id()).autoPilot.goTo(mc.destination.view, Mode.IGNORE); // FIXME get the right mode
+			} catch (LandCommand lc) {
+
+				s.getPlane(lc.plane.id()).autoPilot.landAt(s.getLandable(lc.base.id()));
+			}
+			//		catch (TakeOffCommand toc) {
+			//			s.getPlane(toc.planeId).autoPilot.takeOff();
+			//		}
+			catch (WaitCommand wc) {
+				GamePlane gp = s.getPlane(wc.plane.id());
+				gp.autoPilot.goTo(gp.model().position(), Mode.ATTACK_ON_SIGHT);
+			} catch (FollowCommand fc) {
+				s.getPlane(fc.planeSrc.id()).autoPilot.goTo(s.getPlane(fc.planeTarget.id()), Mode.IGNORE);
+			} catch (AttackCommand ac) {
+				s.getPlane(ac.planeSrc.id()).autoPilot.attackSpecific(s.getPlane(ac.planeTarget.id()));
+			} catch (DropMilitarsCommand dmc) {
+				// Something like :
+				// s.getPlane(ac.planeSrc.id()).autoPilot.depositAt(-dmc.quantity,dmc.baseTarget);
+
+				// Then call this to drop units when plan is over the base and the drop is done
+				// s.getPlane(dmc.planeSrc.id()).exchangeResources(-dmc.quantity, 0, false);
+			} catch (FillFuelTankCommand fftc) {
+				s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity);
+			} catch (ExchangeResourcesCommand lrc) {
+				s.getPlane(lrc.planeSrc.id()).exchangeResources(lrc.militarQuantity, lrc.fuelQuantity, lrc.deleteResources);
+			} catch (BuildPlaneCommand e) {
+				GameCountry country = s.getCountryByAiId(ai_id);
+				country.buildPlane(country.new GameRequest(e.requestedType));
+			} catch (CancelRequestCommand crc) {
+				throw new Error("Not Implemented");
+			}
+		} catch (Game.EntityNotFound nf) {
+			Game.log.debug(nf.getMessage());
 		}
-		catch (LandCommand lc) {
-			
-			s.getPlane(lc.plane.id()).autoPilot.landAt(s.getLandable(lc.base.id()));
-		}
-//		catch (TakeOffCommand toc) {
-//			s.getPlane(toc.planeId).autoPilot.takeOff();
-//		}
-		catch (WaitCommand wc) {
-			GamePlane gp = s.getPlane(wc.plane.id());
-			gp.autoPilot.goTo(gp.model().position(), Mode.ATTACK_ON_SIGHT);
-		}
-		catch (FollowCommand fc) {
-			s.getPlane(fc.planeSrc.id()).autoPilot.goTo(s.getPlane(fc.planeTarget.id()), Mode.IGNORE);
-		}
-		catch (AttackCommand ac) {
-			s.getPlane(ac.planeSrc.id()).autoPilot.attackSpecific(s.getPlane(ac.planeTarget.id()));
-		}
-		catch (DropMilitarsCommand dmc) {
-			// Something like :
-			// s.getPlane(ac.planeSrc.id()).autoPilot.depositAt(-dmc.quantity,dmc.baseTarget);
-			
-			// Then call this to drop units when plan is over the base and the drop is done
-			// s.getPlane(dmc.planeSrc.id()).exchangeResources(-dmc.quantity, 0, false);
-		}
-		catch (FillFuelTankCommand fftc) {
-			s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity);
-		}
-		catch (ExchangeResourcesCommand lrc) {
-			s.getPlane(lrc.planeSrc.id()).exchangeResources(lrc.militarQuantity, lrc.fuelQuantity, lrc.deleteResources);
-		} catch (BuildPlaneCommand e) {
-			GameCountry country = s.getCountryByAiId(ai_id);
-			country.buildPlane(country.new GameRequest(e.requestedType));
-		} catch (CancelRequestCommand crc) {
-			throw new Error("Not Implemented");
-		}
-		
 	}
 	
 	public void addPlayer (Player p) {
