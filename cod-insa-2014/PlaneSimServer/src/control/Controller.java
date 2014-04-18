@@ -86,7 +86,7 @@ public class Controller {
 				// Something like :
 				// s.getPlane(ac.planeSrc.id()).autoPilot.depositAt(-dmc.quantity,dmc.baseTarget);
 
-				// Then call this to drop units when plan is over the base and the drop is done
+				// Then call this to drop units when plane is over the base and the drop is done
 				// s.getPlane(dmc.planeSrc.id()).exchangeResources(-dmc.quantity, 0, false);
 			} catch (FillFuelTankCommand fftc) {
 				s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity);

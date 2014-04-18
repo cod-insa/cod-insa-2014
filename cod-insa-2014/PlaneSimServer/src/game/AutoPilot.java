@@ -144,9 +144,9 @@ public final class AutoPilot {
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
 		}
 		///////////////////////////
-		if (b instanceof GameCountry)
+		/*if (b instanceof GameCountry)
 			plane.model().fuelInTank = plane.model().type.tankCapacity;
-		
+		*/
 		if (b.model().planes.size()+1 > b.landingCapacity()) {
 //			b.model().planes.get(0).unAssign();
 			sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?

@@ -253,7 +253,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	public static class Type {
 		
-		public static double REGENERATION_SPEED = .1;
+		public static double HEALTH_REGENERATION_SPEED = .1;
+		public static double FUEL_REGENERATION_SPEED = .05;
 		
 		private static final List<Type> instances = new ArrayList<>();
 		
@@ -339,9 +340,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// holdCapacity
 				10,
 				// tankCapacity
-				10,
+				20,
 				// fuelConsumptionPerDistanceUnit
-				1,
+				2,
 				// radius
 				.03,
 				// timeToBuild
@@ -362,9 +363,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// holdCapacity
 				MILITARY.holdCapacity*5,
 				// tankCapacity
-				MILITARY.tankCapacity*4,
+				MILITARY.tankCapacity*2,
 				// fuelConsumptionPerDistanceUnit
-				MILITARY.fuelConsumptionPerDistanceUnit*3,
+				MILITARY.fuelConsumptionPerDistanceUnit*1.5,
 				// radius
 				MILITARY.radius*2, // TODO adjust
 				// timeToBuild

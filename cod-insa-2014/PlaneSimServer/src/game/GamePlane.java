@@ -62,7 +62,11 @@ public final class GamePlane extends MaterialGameEntity {
 //		System.out.println(model().type.fuelConsumptionPerDistanceUnit*model().speed*period);
 		
 		if (model().state == State.AT_AIRPORT)
-			model().health += Plane.Type.REGENERATION_SPEED;
+		{
+			model().health += Plane.Type.HEALTH_REGENERATION_SPEED;
+			if (model().curBase instanceof Country)
+				model().fuelInTank += Plane.Type.FUEL_REGENERATION_SPEED;
+		}
 		else if (!Settings.DEBUG_GOD_MODE)
 			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
 //		if (model().fuelInTank < 0) {
@@ -77,6 +81,9 @@ public final class GamePlane extends MaterialGameEntity {
 	public void afterUpdate(double period) {
 		if (model().health > model().type.fullHealth) {
 			model().health = model().type.fullHealth;
+		}
+		if (model().fuelInTank > model().type.tankCapacity) {
+			model().fuelInTank = model().type.tankCapacity;
 		}
 		if (model().exists) {
 			if (model().health < 0) {
