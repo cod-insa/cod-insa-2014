@@ -119,7 +119,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * Tell if the plane can attack the plane in parameter
 		 */
 		public boolean canAttack(Plane.BasicView e) {
-			return isEnemy(e) && canSee(e);
+			return canAttack() && isEnemy(e) && canSee(e);
 		}
 		
 		@Override
@@ -272,6 +272,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			timeToBuild
 		;
 		
+		public final double radarRange_squared;
+		
 		private Type(
 				double firingRange,
 				double radarRange,
@@ -289,6 +291,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			this.firingRange = firingRange;
 			this.radarRange = radarRange;
 			
+//			assert radarRange > firingRange; // ??
+			
 			this.fullHealth = fullHealth;
 			
 			this.holdCapacity = holdCapacity;
@@ -298,6 +302,11 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			
 			this.radius = radius;
 			this.timeToBuild = timeToBuild;
+
+			///
+			
+			radarRange_squared = radarRange * radarRange;
+			
 		}
 
 		public static final Type MILITARY = new Type(
@@ -325,7 +334,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// radarRange
 				MILITARY.radarRange,
 				// fullHealth
-				MILITARY.fullHealth*2,
+				MILITARY.fullHealth*4,
 				// holdCapacity
 				MILITARY.holdCapacity*5,
 				// tankCapacity

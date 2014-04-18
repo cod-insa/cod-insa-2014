@@ -24,7 +24,7 @@ public final class GamePlane extends MaterialGameEntity {
 		MAX_ACCELERATION = .001,
 		MAX_DECELERATION = MAX_ACCELERATION,
 		
-		VISION_DIST = .7, VISION_DIST_SQUARED = VISION_DIST*VISION_DIST, // FIXME remove
+//		VISION_DIST = .7, VISION_DIST_SQUARED = VISION_DIST*VISION_DIST, // FIXMED remove
 		
 		//MAX_FIRING_ANGLE = Math.PI*.2,
 		MAX_FIRING_ANGLE = Math.PI*.4
@@ -107,7 +107,7 @@ public final class GamePlane extends MaterialGameEntity {
 	public void fire (double angle) {
 		//new Projectile(sim, new Coord.Unique(model.position().copied()), model.ownerId, model.rotation);
 //		assert Math.abs(angle) <= MAX_FIRING_ANGLE; // must take into account plane rotation
-		new Projectile(sim, new Coord.Unique(model().position()), model().speedVector(), model.ownerId(), angle);
+		new Projectile(sim, new Coord.Unique(model().position()), model().speedVector(), model.ownerId(), angle, model().type.firingRange);
 	}
 	
 	public void takeHit (double hitPoints) {

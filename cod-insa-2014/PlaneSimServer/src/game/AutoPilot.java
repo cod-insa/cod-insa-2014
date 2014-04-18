@@ -345,7 +345,8 @@ public final class AutoPilot {
 			if (plane.model().view().canAttack(e.model().view()))
 			{
 				double sd = plane.modelView().position().squareDistanceTo(e.modelView().position());
-				if (sd <= GamePlane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
+//				if (sd <= GamePlane.VISION_DIST_SQUARED && (minSDist == null || sd < minSDist))
+				if (sd <= plane.model().type.radarRange_squared && (minSDist == null || sd < minSDist))
 				{ minSDist = sd; ret = e; }
 			}
 		return ret;
