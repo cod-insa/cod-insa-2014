@@ -34,11 +34,13 @@ public final class AutoPilot {
 	Game sim;
 	
 	GamePlane plane;
+	Plane.Type type;
 	
 	private final Coord _aim = new Coord(0,0);
 	public final Coord.View currentAim = _aim.view();
-	
-	private double targetSpeed = GamePlane.MAX_SPEED;
+
+//	private double targetSpeed = GamePlane.MAX_SPEED;
+	private double targetSpeed;
 	
 	private MaterialGameEntity entityAim = null;
 	//boolean specifically_attacking = false;
@@ -56,6 +58,9 @@ public final class AutoPilot {
 	public AutoPilot(Game s, GamePlane p) {
 		sim = s;
 		plane = p;
+		type = plane.model().type;
+		targetSpeed = type.maxSpeed;
+		circling_radius = type.maxSpeed / Math.cos(Math.PI/2 - type.maxRotSpeed);
 	}
 	
 	public void goTo(Coord.View aim, Mode m) {
@@ -189,7 +194,7 @@ public final class AutoPilot {
 	}
 	
 	private double aimAngle;
-	final double circling_radius = GamePlane.MAX_SPEED / Math.cos(Math.PI/2 - GamePlane.MAX_ROT_SPEED);
+	final double circling_radius; //= type.maxSpeed / Math.cos(Math.PI/2 - type.maxRotSpeed);
 
 	public void refresh(double period) {
 		
@@ -203,7 +208,7 @@ public final class AutoPilot {
 //		if (entityAim == null)
 //			plane.model.state = State.IDLE;
 		
-		targetSpeed = GamePlane.MAX_SPEED;
+		targetSpeed = type.maxSpeed;
 		
 		if (state != State.AT_AIRPORT) {
 			
@@ -261,8 +266,8 @@ public final class AutoPilot {
 				//if (Math.abs(aimAngle) < Math.PI/2)
 				if (Math.abs(aimAngle) <= GamePlane.MAX_FIRING_ANGLE)
 //					 targetSpeed = Plane.MIN_SPEED;
-					 targetSpeed = GamePlane.MIN_SPEED + (GamePlane.MAX_SPEED - GamePlane.MIN_SPEED) * Math.sin(aimAngle);
-				else targetSpeed = GamePlane.MAX_SPEED;
+					 targetSpeed = GamePlane.MIN_SPEED + (type.maxSpeed - GamePlane.MIN_SPEED) * Math.sin(aimAngle);
+				else targetSpeed = type.maxSpeed;
 				
 
 //				targetSpeed = Plane.MIN_SPEED + (Plane.MAX_SPEED - Plane.MIN_SPEED) * Math.sin(aimAngle*2);
@@ -292,7 +297,7 @@ public final class AutoPilot {
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
 					//targetSpeed = Math.pow(d/circling_radius,2) * Plane.MAX_SPEED;
-					targetSpeed = d/larger_radius * GamePlane.MAX_SPEED;
+					targetSpeed = d/larger_radius * type.maxSpeed;
 					
 					if (d <= entityAim.radius*.7)
 					{
@@ -361,7 +366,7 @@ public final class AutoPilot {
 //		if (aimAngle > Math.PI)
 //			aimAngle -= Math.PI*2;
 		
-		double mrs = GamePlane.MAX_ROT_SPEED*period;
+		double mrs = type.maxRotSpeed*period;
 		//double mrs = MAX_ROT_SPEED*period*(.7+rand.nextDouble()*.3);
 		
 		double delta = aimAngle > mrs? mrs: aimAngle;
@@ -376,8 +381,8 @@ public final class AutoPilot {
 		double min_speed = state == State.LANDING? 0: GamePlane.MIN_SPEED;
 		if (targetSpeed < min_speed)
 			targetSpeed = min_speed;
-		else if (targetSpeed > GamePlane.MAX_SPEED)
-			targetSpeed = GamePlane.MAX_SPEED;
+		else if (targetSpeed > type.maxSpeed)
+			targetSpeed = type.maxSpeed;
 		
 		
 		if (plane.model().speed < targetSpeed) {

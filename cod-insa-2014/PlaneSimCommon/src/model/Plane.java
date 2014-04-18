@@ -256,9 +256,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		public final int id;
 		
 		public final double
-			
+
 			firingRange,
 			radarRange,
+
+			maxSpeed,
+			maxRotSpeed,
 			
 			fullHealth,
 			
@@ -277,6 +280,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		private Type(
 				double firingRange,
 				double radarRange,
+				double maxSpeed,
+				double maxRotSpeed,
 				double fullHealth,
 				double holdCapacity,
 				double tankCapacity,
@@ -287,9 +292,12 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			
 			id = instances.size();
 			instances.add(this);
-			
+
 			this.firingRange = firingRange;
 			this.radarRange = radarRange;
+
+			this.maxSpeed = maxSpeed;
+			this.maxRotSpeed = maxRotSpeed;
 			
 //			assert radarRange > firingRange; // ??
 			
@@ -314,6 +322,10 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				0.8, // 0.7
 				// radarRange
 				0.9, // 0.7
+				// maxSpeed
+				.01,
+				// maxRotSpeed
+				Math.PI*.03,
 				// fullHealth
 				100,
 				// holdCapacity
@@ -333,6 +345,10 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				0,
 				// radarRange
 				MILITARY.radarRange,
+				// maxSpeed
+				MILITARY.maxSpeed*.8,
+				// maxRotSpeed
+				MILITARY.maxRotSpeed*.7,
 				// fullHealth
 				MILITARY.fullHealth*4,
 				// holdCapacity

@@ -83,7 +83,7 @@ public class GameDisplayPanel extends JPanel {
 //	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
     	}
 
-		pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 3, Type.MILITARY));
+		pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 1, Type.MILITARY));
 		
     	
 		//new Base(sim, new Coord(.3,.6));

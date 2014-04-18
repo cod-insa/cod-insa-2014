@@ -16,10 +16,10 @@ public final class GamePlane extends MaterialGameEntity {
 	
 	public static final double
 	
-		MAX_SPEED = .01,   // 1E-2,
+//		MAX_SPEED = .01,   // 1E-2,
 		MIN_SPEED = .008,  // .3E-2,
 		
-		MAX_ROT_SPEED = Math.PI*.03,
+//		MAX_ROT_SPEED = Math.PI*.03,
 		
 		MAX_ACCELERATION = .001,
 		MAX_DECELERATION = MAX_ACCELERATION,

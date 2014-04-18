@@ -88,10 +88,10 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 			half.add(new Point2D.Double(  0,  3));
 			half.add(new Point2D.Double(-8,  1.5));
 			half.add(new Point2D.Double(-12,  5));
-			
 
 
-			siz = 5E-3;
+//			siz = 5E-3;
+			siz = 4.5E-3;
 
 		} else throw new AssertionError(); //assert false;
 		
