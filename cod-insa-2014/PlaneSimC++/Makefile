@@ -1,29 +1,19 @@
-CC = clang
-CXX = clang++
-CFLAGS = -Wall
-CXXFLAGS = -Wall -std=c++0x
-EXEC_NAME = ia
-INCLUDES =
-LIBS = -I /usr/local/include/thrift
-OBJ_FILES = main.o gen-cpp/Bridge.o gen-cpp/CommandReceiver.o gen-cpp/network_constants.o gen-cpp/network_types.o
-INSTALL_DIR = /usr/bin
+THRIFT_VER =thrift-0.9.1
+USR_DIR    =/usr
+THRIFT_DIR =${USR_DIR}/${THRIFT_VER}
+INCS_DIRS  =-I${USR_DIR}/include -I${THRIFT_DIR}/include/thrift
+LIBS_DIRS  =-L${USR_DIR}/lib -L${USR_DIR}/${THRIFT_VER}/lib
+CPP_DEFS   =-D=HAVE_CONFIG_H
+CPP_OPTS   =-Wall  -std=c++0x
+LIBS       =-lthrift
 
-all : $(EXEC_NAME)
+GEN_SRC    = ./gen-cpp/Bridge.cpp ./gen-cpp/CommandReceiver.cpp ./gen-cpp/network_constants.cpp ./gen-cpp/network_types.cpp
+GEN_INC    = -I./gen-cpp
 
-clean :
-	  rm $(EXEC_NAME) $(OBJ_FILES)
+default: client
 
-$(EXEC_NAME) : $(OBJ_FILES)
-	  $(CXX) -o $(EXEC_NAME) $(OBJ_FILES) $(LIBS)
+client: main.cpp
+	g++ ${CPP_OPTS} ${CPP_DEFS} -o ia ${GEN_INC} ${INCS_DIRS} main.cpp ${GEN_SRC} ${LIBS_DIRS} ${LIBS}
 
-%.o: %.cpp
-	  $(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ -c $<
-
-%.o: %.cc
-	  $(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ -c $<
-
-%.o: %.c
-	  $(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
-
-install :
-	  cp $(EXEC_NAME) $(INSTALL_DIR)
+clean:
+	$(RM) -r ia
