@@ -79,19 +79,22 @@ public class PlaneDisplay extends EntityDisplay<GamePlane> {
 //			half.add(new Point2D.Double(-8,  1.5));
 //			half.add(new Point2D.Double(-12,  5));
 			
+			double taille = 2.3; // 3;
+			
 			half.add(new Point2D.Double( 13,  0));
 			half.add(new Point2D.Double( 11,  2));
-			half.add(new Point2D.Double(  5,  3));
-			half.add(new Point2D.Double(  3,  12));
+			half.add(new Point2D.Double(  5,  taille));
+//			half.add(new Point2D.Double(  3,  12));
+			half.add(new Point2D.Double(  0,  12));
 //			half.add(new Point2D.Double(  -1,  13));
 			half.add(new Point2D.Double(  -1.5,  13));
-			half.add(new Point2D.Double(  0,  3));
+			half.add(new Point2D.Double(  0,  taille));
 			half.add(new Point2D.Double(-8,  1.5));
 			half.add(new Point2D.Double(-12,  5));
 
 
-//			siz = 5E-3;
-			siz = 4.5E-3;
+			siz = 5E-3;
+//			siz = 4.5E-3;
 
 		} else throw new AssertionError(); //assert false;
 		
