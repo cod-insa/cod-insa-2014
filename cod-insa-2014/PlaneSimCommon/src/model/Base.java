@@ -42,6 +42,13 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		
 
 		/**
+		 * @return All the planes at the airport of the AbstractBase
+		 */
+		public ListView<Plane.FullView> planes() {
+			return Util.view(planes);	
+		}
+		
+		/**
 		 * @return The number of resources unit in the garrison of the Base
 		 */
 		public double militaryGarrison() { checkSynx(fullViewInSync); return militaryGarrison; }
