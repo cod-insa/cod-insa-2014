@@ -217,7 +217,6 @@ public class NetworkPlayer extends Player {
 
 			//Couple<Nullable<Command>,Response> c;
 			
-			// TODO
 			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
 //			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 			
@@ -288,9 +287,7 @@ public class NetworkPlayer extends Player {
 		public Response sendCancelBuildRequestCommandData(
 				CancelBuildRequestCommandData cmdData, int idConnection)
 				throws TException {
-			//fixme;
-			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot()));
-			// TODO FIXME URGENT
+			return process(CommandMaker.make(cmdData, world.getCurrentSnapshot(),id));
 		}
 		
 	}

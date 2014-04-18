@@ -284,7 +284,7 @@ public class Proxy
 			if (ai_country.productionLine.containsKey(rd.requestId))
 				ai_country.productionLine.get(rd.requestId).timeBeforePlaneBuilt = rd.timeBeforePlaneBuilt;
 			else // it's a new request sent, so we add it into the production line
-				ai_country.productionLine.put(rd.requestId,new Country.Request(rd.requestId, rd.timeBeforePlaneBuilt, Plane.Type.get(rd.planeTypeId)));
+				ai_country.productionLine.put(rd.requestId,ai_country.new Request(rd.requestId, rd.timeBeforePlaneBuilt, Plane.Type.get(rd.planeTypeId)));
 		}
 	}
 	

@@ -3,10 +3,13 @@ package ai;
 import java.util.Random;
 
 import model.Base;
+import model.Country;
 import model.Plane;
 import model.Plane.BasicView;
-
+import model.Plane.Type;
 import command.AttackCommand;
+import command.BuildPlaneCommand;
+import command.CancelRequestCommand;
 import common.MapView;
 
 public class AttackAI extends AbstractAI 
@@ -23,6 +26,8 @@ public class AttackAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
+			
+			
 			MapView<Integer, Base.BasicView> bases = game.getAllBases();
 			MapView<Integer, BasicView> ennemy_planes = game.getEnnemyPlanes();
 			
@@ -54,6 +59,8 @@ public class AttackAI extends AbstractAI
 					
 				}
 			}
+			
+			
 		}
 	}
 	

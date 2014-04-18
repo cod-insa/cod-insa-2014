@@ -2,6 +2,7 @@ package proxy;
 
 import genbridge.AttackCommandData;
 import genbridge.BuildPlaneCommandData;
+import genbridge.CancelBuildRequestCommandData;
 import genbridge.CommandData;
 import genbridge.CommandReceiver;
 import genbridge.CoordData;
@@ -28,6 +29,7 @@ import org.apache.thrift.transport.TTransport;
 
 import command.AttackCommand;
 import command.BuildPlaneCommand;
+import command.CancelRequestCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.ExchangeResourcesCommand;
@@ -150,6 +152,9 @@ public class CommandSender extends Thread {
 			} catch (BuildPlaneCommand c) {
 				r = client.sendBuildPlaneCommand(
 						DataMaker.make(c, proxy.getNumFrame()), idConnection);
+			} catch (CancelRequestCommand c) {
+				r = client.sendCancelBuildRequestCommandData(
+						DataMaker.make(c, proxy.getNumFrame()), idConnection);
 			}
 			
 			treatResult(r);
@@ -238,6 +243,11 @@ public class CommandSender extends Thread {
 		static ExchangeResourcesCommandData make(ExchangeResourcesCommand cmd, int numFrame) {
 			return new ExchangeResourcesCommandData(new PlaneCommandData(new CommandData(
 					numFrame),cmd.planeSrc.id()),cmd.militarQuantity, cmd.fuelQuantity, cmd.deleteResources); 
+		}
+		
+		static CancelBuildRequestCommandData make(CancelRequestCommand c,
+				int numFrame) {
+			return new CancelBuildRequestCommandData(new CommandData(numFrame), c.request.rqId());
 		}
 	}
 }

@@ -23,6 +23,7 @@ import model.Plane;
 import model.Plane.State;
 import command.AttackCommand;
 import command.BuildPlaneCommand;
+import command.CancelRequestCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.ExchangeResourcesCommand;
@@ -380,11 +381,28 @@ public class CommandMaker {
 	}
 
 	public static Couple<Nullable<Command>, Response> make(
-			CancelBuildRequestCommandData cmdData, Snapshot currentSnapshot) {
-		return new Couple<>(
+			CancelBuildRequestCommandData data, Snapshot s, int ai_id) {
+		
+		// check id
+		if (!checkFrameId(data.c, s))
+			return frameIdError(data.c, s);
+		
+		
+		
+		Country.Request.View r = s.countries.view().get(ai_id-1).productionLine().get(data.id_request);
+			
+		// check existance of the request
+		if (r == null)
+			return new Couple<>(
 				new Nullable<Command>(),
-				new Response(Command.ERROR_COMMAND,"Not implemented command yet"
+				new Response(Command.ERROR_COMMAND,"Error, this request does not seem to be in the production line, maybe the plane is already built"
 				));
+		
+		// Everything all right
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"This command has not been implemented"
+					));
 	}
 
 	

@@ -360,7 +360,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// radius
 				MILITARY.radius*2, // TODO adjust
 				// timeToBuild
-				15
+				150
 			);
 		
 		

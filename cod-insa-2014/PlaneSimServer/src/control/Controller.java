@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import players.Player;
-
 import command.AttackCommand;
 import command.BuildPlaneCommand;
+import command.CancelRequestCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.FillFuelTankCommand;
@@ -98,7 +98,9 @@ public class Controller {
 			s.getPlane(lrc.planeSrc.id()).exchangeResources(lrc.militarQuantity, lrc.fuelQuantity, lrc.deleteResources);
 		} catch (BuildPlaneCommand e) {
 			GameCountry country = s.getCountryByAiId(ai_id);
-			country.buildPlane(country.new Request(e.requestedType));
+			country.buildPlane(country.new GameRequest(e.requestedType));
+		} catch (CancelRequestCommand crc) {
+			throw new Error("Not Implemented");
 		}
 		
 	}

@@ -1,6 +1,6 @@
 package model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import common.MapView;
@@ -34,7 +34,7 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 	/**
 	 * This class represents a request in the production line
 	 */
-	public static class Request implements Viewable<Request.View>
+	public class Request implements Viewable<Request.View>
 	{
 		public final int rqId;
 		public double timeBeforePlaneBuilt;
@@ -77,12 +77,12 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 	
 	public Country(int id, Unique<Coord> pos) {
 		super(id, pos);
-		productionLine = new HashMap<Integer,Request>();
+		productionLine = new LinkedHashMap<Integer,Request>();
 	}
 
 	public Country(View src, Context context) {
 		super(src, context);
-		productionLine = new HashMap<Integer,Request>();
+		productionLine = new LinkedHashMap<Integer,Request>();
 	}
 
 	@Override

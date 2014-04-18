@@ -23,7 +23,8 @@ public abstract class Command extends Throwable {
 		DropMilitarsCommand, 
 		FillFuelTankCommand, 
 		ExchangeResourcesCommand, 
-		BuildPlaneCommand
+		BuildPlaneCommand, 
+		CancelRequestCommand
 	;
 	
 }
