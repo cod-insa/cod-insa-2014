@@ -67,7 +67,8 @@ public class BaseDisplay extends EntityDisplay<GameBase> {
 			g2d.setColor(lightenColor(getPlayerColor()));
 
 //			size = entity.radius() * 2 * (1 - Math.exp(-entity.model().militaryGarrison/30d));//(Math.E - Math.exp(-entity.model().militaryGarrison/30d))/Math.E;
-			double minSize = AxisDisplay.AXIS_WIDH/1000d;
+//			double minSize = AxisDisplay.AXIS_WIDH/1000d;
+			double minSize = AxisDisplay.AXIS_WIDH/1000d*1.5d;
 			size = minSize + (entity.radius() * 2 - minSize) * (1 - Math.exp(-entity.model().militaryGarrison/30d));
 			
 

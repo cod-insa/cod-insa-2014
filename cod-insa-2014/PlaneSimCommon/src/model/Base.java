@@ -38,6 +38,11 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		
 		public boolean inSync() { return fullViewInSync; }
 		
+		@Override
+		protected String outOfSyncMsg() {
+			return "This base can no longer be fully viewed (perhaps it's not yours anymore). Use method asLastViewed for an outdated view.";
+		}
+
 		public FullView asLastViewed() { return new FullView(true); }
 		
 

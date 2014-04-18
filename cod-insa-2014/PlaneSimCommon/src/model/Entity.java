@@ -24,9 +24,13 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 		
 		protected boolean ignoreSync = false;
 		
-		protected void checkSynx(boolean sync) {
+		protected String outOfSyncMsg() {
+			return "Entity out of sync";
+		}
+		
+		protected void checkSynx(boolean sync) throws OutOfSyncException {
 			if (!sync && !ignoreSync)
-				throw new OutOfSyncException();
+				throw new OutOfSyncException(outOfSyncMsg());
 		}
 		
 		/**

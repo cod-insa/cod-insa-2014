@@ -44,36 +44,42 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	 */
 	public class FullView extends BasicView
 	{
+		public FullView() {}
+		private FullView(boolean ignoreSync) { this.ignoreSync = ignoreSync; }
+		
+		@Override
+		public FullView asLastViewed() { return new FullView(true); }
+		
 		/**
 		 * Get the state of the plane see Plane.State for more details
 		 */
-		public State state() { return state; }
+		public State state() throws OutOfSyncException { checkSynx(exists); return state; }
 		/**
 		 * Return the base where your plane is currently.
 		 * Warning : This function returns null if the plane is not at an airport !
 		 */
-		public AbstractBase.View curBase() { return curBase == null ? null : curBase.view(); }
+		public AbstractBase.View curBase() throws OutOfSyncException { checkSynx(exists); return curBase == null ? null : curBase.view(); }
 		
 		/**
 		 * Get the number of military resources hold
 		 */
-		public double militaryInHold() { return militaryInHold; }
+		public double militaryInHold() throws OutOfSyncException { checkSynx(exists); return militaryInHold; }
 		/**
 		 * Get the number of fuel resources hold
 		 */
-		public double fuelInHold() { return fuelInHold; }
+		public double fuelInHold() throws OutOfSyncException { checkSynx(exists); return fuelInHold; }
 		
 		/**
 		 * Get the number of fuel resources 
 		 */
-		public double fuelInTank() { return fuelInTank; }
+		public double fuelInTank() throws OutOfSyncException { checkSynx(exists); return fuelInTank; }
 //		public double holdCapacity() { return holdCapacity; }
 //		public double tankCapacity() { return tankCapacity; }
 		
 		/**
 		 * Get the remaining health of the plane
 		 */
-		public double health() { return health; }
+		public double health() throws OutOfSyncException { checkSynx(exists); return health; }
 		
 		
 		
@@ -81,7 +87,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * Tell if the position in parameter is visible by the plane
 		 */
 		@Override
-		public boolean isWithinRadar(Coord.View pos) {
+		public boolean isWithinRadar(Coord.View pos) throws OutOfSyncException {
+			checkSynx(exists);
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
 		
@@ -95,7 +102,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * Tell if the plane knows the position of an entity (an ally is always seen)
 		 * @param e The entity
 		 */
-		public boolean knowsPositionOf(MaterialEntity.View e) {
+		public boolean knowsPositionOf(MaterialEntity.View e) throws OutOfSyncException {
+			checkSynx(exists);
 			if (e instanceof Base.FullView)
 				return true;
 			return isFriend(e) || canSee(e);
@@ -106,7 +114,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * Tell if the plane see an entity
 		 * @param e The entity
 		 */
-		public boolean canSee(MaterialEntity.View e) {
+		public boolean canSee(MaterialEntity.View e) throws OutOfSyncException {
+			checkSynx(exists);
 			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
 				return false;
 			return isWithinRadar(e.position);
@@ -115,7 +124,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		/**
 		 * Tell if the plane can attack the plane in parameter
 		 */
-		public boolean canAttack(Plane.BasicView e) {
+		public boolean canAttack(Plane.BasicView e) throws OutOfSyncException {
+			checkSynx(exists);
 			return canAttack() && isEnemy(e) && canSee(e);
 		}
 		
@@ -131,10 +141,23 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	// This is what an AI will see for an ennemy plane
 	public class BasicView extends MovingEntity.View {
+		
+		public BasicView() {}
+		private BasicView(boolean ignoreSync) { this.ignoreSync = ignoreSync; }
+
+		public boolean inSync() { return exists; }
+
+		public BasicView asLastViewed() { return new BasicView(true); }
+		
+		@Override
+		protected String outOfSyncMsg() {
+			return "This plane no longer exists. Use method asLastViewed for an outdated view.";
+		}
+		
 		/**
 		 * Get the health of the plane
 		 */
-		public double health() { return health; }
+		public double health() throws OutOfSyncException { checkSynx(exists); return health; }
 		
 		/**
 		 * Tells if this plane can attack (if this is a military plane)
