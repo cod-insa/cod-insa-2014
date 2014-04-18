@@ -177,7 +177,8 @@ struct FillFuelTankCommandData {
 struct ExchangeResourcesCommandData {
 	1: PlaneCommandData pc,
 	2: double militar_quantity,
-	3: double fuel_quantity
+	3: double fuel_quantity,
+	4: bool deleteResources
 }
 
 struct BuildPlaneCommandData {
