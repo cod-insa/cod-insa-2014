@@ -4,8 +4,8 @@ CFLAGS = -Wall
 CXXFLAGS = -Wall -std=c++0x
 EXEC_NAME = ia
 INCLUDES =
-LIBS =
-OBJ_FILES = main.o
+LIBS = /usr/local/include/thrift
+OBJ_FILES = main.o gen-cpp/Bridge.o gen-cpp/Bridge_server.skeleton.o gen-cpp/CommandReceiver.o gen-cpp/CommandReceiver_server.skeleton.o gen-cpp/network_constants.o gen-cpp/network_types.o
 INSTALL_DIR = /usr/bin
 
 all : $(EXEC_NAME)
