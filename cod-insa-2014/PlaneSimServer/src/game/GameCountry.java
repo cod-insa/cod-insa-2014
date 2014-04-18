@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.*;
+import model.Country.Request;
 import model.Country.Request.View;
 import model.Plane.State;
 import common.Unique;
@@ -13,28 +14,20 @@ import display.EntityDisplay;
 public class GameCountry extends MaterialGameEntity implements Landable {
 	public static final double RADIUS = GameBase.RADIUS * 2;
 	public final String countryname;
-	public final List<Request> productionLine;
 	
 	public GameCountry(Game sim, Unique<Coord> pos, String name) {
 		super(new Country(makeNextId(),pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 		countryname = name;
-		productionLine = new ArrayList<Request>();
 	}
 	
 	private static int _nbRq = 0;
 	private static int makeNextRqId() { return _nbRq++; }
-	public class Request
+	public class GameRequest extends model.Country.Request
 	{
-		public final int RqId;
-		public double timeBeforePlaneBuilt;
-		public Plane.Type requestedType;
-
-		public Request(Plane.Type type)
+		public GameRequest(Plane.Type type)
 		{
-			RqId = makeNextRqId();
-			timeBeforePlaneBuilt = type.timeToBuild + totalTimeToBuild();
-			requestedType = type;
+			GameCountry.this.model().super(makeNextRqId(),type.timeToBuild + totalTimeToBuild(),type);
 		}
 		
 		public boolean isPlaneBuilt()
@@ -44,7 +37,6 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 		
 		public void continueConstruction(double period)
 		{
-			// TODO Check if this is ok
 			timeBeforePlaneBuilt -= period;
 		}
 		
@@ -53,22 +45,22 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 			if (isPlaneBuilt())
 			{
 				GamePlane gp = new GamePlane(sim,new Coord.Unique(model().position().x(), model().position().y()),model().ownerId(),requestedType);
-				// FIXME gp.land();
-				requestedType = null;
+				gp.autoPilot.land(GameCountry.this);
 			}
 		}
 	}
-	public void buildPlane(Request r)
+	public void buildPlane(GameRequest r)
 	{
-		productionLine.add(r);
+		model().productionLine.put(r.rqId,r);
 	}
 	
 	private double totalTimeToBuild()
 	{
-		int s = 0;
-		for (Request r : productionLine)
-			s += r.timeBeforePlaneBuilt;
-		return s;
+		double max = 0;
+		for (Request r : model().productionLine.values())
+			if (r.timeBeforePlaneBuilt > max)
+				max = r.timeBeforePlaneBuilt;
+		return max;
 	}
 
 	final CountryDisplay disp = new CountryDisplay(this);
@@ -82,36 +74,18 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 		super.updateSpecialized(period);
 		
 		// Avoid concurrent access exception because we modify productionLine
-		for (Object o : productionLine.toArray()) 
+		for (Object o : model().productionLine.values().toArray()) 
 		{
-			Request r = (Request)o;
+			GameRequest r = (GameRequest)o;
 			r.continueConstruction(period);
 			if (r.isPlaneBuilt())
 			{
-				productionLine.remove(r);
+				model().productionLine.remove(r.rqId);
 				r.createPlane();
 			}
 		}
 	}
 
-	public void cancelRequest(View request) {
-		boolean found = false;
-		Request foundR = null;
-		for (Object o : productionLine.toArray())
-		{
-			Request r = (Request)o;
-			if (!found && r.RqId == request.rqId())
-			{
-				found = true;
-				foundR = r;
-			}
-			else if (found)
-				r.timeBeforePlaneBuilt -= foundR.timeBeforePlaneBuilt;
-			// else i.e. !found && this isn't the request
-			// means that the request is not impacted
-		}
-	}
-	
 	@Override
 	public void afterUpdate(double period) {
 		// ...

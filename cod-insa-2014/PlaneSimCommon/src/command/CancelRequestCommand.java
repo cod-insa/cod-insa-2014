@@ -9,7 +9,8 @@ public class CancelRequestCommand extends Command {
 
 	public final Country.Request.View request;
 	
-	public CancelRequestCommand(Country.Request.View r)
+	// Won't be implemented
+	private CancelRequestCommand(Country.Request.View r)
 	{
 		Util.checkNull(r);
 		this.request = r;

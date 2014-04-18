@@ -98,10 +98,9 @@ public class Controller {
 			s.getPlane(lrc.planeSrc.id()).exchangeResources(lrc.militarQuantity, lrc.fuelQuantity, lrc.deleteResources);
 		} catch (BuildPlaneCommand e) {
 			GameCountry country = s.getCountryByAiId(ai_id);
-			country.buildPlane(country.new Request(e.requestedType));
+			country.buildPlane(country.new GameRequest(e.requestedType));
 		} catch (CancelRequestCommand crc) {
-			GameCountry country = s.getCountryByAiId(ai_id);
-			country.cancelRequest(crc.request);
+			throw new Error("Not Implemented");
 		}
 		
 	}

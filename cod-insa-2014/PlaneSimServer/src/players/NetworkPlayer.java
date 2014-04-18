@@ -217,7 +217,6 @@ public class NetworkPlayer extends Player {
 
 			//Couple<Nullable<Command>,Response> c;
 			
-			// TODO
 			//return process(CommandMaker.make(cmdDat, world.getCurrentSnapshot()));
 //			return new Response(Command.ERROR_COMMAND,"Command not implemented yet !");
 			

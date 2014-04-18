@@ -389,7 +389,7 @@ public class CommandMaker {
 		
 		
 		
-		Country.Request.View r = s.countries.view().get(ai_id).productionLine().get(data.id_request);
+		Country.Request.View r = s.countries.view().get(ai_id-1).productionLine().get(data.id_request);
 			
 		// check existance of the request
 		if (r == null)
@@ -399,10 +399,10 @@ public class CommandMaker {
 				));
 		
 		// Everything all right
-		return new Couple<>(
-				new Nullable<Command>(new CancelRequestCommand(r)),
-				new Response(Command.SUCCESS, "")
-		);
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND,"This command has not been implemented"
+					));
 	}
 
 	

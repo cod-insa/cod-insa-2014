@@ -247,8 +247,7 @@ public class CommandSender extends Thread {
 		
 		static CancelBuildRequestCommandData make(CancelRequestCommand c,
 				int numFrame) {
-			// TODO Auto-generated method stub
-			return null;
+			return new CancelBuildRequestCommandData(new CommandData(numFrame), c.request.rqId());
 		}
 	}
 }
