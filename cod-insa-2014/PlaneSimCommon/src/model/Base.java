@@ -25,20 +25,31 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	public double militaryGarrison;
 	public double fuelInStock;
 	
+	public boolean fullViewInSync = true;
+	
+	
 	/**
 	 * This class represents a Base seen, everything is visible
 	 */
 	public class FullView extends BasicView {
 
+		public FullView() {}
+		private FullView(boolean ignoreSync) { this.ignoreSync = ignoreSync; }
+		
+		public boolean inSync() { return fullViewInSync; }
+		
+		public FullView asLastViewed() { return new FullView(true); }
+		
+
 		/**
 		 * @return The number of resources unit in the garrison of the Base
 		 */
-		public double militaryGarrison() { return militaryGarrison; }
+		public double militaryGarrison() { checkSynx(fullViewInSync); return militaryGarrison; }
 		
 		/**
 		 * @return The number of resources unit in the stock of the Base
 		 */
-		public double fuelInStock() { return fuelInStock; }
+		public double fuelInStock() { checkSynx(fullViewInSync); return fuelInStock; }
 		
 		/**
 		 * Returns whereas the base sees or not an entity
@@ -46,6 +57,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 */
 		public boolean canSee(MaterialEntity.View e) 
 		{
+			checkSynx(fullViewInSync);
 			if (e instanceof Plane.FullView
 					&& ((Plane.FullView) e).state() == State.AT_AIRPORT
 					&& isFriend(e))
@@ -63,6 +75,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 * Returns true if the base see the location given in parameter
 		 */
 		public boolean isWithinRadar(Coord.View pos) {
+			checkSynx(fullViewInSync);
 			return position.squareDistanceTo(pos) <= radarRange * radarRange;
 		}
 		/**
@@ -70,6 +83,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 */
 		public boolean isInTerritory()
 		{
+			checkSynx(fullViewInSync);
 			for (ProgressAxis.Oriented pao : axes)
 				if (pao.next.ownerId() != ownerId())
 					return false;
@@ -80,12 +94,14 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 * Determine if there is enough military garrison to expand automatically
 		 */
 		public boolean canExpand() {
+			checkSynx(fullViewInSync);
 			return militaryGarrison > GameSettings.MINIMUM_BASE_GARRISON;
 		}
 		/**
 		 * Determine if there is enough military garrison to capture automatically
 		 */
 		public boolean canCapture() {
+			checkSynx(fullViewInSync);
 			return militaryGarrison > GameSettings.MINIMUM_CAPTURE_GARRISON;
 		}
 		
@@ -93,8 +109,12 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		/**
 		 * A function in order to display a Base
 		 */
-		public String toString() { return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
-		
+//		public String toString() { checkSynx(fullViewInSync); return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
+		public String toString() {
+			if (fullViewInSync)
+				return "FullBaseView id: "+ id() + " pos: "+ position().toString() + " [out of sync]";
+			return "FullBaseView id: " + id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ;
+		}
 	}
 	
 	/**

@@ -22,6 +22,13 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	 */
 	public class View implements Viewable.View {
 		
+		protected boolean ignoreSync = false;
+		
+		protected void checkSynx(boolean sync) {
+			if (!sync && !ignoreSync)
+				throw new OutOfSyncException();
+		}
+		
 		/**
 		 * Return the id of the entity
 		 */
