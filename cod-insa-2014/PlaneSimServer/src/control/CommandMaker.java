@@ -182,6 +182,10 @@ public class CommandMaker {
 		if (pt == null)
 			return planeIdError(data.idTarget, s);
 		
+		if (!ps.canAttack())
+			return new Couple<>(
+					new Nullable<Command>(),
+					new Response(Command.ERROR_COMMAND, "The commercial plane " + ps.id() + " can't attack"));
 		
 		// Everything all right
 		return new Couple<>(

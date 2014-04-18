@@ -75,10 +75,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 */
 		public double health() { return health; }
 		
-		/**
-		 * Get the type (military or commercial) of the plane
-		 */
-		public final Type type = Plane.this.type;
+		
 		
 		/**
 		 * Tell if the position in parameter is visible by the plane
@@ -134,13 +131,31 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	// This is what an AI will see for an ennemy plane
 	public class BasicView extends MovingEntity.View {
+		/**
+		 * Get the health of the plane
+		 */
 		public double health() { return health; }
+		
+		/**
+		 * Tells if this plane can attack (if this is a military plane)
+		 */
 		public boolean canAttack() {
 			return type.firingRange > 0;
 		}
 //		public double fireRange() { return fireRange; }
+		/**
+		 * Get the type (military or commercial) of the plane
+		 */
+		public final Type type = Plane.this.type;
+		
+		/**
+		 * Get the radar range of the plane
+		 */
 		public double radarRange() { return radarRange;	}
 		@Override
+		/**
+		 * Get a string representation of the plane
+		 */
 		public String toString() { return (exists()?"":"[dead] ")+"Plane "+id()+" owner:"+ownerId()+" health:"+health(); }
 	}
 	
