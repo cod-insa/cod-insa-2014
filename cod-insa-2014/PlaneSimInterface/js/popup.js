@@ -25,3 +25,16 @@ function enterKey(e) {
         return false;
     }
 }
+
+
+
+
+/***Display base info modal***/
+function showBaseInfo(name,info)
+{
+	$('#infos').html(info);
+	$('#about').html(name);
+	$('#infomodal').modal('show');
+}
+
+

@@ -2,15 +2,19 @@ module Evaluator (
             Ia(..)
         ,   Fight(..)
         ,   ias
-        ,   combine
+        ,   maps
+        ,   times
         ,   duels
+        ,   aggregate
         )  where
 
 data Ia = Ia    {   name :: String
                 } deriving (Show, Eq)
 
-data Fight = Fight  {   left :: Ia
-                    ,   right :: Ia
+data Fight = Fight  {   left    :: Ia
+                    ,   right   :: Ia
+                    ,   mapfile :: String
+                    ,   time    :: Int
                     } deriving (Show, Eq)
 
 ias :: [Ia]
@@ -23,8 +27,22 @@ ias = [
         Ia "Centre Val de Loire"
       ]
 
-combine :: (Eq a, Eq b) => (a -> a -> b) -> [a] -> [b]
-combine c s  = [ c x y | x <- s, y <- s, x /= y ]
+maps :: [String]
+maps = ["france"]
+
+times :: [Int]
+times = [100, 1000, 3600]
+
+combine :: (Eq a, Eq b) => (a -> a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
+combine c s u v = [ c w x y z | w <- s, x <- s, y <- u, z <- v, w /= x ]
 
 duels :: [Fight]
-duels = combine Fight ias
+duels = combine Fight ias maps times
+
+aggregate :: [Fight] -> [[Fight]]
+aggregate = aggregate' []
+    where aggregate' acc [] = acc
+          aggregate' acc (x:xs) = aggregate' (caughted:acc) lefted
+            where caughted = filter (eqSwitch x) xs
+                  lefted = filter (not . eqSwitch x) xs
+                  eqSwitch a b = (left a == right b) && (right a == left b)

@@ -12,7 +12,7 @@ public class GameSettings {
 	public static final boolean FRIENDLY_FIRE = false;
 
 	public static final int MAX_PLANES_PER_BASE = 3;
-	public static final int MAX_PLANES_PER_COUNTRY = 2; //MAX_PLANES_PER_BASE*3;
+	public static final int MAX_PLANES_PER_COUNTRY = MAX_PLANES_PER_BASE*3;
 
 	public static double
 		
@@ -22,10 +22,7 @@ public class GameSettings {
 
 //		MILITARY_TRANSFER_RATE = .025,
 //		DYING_RATE_PERCENTAGE = .01,
-		
-		PROJECTILE_DAMAGE = 4,
-		MAX_DAMAGE_PER_FRAME = PROJECTILE_DAMAGE * TIME_UNITS_PER_FRAME,
-	
+			
 		MILITARY_TRANSFER_RATE = .05,
 		DYING_RATE_PERCENTAGE = .003,
 	

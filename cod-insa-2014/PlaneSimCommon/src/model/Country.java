@@ -46,14 +46,13 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 	{
 		public final int rqId;
 		public double timeBeforePlaneBuilt;
-		final public Plane.Type requestedType;
+		public Plane.Type requestedType;
 		
 		public Request(int requestId, double time, Plane.Type ptype)
 		{
 			rqId = requestId;
 			timeBeforePlaneBuilt = time;
-//			ptype = requestedType;
-			requestedType = ptype;
+			ptype = requestedType;
 		}
 		
 		/**
@@ -67,7 +66,7 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 			/**
 			 * Get the time before the corresponding plane will be built
 			 */
-			public double timeBeforePlaneBuilt() { return timeBeforePlaneBuilt; }
+			public double timeBeforePlaneBuilt() { return timeBeforePlaneBuilt(); }
 			
 			/**
 			 * Get the type of the plane requested
@@ -92,8 +91,6 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 	public Country(View src, Context context) {
 		super(src, context);
 		productionLine = new LinkedHashMap<Integer,Request>();
-		for (Request.View r : src.productionLine().valuesView())
-			productionLine.put(r.rqId(), new Request(r.rqId(),r.timeBeforePlaneBuilt(),r.requestedType()));
 	}
 
 	@Override

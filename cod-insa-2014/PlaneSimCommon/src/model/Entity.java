@@ -28,7 +28,7 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 			return "Entity out of sync";
 		}
 		
-		protected void checkSync(boolean sync) throws OutOfSyncException {
+		protected void checkSynx(boolean sync) throws OutOfSyncException {
 			if (!sync && !ignoreSync)
 				throw new OutOfSyncException(outOfSyncMsg());
 		}
@@ -92,7 +92,7 @@ public abstract class Entity implements Copyable { //, Viewable<EntityModel.View
 	}
 
 	public int ownerId() { return ownerId; }
-	public void ownerId(int id) { assert ownerId >= 0; ownerId = id; } // TODONE: check >= 0
+	public void ownerId(int id) { ownerId = id; } // TODO: check >= 0
 	
 //	public EntityModel (EntityModel src) {
 //		//this(src.id, Unique.Copy.make(src.position)));

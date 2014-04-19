@@ -1,10 +1,12 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import model.Plane.State;
+import common.Immutable;
 import common.ListView;
 import common.SetView;
 import common.Unique;
@@ -16,7 +18,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+
 	public final Set<ProgressAxis.Oriented> axes;
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	
@@ -42,7 +44,8 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		}
 
 		/**
-		 * @return A viewer of the values of the attributes as they were observed last time
+		 * // TODO
+		 * @return
 		 */
 		public FullView asLastViewed() { return new FullView(true); }
 		
@@ -57,12 +60,12 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		/**
 		 * @return The number of resources unit in the garrison of the Base
 		 */
-		public double militaryGarrison() { checkSync(fullViewInSync); return militaryGarrison; }
+		public double militaryGarrison() { checkSynx(fullViewInSync); return militaryGarrison; }
 		
 		/**
 		 * @return The number of resources unit in the stock of the Base
 		 */
-		public double fuelInStock() { checkSync(fullViewInSync); return fuelInStock; }
+		public double fuelInStock() { checkSynx(fullViewInSync); return fuelInStock; }
 		
 		/**
 		 * Returns whereas the base sees or not an entity
@@ -70,7 +73,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 */
 		public boolean canSee(MaterialEntity.View e) 
 		{
-			checkSync(fullViewInSync);
+			checkSynx(fullViewInSync);
 			if (e instanceof Plane.FullView
 					&& ((Plane.FullView) e).state() == State.AT_AIRPORT
 					&& isFriend(e))
@@ -88,7 +91,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 * Returns true if the base see the location given in parameter
 		 */
 		public boolean isWithinRadar(Coord.View pos) {
-			checkSync(fullViewInSync);
+			checkSynx(fullViewInSync);
 			return position.squareDistanceTo(pos) <= radarRange * radarRange;
 		}
 		/**
@@ -96,7 +99,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 */
 		public boolean isInTerritory()
 		{
-			checkSync(fullViewInSync);
+			checkSynx(fullViewInSync);
 			for (ProgressAxis.Oriented pao : axes)
 				if (pao.next.ownerId() != ownerId())
 					return false;
@@ -107,14 +110,14 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		 * Determine if there is enough military garrison to expand automatically
 		 */
 		public boolean canExpand() {
-			checkSync(fullViewInSync);
+			checkSynx(fullViewInSync);
 			return militaryGarrison > GameSettings.MINIMUM_BASE_GARRISON;
 		}
 		/**
 		 * Determine if there is enough military garrison to capture automatically
 		 */
 		public boolean canCapture() {
-			checkSync(fullViewInSync);
+			checkSynx(fullViewInSync);
 			return militaryGarrison > GameSettings.MINIMUM_CAPTURE_GARRISON;
 		}
 		
@@ -122,11 +125,11 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		/**
 		 * A function in order to display a Base
 		 */
-//		public String toString() { checkSync(fullViewInSync); return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
+//		public String toString() { checkSynx(fullViewInSync); return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
 		public String toString() {
 			if (fullViewInSync)
-				return "FullBaseView id: " + id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ;
-			return "FullBaseView id: "+ id() + " pos: "+ position().toString() + " [out of sync]";
+				return "FullBaseView id: "+ id() + " pos: "+ position().toString() + " [out of sync]";
+			return "FullBaseView id: " + id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ;
 		}
 	}
 	

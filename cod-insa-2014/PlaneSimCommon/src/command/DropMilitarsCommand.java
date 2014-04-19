@@ -14,7 +14,7 @@ public class DropMilitarsCommand extends Command {
 	public final AbstractBase.View baseTarget;
 	
 	public final double quantity;
-	
+
 	public DropMilitarsCommand(Plane.FullView p, AbstractBase.View b, double ndrop)
 	{
 		Util.checkNull(p, b);
