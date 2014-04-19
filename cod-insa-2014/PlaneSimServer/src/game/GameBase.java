@@ -81,6 +81,18 @@ public class GameBase extends MaterialGameEntity implements Landable {
 //		return new BaseDisplay(this);
 		return disp;
 	}
+
+	/**
+	 * Including fronts with Gaia (ownerId == 0)
+	 */
+	public boolean hasFronts() {
+		for (GameAxis.Oriented arc: axes) {
+//			if (arc.model().base1.ownerId() != arc.model().base2.ownerId())
+			if (arc.current.model().ownerId() != arc.next.model().ownerId())
+				return true;
+		}
+		return false;
+	}
 	
 	@Override
 	public Base model() { return (Base) model; }

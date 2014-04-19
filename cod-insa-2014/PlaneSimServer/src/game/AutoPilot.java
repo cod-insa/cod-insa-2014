@@ -125,18 +125,20 @@ public final class AutoPilot {
 	}
 	void drop(GameBase b) {
 		assert militaryToDrop > 0;
+
+		if (b.hasFronts()) {
+			plane.model().militaryInHold -= militaryToDrop;
+	
+			assert plane.model().militaryInHold >= 0;
+	
+			if (b.model().ownerId() == 0)
+				b.capture(plane.model().ownerId());
+			if (b.model().ownerId() == plane.model().ownerId())
+				b.model().militaryGarrison += militaryToDrop;
+			else
+				b.model().militaryGarrison -= militaryToDrop;
+		}
 		
-		plane.model().militaryInHold -= militaryToDrop;
-
-		assert plane.model().militaryInHold >= 0;
-
-		if (b.model().ownerId() == 0)
-			b.capture(plane.model().ownerId());
-		if (b.model().ownerId() == plane.model().ownerId())
-			b.model().militaryGarrison += militaryToDrop;
-		else
-			b.model().militaryGarrison -= militaryToDrop;
-
 		state = State.IDLE;
 		mode = Mode.ATTACK_ON_SIGHT;
 		militaryToDrop = -1;
