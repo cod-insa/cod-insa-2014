@@ -144,6 +144,7 @@ public class ConsoleAI extends AbstractAI
 						int qdrop = Integer.parseInt(cmd[2]);
 						for (Plane.FullView p : planes.valuesView())
 							coms.add(new DropMilitarsCommand(p, bases.get(idBase), qdrop));
+						break;
 					default:
 						recognized = false;
 						System.err.println("Unrecognized command!");
