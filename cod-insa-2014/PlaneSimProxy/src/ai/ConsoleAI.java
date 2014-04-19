@@ -1,5 +1,7 @@
 package ai;
 
+import genbridge.BuildPlaneCommandData;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,6 +9,7 @@ import java.util.Scanner;
 import model.*;
 import model.Plane.BasicView;
 import command.AttackCommand;
+import command.BuildPlaneCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.ExchangeResourcesCommand;
@@ -131,6 +134,10 @@ public class ConsoleAI extends AbstractAI
 						int fuel = Integer.parseInt(cmd[2]);
 						for (Plane.FullView p : planes.valuesView())
 							coms.add(new ExchangeResourcesCommand(p,militar,fuel,false));
+						break;
+					case "build":
+						int type = Integer.parseInt(cmd[1]);
+						coms.add(new BuildPlaneCommand(Plane.Type.get(type)));
 						break;
 					default:
 						recognized = false;
