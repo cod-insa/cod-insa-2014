@@ -19,6 +19,6 @@ public class NetworkSettings {
 	//public final static String webip = "192.168.1.89"; // "192.168.1.89";	//localhost address but not "localhost"
 	public final static int webport = 14588;
 	public final static int maxConnection = 40;	//clients simultaneously connected
-	public final static int timeUpdate = 200;	//ms
+	public final static int timeUpdate = 150;	//ms
 	
 }
