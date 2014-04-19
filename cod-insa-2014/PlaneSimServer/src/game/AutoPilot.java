@@ -74,11 +74,12 @@ public final class AutoPilot {
 		entityAim = null;
 //		_aim.set(aim);
 		setAim(aim);
-		plane.model().state = State.GOING_TO;
+//		plane.model().state = State.GOING_TO;
+		setState(State.GOING_TO);
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
 //		attacking = false;
-		state = State.GOING_TO;
+//		state = State.GOING_TO;
 		mode = m;
 		
 //		System.out.println(plane.model.position.angleWith(_aim.view()));
@@ -153,7 +154,7 @@ public final class AutoPilot {
 //			System.out.println("already at airp");
 //			return;
 //		}
-		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase.id) {
+		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase().id) {
 			assert Util.findFirst(b.model().planes(), new Predicate<Plane.FullView>(){
 				public Boolean convert(Plane.FullView src) {
 					return src.id() == plane.id();
@@ -189,18 +190,20 @@ public final class AutoPilot {
 			sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?
 		}
 		
-		state = State.AT_AIRPORT;
+//		state = State.AT_AIRPORT;
+		setState(State.AT_AIRPORT);
 		plane.model().assignTo(b.model());//addPlane();
 		//plane.model.speed = 0;
 //		for (ProgressAxis.Oriented pa: b.model().axes) {
 //		}
 		
-		
+//		System.out.println();
 	}
 //	void unland(Mode newMode) {
 	void unland() {
 		if (state == State.AT_AIRPORT) {
-			state = State.IDLE;
+//			state = State.IDLE;
+			setState(State.IDLE);
 //			mode = newMode;
 			mode = Mode.ATTACK_ON_SIGHT;
 			//((GameBase)entityAim).model().planes.remove(plane);
@@ -209,6 +212,13 @@ public final class AutoPilot {
 	}
 	public void takeOff() {
 		unland();
+	}
+	
+	public void setState(State state) {
+//		if (state == State.AT_AIRPORT)
+//			System.out.println("lol");
+		this.state = state;
+		plane.model().state = state;
 	}
 	
 	void resetEntityAim() {

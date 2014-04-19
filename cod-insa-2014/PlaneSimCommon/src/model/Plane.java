@@ -16,7 +16,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	//private static final double DEFAULT_RANGE = 0.7;
 	
 	public State state; // don't try to modify this: it is controlled by the autoPilot
-	public AbstractBase curBase; // no signification if state != State.AT_AIRPORT
+//	public AbstractBase curBase; // no signification if state != State.AT_AIRPORT
+	private AbstractBase curBase; // no signification if state != State.AT_AIRPORT
 	
 	public double health; // = 1;
 	
@@ -41,8 +42,17 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 
 	
 //	public double militaryInHold()
-	
-	
+
+	public AbstractBase curBase() {
+		assert (curBase != null) == (state == State.AT_AIRPORT);
+		return curBase;
+	}
+	public void curBase(AbstractBase b) {
+//		assert b == null || state == State.AT_AIRPORT;
+		curBase = b;
+//		curBase(b);
+		assert (curBase != null) == (state == State.AT_AIRPORT);
+	}
 	
 	/**
 	 *  Basically, FullView is a BasicView plus some additional visible things 
@@ -58,45 +68,35 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		/**
 		 * Get the state of the plane see Plane.State for more details
 		 */
-		public State state() throws OutOfSyncException { checkSynx(exists); return state; }
+		public State state() throws OutOfSyncException { checkSync(exists); return state; }
 		/**
 		 * Return the base where your plane is currently.
 		 * Warning : This function returns null if the plane is not at an airport !
 		 */
-		public AbstractBase.View curBase() throws OutOfSyncException { checkSynx(exists); return curBase == null ? null : curBase.view(); }
+		public AbstractBase.View curBase() throws OutOfSyncException { checkSync(exists); return Plane.this.curBase() == null ? null : curBase.view(); }
 		
 		/**
 		 * Get the number of military resources hold
 		 */
-		public double militaryInHold() throws OutOfSyncException { checkSynx(exists); return militaryInHold; }
+		public double militaryInHold() throws OutOfSyncException { checkSync(exists); return militaryInHold; }
 		/**
 		 * Get the number of fuel resources hold
 		 */
-		public double fuelInHold() throws OutOfSyncException { checkSynx(exists); return fuelInHold; }
+		public double fuelInHold() throws OutOfSyncException { checkSync(exists); return fuelInHold; }
 		
 		/**
 		 * Get the number of fuel resources 
 		 */
-		public double fuelInTank() throws OutOfSyncException { checkSynx(exists); return fuelInTank; }
+		public double fuelInTank() throws OutOfSyncException { checkSync(exists); return fuelInTank; }
 //		public double holdCapacity() { return holdCapacity; }
 //		public double tankCapacity() { return tankCapacity; }
 		
 		/**
-<<<<<<< HEAD
-		 * Get the remaining health of the plane
-		 */
-		public double health() throws OutOfSyncException { checkSynx(exists); return health; }
-		
-		
-		
-		/**
-=======
->>>>>>> 427081617b5c1506010e3eb88609ac774a52f21f
 		 * Tell if the position in parameter is visible by the plane
 		 */
 		@Override
 		public boolean isWithinRadar(Coord.View pos) throws OutOfSyncException {
-			checkSynx(exists);
+			checkSync(exists);
 			return position.squareDistanceTo(pos) <= radarRange*radarRange;
 		}
 		
@@ -111,7 +111,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * @param e The entity
 		 */
 		public boolean knowsPositionOf(MaterialEntity.View e) throws OutOfSyncException {
-			checkSynx(exists);
+			checkSync(exists);
 			if (e instanceof Base.BasicView)
 				return true;
 			return isFriend(e) || canSee(e);
@@ -123,7 +123,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * @param e The entity
 		 */
 		public boolean canSee(MaterialEntity.View e) throws OutOfSyncException {
-			checkSynx(exists);
+			checkSync(exists);
 			if (e instanceof Plane.FullView && ((Plane.FullView)e).state() == State.AT_AIRPORT)
 				return false;
 			return isWithinRadar(e.position);
@@ -133,7 +133,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 * Tell if the plane can attack the plane in parameter
 		 */
 		public boolean canAttack(Plane.BasicView e) throws OutOfSyncException {
-			checkSynx(exists);
+			checkSync(exists);
 			return canAttack() && isEnemy(e) && canSee(e);
 		}
 		
@@ -165,7 +165,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		/**
 		 * Get the health of the plane
 		 */
-		public double health() throws OutOfSyncException { checkSynx(exists); return health; }
+		public double health() throws OutOfSyncException { checkSync(exists); return health; }
 		
 		/**
 		 * Tells if this plane can attack (if this is a military plane)
@@ -252,9 +252,15 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		fuelInHold = src.fuelInHold();
 		militaryInHold = src.militaryInHold();
 		type = src.type;
-		if (src.curBase() != null)
-			curBase = src.curBase().copied(context);
+
+		assert (src.curBase() != null) == (src.state() == Plane.State.AT_AIRPORT);
 		
+		if (src.curBase() != null)
+//			curBase = src.curBase().copied(context);
+			curBase(src.curBase().copied(context));
+//		assert curBase() == null || state == State.AT_AIRPORT;
+		assert (curBase() != null) == (state == Plane.State.AT_AIRPORT);
+
 		fullView = new FullView();
 		basicView = new BasicView();
 	}
@@ -275,9 +281,10 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public void assignTo(AbstractBase b)
 	{
 		unAssign();
-		this.curBase = b;
+//		this.curBase = b;
+		this.curBase(b);
 		b.planes.add(this);
-		assert b.ownerId() == ownerId();
+		assert b.ownerId() == ownerId() || b.ownerId() == 0;
 	}
 	
 	public void unAssign()
@@ -285,7 +292,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		if (curBase != null)
 		{
 			curBase.planes.remove(this);
-			this.curBase = null;
+//			this.curBase = null;
+			curBase(null);
 		}
 	}
 	
@@ -302,6 +310,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		}
 		
 		public final int id;
+		
+		public final String name;
 		
 		public final double
 
@@ -326,6 +336,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		public final double radarRange_squared;
 		
 		private Type(
+				String name,
 				double firingRange,
 				double radarRange,
 				double maxSpeed,
@@ -337,9 +348,10 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				double radius,
 				double timeToBuild
 		) {
-			
 			id = instances.size();
 			instances.add(this);
+
+			this.name = name;
 
 			this.firingRange = firingRange;
 			this.radarRange = radarRange;
@@ -364,8 +376,14 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			radarRange_squared = radarRange * radarRange;
 			
 		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
 
 		public static final Type MILITARY = new Type(
+				"MILITARY",
 				// firingRange
 				0.8, // 0.7
 				// radarRange
@@ -389,6 +407,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			);
 		
 		public static final Type COMMERCIAL = new Type(
+				"COMMERCIAL",
 				// firingRange
 				0,
 				// radarRange

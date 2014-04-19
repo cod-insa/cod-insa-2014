@@ -59,7 +59,8 @@ public class GameBase extends MaterialGameEntity implements Landable {
 		
 		if (ownerId != model().ownerId())
 			while (model().planes.size() > 0)
-				sim.getPlane(model().planes.get(0).id).autoPilot.unland();
+				if (model().planes.get(0).ownerId() != ownerId)
+					sim.getPlane(model().planes.get(0).id).autoPilot.unland();
 		
 		model().capture(ownerId);
 

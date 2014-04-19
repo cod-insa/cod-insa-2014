@@ -1,17 +1,30 @@
 package game;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
-import model.*;
+import model.Base;
+import model.Coord;
+import model.Country;
+import model.GameSettings;
+import model.Plane;
+import model.ProgressAxis;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import common.Immutable;
 import common.ListView;
 import common.Unique;
 import common.Util;
 import common.Util.Converter;
 import common.Viewable;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class World implements Viewable<World.View> {
 
@@ -129,7 +142,13 @@ public class World implements Viewable<World.View> {
 //			// Get a safe immutable list view for this unique list
 //			
 //			planes = new Immutable<ListView<Plane.FullView>>(uplanes, Util.<Plane, Plane.FullView>getListViewer());
-
+			
+////			for (Plane.FullView p: w.planes) {
+//			for (GamePlane p: w.planes) {
+//				System.out.println(p.model().curBase()+" "+p.model().ownerId());
+////				System.out.println(p.model().curBase());
+//			}
+			
 			ListView<Plane> vplanes = Util.transformView (w.planes, new Converter<GamePlane, Plane>() {
 				public Plane convert(GamePlane src) { return src.model(); }
 			});

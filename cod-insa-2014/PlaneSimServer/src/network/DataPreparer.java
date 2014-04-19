@@ -1,7 +1,6 @@
 package network;
 
 import game.Game;
-import game.GameCountry;
 import game.World.Snapshot;
 import genbridge.BaseBasicData;
 import genbridge.BaseFullData;
@@ -20,16 +19,14 @@ import genbridge.RequestData;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.AbstractBase;
 import model.Base;
-import model.Coord;
 import model.Country;
 import model.Country.Request;
 import model.MaterialEntity;
 import model.Plane;
 import model.ProgressAxis;
+
 import common.Nullable;
-import common.Unique;
 
 
 /*
@@ -114,10 +111,13 @@ public abstract class DataPreparer {
 			if (p.ownerId() == ai_id)
 			{
 				int baseId = -1;
-				if (p.curBase() != null)
+				if (p.curBase() != null) {
 					baseId = p.curBase().id();
-				if (p.state() == Plane.State.AT_AIRPORT)
-					baseId = p.curBase().id();
+//				if (p.state() == Plane.State.AT_AIRPORT)
+//					baseId = p.curBase().id();
+				}
+//				assert p.curBase() == null || p.state() == Plane.State.AT_AIRPORT;
+				assert (p.curBase() != null) == (p.state() == Plane.State.AT_AIRPORT);
 				
 				tobeSent.owned_planes.add(
 					new PlaneFullData(
