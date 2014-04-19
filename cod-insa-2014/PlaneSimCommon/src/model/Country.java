@@ -46,13 +46,14 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 	{
 		public final int rqId;
 		public double timeBeforePlaneBuilt;
-		public Plane.Type requestedType;
+		final public Plane.Type requestedType;
 		
 		public Request(int requestId, double time, Plane.Type ptype)
 		{
 			rqId = requestId;
 			timeBeforePlaneBuilt = time;
-			ptype = requestedType;
+//			ptype = requestedType;
+			requestedType = ptype;
 		}
 		
 		/**

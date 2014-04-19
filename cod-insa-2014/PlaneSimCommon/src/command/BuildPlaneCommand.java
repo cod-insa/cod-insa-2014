@@ -9,6 +9,7 @@ public class BuildPlaneCommand extends Command {
 	
 	public BuildPlaneCommand(Plane.Type requestedType)
 	{
+//		assert requestedType != null;
 		Util.checkNull(requestedType);
 		this.requestedType = requestedType;
 	}

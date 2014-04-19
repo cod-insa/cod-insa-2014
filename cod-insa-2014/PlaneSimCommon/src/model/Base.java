@@ -18,7 +18,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 	
 	private static final long serialVersionUID = 1L;
 	
-
+	
 	public final Set<ProgressAxis.Oriented> axes;
 	private static final double DEFAULT_BASE_RADAR_RANGE = 0.7;
 	

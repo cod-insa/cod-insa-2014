@@ -371,7 +371,7 @@ public class CommandMaker {
 			return frameIdError(data.c, s);
 		
 		// check type of build request
-		if (data.planeTypeId < 0 && data.planeTypeId > 1)
+		if (data.planeTypeId < 0 || data.planeTypeId > 1)
 			return new Couple<>(
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Unrecognized plane type num " + data.planeTypeId
