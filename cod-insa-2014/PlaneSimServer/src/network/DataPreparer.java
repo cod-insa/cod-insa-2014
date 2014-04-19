@@ -227,6 +227,9 @@ public abstract class DataPreparer {
 			case LANDING:
 				psd = PlaneStateData.LANDING;
 				break;
+			case DROPPING:
+				psd = PlaneStateData.DROPPING;
+				break;
 			default:
 				throw new Error("Unrecognized State");
 			}
