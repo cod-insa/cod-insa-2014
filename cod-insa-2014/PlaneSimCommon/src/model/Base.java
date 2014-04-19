@@ -44,8 +44,7 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 		}
 
 		/**
-		 * // TODO
-		 * @return
+		 * @return A viewer of the values of the attributes as they were observed last time
 		 */
 		public FullView asLastViewed() { return new FullView(true); }
 		
