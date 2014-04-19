@@ -9,6 +9,7 @@ import model.Plane.BasicView;
 import command.AttackCommand;
 import command.Command;
 import command.DropMilitarsCommand;
+import command.ExchangeResourcesCommand;
 import command.LandCommand;
 import command.MoveCommand;
 import common.MapView;
@@ -124,6 +125,12 @@ public class ConsoleAI extends AbstractAI
 							System.out.println(b);
 						System.out.println(">> Your Country");
 						System.out.println(game.getCountry());
+						break;
+					case "exch":
+						int militar = Integer.parseInt(cmd[1]);
+						int fuel = Integer.parseInt(cmd[2]);
+						for (Plane.FullView p : planes.valuesView())
+							coms.add(new ExchangeResourcesCommand(p,militar,fuel,false));
 						break;
 					default:
 						recognized = false;
