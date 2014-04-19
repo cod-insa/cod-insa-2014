@@ -30,8 +30,9 @@ public class GameDisplayPanel extends JPanel {
     
     private static final int SCREEN_MOVE_MARGIN = 130;
     private static final double SCREEN_MOVE_COEFF = .001, VIEW_INERTIA_DAMPING = .9;
-    
-    private static final double GAME_SHIFT_MARGIN = .4; //.2;
+
+//	private static final double GAME_SHIFT_MARGIN = .4; //.2;
+	private final double GAME_SHIFT_MARGIN;
 
 	private static final boolean RESTRICT_ZONE = false;
     
@@ -64,7 +65,21 @@ public class GameDisplayPanel extends JPanel {
         
     	sim = s;
 
-    	/********** FIXME DEV TEST: **********/
+		double shiftMax = 0;
+		for (GameCountry c: s.getWorld().countries) {
+			if (c.model().position().x() < -shiftMax)
+				shiftMax = -c.model().position().x();
+			if (c.model().position().x()-sim.getWorld().width > shiftMax)
+				shiftMax = c.model().position().x();
+			if (c.model().position().y() < -shiftMax)
+				shiftMax = -c.model().position().y();
+			if (c.model().position().y()-sim.getWorld().height > shiftMax)
+				shiftMax = c.model().position().y();
+		}
+		GAME_SHIFT_MARGIN = shiftMax + GameCountry.RADIUS*1.3;
+//		System.out.println(GAME_SHIFT_MARGIN);
+		
+		/********** FIXME DEV TEST: **********/
     	
 		if (Settings.DEBUG_GOD_MODE) {
 			Random r = new Random();
@@ -85,7 +100,7 @@ public class GameDisplayPanel extends JPanel {
 			}
 
 			pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 1, Type.MILITARY));
-			pls.get(0).model().militaryInHold = 100;
+			pls.get(0).model().militaryInHold = pls.get(0).model().type.holdCapacity;
 
 
 			//new Base(sim, new Coord(.3,.6));
