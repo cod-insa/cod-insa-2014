@@ -26,7 +26,7 @@ public class World implements Viewable<World.View> {
 	private Snapshot currentSnapshot;
 	public final Object snapshotsMonitor = new Object();
 	
-	private Game gameForScore;
+	private Game game;
 	
 	public List<GameBase> bases = new ArrayList<>();
 	
@@ -41,7 +41,7 @@ public class World implements Viewable<World.View> {
 	
 	public World (Game sim) {
 		//sim.world = this;
-		this.gameForScore = sim;
+		this.game = sim;
 		
 		
     	/********** FIXME DEV TEST: **********/
@@ -168,7 +168,7 @@ public class World implements Viewable<World.View> {
 	public void takeSnapshot() {
 		
 		/* Updating scores */
-		gameForScore.getScores().addScoreWithBases(bases);
+		game.getScores().addScoreWithBases(bases);
 		
 		currentSnapshot = new Snapshot(this);
 		++currentSnapshotId;
@@ -251,6 +251,22 @@ public class World implements Viewable<World.View> {
 		if (!connected)
 			log.warn("The bases graph seems not to be one connected component!");
 
+		
+		
+		for (GameCountry c: countries) {
+
+			GamePlane pmil = new GamePlane(game, new Coord.Unique(c.model().position()), c.model().ownerId(), Plane.Type.MILITARY);
+//			pmil.model().assignTo(c);
+			pmil.autoPilot.land(c);
+			GamePlane pcom = new GamePlane(game, new Coord.Unique(c.model().position()), c.model().ownerId(), Plane.Type.COMMERCIAL);
+			pcom.autoPilot.land(c);
+			
+//			c.model().
+			
+		}
+		
+		
+		
 		initialized = true;
 	}
 

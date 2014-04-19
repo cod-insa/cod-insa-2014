@@ -66,29 +66,31 @@ public class GameDisplayPanel extends JPanel {
 
     	/********** FIXME DEV TEST: **********/
     	
-    	Random r = new Random();
-//    	int nb = 5;
-    	int nb = 2;
-    	for (int i = 0; i < nb; i++) {
-//			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble()*s.getWorld().width, r.nextDouble()*s.getWorld().height), (i<nb/2?1:2), Type.MILITARY);
-//			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.MILITARY);
-			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.COMMERCIAL);
-	    	pls.add(p);
-	    	//sim._debug_backdoor().add(p);
-//			p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
-			p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.IGNORE);
-    	}
-    	if (pls.size() > 1) {
-//	    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
-//	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
-    	}
+		if (Settings.DEBUG_GOD_MODE) {
+			Random r = new Random();
+			//    	int nb = 5;
+			int nb = 2;
+			for (int i = 0; i < nb; i++) {
+				//			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble()*s.getWorld().width, r.nextDouble()*s.getWorld().height), (i<nb/2?1:2), Type.MILITARY);
+				//			GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i<nb/2?1:2), Type.MILITARY);
+				GamePlane p = new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), (i < nb / 2 ? 1 : 2), Type.COMMERCIAL);
+				pls.add(p);
+				//sim._debug_backdoor().add(p);
+				//			p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.ATTACK_ON_SIGHT);
+				p.autoPilot.goTo(new Coord(r.nextDouble(), r.nextDouble()).view(), Mode.IGNORE);
+			}
+			if (pls.size() > 1) {
+				//	    	pls.get(0).autoPilot.goTo(pls.get(1), Mode.ATTACK_ON_SIGHT);
+				//	    	pls.get(1).autoPilot.goTo(pls.get(0), Mode.ATTACK_ON_SIGHT);
+			}
 
-		pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 1, Type.MILITARY));
-		pls.get(0).model().militaryInHold = 100;
+			pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 1, Type.MILITARY));
+			pls.get(0).model().militaryInHold = 100;
+
+
+			//new Base(sim, new Coord(.3,.6));
+		}
 		
-    	
-		//new Base(sim, new Coord(.3,.6));
-    	
     	/*************************************/
     	
     	final Coord viewInertia = new Coord(0,0);
@@ -242,32 +244,37 @@ public class GameDisplayPanel extends JPanel {
 			
 			public void landCom(MouseEvent e) {
 
-				Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
-				Landable b = null;
-				for (GameCountry bb : sim.countries)
-					if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
-						b = bb;
-				if (b == null)
-					for (GameBase bb : sim.bases)
+				if (Settings.DEBUG_GOD_MODE) {
+					
+					Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
+					Landable b = null;
+					for (GameCountry bb : sim.countries)
 						if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
 							b = bb;
-				
-				int pid = e.getButton() == MouseEvent.BUTTON1? 0: 1;
-				
-				GamePlane p = pls.get(pid);
-				if (b == null) {
-					p.autoPilot.goTo(mousePos, Mode.IGNORE);
-//                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
+					if (b == null)
+						for (GameBase bb : sim.bases)
+							if (bb.modelView().position.distanceTo(mousePos) < bb.radius())
+								b = bb;
+
+					int pid = e.getButton() == MouseEvent.BUTTON1 ? 0 : 1;
+
+					GamePlane p = pls.get(pid);
+					if (b == null) {
+						p.autoPilot.goTo(mousePos, Mode.IGNORE);
+						//                		p.autoPilot.goTo(new Base(sim, new Coord.Unique(mousePos.x(), mousePos.y())), Mode.IGNORE);
 
 
-//           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
-					//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
+						//           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
+						//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
+					} else if (p.modelView().state() == State.AT_AIRPORT && b.model().planes().size() > 0 && b.model().planes().get(0).id() == p.modelView().id()) // ugly hack
+					{
+						p.autoPilot.takeOff();
+						p.autoPilot.mode = Mode.ATTACK_ON_SIGHT;
+					}
+					//				else pls.get(pid).autoPilot.landAt(b);
+					else pls.get(pid).autoPilot.dropMilitaryAt((MaterialGameEntity) b, 5);
 				}
-				else if (p.modelView().state() == State.AT_AIRPORT && b.model().planes().size() > 0 && b.model().planes().get(0).id() == p.modelView().id()) // ugly hack
-				{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
-//				else pls.get(pid).autoPilot.landAt(b);
-				else pls.get(pid).autoPilot.dropMilitaryAt((MaterialGameEntity)b, 5);
-
+				
 			}
         	
             @Override

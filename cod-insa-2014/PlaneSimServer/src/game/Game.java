@@ -146,36 +146,38 @@ public class Game {
 		if (!running) {
 
 			world.initialize(this);
-			
-			/////////////////////////////////////
-			// FIXME: testing
-			
-			world.bases.get(0).model().ownerId(1);
-			world.bases.get(0).model().militaryGarrison = 8;
-			world.bases.get(1).model().ownerId(1);
-			world.bases.get(1).model().militaryGarrison = 10;
-			getBase(17).model().ownerId(2);
-			getBase(17).model().militaryGarrison = 15;
 
-//			getBase(17).model().ownerId(2);
-//			getBase(17).model().militaryGarrison = 2;
-//			getBase(2).model().ownerId(2);
-//			getBase(2).model().militaryGarrison = .3;
-//			getBase(17).ownerId(2);
-//			getBase(17).model().militaryGarrison = 15;
+			if (Settings.DEBUG_GOD_MODE) {
 
-//			deb_base( 2, 1, .5);
-//			deb_base(11, 1, .5);
-//			deb_base(17, 1, .5);
-//			deb_base( 3, 1, .5);
-//			deb_base(15, 1, .5);
-//			deb_base(22, 1, .5);
+				/////////////////////////////////////
+				// FIXME: testing
+
+				world.bases.get(0).model().ownerId(1);
+				world.bases.get(0).model().militaryGarrison = 8;
+				world.bases.get(1).model().ownerId(1);
+				world.bases.get(1).model().militaryGarrison = 10;
+				getBase(17).model().ownerId(2);
+				getBase(17).model().militaryGarrison = 15;
+
+//				getBase(17).model().ownerId(2);
+//				getBase(17).model().militaryGarrison = 2;
+//				getBase(2).model().ownerId(2);
+//				getBase(2).model().militaryGarrison = .3;
+//				getBase(17).ownerId(2);
+//				getBase(17).model().militaryGarrison = 15;
 //
-//			deb_base( 8, 2,  5);
-			
-			
-			/////////////////////////////////////
+//				deb_base( 2, 1, .5);
+//				deb_base(11, 1, .5);
+//				deb_base(17, 1, .5);
+//				deb_base( 3, 1, .5);
+//				deb_base(15, 1, .5);
+//				deb_base(22, 1, .5);
+//	
+//				deb_base( 8, 2,  5);
 
+				/////////////////////////////////////
+			}
+			
 			final long launchTime = System.currentTimeMillis();
 			
 			updateTimer.schedule(new TimerTask() {
