@@ -38,7 +38,7 @@ public final class AutoPilot {
 	GamePlane plane;
 	Plane.Type type;
 	
-	private final Coord _aim = new Coord(0,0);
+	private final Coord _aim; // = new Coord(0,0);
 	public final Coord.View currentAim = _aim.view();
 
 //	private double targetSpeed = GamePlane.MAX_SPEED;
@@ -65,6 +65,7 @@ public final class AutoPilot {
 		type = plane.model().type;
 		targetSpeed = type.maxSpeed;
 		circling_radius = type.maxSpeed / Math.cos(Math.PI/2 - type.maxRotSpeed);
+		_aim = p.model().position().copied();
 	}
 	
 	public void goTo(Coord.View aim, Mode m) {
