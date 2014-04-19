@@ -182,6 +182,7 @@ public final class AutoPilot {
 		}
 		
 		if (b.model().planes.size()+1 > b.landingCapacity()) {
+			assert b.model().planes.size() == b.landingCapacity();
 //			b.model().planes.get(0).unAssign();
 			sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?
 		}

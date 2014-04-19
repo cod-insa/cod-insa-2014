@@ -24,6 +24,30 @@ public class ValAI extends AbstractAI
 	}
 
 	public void think_blocking() {
+//		while (true) {
+//
+//			this.game.updateSimFrame();
+//
+//			MapView<Integer, Base.BasicView> bases = this.game.getAllBases();
+//			MapView<Integer, Plane.FullView> planes = this.game.getMyPlanes();
+//
+//			List<Command> comm =  new ArrayList<Command>();
+//			comm.add(new BuildPlaneCommand(Plane.Type.COMMERCIAL));
+//			//comm.add(new BuildPlaneCommand(Type.MILITARY));
+//
+//			Base.BasicView b =  bases.get(12);
+//
+//			for (Plane.FullView p : planes.valuesView())
+//			{
+//				System.out.println(p.position);
+//				comm.add(new MoveCommand(p, b.position));
+//			}
+//
+//			for(Command c : comm)
+//				this.game.sendCommand(c);
+//
+//		}
+
 		while (true) {
 
 			this.game.updateSimFrame();
@@ -32,19 +56,24 @@ public class ValAI extends AbstractAI
 			MapView<Integer, Plane.FullView> planes = this.game.getMyPlanes();
 
 			List<Command> comm =  new ArrayList<Command>();
-			comm.add(new BuildPlaneCommand(Plane.Type.COMMERCIAL));
+			//comm.add(new BuildPlaneCommand(Type.COMMERCIAL));
 			//comm.add(new BuildPlaneCommand(Type.MILITARY));
 
+			AbstractBase.View c = this.game.getAllBases().get(12);
+
 			Base.BasicView b =  bases.get(12);
+
 
 			for (Plane.FullView p : planes.valuesView())
 			{
 				System.out.println(p.position);
-				comm.add(new MoveCommand(p, b.position));
+				//comm.add(new MoveCommand(p, b.position));
+				comm.add(new LandCommand(p, c));
 			}
 
-			for(Command c : comm)
-				this.game.sendCommand(c);
+
+			for(Command commande : comm)
+				this.game.sendCommand(commande);
 
 		}
 	}
