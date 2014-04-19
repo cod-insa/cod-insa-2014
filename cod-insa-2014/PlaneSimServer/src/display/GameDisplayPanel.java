@@ -84,6 +84,7 @@ public class GameDisplayPanel extends JPanel {
     	}
 
 		pls.add(0, new GamePlane(sim, new Coord.Unique(r.nextDouble(), r.nextDouble()), 1, Type.MILITARY));
+		pls.get(0).model().militaryInHold = 100;
 		
     	
 		//new Base(sim, new Coord(.3,.6));
@@ -264,7 +265,8 @@ public class GameDisplayPanel extends JPanel {
 				}
 				else if (p.modelView().state() == State.AT_AIRPORT && b.model().view().planes().size() > 0 && b.model().view().planes().get(0).id() == p.modelView().id()) // ugly hack
 				{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
-				else pls.get(pid).autoPilot.landAt(b);
+//				else pls.get(pid).autoPilot.landAt(b);
+				else pls.get(pid).autoPilot.dropMilitaryAt((MaterialGameEntity)b, 5);
 
 			}
         	

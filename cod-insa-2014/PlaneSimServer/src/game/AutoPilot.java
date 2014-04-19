@@ -1,5 +1,6 @@
 package game;
 
+import model.AbstractBase;
 import model.Coord;
 import model.Plane;
 import model.Plane.State;
@@ -54,6 +55,8 @@ public final class AutoPilot {
 	//public Mode onCompleteMode = default_mode;
 	
 //	AttackMode attacking_mode = AttackMode.NONE;
+	
+	private double militaryToDrop = -1;
 	
 	public AutoPilot(Game s, GamePlane p) {
 		sim = s;
@@ -111,7 +114,32 @@ public final class AutoPilot {
 		state = State.ATTACKING;
 //		mode = Mode.ATTACK_ON_SIGHT;
 	}
-	
+
+	public void dropMilitaryAt(MaterialGameEntity b, double militaryToDrop) {
+		assert b.model() instanceof AbstractBase;
+		unland();
+		goTo(b, Mode.IGNORE);
+		state = State.DROPPING;
+		this.militaryToDrop = militaryToDrop;
+	}
+	void drop(GameBase b) {
+		assert militaryToDrop > 0;
+		
+		plane.model().militaryInHold -= militaryToDrop;
+
+		assert plane.model().militaryInHold >= 0;
+
+		if (b.model().ownerId() == 0)
+			b.capture(plane.model().ownerId());
+		if (b.model().ownerId() == plane.model().ownerId())
+			b.model().militaryGarrison += militaryToDrop;
+		else
+			b.model().militaryGarrison -= militaryToDrop;
+
+		state = State.IDLE;
+		mode = Mode.ATTACK_ON_SIGHT;
+		militaryToDrop = -1;
+	}
 	
 	public void landAt(Landable b) {
 //		System.out.println("land");
@@ -134,6 +162,7 @@ public final class AutoPilot {
 		state = State.LANDING;
 	}
 	void land(Landable b) {
+		plane.targetTankFuel = -1;
 		
 		///////////////////////////
 		// FIXME TESTING
@@ -144,8 +173,10 @@ public final class AutoPilot {
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
 		}
 		///////////////////////////
-		if (b instanceof GameCountry)
-			plane.model().fuelInTank = plane.model().type.tankCapacity;
+		if (b instanceof GameCountry) {
+//			plane.model().fuelInTank = plane.model().type.tankCapacity;
+			plane.targetTankFuel = plane.model().type.tankCapacity;
+		}
 		
 		if (b.model().planes.size()+1 > b.landingCapacity()) {
 //			b.model().planes.get(0).unAssign();
@@ -177,7 +208,7 @@ public final class AutoPilot {
 	void resetEntityAim() {
 		unland();
 		entityAim = null;
-		if (state == State.ATTACKING && mode == Mode.IGNORE)
+		if ((state == State.ATTACKING || state == State.DROPPING) && mode == Mode.IGNORE)
 			mode = Mode.ATTACK_ON_SIGHT;
 //		attacking = false;
 //		plane.model.state = State.IDLE;
@@ -278,9 +309,7 @@ public final class AutoPilot {
 				
 //				System.out.println(targetSpeed);
 				
-			}
-			
-			if (state == State.LANDING) {
+			} else if (state == State.LANDING || state == State.DROPPING) {
 	//			double circling_radius = Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED) * Plane.MAX_SPEED/2;
 	//			double circling_radius = Plane.MAX_SPEED / (2 * Math.cos(Math.PI/2 - Plane.MAX_ROT_SPEED));
 				//double circling_radius = GamePlane.MAX_SPEED / Math.cos(Math.PI/2 - GamePlane.MAX_ROT_SPEED);
@@ -292,8 +321,9 @@ public final class AutoPilot {
 				//circling_radius *= 2;
 				//circling_radius *= 1.5;
 				double larger_radius = circling_radius * 1.2;
-				
-				if (state == State.LANDING && d <= larger_radius) {
+
+//				if (state == State.LANDING && d <= larger_radius) {
+				if (/*state == State.LANDING &&*/ d <= larger_radius) {
 					//targetSpeed = d/circling_radius * Plane.MAX_SPEED;
 	//				targetSpeed = Math.sqrt(d/circling_radius*circling_radius * Plane.MAX_SPEED);
 	//				targetSpeed = (circling_radius - d) * (circling_radius - d) * Plane.MAX_SPEED;
@@ -303,7 +333,9 @@ public final class AutoPilot {
 					
 					if (d <= entityAim.radius*.7)
 					{
-						land(((Landable)entityAim));
+						if (state == State.DROPPING)
+							 drop((GameBase)entityAim);
+						else land(((Landable) entityAim));
 					}
 					
 	//				targetSpeed = Plane.MAX_SPEED*Math.cos(aimAngle);

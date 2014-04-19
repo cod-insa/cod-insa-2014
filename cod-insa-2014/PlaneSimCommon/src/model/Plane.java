@@ -39,6 +39,11 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //	
 //	private static final double DEFAULT_INIT_GAZ = 10;
 
+	
+//	public double militaryInHold()
+	
+	
+	
 	/**
 	 *  Basically, FullView is a BasicView plus some additional visible things 
 	 */
@@ -104,7 +109,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		 */
 		public boolean knowsPositionOf(MaterialEntity.View e) throws OutOfSyncException {
 			checkSynx(exists);
-			if (e instanceof Base.FullView)
+			if (e instanceof Base.BasicView)
 				return true;
 			return isFriend(e) || canSee(e);
 		}
@@ -187,6 +192,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		GOING_TO,
 		FOLLOWING,
 		ATTACKING,
+		DROPPING,
 		LANDING,
 		AT_AIRPORT,
 		DEAD, // FIXME use it
@@ -284,6 +290,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	public static class Type {
 		
 		public static double REGENERATION_SPEED = .1;
+		public static double FUEL_REFILL_SPEED = .1;
 		
 		private static final List<Type> instances = new ArrayList<>();
 		

@@ -86,11 +86,15 @@ public class Controller {
 				// Something like :
 				// s.getPlane(ac.planeSrc.id()).autoPilot.depositAt(-dmc.quantity,dmc.baseTarget);
 
+				s.getPlane(dmc.planeSrc.id()).autoPilot.dropMilitaryAt(s.getBase(dmc.baseTarget.id()), -dmc.quantity);
+
 				// Then call this to drop units when plan is over the base and the drop is done
 				// s.getPlane(dmc.planeSrc.id()).exchangeResources(-dmc.quantity, 0, false);
 			} catch (FillFuelTankCommand fftc) {
-				s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity);
+				// TODO check fuel required (cf plane capa & base qty)
+				s.getPlane(fftc.planeSrc.id()).fillTank(fftc.quantity); // TODONE must take time
 			} catch (ExchangeResourcesCommand lrc) {
+				// TODO check ressources
 				s.getPlane(lrc.planeSrc.id()).exchangeResources(lrc.militarQuantity, lrc.fuelQuantity, lrc.deleteResources);
 			} catch (BuildPlaneCommand e) {
 				GameCountry country = s.getCountryByAiId(ai_id);

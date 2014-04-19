@@ -39,6 +39,8 @@ public final class GamePlane extends MaterialGameEntity {
 	public final AutoPilot autoPilot = new AutoPilot(sim, this);
 	final PlaneDisplay disp = new PlaneDisplay(this);
 	
+	double targetTankFuel = -1;
+	
 	//model.Plane.View model() { return null; }
 	
 	public GamePlane (Game sim, Unique<Coord> pos, int ownerId, Plane.Type type) {
@@ -54,6 +56,13 @@ public final class GamePlane extends MaterialGameEntity {
 		radius = type.radius;
 	}
 	
+	void takeFuelFromBase(double qty) {
+		if (model().curBase instanceof Base)
+//			((Base)model().curBase).fuelInStock(((Base)model().curBase).fuelInStock() - qty);
+			((Base)model().curBase).fuelInStock -= qty;
+		model().fuelInTank += qty;
+	}
+	
 	@Override
 	public void updateSpecialized(double period) {
 		super.updateSpecialized(period);
@@ -61,9 +70,24 @@ public final class GamePlane extends MaterialGameEntity {
 		//System.out.println(model().fuelInTank/model().tankCapacity);
 //		System.out.println(model().type.fuelConsumptionPerDistanceUnit*model().speed*period);
 		
-		if (model().state == State.AT_AIRPORT)
+//		if (model().militaryInHold > 10)
+//			System.out.println(model().militaryInHold);
+		
+		if (model().state == State.AT_AIRPORT) {
 			model().health += Plane.Type.REGENERATION_SPEED;
-		else if (!Settings.DEBUG_GOD_MODE)
+			if (targetTankFuel > 0) {
+				 if (targetTankFuel > model().fuelInTank) {
+//					model().fuelInTank += Plane.Type.FUEL_REFILL_SPEED;
+					 takeFuelFromBase(Plane.Type.FUEL_REFILL_SPEED);
+				}
+				if (targetTankFuel < model().fuelInTank) {
+					takeFuelFromBase(targetTankFuel - model().fuelInTank);
+					targetTankFuel = -1;
+				}
+				if (targetTankFuel == model().fuelInTank)
+					targetTankFuel = -1;
+			}
+		} else if (!Settings.DEBUG_GOD_MODE)
 			model().fuelInTank -= model().type.fuelConsumptionPerDistanceUnit*model().speed*period;
 //		if (model().fuelInTank < 0) {
 //			model().fuelInTank = 0;
@@ -211,10 +235,15 @@ public final class GamePlane extends MaterialGameEntity {
 	
 	public void fillTank(double quantity)
 	{
-		model().fuelInTank += quantity;
-		if (model().curBase instanceof Base)
-		{
-			((Base)model().curBase).fuelInStock -= quantity;
+//		model().fuelInTank += quantity;
+//		if (model().curBase instanceof Base)
+//		{
+//			((Base)model().curBase).fuelInStock -= quantity;
+//		}
+		if (model().state == State.AT_AIRPORT) {
+			targetTankFuel = quantity;
+		} else {
+			Game.log.debug("Could not fill fuel when not at airport");
 		}
 	}
 	
