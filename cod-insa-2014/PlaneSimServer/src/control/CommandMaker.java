@@ -229,11 +229,6 @@ public class CommandMaker {
 					new Nullable<Command>(),
 					new Response(Command.ERROR_COMMAND,"Cannot drop military resources over an enemy base in the middle of their territory !"));
 		
-		if (b instanceof Base.BasicView)
-			return new Couple<>(
-					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"You can't drop any militar resources over a base you don't see"));
-		
 		// Should not happen
 		if (b instanceof Country.View && b.ownerId() != p.ownerId())
 			return new Couple<>(
