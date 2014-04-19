@@ -1,5 +1,6 @@
 package game;
 
+import main.Main;
 import model.AbstractBase;
 import model.Coord;
 import model.Plane;
@@ -167,7 +168,7 @@ public final class AutoPilot {
 		///////////////////////////
 		// FIXME TESTING
 		//b.model().ownerId(plane.model().ownerId());
-		if (b instanceof GameBase)
+		if (Main.DEBUG_MODE && b instanceof GameBase)
 		{
 			((GameBase)b).capture(plane.model().ownerId());
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;

@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import main.Main;
 import model.Coord;
 import model.Plane.State;
 import model.Plane.Type;
@@ -81,7 +82,7 @@ public class GameDisplayPanel extends JPanel {
 		
 		/********** FIXME DEV TEST: **********/
     	
-		if (Settings.DEBUG_GOD_MODE) {
+		if (Main.DEBUG_MODE) {
 			Random r = new Random();
 			//    	int nb = 5;
 			int nb = 2;
@@ -259,7 +260,7 @@ public class GameDisplayPanel extends JPanel {
 			
 			public void landCom(MouseEvent e) {
 
-				if (Settings.DEBUG_GOD_MODE) {
+				if (Main.DEBUG_MODE) {
 					
 					Coord.View mousePos = vtrans.getCoord(new Pixel(e.getX(), e.getY())).view();
 					Landable b = null;
@@ -286,8 +287,8 @@ public class GameDisplayPanel extends JPanel {
 						p.autoPilot.takeOff();
 						p.autoPilot.mode = Mode.ATTACK_ON_SIGHT;
 					}
-					//				else pls.get(pid).autoPilot.landAt(b);
-					else pls.get(pid).autoPilot.dropMilitaryAt((MaterialGameEntity) b, 5);
+					else pls.get(pid).autoPilot.landAt(b);
+//					else pls.get(pid).autoPilot.dropMilitaryAt((MaterialGameEntity) b, 5);
 				}
 				
 			}
