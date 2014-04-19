@@ -125,6 +125,7 @@ public final class AutoPilot {
 		goTo(b, Mode.IGNORE);
 		state = State.DROPPING;
 		this.militaryToDrop = militaryToDrop;
+		assert militaryToDrop > 0;
 	}
 	
 	void drop(GameBase b) {
@@ -132,9 +133,9 @@ public final class AutoPilot {
 
 		if (b.hasFronts() || b.model().ownerId() == 0) {
 			plane.model().militaryInHold -= militaryToDrop;
-	
+			
 			assert plane.model().militaryInHold >= 0;
-	
+			
 			if (b.model().ownerId() == 0)
 				b.capture(plane.model().ownerId());
 			if (b.model().ownerId() == plane.model().ownerId())

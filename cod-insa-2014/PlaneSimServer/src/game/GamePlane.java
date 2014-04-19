@@ -227,17 +227,24 @@ public final class GamePlane extends MaterialGameEntity {
 	{
 		if (model().state == Plane.State.AT_AIRPORT && (model().ownerId() == model().curBase().ownerId() || model().curBase().ownerId() == 0))
 		{
-			model().militaryInHold += milQuantity;
-			model().fuelInHold += fuelQuantity;
+			if (model().curBase() instanceof Country
+				|| ((model().curBase() instanceof Base)
+						&& ((Base)model().curBase()).militaryGarrison > milQuantity
+						&& ((Base)model().curBase()).fuelInStock > fuelQuantity)
+			) {
+				model().militaryInHold += milQuantity;
+				model().fuelInHold += fuelQuantity;
+			} else Game.log.debug("Exchange command failed: invalid amounts");
 			
 			// If the plane is in a base
-			if (model().curBase() instanceof Base && ! deleteResources)
+			if (model().curBase() instanceof Base && !deleteResources)
 			{
+				if (model().curBase().ownerId() == 0)
+					sim.getBase(model().curBase().id).capture(model().ownerId());
+				
 				((Base)model().curBase()).fuelInStock -= fuelQuantity;
 				((Base)model().curBase()).militaryGarrison -= milQuantity;
 				
-				if (model().curBase().id == 0)
-					sim.getBase(model().curBase().id).capture(model().ownerId());
 					
 			}
 		}

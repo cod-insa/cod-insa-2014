@@ -1,14 +1,16 @@
 package game;
 
-import model.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import model.Base;
+import model.Coord;
+import model.GameSettings;
+
 import common.Unique;
+
 import display.BaseDisplay;
 import display.EntityDisplay;
-import model.Plane.State;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 
 public class GameBase extends MaterialGameEntity implements Landable {
@@ -57,10 +59,23 @@ public class GameBase extends MaterialGameEntity implements Landable {
 //		for (GameAxis.Oriented arc: axes)
 //			arc.model.
 		
-		if (ownerId != model().ownerId())
-			while (model().planes.size() > 0)
-				if (model().planes.get(0).ownerId() != ownerId)
+//		if (ownerId != model().ownerId())
+//			while (model().planes.size() > 0)
+//				if (model().planes.get(0).ownerId() != ownerId)
+//					sim.getPlane(model().planes.get(0).id).autoPilot.unland();
+		if (ownerId != model().ownerId()) {
+//			Iterator<Plane> it = model().planes.iterator();
+//			while (it.hasNext()) {
+//				if (it.next().ownerId() != ownerId)
+//					sim.getPlane(model().planes.get(0).id).autoPilot.unland();
+//			}
+			for (int i = 0; i < model().planes.size(); i++) {
+				if (model().planes.get(0).ownerId() != ownerId) {
 					sim.getPlane(model().planes.get(0).id).autoPilot.unland();
+					i--;
+				}
+			}
+		}
 		
 		model().capture(ownerId);
 

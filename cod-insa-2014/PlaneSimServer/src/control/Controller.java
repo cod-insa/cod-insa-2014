@@ -10,15 +10,16 @@ import java.util.List;
 
 import model.OutOfSyncException;
 import players.Player;
+
 import command.AttackCommand;
 import command.BuildPlaneCommand;
 import command.CancelRequestCommand;
 import command.Command;
 import command.DropMilitarsCommand;
+import command.ExchangeResourcesCommand;
 import command.FillFuelTankCommand;
 import command.FollowCommand;
 import command.LandCommand;
-import command.ExchangeResourcesCommand;
 import command.MoveCommand;
 import command.WaitCommand;
 
@@ -87,7 +88,7 @@ public class Controller {
 				// Something like :
 				// s.getPlane(ac.planeSrc.id()).autoPilot.depositAt(-dmc.quantity,dmc.baseTarget);
 
-				s.getPlane(dmc.planeSrc.id()).autoPilot.dropMilitaryAt(s.getBase(dmc.baseTarget.id()), -dmc.quantity);
+				s.getPlane(dmc.planeSrc.id()).autoPilot.dropMilitaryAt(s.getBase(dmc.baseTarget.id()), dmc.quantity);
 
 				// Then call this to drop units when plan is over the base and the drop is done
 				// s.getPlane(dmc.planeSrc.id()).exchangeResources(-dmc.quantity, 0, false);
