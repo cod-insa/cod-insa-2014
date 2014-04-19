@@ -127,8 +127,8 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 //		public String toString() { checkSynx(fullViewInSync); return "id: " +id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ; }
 		public String toString() {
 			if (fullViewInSync)
-				return "FullBaseView id: "+ id() + " pos: "+ position().toString() + " [out of sync]";
-			return "FullBaseView id: " + id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ;
+				return "FullBaseView id: " + id() +" pos: "+ position().toString() +" fuel: "+fuelInStock()+" mil: "+militaryGarrison()+ " owner: "+ownerId() ;
+			return "FullBaseView id: "+ id() + " pos: "+ position().toString() + " [out of sync]";
 		}
 	}
 	
