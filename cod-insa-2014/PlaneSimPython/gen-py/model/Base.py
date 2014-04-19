@@ -19,8 +19,11 @@ class Base(AbstractBase):
     def get_id(self):
         return self.id
     
+    def set_id(self, id):
+        self.id = id
+    
     def set_garrison(self, nb):
         self.militaryGarrison = nb
         
     def set_fuel(self, nb):
-        self.fuelInStock = fuel
+        self.fuelInStock = nb

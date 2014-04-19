@@ -6,7 +6,9 @@ import genbridge.PlaneStateData;
 import genbridge.ProgressAxisData;
 import genbridge.RequestData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.Base;
@@ -131,6 +133,7 @@ public class Proxy
 			new UpdateBasicInfo(base,b.basic_info);
 			base.militaryGarrison = b.militarRessource;
 			base.fuelInStock = b.fuelRessource;
+			base.fullViewInSync = true;
 		}}
 		
 		// Update owned bases
@@ -144,7 +147,7 @@ public class Proxy
 			
 			if (other_notvisible_bases.containsKey(base.id))
 			{
-				base.fullViewInSync = false;
+//				base.fullViewInSync = false;
 				other_notvisible_bases.remove(base.id);
 			}
 			if (other_visible_bases.containsKey(base.id))
@@ -165,7 +168,7 @@ public class Proxy
 				ai_bases.remove(base.id);
 			if (other_notvisible_bases.containsKey(base.id))
 			{
-				base.fullViewInSync = false;
+//				base.fullViewInSync = false;
 				other_notvisible_bases.remove(base.id);
 			}
 			other_visible_bases.put(base_id, base);
@@ -305,13 +308,19 @@ public class Proxy
 	 */
 	private void updateCountry(Data d)
 	{
+		List<Integer> requestToRemove = new ArrayList<Integer>();
+		
 		// each request not in the new production line is done
 		for (int i : ai_country.productionLine.keySet())
 			if (! d.productionLine.contains(i))
 				// So we remove it from the production line
 				// and we put 0 to the timeBeforePlaneBuilt property
 				// so the AI can know if the request does no longer exists
-				ai_country.productionLine.remove(i).timeBeforePlaneBuilt = 0;
+				requestToRemove.add(i);
+		
+		// Remove the requests
+		for (int rid : requestToRemove)
+			ai_country.productionLine.remove(rid).timeBeforePlaneBuilt = 0;
 
 		// For each request in the Data production line
 		for (RequestData rd : d.productionLine)

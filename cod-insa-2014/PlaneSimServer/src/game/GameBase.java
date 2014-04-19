@@ -59,7 +59,8 @@ public class GameBase extends MaterialGameEntity implements Landable {
 		
 		if (ownerId != model().ownerId())
 			while (model().planes.size() > 0)
-				sim.getPlane(model().planes.get(0).id).autoPilot.unland();
+				if (model().planes.get(0).ownerId() != ownerId)
+					sim.getPlane(model().planes.get(0).id).autoPilot.unland();
 		
 		model().capture(ownerId);
 
@@ -80,6 +81,18 @@ public class GameBase extends MaterialGameEntity implements Landable {
 	public EntityDisplay<GameBase> getDisplay() {
 //		return new BaseDisplay(this);
 		return disp;
+	}
+
+	/**
+	 * Including fronts with Gaia (ownerId == 0)
+	 */
+	public boolean hasFronts() {
+		for (GameAxis.Oriented arc: axes) {
+//			if (arc.model().base1.ownerId() != arc.model().base2.ownerId())
+			if (arc.current.model().ownerId() != arc.next.model().ownerId())
+				return true;
+		}
+		return false;
 	}
 	
 	@Override

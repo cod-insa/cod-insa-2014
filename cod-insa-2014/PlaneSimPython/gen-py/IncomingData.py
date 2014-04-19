@@ -58,7 +58,7 @@ class IncomingData:
         try:
             data = self.client.retrieveData(self.connection_id)
             
-            if data.numframe < 0:
+            if data.numFrame < 0:
                 if data.numFrame == -1:
                     print "Received an end-of-game frame id (-1), stopping."
                     self.proxy.quit(0)

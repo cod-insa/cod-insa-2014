@@ -28,6 +28,7 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 		public GameRequest(Plane.Type type)
 		{
 			GameCountry.this.model().super(makeNextRqId(),type.timeToBuild + totalTimeToBuild(),type);
+			assert type != null;
 		}
 		
 		public boolean isPlaneBuilt()

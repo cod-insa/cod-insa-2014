@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project PlaneSimProxy with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Users/Asus/Source/Repos/cod-insa-2014/cod-insa-2014/proxy.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="ai.ExampleAI"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ commons-codec-1.6.jar commons-lang3-3.1.jar commons-logging-1.1.1.jar httpclient-4.2.5.jar httpcore-4.2.4.jar junit-4.4.jar libthrift-0.9.1.jar libthrift-0.9.1-javadoc.jar log4j-1.2.14.jar servlet-api-2.5.jar slf4j-api-1.5.8.jar slf4j-log4j12-1.5.8.jar utils.json.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="C:/Users/Asus/Source/Repos/cod-insa-2014/cod-insa-2014/PlaneSimProxy/bin"/>
+            <fileset dir="C:/Users/Asus/Source/Repos/cod-insa-2014/cod-insa-2014/PlaneSimCommon/bin"/>
+            <fileset dir="C:/Users/Asus/Source/Repos/cod-insa-2014/cod-insa-2014/PlaneSimThriftGeneration/bin"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="commons-codec-1.6.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="commons-lang3-3.1.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="commons-logging-1.1.1.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="httpclient-4.2.5.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="httpcore-4.2.4.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="junit-4.4.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="libthrift-0.9.1.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="libthrift-0.9.1-javadoc.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="log4j-1.2.14.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="servlet-api-2.5.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="slf4j-api-1.5.8.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="slf4j-log4j12-1.5.8.jar"/>
+            <zipfileset dir="C:\Users\Asus\Source\Repos\cod-insa-2014\cod-insa-2014\lib" includes="utils.json.jar"/>
+        </jar>
+    </target>
+</project>

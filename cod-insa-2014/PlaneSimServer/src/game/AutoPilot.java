@@ -1,5 +1,6 @@
 package game;
 
+import main.Main;
 import model.AbstractBase;
 import model.Coord;
 import model.Plane;
@@ -37,8 +38,8 @@ public final class AutoPilot {
 	GamePlane plane;
 	Plane.Type type;
 	
-	private final Coord _aim = new Coord(0,0);
-	public final Coord.View currentAim = _aim.view();
+	private final Coord _aim; // = new Coord(0,0);
+	public final Coord.View currentAim;
 
 //	private double targetSpeed = GamePlane.MAX_SPEED;
 	private double targetSpeed;
@@ -64,6 +65,8 @@ public final class AutoPilot {
 		type = plane.model().type;
 		targetSpeed = type.maxSpeed;
 		circling_radius = type.maxSpeed / Math.cos(Math.PI/2 - type.maxRotSpeed);
+		_aim = p.model().position().copied();
+		currentAim = _aim.view();
 	}
 	
 	public void goTo(Coord.View aim, Mode m) {
@@ -71,11 +74,12 @@ public final class AutoPilot {
 		entityAim = null;
 //		_aim.set(aim);
 		setAim(aim);
-		plane.model().state = State.GOING_TO;
+//		plane.model().state = State.GOING_TO;
+		setState(State.GOING_TO);
 //		attacking_mode = AttackMode.NONE;
 //		mode = Mode.IGNORE;
 //		attacking = false;
-		state = State.GOING_TO;
+//		state = State.GOING_TO;
 		mode = m;
 		
 //		System.out.println(plane.model.position.angleWith(_aim.view()));
@@ -122,20 +126,23 @@ public final class AutoPilot {
 		state = State.DROPPING;
 		this.militaryToDrop = militaryToDrop;
 	}
+	
 	void drop(GameBase b) {
 		assert militaryToDrop > 0;
+
+		if (b.hasFronts() || b.model().ownerId() == 0) {
+			plane.model().militaryInHold -= militaryToDrop;
+	
+			assert plane.model().militaryInHold >= 0;
+	
+			if (b.model().ownerId() == 0)
+				b.capture(plane.model().ownerId());
+			if (b.model().ownerId() == plane.model().ownerId())
+				b.model().militaryGarrison += militaryToDrop;
+			else
+				b.model().militaryGarrison -= militaryToDrop;
+		}
 		
-		plane.model().militaryInHold -= militaryToDrop;
-
-		assert plane.model().militaryInHold >= 0;
-
-		if (b.model().ownerId() == 0)
-			b.capture(plane.model().ownerId());
-		if (b.model().ownerId() == plane.model().ownerId())
-			b.model().militaryGarrison += militaryToDrop;
-		else
-			b.model().militaryGarrison -= militaryToDrop;
-
 		state = State.IDLE;
 		mode = Mode.ATTACK_ON_SIGHT;
 		militaryToDrop = -1;
@@ -148,7 +155,7 @@ public final class AutoPilot {
 //			System.out.println("already at airp");
 //			return;
 //		}
-		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase.id) {
+		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase().id) {
 			assert Util.findFirst(b.model().planes(), new Predicate<Plane.FullView>(){
 				public Boolean convert(Plane.FullView src) {
 					return src.id() == plane.id();
@@ -167,7 +174,7 @@ public final class AutoPilot {
 		///////////////////////////
 		// FIXME TESTING
 		//b.model().ownerId(plane.model().ownerId());
-		if (b instanceof GameBase)
+		if (Main.DEBUG_MODE && b instanceof GameBase)
 		{
 			((GameBase)b).capture(plane.model().ownerId());
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
@@ -179,22 +186,25 @@ public final class AutoPilot {
 		}
 		
 		if (b.model().planes.size()+1 > b.landingCapacity()) {
+			assert b.model().planes.size() == b.landingCapacity();
 //			b.model().planes.get(0).unAssign();
 			sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?
 		}
 		
-		state = State.AT_AIRPORT;
+//		state = State.AT_AIRPORT;
+		setState(State.AT_AIRPORT);
 		plane.model().assignTo(b.model());//addPlane();
 		//plane.model.speed = 0;
 //		for (ProgressAxis.Oriented pa: b.model().axes) {
 //		}
 		
-		
+//		System.out.println();
 	}
 //	void unland(Mode newMode) {
 	void unland() {
 		if (state == State.AT_AIRPORT) {
-			state = State.IDLE;
+//			state = State.IDLE;
+			setState(State.IDLE);
 //			mode = newMode;
 			mode = Mode.ATTACK_ON_SIGHT;
 			//((GameBase)entityAim).model().planes.remove(plane);
@@ -203,6 +213,13 @@ public final class AutoPilot {
 	}
 	public void takeOff() {
 		unland();
+	}
+	
+	public void setState(State state) {
+//		if (state == State.AT_AIRPORT)
+//			System.out.println("lol");
+		this.state = state;
+		plane.model().state = state;
 	}
 	
 	void resetEntityAim() {

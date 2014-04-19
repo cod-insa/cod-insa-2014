@@ -8,6 +8,7 @@ import game.GamePlane;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.OutOfSyncException;
 import players.Player;
 import command.AttackCommand;
 import command.BuildPlaneCommand;
@@ -102,8 +103,8 @@ public class Controller {
 			} catch (CancelRequestCommand crc) {
 				throw new Error("Not Implemented");
 			}
-		} catch (Game.EntityNotFound nf) {
-			Game.log.debug(nf.getMessage());
+		} catch (Game.EntityNotFound | OutOfSyncException e) {
+			Game.log.debug(e.getMessage());
 		}
 	}
 	

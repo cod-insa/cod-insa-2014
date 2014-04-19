@@ -1,17 +1,18 @@
 package ai;
 
+import genbridge.BuildPlaneCommandData;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.AbstractBase;
-import model.Base;
-import model.Coord;
-import model.Plane;
+import model.*;
 import model.Plane.BasicView;
 import command.AttackCommand;
+import command.BuildPlaneCommand;
 import command.Command;
 import command.DropMilitarsCommand;
+import command.ExchangeResourcesCommand;
 import command.LandCommand;
 import command.MoveCommand;
 import common.MapView;
@@ -128,6 +129,22 @@ public class ConsoleAI extends AbstractAI
 						System.out.println(">> Your Country");
 						System.out.println(game.getCountry());
 						break;
+					case "exch":
+						int militar = Integer.parseInt(cmd[1]);
+						int fuel = Integer.parseInt(cmd[2]);
+						for (Plane.FullView p : planes.valuesView())
+							coms.add(new ExchangeResourcesCommand(p,militar,fuel,false));
+						break;
+					case "build":
+						int type = Integer.parseInt(cmd[1]);
+						coms.add(new BuildPlaneCommand(Plane.Type.get(type)));
+						break;
+					case "drop":
+						int idBase = Integer.parseInt(cmd[1]);
+						int qdrop = Integer.parseInt(cmd[2]);
+						for (Plane.FullView p : planes.valuesView())
+							coms.add(new DropMilitarsCommand(p, bases.get(idBase), qdrop));
+						break;
 					default:
 						recognized = false;
 						System.err.println("Unrecognized command!");
@@ -139,6 +156,10 @@ public class ConsoleAI extends AbstractAI
 				System.out.println("Command failed: "+e);
 				System.err.println("Command failed: "+e);
 			}
+			catch(OutOfSyncException e) {
+				System.out.println("Out of sync: "+e);
+				System.err.println("Out of sync: "+e);
+			}
 			
 			for (Command c: coms)
 				game.sendCommand(c);
@@ -149,117 +170,6 @@ public class ConsoleAI extends AbstractAI
 		game.quit(0);
 	}
 	
-	public void think_async() {
-		Scanner in = new Scanner(System.in);
-		//int lastNumFrame = -1;
-
-		class Updater extends Thread {
-			public volatile boolean active = true;
-			
-			@Override
-			public void run() {
-				while (active) {
-					synchronized (this) {
-						game.updateSimFrame();
-//						System.out.println("updated");
-						
-					}
-				}
-			}
-		};
-		final Updater updater = new Updater();
-		updater.start();
-		
-		main_loop:
-		while (true) {
-//			game.updateSimFrame();
-//			ArrayList<Base.View> bases = game.getBases();
-
-//			if (lastNumFrame != game.getNumFrame()) {
-//				game.updateSimFrame();
-//				lastNumFrame = game.getNumFrame();
-//			}
-			//int i;
-
-			System.out.print("Next action ([move|land|attk] id; exit to quit): ");
-			//i = in.nextInt();
-			
-			String[] cmd = in.nextLine().split(" ");
-
-			MapView<Integer, Base.BasicView> bases;
-			MapView<Integer, Plane.FullView> planes;
-			MapView<Integer, BasicView> ennemy_planes;
-
-//			System.out.println("waiting");
-			
-			// TODO FIXME! there should be synchronization but it doesn't work!
-//			synchronized (updater) {
-				bases = game.getAllBases();
-				planes = game.getMyPlanes();
-				ennemy_planes = game.getEnnemyPlanes();
-//			}
-
-//			System.out.println("sync");
-			
-			List<Command> coms = new ArrayList<>();
-			
-			switch(cmd[0]) {
-				case "exit":
-					break main_loop;
-				case "move": {
-					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-					for (Plane.FullView p: planes.valuesView())
-						coms.add(new MoveCommand(p, b.position()));
-					break;
-				}
-				case "land": {
-					Base.BasicView b = bases.get(Integer.parseInt(cmd[1]));
-					if (b instanceof Base.FullView)
-						for (Plane.FullView p : planes.valuesView())
-							coms.add(new LandCommand(p, (Base.FullView)b));
-					else
-						System.err.println("You can't see this base, move around it before you land");
-					break;
-				}
-				case "attk":
-					for (Plane.FullView p : planes.valuesView())
-						coms.add(new AttackCommand(p, ennemy_planes.get(Integer.parseInt(cmd[1]))));
-					break;
-				default:
-					System.err.println("Unrecognized command!");
-			}
-			
-			for (Command c: coms)
-				game.sendCommand(c);
-
-			
-
-
-//			if (i < 0) {
-//				//in.close();
-//				/* I want to */ break /* free! */;
-//			}
-//			
-//			Base.View b = bases.get(i);
-//			
-//			for (Plane.FullView p : game.getMyPlanes())
-//			{
-//				MoveCommand mc = new MoveCommand(p.id(), b.position());
-//				
-//				System.out.println("Sending command "+mc);
-//				
-//				game.sendCommand(mc);
-//			}
-		}
-		exit:
-		in.close();
-		updater.active = false;
-		try {
-			updater.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static void main(String[] args) throws InterruptedException {
 		if (args.length != 2)

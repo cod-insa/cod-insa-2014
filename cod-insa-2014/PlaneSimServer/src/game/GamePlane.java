@@ -57,9 +57,9 @@ public final class GamePlane extends MaterialGameEntity {
 	}
 	
 	void takeFuelFromBase(double qty) {
-		if (model().curBase instanceof Base)
+		if (model().curBase() instanceof Base)
 //			((Base)model().curBase).fuelInStock(((Base)model().curBase).fuelInStock() - qty);
-			((Base)model().curBase).fuelInStock -= qty;
+			((Base)model().curBase()).fuelInStock -= qty;
 		model().fuelInTank += qty;
 	}
 	
@@ -225,14 +225,21 @@ public final class GamePlane extends MaterialGameEntity {
 	
 	public void exchangeResources(double milQuantity, double fuelQuantity, boolean deleteResources)
 	{
-		model().militaryInHold += milQuantity;
-		model().fuelInHold += fuelQuantity;
-		
-		// If the plane is in a base
-		if (model().curBase instanceof Base && ! deleteResources)
+		if (model().state == Plane.State.AT_AIRPORT && (model().ownerId() == model().curBase().ownerId() || model().curBase().ownerId() == 0))
 		{
-			((Base)model().curBase).fuelInStock += fuelQuantity;
-			((Base)model().curBase).militaryGarrison += milQuantity;
+			model().militaryInHold += milQuantity;
+			model().fuelInHold += fuelQuantity;
+			
+			// If the plane is in a base
+			if (model().curBase() instanceof Base && ! deleteResources)
+			{
+				((Base)model().curBase()).fuelInStock -= fuelQuantity;
+				((Base)model().curBase()).militaryGarrison -= milQuantity;
+				
+				if (model().curBase().id == 0)
+					sim.getBase(model().curBase().id).capture(model().ownerId());
+					
+			}
 		}
 	}
 	

@@ -7,6 +7,8 @@ from model.ProgressAxis import ProgressAxis
 from model.Country import Country, Request
 from model.Plane import Plane, PlaneType
 
+from genbridge.ttypes import PlaneStateData
+
 import sys
 
 
@@ -26,9 +28,12 @@ class Proxy:
         self.other_notvisible_bases = {}
         
         self.map_axis = {}
+        
         self.idm.retrieve_initial_data()
         
         self.player_id = self.idm.get_player_id()
+                
+        self.ai_country.set_owner_id(self.player_id)
         
         self.cm = CommandSender(ip, port+1, self.idm.get_id_connection(), self)
         self.cm.start()
@@ -49,13 +54,14 @@ class Proxy:
                 print "One or both of the base " + str(a.base1_id) + " and " + str(a.base2_id) + " are unknown. Failed to add the axis"
          
         self.ai_country = Country(data.myCountry.country_id, Coord(data.myCountry.country.x, data.myCountry.country.y))
+
        
     def update_bases(self, data):
-        def update_basic_info(base, basedata):
+        def update_basic_infos(base, basedata):
             base.set_id(basedata.base_id)
         
-        def update_full_info(base, basedata):
-            base.set_id(basedata.base_id)
+        def update_full_infos(base, basedata):
+            update_basic_infos(base, basedata.basic_info)
             base.set_garrison(basedata.militarRessource)
             base.set_fuel(basedata.fuelRessource)
         
@@ -65,7 +71,7 @@ class Proxy:
         
         for b in data.owned_bases:
             base_id = b.basic_info.base_id
-            base = all_bases[base_id]
+            base = self.all_bases[base_id]
             if base is None:
                  raise Exception("The base with id " + str(base_id) + " does not exist")
              
@@ -74,7 +80,7 @@ class Proxy:
             
         for b in data.not_owned_visible_bases:
             base_id = b.basic_info.base_id
-            base = all_bases[base_id]
+            base = self.all_bases[base_id]
             if base is None:
                  raise Exception("The base with id " + base_id + " does not exist")
 
@@ -82,8 +88,8 @@ class Proxy:
             self.other_visible_bases[base_id] = base
             
         for b in data.not_owned_not_visible_bases:
-            base_id = b.basic_info.base_id
-            base = all_bases[base_id]
+            base_id = b.base_id
+            base = self.all_bases[base_id]
             if base is None:
                  raise Exception("The base with id " + base_id + " does not exist")
 
@@ -94,7 +100,7 @@ class Proxy:
    
         def state_converter(planestatedata):
             if planestatedata == PlaneStateData.AT_AIRPORT:
-                s = Plane.AT_AIPORT
+                s = Plane.AT_AIRPORT
             elif planestatedata == PlaneStateData.GOING_TO:
                 s = Plane.GOING_TO
             elif planestatedata == PlaneStateData.ATTACKING:
@@ -118,13 +124,18 @@ class Proxy:
             plane.set_owner_id(planedata.ai_id)
         
         def update_full_info(plane, planedata):
-            update_basic_info(plane, planedata)
+            update_basic_info(plane, planedata.basic_info)
             plane.set_fuel_in_tank(planedata.remainingGaz)
-            plane.set_mil_in_hold(basedata.militarRessource)
+            plane.set_mil_in_hold(planedata.militarResourceCarried)
             plane.set_fuel_in_hold(planedata.fuelResourceCarried)
             plane.set_state(state_converter(planedata.state))
             if plane.get_state() == Plane.AT_AIRPORT:
-                plane.assign_to(self.all_bases.get(planedata.base_id))
+                if planedata.base_id in self.all_bases:
+                    plane.assign_to(self.all_bases.get(planedata.base_id))
+                elif self.ai_country.get_id() == planedata.base_id:
+                    plane.assign_to(self.ai_country)
+                else:
+                    raise "This base does not exists !"
             else:
                 plane.unassign()
         
@@ -149,13 +160,14 @@ class Proxy:
                 self.ai_planes[plane.get_id()] = plane
                 
         for p in data.not_owned_planes:
-            if p.ai_id != self.player_id:
+            if p.ai_id == self.player_id:
+                print str(p.ai_id)+" "+str(self.player_id)
                 print "A owned plane is in the not owned ones: may generate errors"
             if p.plane_id in self.ennemy_planes:
                 plane = self.ennemy_planes[p.plane_id]
                 update_basic_info(plane, p)
             else: #First time that plane appear
-                plane = Plane(p.plane_id, Coord.Unique(p.posit.x,p.posit.y), PlaneType.get(p.planeTypeId))
+                plane = Plane(p.plane_id, Coord(p.posit.x,p.posit.y), PlaneType.get(p.planeTypeId))
                 plane.set_ai_object(True)
                 update_basic_info(plane, p)
                 self.ennemy_planes[plane.get_id()] = plane
@@ -164,9 +176,9 @@ class Proxy:
     def update_axis(self, data):
         for a in data.progressAxis:
             if a.id in self.map_axis:
-                prog_axis = map_axis[a.id]
-                prog_axis.ratio1 = a.progressBase1
-                prog_axis.ratio2 = a.progressBase2
+                prog_axis = self.map_axis[a.id]
+                prog_axis.set_ratio1 = a.progressBase1
+                prog_axis.set_ratio2 = a.progressBase2
                 
     def update_country(self, data):
         for i in self.ai_country.get_production_line():
@@ -182,10 +194,9 @@ class Proxy:
             
      
     def update_proxy_data(self, data):
-        self.numframe = data.numframe
-        # TODO
+        self.numframe = data.numFrame
         self.update_bases(data)
-        # self.update_planes(data)
+        self.update_planes(data)
         self.update_axis(data)
         self.update_country(data)  
     

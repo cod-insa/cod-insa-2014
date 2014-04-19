@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import main.Main;
 import model.Coord;
 import model.GameSettings;
 import model.Plane.Type;
@@ -147,7 +148,7 @@ public class Game {
 
 			world.initialize(this);
 
-			if (Settings.DEBUG_GOD_MODE) {
+			if (Main.DEBUG_MODE) {
 
 				/////////////////////////////////////
 				// FIXME: testing
