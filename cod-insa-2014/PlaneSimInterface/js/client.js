@@ -8,6 +8,9 @@ var json;
 //To remember how many teams are playing
 var nbPlayers = 0;
 
+//Player names
+var names = new Array();
+
 /*
 * Connect to the server and handle messages coming from it
 * @param ipad : the ip address of the server to connect to
@@ -69,8 +72,10 @@ var initServerConnection = function (ipad) {
 
 			//refresh teams' scores
 			var ind = 0;
-			for(ind = 0 ; ind < nbPlayers ; ind++)
+			for(ind = 0 ; ind < nbPlayers ; ind++){
 			document.getElementById("t"+(ind+1)).innerHTML = json.snap.players[ind].name + ":" + json.snap.players[ind].score;
+			names.push(json.snap.players[ind].name);
+			}
 
 			//Look at planes
 			processPlaneBaseInfo(json);

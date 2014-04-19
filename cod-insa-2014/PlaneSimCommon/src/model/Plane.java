@@ -364,6 +364,14 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 			radarRange_squared = radarRange * radarRange;
 			
 		}
+		
+		public String toString()
+		{
+			if(this == Type.MILITARY)
+				return "M";
+			else
+				return "C";
+		}
 
 		public static final Type MILITARY = new Type(
 				// firingRange

@@ -29,6 +29,7 @@ function initialisationMaps(){
 			zoomControl: false,
 			mapTypeControl: false,
 			scaleControl: false,
+			flat:true,
 			streetViewControl: false,
 			overviewMapControl: false,
 			mapTypeId: google.maps.MapTypeId.SATELLITE
@@ -46,7 +47,7 @@ function initialisationMaps(){
 */
 function updateMapWithInfoFromServer()
 {
-	mymap.center = new google.maps.LatLng(center_lat,center_long);
+	mymap.setCenter(new google.maps.LatLng(center_lat,center_long));
 	mymap.setZoom(zoom_level);
 }
 

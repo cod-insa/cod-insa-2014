@@ -13,9 +13,13 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+
+import model.Plane;
+import model.Plane.Type;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
@@ -40,11 +44,13 @@ public class WebInterface extends WebSocketServer {
 	private Game game;
 	private NetworkPlayerManager npm;
 	private AutoSender autoSender;
-
+	private DecimalFormat df;
+	
 	private WebInterface( InetSocketAddress address, Draft d) {
 		super(address,Collections.singletonList(d));
 		authorized = new ArrayList<WebSocket>();
 		autoSender = new AutoSender();
+		df = new DecimalFormat("##.#####");
 	}
 
 	/**
@@ -121,11 +127,12 @@ public class WebInterface extends WebSocketServer {
 					.key("name")
 					.value(mapInfo.getName())
 					.key("bazc")
+					
 					.value(mapInfo.getBasesCount())
 					.key("lati")
-					.value(mapInfo.getCenter_lat())
+					.value(df.format(mapInfo.getCenter_lat()))
 					.key("longi")
-					.value(mapInfo.getCenter_long())
+					.value(df.format(mapInfo.getCenter_long()))
 					.key("zoom")
 					.value(mapInfo.getWeb_zoom());
 
@@ -140,9 +147,15 @@ public class WebInterface extends WebSocketServer {
 				str.key("cname");
 				str.value(b.cityName);
 				str.key("lati");
-				str.value(converter.getLatFromY(b.lastPosition.y()));
+				str.value(df.format(converter.getLatFromY(b.lastPosition.y())));
 				str.key("longi");
-				str.value(converter.getLongFromX(b.lastPosition.x()));
+				str.value(df.format(converter.getLongFromX(b.lastPosition.x())));
+				
+				str.key("milit");
+				str.value(df.format(b.modelView().militaryGarrison()));	
+				str.key("fuel");
+				str.value(df.format(b.modelView().fuelInStock()));
+				
 				str.key("oid");
 				str.value(b.modelView().ownerId());
 
@@ -182,11 +195,20 @@ public class WebInterface extends WebSocketServer {
 			stringer.key("bases").array();
 			for (GameBase b : world.bases) {
 				stringer.object();
+				
 				stringer.key("id");
 				stringer.value(b.id());
-				stringer.key("ownerid");
+
+				stringer.key("milit");
+				stringer.value(df.format(b.modelView().militaryGarrison()));	
+				
+				stringer.key("fuel");
+				stringer.value(df.format(b.modelView().fuelInStock()));
+				
+				stringer.key("oid");
 				stringer.value(b.modelView().ownerId());
 				stringer.endObject();
+				
 			}
 			stringer.endArray();
 
@@ -197,27 +219,30 @@ public class WebInterface extends WebSocketServer {
 
 				stringer.key("id");
 				stringer.value(p.id());
+				
+				stringer.key("type");
+				stringer.value(p.model().type.toString());
 
-				stringer.key("latitude");
-				stringer.value(converter.getLatFromY(p.lastPosition.y()));
+				stringer.key("lati");
+				stringer.value(df.format(converter.getLatFromY(p.lastPosition.y())));
 
-				stringer.key("longitude");
-				stringer.value(converter.getLongFromX(p.lastPosition.x()));
+				stringer.key("longi");
+				stringer.value(df.format(converter.getLongFromX(p.lastPosition.x())));
 
-				stringer.key("ownerid");
+				stringer.key("oid");
 				stringer.value(p.modelView().ownerId());
 
 				stringer.key("health");
 				stringer.value(p.modelView().health());
 				
 				stringer.key("fuel");
-				stringer.value(p.modelView().fuelInTank());
+				stringer.value(df.format(p.modelView().fuelInTank()));
 
 				//stringer.key("radar");
 				//stringer.value(p.modelView().radarRange());
 
 				stringer.key("rotation");
-				stringer.value(p.modelView().rotation());
+				stringer.value(df.format(p.modelView().rotation()));
 
 				//stringer.key("speed");
 				//stringer.value(p.modelView().speed());

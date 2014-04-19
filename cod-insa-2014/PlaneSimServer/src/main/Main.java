@@ -1,12 +1,9 @@
 package main;
 
 import game.Game;
-import game.Settings;
 import model.GameSettings;
 import network.WebInterface;
-
 import org.apache.thrift.transport.TTransportException;
-
 import players.NetworkPlayer;
 import players.NetworkPlayerManager;
 import common.Event;
@@ -20,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 	
-	public static boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = true;
 	
 	static volatile boolean offline = false;
 	

@@ -20,10 +20,11 @@
 /*
 * Base object
 */
-function Base(marker, oid)
+function Base(marker, oid, name)
 {
 	this.marker = marker;
 	this.owner = oid;
+	this.name = name;
 }
 
 /*
@@ -57,17 +58,25 @@ function processDataMap(json)
 		for(var i = 0 ; i<base_count ; i++){
 			//console.log("draw base "+current_base.cityname);
 			var current_base = json.map.bases[i];
+
 			basesArray.push(new Base(
 				new google.maps.Marker({
 				position: new google.maps.LatLng(current_base.lati,current_base.longi),
 				map: mymap,
 				flat:true,
 				icon:base_icon[current_base.oid],
-				title:current_base.cname,
-				zIndex:100}),
-				current_base.oid
-				)
+				title:"Ville: "+current_base.cname+"\nOccupant: gaia"+"\nMilice: "+current_base.milit+"\nFuel: "+current_base.fuel,
+				zIndex:1000}),
+				current_base.oid,
+				current_base.cname)
 			);
+
+			google.maps.event.addListener(basesArray[i], 'click', function() {
+				showBaseInfo(basesArray[i].name,basesArray[i].marker.title);
+			  });
+
+
+
 		}
 
 		canProcess = true;
@@ -94,30 +103,45 @@ function processPlaneBaseInfo(json)
 
 		//Look at ownerid to refresh bases colors
 		for(var i = 0 ; i<base_count ; i++){
-			if(basesArray[i].owner != json.snap.bases[i].ownerid)
+			if(basesArray[i].owner != json.snap.bases[i].oid)
 			{
-				basesArray[i].marker.icon = base_icon[json.snap.bases[i].ownerid];
+				basesArray[i].marker.icon = base_icon[json.snap.bases[i].oid];
+				basesArray[i].owner = json.snap.bases[i].oid;
 				basesArray[i].marker.setMap(mymap);
-				basesArray[i].owner = json.snap.bases[i].ownerid;
 			}
+			if(basesArray[i].owner == 0)
+				basesArray[i].marker.setTitle("Ville: "+basesArray[i].name+"\nOccupant: gaia"+"\nMilice: "+json.snap.bases[i].milit+"\nFuel: "+json.snap.bases[i].fuel);
+			else
+				basesArray[i].marker.setTitle("Ville: "+basesArray[i].name+"\nOccupant: "+names[json.snap.bases[i].oid-1]+"\nMilice: "+json.snap.bases[i].milit+"\nFuel: "+json.snap.bases[i].fuel);
 		}
 
 		planesArray.forEach(function(plane){
-		plane.setMap(null);
+			plane.setPosition(new google.maps.LatLng(0.0,0.0));
+			//plane.setMap(null);
 		});
 		planesArray = [];
 
 		for(var j = 0 ; j<json.snap.planes.length ; j++){
 
 			var current_plane = json.snap.planes[j];
+			var icon_to_use;
+
+			if(current_plane.type == "M")	//if military
+			{
+				icon_to_use = fighter_icon[current_plane.oid];
+			}
+			else				//else commercial
+			{
+				icon_to_use = civilian_icon[current_plane.oid];
+			}
 
 			planesArray.push(new google.maps.Marker({
-							position: new google.maps.LatLng(current_plane.latitude,current_plane.longitude),
+							position: new google.maps.LatLng(current_plane.lati,current_plane.longi),
 							map: mymap,
 							flat:true,
-							icon:fighter_icon[current_plane.ownerid],
+							icon:icon_to_use,
 							title:"Health:"+current_plane.health+"\n"+"Fuel:"+current_plane.fuel,
-							zIndex:200
+							zIndex:2000
 			}));
 
 			/*var key = current_plane.id;
@@ -177,8 +201,6 @@ function processPlaneBaseInfo(json)
 
 		//TODO
 		// orientation, bullets...
-
-		
 
 		canProcess = true;
 	}
