@@ -131,6 +131,7 @@ public class Proxy
 			new UpdateBasicInfo(base,b.basic_info);
 			base.militaryGarrison = b.militarRessource;
 			base.fuelInStock = b.fuelRessource;
+			base.fullViewInSync = true;
 		}}
 		
 		// Update owned bases
@@ -144,7 +145,7 @@ public class Proxy
 			
 			if (other_notvisible_bases.containsKey(base.id))
 			{
-				base.fullViewInSync = false;
+//				base.fullViewInSync = false;
 				other_notvisible_bases.remove(base.id);
 			}
 			if (other_visible_bases.containsKey(base.id))
@@ -165,7 +166,7 @@ public class Proxy
 				ai_bases.remove(base.id);
 			if (other_notvisible_bases.containsKey(base.id))
 			{
-				base.fullViewInSync = false;
+//				base.fullViewInSync = false;
 				other_notvisible_bases.remove(base.id);
 			}
 			other_visible_bases.put(base_id, base);
