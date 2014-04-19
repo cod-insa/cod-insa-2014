@@ -12,7 +12,7 @@ public class GameSettings {
 	public static final boolean FRIENDLY_FIRE = false;
 
 	public static final int MAX_PLANES_PER_BASE = 3;
-	public static final int MAX_PLANES_PER_COUNTRY = MAX_PLANES_PER_BASE*3;
+	public static final int MAX_PLANES_PER_COUNTRY = 2; //MAX_PLANES_PER_BASE*3;
 
 	public static double
 		
