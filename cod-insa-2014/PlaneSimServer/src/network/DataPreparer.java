@@ -180,8 +180,12 @@ public abstract class DataPreparer {
 		// Fill the production line data
 
 		for (Country.View c : snapshot.countries.view)
-			for (Request.View r : c.productionLine().valuesView())
-				tobeSent.productionLine.add(new RequestData(r.rqId(),r.timeBeforePlaneBuilt(),r.requestedType().id));
+			if (c.ownerId() == ai_id)
+				for (Request.View r : c.productionLine().valuesView())
+				{
+					Game.log.debug("Request " + r.rqId() + " : " + r.timeBeforePlaneBuilt());
+					tobeSent.productionLine.add(new RequestData(r.rqId(),r.timeBeforePlaneBuilt(),r.requestedType().id));
+				}
 		
 		return tobeSent;
 	}
