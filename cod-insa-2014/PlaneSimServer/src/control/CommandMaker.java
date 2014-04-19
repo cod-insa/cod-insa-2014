@@ -156,7 +156,7 @@ public class CommandMaker {
 		if (b.ownerId() != 0 && b.ownerId() != p.ownerId())
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.SUCCESS, "")
+					new Response(Command.ERROR_COMMAND, "Cannot land at an ennemy base")
 			);
 		
 		// Everything all right
