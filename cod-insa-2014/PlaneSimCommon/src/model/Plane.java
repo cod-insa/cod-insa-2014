@@ -231,7 +231,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	}
 	
 	public Plane (Plane.FullView src, Context context) {
-		super(src);
+		super(src = src.asLastViewed());
 		context.putSafe(src.model(), this);
 		health = src.health();
 		state = src.state();
