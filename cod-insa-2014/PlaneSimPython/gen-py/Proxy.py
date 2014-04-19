@@ -7,6 +7,8 @@ from model.ProgressAxis import ProgressAxis
 from model.Country import Country, Request
 from model.Plane import Plane, PlaneType
 
+from genbridge.ttypes import PlaneStateData
+
 import sys
 
 
@@ -51,10 +53,10 @@ class Proxy:
         self.ai_country = Country(data.myCountry.country_id, Coord(data.myCountry.country.x, data.myCountry.country.y))
        
     def update_bases(self, data):
-        def update_basic_info(base, basedata):
+        def update_basic_infos(base, basedata):
             base.set_id(basedata.base_id)
         
-        def update_full_info(base, basedata):
+        def update_full_infos(base, basedata):
             base.set_id(basedata.base_id)
             base.set_garrison(basedata.militarRessource)
             base.set_fuel(basedata.fuelRessource)
@@ -65,7 +67,7 @@ class Proxy:
         
         for b in data.owned_bases:
             base_id = b.basic_info.base_id
-            base = all_bases[base_id]
+            base = self.all_bases[base_id]
             if base is None:
                  raise Exception("The base with id " + str(base_id) + " does not exist")
              
@@ -82,8 +84,8 @@ class Proxy:
             self.other_visible_bases[base_id] = base
             
         for b in data.not_owned_not_visible_bases:
-            base_id = b.basic_info.base_id
-            base = all_bases[base_id]
+            base_id = b.base_id
+            base = self.all_bases[base_id]
             if base is None:
                  raise Exception("The base with id " + base_id + " does not exist")
 
@@ -94,7 +96,7 @@ class Proxy:
    
         def state_converter(planestatedata):
             if planestatedata == PlaneStateData.AT_AIRPORT:
-                s = Plane.AT_AIPORT
+                s = Plane.AT_AIRPORT
             elif planestatedata == PlaneStateData.GOING_TO:
                 s = Plane.GOING_TO
             elif planestatedata == PlaneStateData.ATTACKING:
@@ -118,9 +120,9 @@ class Proxy:
             plane.set_owner_id(planedata.ai_id)
         
         def update_full_info(plane, planedata):
-            update_basic_info(plane, planedata)
+            update_basic_info(plane, planedata.basic_info)
             plane.set_fuel_in_tank(planedata.remainingGaz)
-            plane.set_mil_in_hold(basedata.militarRessource)
+            plane.set_mil_in_hold(planedata.militarResourceCarried)
             plane.set_fuel_in_hold(planedata.fuelResourceCarried)
             plane.set_state(state_converter(planedata.state))
             if plane.get_state() == Plane.AT_AIRPORT:
@@ -182,10 +184,9 @@ class Proxy:
             
      
     def update_proxy_data(self, data):
-        self.numframe = data.numframe
-        # TODO
+        self.numframe = data.numFrame
         self.update_bases(data)
-        # self.update_planes(data)
+        self.update_planes(data)
         self.update_axis(data)
         self.update_country(data)  
     

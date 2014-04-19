@@ -1,4 +1,5 @@
 from MovingEntity import MovingEntity
+import sys
 
 class Plane(MovingEntity):
     IDLE = 1
@@ -11,8 +12,9 @@ class Plane(MovingEntity):
     
     def __init__(self, id, coord, type):
         self.id = id
-        self.coord = coord
-        seld.type = type
+        self.position = coord
+        self.type = type
+        self.cur_base = None
     
     def set_health(self, health):
         self.health = health
@@ -42,12 +44,15 @@ class Plane(MovingEntity):
     def set_state(self, s):
         self.state = s
         
-    def get_state(self, s):
+    def get_state(self):
         return self.state
     
     def assign_to(self, base):
         self.unassign()
         self.cur_base = base
+        if base is None:
+            print "Plane : Null_reference for base"
+            #sys.exit(0)
         base.add_plane(self)
         if base.get_owned(id) != self.get_owner_id():
             raise AssertionError("Plane assginement error")
@@ -84,6 +89,6 @@ class PlaneType:
     
     @staticmethod
     def get(id):
-        return self.INSTANCES[id]
+        return PlaneType.INSTANCES[id]
     
     
