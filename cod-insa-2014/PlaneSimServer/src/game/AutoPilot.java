@@ -149,7 +149,7 @@ public final class AutoPilot {
 //			return;
 //		}
 		if (state == State.AT_AIRPORT && b.model().id == plane.model().curBase.id) {
-			assert Util.findFirst(b.model().view().planes(), new Predicate<Plane.FullView>(){
+			assert Util.findFirst(b.model().planes(), new Predicate<Plane.FullView>(){
 				public Boolean convert(Plane.FullView src) {
 					return src.id() == plane.id();
 				}}).hasSome();

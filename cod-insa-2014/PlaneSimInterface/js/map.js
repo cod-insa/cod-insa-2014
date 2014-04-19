@@ -7,7 +7,7 @@ var mymap;
 
 //Objects to draw
 var basesArray = new Array();	
-var planesArray = new HashMap();
+var planesArray = new Array();
 
 //See settings.js for other variables
 //See resources.js for markers images
@@ -36,7 +36,7 @@ function initialisationMaps(){
 
 		 // Map creation with options
 		mymap = new google.maps.Map(document.getElementById("mapcontain"), myOptions);
-		mymap.setOptions({draggable: true, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
+		mymap.setOptions({draggable: false, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
 		google.maps.event.clearInstanceListeners(mymap);
 }
 
@@ -53,20 +53,18 @@ function updateMapWithInfoFromServer()
 /*
 * Update a plane position
 */
-function updatePosition(index,latitude,longitude)
+/*function updatePosition(index,latitude,longitude)
 {
-var currentplane = planesArray.get(index);
-
-	if(currentplane === undefined)
+	if(planesArray[index] === undefined)
 	{
 		console.error("Trying to move a plane that does not exist...");
 	}
 	else
 	{
-		currentplane.marker.position = new google.maps.LatLng(latitude,longitude);
-		currentplane.marker.setMap(mymap);
+		planesArray[index].mark.position = new google.maps.LatLng(latitude,longitude);
+		planesArray[index].mark.setMap(mymap);
 	}
-}
+}*/
 
 /*
 * Function to move a plane from LatLongFrom to LatLongTo

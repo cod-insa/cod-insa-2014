@@ -26,13 +26,21 @@ public abstract class AbstractBase extends MaterialEntity {
 		/**
 		 * @return All the planes at the airport of the AbstractBase
 		 */
-		public ListView<Plane.FullView> planes() {
-			return Util.view(planes);
+		private ListView<Plane.FullView> planes() {
+			return AbstractBase.this.planes();
 		}
 		
 		abstract AbstractBase copied(Context context);
 	}
 
+	/**
+	 * @return All the planes at the airport of the AbstractBase
+	 */
+	public ListView<Plane.FullView> planes() {
+		return Util.view(planes);	
+	}
+	
+	
 	@Override
 	public abstract View view();
 

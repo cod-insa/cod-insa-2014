@@ -119,9 +119,9 @@ public class Proxy
 	private void updateBases(Data d)
 	{
 		// Clear the bases :
-		ai_bases.clear();
+		/*ai_bases.clear();
 		other_notvisible_bases.clear();
-		other_visible_bases.clear();
+		other_visible_bases.clear();*/
 		
 		class UpdateBasicInfo { public UpdateBasicInfo(Base base, genbridge.BaseBasicData b) {
 			base.ownerId(b.base_id);
@@ -141,6 +141,15 @@ public class Proxy
 			if (base == null)
 				throw new Error("The base with id " + base_id + " does not exist");
 			new UpdateFullInfo(base,b);
+			
+			if (other_notvisible_bases.containsKey(base.id))
+			{
+				base.fullViewInSync = false;
+				other_notvisible_bases.remove(base.id);
+			}
+			if (other_visible_bases.containsKey(base.id))
+				other_visible_bases.remove(base.id);
+			
 			ai_bases.put(base_id, base);
 		}
 		
@@ -151,6 +160,14 @@ public class Proxy
 			if (base == null)
 				throw new Error("The base with id " + base_id + " does not exist");
 			new UpdateFullInfo(base,b);
+			
+			if (ai_bases.containsKey(base.id))
+				ai_bases.remove(base.id);
+			if (other_notvisible_bases.containsKey(base.id))
+			{
+				base.fullViewInSync = false;
+				other_notvisible_bases.remove(base.id);
+			}
 			other_visible_bases.put(base_id, base);
 		}
 		
@@ -161,6 +178,18 @@ public class Proxy
 			if (base == null)
 				throw new Error("The base with id " + base_id + " does not exist");
 			new UpdateBasicInfo(base,b);
+			
+			if (ai_bases.containsKey(base.id))
+			{
+				ai_bases.remove(base.id);
+				base.fullViewInSync = false;
+			}
+			if (other_visible_bases.containsKey(base.id))
+			{
+				other_visible_bases.remove(base.id);
+				base.fullViewInSync = false;
+			}
+			
 			other_notvisible_bases.put(base_id, base);
 		}
 	}
@@ -199,7 +228,14 @@ public class Proxy
 
 			plane.state = StateConverter.make(p.state);
 			if (plane.state == State.AT_AIRPORT) // Update the plane 
-				plane.assignTo(all_bases.get(p.base_id));
+			{
+				if (all_bases.containsKey(p.base_id))
+					plane.assignTo(all_bases.get(p.base_id));
+				else if (ai_country.id == p.base_id)
+					plane.assignTo(ai_country);
+				else
+					throw new Error("This base does not exists !");
+			}
 			else
 				plane.unAssign();
 		}}

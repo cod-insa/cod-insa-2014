@@ -82,6 +82,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 //		public double tankCapacity() { return tankCapacity; }
 		
 		/**
+<<<<<<< HEAD
 		 * Get the remaining health of the plane
 		 */
 		public double health() throws OutOfSyncException { checkSynx(exists); return health; }
@@ -89,6 +90,8 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 		
 		
 		/**
+=======
+>>>>>>> 427081617b5c1506010e3eb88609ac774a52f21f
 		 * Tell if the position in parameter is visible by the plane
 		 */
 		@Override
@@ -399,9 +402,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// holdCapacity
 				MILITARY.holdCapacity*5,
 				// tankCapacity
-				MILITARY.tankCapacity*4,
+				MILITARY.tankCapacity*4,//*2,
 				// fuelConsumptionPerDistanceUnit
-				MILITARY.fuelConsumptionPerDistanceUnit*3,
+				MILITARY.fuelConsumptionPerDistanceUnit*2,//*1.5,
 				// radius
 				MILITARY.radius*2, // TODO adjust
 				// timeToBuild

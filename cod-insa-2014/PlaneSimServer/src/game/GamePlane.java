@@ -102,6 +102,9 @@ public final class GamePlane extends MaterialGameEntity {
 		if (model().health > model().type.fullHealth) {
 			model().health = model().type.fullHealth;
 		}
+		if (model().fuelInTank > model().type.tankCapacity) {
+			model().fuelInTank = model().type.tankCapacity;
+		}
 		if (model().exists) {
 			if (model().health < 0) {
 				model().health = 0;

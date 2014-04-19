@@ -43,9 +43,20 @@ public class Base extends AbstractBase implements Serializable, Viewable<Base.Fu
 			return "This base can no longer be fully viewed (perhaps it's not yours anymore). Use method asLastViewed for an outdated view.";
 		}
 
+		/**
+		 * // TODO
+		 * @return
+		 */
 		public FullView asLastViewed() { return new FullView(true); }
 		
 
+		/**
+		 * @return All the planes at the airport of the AbstractBase
+		 */
+		public ListView<Plane.FullView> planes() {
+			return Util.view(planes);	
+		}
+		
 		/**
 		 * @return The number of resources unit in the garrison of the Base
 		 */

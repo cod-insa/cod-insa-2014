@@ -263,7 +263,7 @@ public class GameDisplayPanel extends JPanel {
 //           		 		p.autoPilot.goTo(mousePos, Mode.ATTACK_ON_SIGHT);
 					//else if (p.model().state() == State.AT_AIRPORT && b.model().planes().contains(p.modelView))
 				}
-				else if (p.modelView().state() == State.AT_AIRPORT && b.model().view().planes().size() > 0 && b.model().view().planes().get(0).id() == p.modelView().id()) // ugly hack
+				else if (p.modelView().state() == State.AT_AIRPORT && b.model().planes().size() > 0 && b.model().planes().get(0).id() == p.modelView().id()) // ugly hack
 				{ p.autoPilot.takeOff(); p.autoPilot.mode = Mode.ATTACK_ON_SIGHT; }
 //				else pls.get(pid).autoPilot.landAt(b);
 				else pls.get(pid).autoPilot.dropMilitaryAt((MaterialGameEntity)b, 5);

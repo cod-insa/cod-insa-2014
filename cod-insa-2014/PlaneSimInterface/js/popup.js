@@ -19,3 +19,9 @@ function displayError()
 	$('#errormsg').html('<p style="color:red;">Error: This server does not respond!</p>');
 }
 
+function enterKey(e) {
+    if (e.keyCode == 13) {
+	doCheckAndConnect();
+        return false;
+    }
+}

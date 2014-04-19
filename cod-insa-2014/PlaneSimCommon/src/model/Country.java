@@ -3,6 +3,7 @@ package model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import common.ListView;
 import common.MapView;
 import common.Unique;
 import common.Util;
@@ -16,6 +17,13 @@ public class Country extends AbstractBase implements Viewable<Country.View>{
 	 */
 	public class View extends AbstractBase.View {
 
+		/**
+		 * @return All the planes at the airport of the AbstractBase
+		 */
+		public ListView<Plane.FullView> planes() {
+			return Util.view(planes);	
+		}
+		
 		@Override
 		Country copied(Context context) {
 			return copy(context);

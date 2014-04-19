@@ -5,17 +5,17 @@
 /*
 * Plane object: containing more info about each plane
 */
-function Plane(m,health,fuel,rotation)//,radar,speed,state)
+/*function Plane(m,health,fuel,rotation)//,radar,speed,state)
 {
-	this.marker = m;
-	this.refreshed = false;
-	this.health = health;
-	this.fuel = fuel;
-	this.rotation = rotation;
+	this.mark = m;
+	//this.refreshed = false;
+	//this.health = health;
+	//this.fuel = fuel;
+	//this.rotation = rotation;
 	//this.radar = radar;
 	//this.speed = speed;
 	//this.state = state;
-}
+}*/
 
 /*
 * Base object
@@ -78,10 +78,10 @@ function processDataMap(json)
 	}
 }
 
-//Hasmap of planes info : key = id
-var nbPlanes = 0;
-var cleaning = false;
-var torem;
+//Some variable to not get lost
+//var nbPlanes = 0;
+//var keys = new Array();
+//var torem;
 
 /*
 * Update plane info and position every time we receive a new frame from the server
@@ -102,78 +102,79 @@ function processPlaneBaseInfo(json)
 			}
 		}
 
+		planesArray.forEach(function(plane){
+		plane.setMap(null);
+		});
+		planesArray = [];
+
 		for(var j = 0 ; j<json.snap.planes.length ; j++){
 
 			var current_plane = json.snap.planes[j];
-			var key = current_plane.ownerid*10000+current_plane.id;
-			var getExisting = planesArray.get(key);
 
-			if(getExisting === undefined)
-			{
-				//console.log("defining");
-				planesArray.put(key,new Plane(
-							new google.maps.Marker({
+			planesArray.push(new google.maps.Marker({
 							position: new google.maps.LatLng(current_plane.latitude,current_plane.longitude),
 							map: mymap,
 							flat:true,
 							icon:fighter_icon[current_plane.ownerid],
-							title:"plane",
+							title:"Health:"+current_plane.health+"\n"+"Fuel:"+current_plane.fuel,
 							zIndex:200
-							}),
-							current_plane.health,current_plane.fuel,current_plane.rotation
-				));
-				//.put(key,new Plane(current_plane.health,current_plane.fuel,current_plane.rotation));//,current_plane.radar,current_plane.speed,current_plane.state));
-				nbPlanes++;
-			}
+			}));
+
+			/*var key = current_plane.id;
+			keys.push(key);
+
+			var getExisting = planesArray[key];
+			if(getExisting === undefined)
+			{*/
+				//console.log("new plane");
+				//planesArray[key] = new Plane(
+				/*var newplane = 		new google.maps.Marker({
+								position: new google.maps.LatLng(current_plane.latitude,current_plane.longitude),
+								map: mymap,
+								flat:true,
+								icon:fighter_icon[current_plane.ownerid],
+								title:"plane",
+								zIndex:200
+							});*/
+							/*,
+							current_plane.health,
+							current_plane.fuel,
+							current_plane.rotation
+				);*/
+				//nbPlanes++;
+			/*}
 			else
-			{
-				//console.log("updating");
-				//getExisting.position = new google.maps.LatLng(current_plane.latitude,current_plane.longitude);
-				var infoToUpdate = planesArray.get(key);
-				//infoToUpdate.state = current_plane.state;
-				//infoToUpdate.speed = current_plane.speed;
-				infoToUpdate.refreshed = true;
-				infoToUpdate.rotation = current_plane.rotation;
-				infoToUpdate.fuel = current_plane.fuel;
-				//infoToUpdate.radar = current_plane.radar;
-				infoToUpdate.health = current_plane.health;
-				getExisting.title = "Health:"+infoToUpdate.health+"\n"+"Fuel:"+infoToUpdate.fuel;
-				//getExisting.setMap(mymap);
-				updatePosition(key,current_plane.latitude, current_plane.longitude);
-				//doMovePlane(key,current_plane.latitude, current_plane.longitude);
-			}
-		}
-
-
-		if(cleaning)
-		{
-			//cleaning plane list
-			var i = 0;
-			for(i=0;i<torem.length;i++)
-			{
-				//planesArray.del(torem[i]);	//TODO MEMORY LEAK
-			}
+			{*/
+				//console.log("updating plane");
+				/*getExisting.refreshed = true;
+				getExisting.rotation = current_plane.rotation;
+				getExisting.fuel = current_plane.fuel;
+				getExisting.health = current_plane.health;
+				getExisting.mark.title = "Health:"+getExisting.health+"\n"+"Fuel:"+getExisting.fuel;
+				updatePosition(key,current_plane.latitude,current_plane.longitude);
+			}*/
 		}
 
 		//Removing dead planes
-		torem = new Array();
-
-		planesArray.each(function(key,plane)
-		{
-			if(plane.refreshed)
+		/*torem = new Array();
+		keys.forEach(function(ind) {
+		    if(planesArray[ind].refreshed)
 			{
-				plane.refreshed = false;
+				planesArray[ind].refreshed = false;
 			}
 			else
 			{
 				console.log("delete this plane");
-				plane.marker.setMap(null);
+				planesArray[ind].mark.setMap(null);
 				torem.push(key);
-			}//TODO check if memory leak...
-		});
-		if(!cleaning)
-			cleaning = true;
-	
+			}
+		});*/
+
+		//cleaning key list
+		/*torem.forEach(function(ind) {
+			keys.remove(ind);
+		});*/
+
 		//TODO
 		// orientation, bullets...
 
