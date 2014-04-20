@@ -421,9 +421,9 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// holdCapacity
 				20,
 				// tankCapacity
-				24,//*2,
+				24,
 				// fuelConsumptionPerDistanceUnit
-				2,//*1.5,
+				2,
 				// radius
 				MILITARY.radius*2, // TODO adjust
 				// timeToBuild
