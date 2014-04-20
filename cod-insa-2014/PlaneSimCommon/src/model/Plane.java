@@ -300,7 +300,7 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 	
 	public static class Type {
 		
-		public static double REGENERATION_SPEED = 1;
+		public static double REGENERATION_SPEED = 1.5;
 		public static double FUEL_REFILL_SPEED = .08;
 		
 		private static final List<Type> instances = new ArrayList<>();
