@@ -56,8 +56,8 @@ public class ValAI extends AbstractAI
 			MapView<Integer, Plane.FullView> planes = this.game.getMyPlanes();
 
 			List<Command> comm =  new ArrayList<Command>();
-			//comm.add(new BuildPlaneCommand(Type.COMMERCIAL));
-			//comm.add(new BuildPlaneCommand(Type.MILITARY));
+			comm.add(new BuildPlaneCommand(Plane.Type.COMMERCIAL));
+			comm.add(new BuildPlaneCommand(Plane.Type.MILITARY));
 
 			AbstractBase.View c = this.game.getAllBases().get(12);
 

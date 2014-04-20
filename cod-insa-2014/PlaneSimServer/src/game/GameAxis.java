@@ -107,9 +107,11 @@ public class GameAxis extends GameEntity {
 		}
 
 		void progress(double ratioSpeed1) {
-			if (baseAm().view().canExpand())
+			if (baseAm().view().canExpand()) {
 //				ratioA(ratioA() + ratioSpeed1 * period);
 				ratioA(ratioA() + ratioSpeed1);
+				baseAm().fuelInStock -= GameSettings.FUEL_CONSUMPTION_RATE;
+			}
 		}
 
 		void capture() {
@@ -133,6 +135,17 @@ public class GameAxis extends GameEntity {
 				ratioA(0);
 			if (baseAm().militaryGarrison < 0)
 				baseAm().militaryGarrison = 0;
+			if (baseAm().fuelInStock < 0)
+				baseAm().fuelInStock = 0;
+		}
+		
+
+		public double ratioSpeed(double period) {
+			double fuel = baseAm().fuelInStock;
+//			baseAm().fuelInStock -= GameSettings.FUEL_CONSUMPTION_RATE;
+//			if (baseAm().fuelInStock < 0)
+//				baseAm().fuelInStock = 0;
+			return period * GameSettings.PROGRESSION_RATE / model().length * fuel * GameSettings.FUEL_PROGRESSION_MULTIPLIER;
 		}
 
 	}
@@ -145,9 +158,9 @@ public class GameAxis extends GameEntity {
 		model().base2.militaryGarrison += militaryTransfer * period * GameSettings.MILITARY_TRANSFER_RATE;
 	}
 	
-	private double ratioSpeed(double period) {
-		return period * .002 / model().length; // TODO: function of the fuel?;
-	}
+//	private double ratioSpeed(double period) {
+//		return period * .002 / model().length; // TODONE: function of the fuel?;
+//	}
 	
 	@Override
 	public void beforeUpdate(final double period) {
@@ -170,7 +183,7 @@ public class GameAxis extends GameEntity {
 		
 //		double ratioSpeed1 = .002;
 //		final double ratioSpeed1 = .002 / model().length;
-		final double ratioSpeed1 = ratioSpeed(period);
+		final double ratioSpeed1 = A.ratioSpeed(period), ratioSpeed2 = B.ratioSpeed(period);
 
 
 		if (model().base1.ownerId() == model().base2.ownerId()) {
@@ -186,7 +199,7 @@ public class GameAxis extends GameEntity {
 			B.main();
 
 			A.progress(ratioSpeed1);
-			B.progress(ratioSpeed1);
+			B.progress(ratioSpeed2);
 
 			if (model().ratio1 > 1 - model().ratio2
 					&& model().base1.militaryGarrison > 0
@@ -268,8 +281,23 @@ public class GameAxis extends GameEntity {
 				double forces1 = model().base1.militaryGarrison/((double)base1.nbClashes);
 				double forces2 = model().base2.militaryGarrison/((double)base2.nbClashes);
 
-				model().ratio1 += ratioSpeed(period) * (forces1 - forces2) / (forces1 + forces2);
-				model().ratio2 = 1 - model().ratio1;
+//				model().ratio1 += ratioSpeed(period) * (forces1 - forces2) / (forces1 + forces2);
+//				model().ratio2 = 1 - model().ratio1;
+				
+				if (forces1 > forces2) {
+					if (A.baseAm().fuelInStock > 0) {
+						model().ratio1 += A.ratioSpeed(period) * (forces1 - forces2) / (forces1 + forces2);
+						model().ratio2 = 1 - model().ratio1;
+						A.baseAm().fuelInStock -= GameSettings.FUEL_CONSUMPTION_RATE * (forces1 - forces2) / (forces1 + forces2);
+					}
+				} else if (forces1 < forces2) {
+					if (B.baseAm().fuelInStock > 0) {
+						model().ratio1 += B.ratioSpeed(period) * (forces1 - forces2) / (forces1 + forces2);
+						model().ratio2 = 1 - model().ratio1;
+						B.baseAm().fuelInStock -= GameSettings.FUEL_CONSUMPTION_RATE * (forces2 - forces1) / (forces1 + forces2);
+					}
+				}
+				
 				
 //				double losses = Math.min(forces1,forces2) * GameSettings.DYING_RATE_PERCENTAGE;
 //				
