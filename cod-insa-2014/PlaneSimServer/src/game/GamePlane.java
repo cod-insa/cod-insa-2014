@@ -5,6 +5,7 @@ import model.Coord;
 import model.Country;
 import model.Plane;
 import model.Plane.State;
+import model.Plane.Type;
 
 import common.Unique;
 import common.Util;
@@ -74,7 +75,7 @@ public final class GamePlane extends MaterialGameEntity {
 //			System.out.println(model().militaryInHold);
 		
 		if (model().state == State.AT_AIRPORT) {
-			model().health += Plane.Type.REGENERATION_SPEED;
+			model().health += Plane.Type.REGENERATION_SPEED * (model().type == Type.COMMERCIAL? 2: 1);
 			if (targetTankFuel > 0) {
 				 if (targetTankFuel > model().fuelInTank) {
 //					model().fuelInTank += Plane.Type.FUEL_REFILL_SPEED;
