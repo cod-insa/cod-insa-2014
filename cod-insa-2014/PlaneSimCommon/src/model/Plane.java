@@ -393,17 +393,17 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// maxRotSpeed
 				Math.PI*.03,
 				// fullHealth
-				100,
+				150,
 				// holdCapacity
-				10,
+				6,
 				// tankCapacity
-				10,
+				12,
 				// fuelConsumptionPerDistanceUnit
-				1,
+				1.5,
 				// radius
 				.03,
 				// timeToBuild
-				15
+				100
 			);
 		
 		public static final Type COMMERCIAL = new Type(
@@ -417,13 +417,13 @@ public class Plane extends MovingEntity implements Serializable, Viewable<Plane.
 				// maxRotSpeed
 				MILITARY.maxRotSpeed*.7,
 				// fullHealth
-				MILITARY.fullHealth*4,
+				700,
 				// holdCapacity
-				MILITARY.holdCapacity*5,
+				20,
 				// tankCapacity
-				MILITARY.tankCapacity*4,//*2,
+				20,//*2,
 				// fuelConsumptionPerDistanceUnit
-				MILITARY.fuelConsumptionPerDistanceUnit*2,//*1.5,
+				2,//*1.5,
 				// radius
 				MILITARY.radius*2, // TODO adjust
 				// timeToBuild

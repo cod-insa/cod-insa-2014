@@ -4,7 +4,7 @@ import java.util.Random;
 
 import model.Base;
 import model.Plane;
-
+import command.BuildPlaneCommand;
 import command.MoveCommand;
 import common.MapView;
 
@@ -22,33 +22,10 @@ public class MoveAI extends AbstractAI
 		
 		while (true) {
 			game.updateSimFrame();
-			MapView<Integer, Base.BasicView> bases = game.getAllBases();
-			
-			for (Plane.FullView p : game.getMyPlanes().valuesView())
-			{
-				// Get a random base :
-				if(bases.size() > 0) {
-					int i = r.nextInt(bases.size());
-					//////////////////
-					//i=0;
-					//////////////////
+			game.sendCommand(new BuildPlaneCommand(r.nextInt() % 2 == 0 ? Plane.Type.COMMERCIAL : Plane.Type.MILITARY));
 					
-					Base.BasicView b = bases.get(i);
-					
-					//System.out.println("Moving plane "+p.id()+" to base "+bases.get(i).id()+", at pos "+b.position);
-			
-					// Make and send a MoveCommand with the plane to the random base
-//					MoveCommand mc = new MoveCommand(p.id(), b.position());
-//					
-//					System.out.println("Sending command "+mc);
-//					
-//					game.sendCommand(mc);
-					// Make and send a MoveCommand with the plane to the random base
-					game.sendCommand(new MoveCommand(p, b.position()));
-					
-				}
-			}
 		}
+		
 	}
 	
 	public static void main(String[] args) 
