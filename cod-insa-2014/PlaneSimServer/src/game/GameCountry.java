@@ -1,13 +1,13 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.*;
+import model.Coord;
+import model.Country;
 import model.Country.Request;
-import model.Country.Request.View;
-import model.Plane.State;
+import model.GameSettings;
+import model.Plane;
+
 import common.Unique;
+
 import display.CountryDisplay;
 import display.EntityDisplay;
 
@@ -15,10 +15,11 @@ public class GameCountry extends MaterialGameEntity implements Landable {
 	public static final double RADIUS = GameBase.RADIUS * 2;
 	public final String countryname;
 	
-	public GameCountry(Game sim, Unique<Coord> pos, String name) {
+	public GameCountry(Game sim, Unique<Coord> pos, String name, int ownerId) {
 		super(new Country(makeNextId(),pos), sim, Altitude.GROUND);
 		radius = RADIUS;
 		countryname = name;
+		model.ownerId(ownerId);
 	}
 	
 	private static int _nbRq = 0;

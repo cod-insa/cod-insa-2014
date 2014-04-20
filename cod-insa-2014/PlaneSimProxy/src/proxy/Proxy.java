@@ -77,7 +77,7 @@ public class Proxy
 
 		idm.retrieveInitialData();
 
-		player_id = idm.getPlayerId();
+//		player_id = idm.getPlayerId();
 		
 		cm = new CommandSender(ip, port+1, idm.getIdConnection(), this);
 		cm.start();
@@ -88,7 +88,9 @@ public class Proxy
 	 * Initialize the model in the client.
 	 * @param d Initial data retrieved from the server
 	 */
-	void setInitData(InitData d) {
+	void setInitData(InitData d, int player_id) {
+		
+		this.player_id = player_id;
 		
 		for (genbridge.BaseInitData b : d.bases)
 		{

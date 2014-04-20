@@ -16,6 +16,10 @@ public class IncomingData {
 	private Proxy proxy;
 	private int connection_id;
 	private int player_id;
+	
+	public int playerId() {
+		return player_id;
+	}
 
 
 	private Bridge.Client client;
@@ -67,7 +71,7 @@ public class IncomingData {
 			Proxy.log.debug("Retrieving initial data");
 			InitData d = client.retrieveInitData(connection_id);
 			
-			proxy.setInitData(d);
+			proxy.setInitData(d, player_id);
 			
 		} catch (TException e) {
 			Proxy.log.error("Unexpected error while retrieving initial data from server. Message: " + e.getMessage());

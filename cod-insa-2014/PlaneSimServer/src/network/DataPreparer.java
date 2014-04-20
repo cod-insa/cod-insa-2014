@@ -71,7 +71,7 @@ public abstract class DataPreparer {
 
 			for (Country.View c : snapshot.get().countries.view)
 				if (c.ownerId() == ai_id)
-					tobeSent.myCountry = new CountryInitData(c.id(), new CoordData(c.position.x(),c.position.y()));
+					tobeSent.myCountry = new CountryInitData(c.id(), new CoordData(c.position.x(), c.position.y()));
 		}
 		else
 			Game.log.warn("It seems like the init snapshot is null. The AI won't receibe any initial data");

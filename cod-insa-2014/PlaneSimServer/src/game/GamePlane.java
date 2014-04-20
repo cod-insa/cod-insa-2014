@@ -75,7 +75,7 @@ public final class GamePlane extends MaterialGameEntity {
 //			System.out.println(model().militaryInHold);
 		
 		if (model().state == State.AT_AIRPORT) {
-			model().health += Plane.Type.REGENERATION_SPEED * (model().type == Type.COMMERCIAL? 2: 1);
+			model().health += Plane.Type.REGENERATION_SPEED * (model().type == Type.COMMERCIAL? 1: 1);
 			if (targetTankFuel > 0) {
 				 if (targetTankFuel > model().fuelInTank) {
 //					model().fuelInTank += Plane.Type.FUEL_REFILL_SPEED;

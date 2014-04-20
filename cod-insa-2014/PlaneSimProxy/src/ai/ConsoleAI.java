@@ -1,13 +1,16 @@
 package ai;
 
-import genbridge.BuildPlaneCommandData;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.*;
+import model.AbstractBase;
+import model.Base;
+import model.Coord;
+import model.OutOfSyncException;
+import model.Plane;
 import model.Plane.BasicView;
+
 import command.AttackCommand;
 import command.BuildPlaneCommand;
 import command.Command;
@@ -117,6 +120,7 @@ public class ConsoleAI extends AbstractAI
 						break;
 					case "list":
 						System.out.println();
+						System.out.println("Player id: "+game.getCountry().ownerId());
 						System.out.println(">> My planes:");
 						for (Plane.FullView p : planes.valuesView())
 							System.out.println(p);

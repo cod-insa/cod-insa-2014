@@ -1,9 +1,7 @@
 package game;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -172,7 +170,7 @@ public class MapLoader {
 				latid = Double.parseDouble(coord[1]);
 				longit = Double.parseDouble(coord[2]);
 				newBaseCoord = converter.toCartesianUnique(longit, latid);
-				GameCountry gc = new GameCountry(g, newBaseCoord,name);
+				GameCountry gc = new GameCountry(g, newBaseCoord,name,i+1);
 				gc.model().ownerId(i+1); // FIXME Do better ?
 				this.w.countries.add(gc);
 			}
