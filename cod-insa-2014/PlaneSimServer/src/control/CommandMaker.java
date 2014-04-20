@@ -21,9 +21,9 @@ import model.Coord;
 import model.Country;
 import model.Plane;
 import model.Plane.State;
+
 import command.AttackCommand;
 import command.BuildPlaneCommand;
-import command.CancelRequestCommand;
 import command.Command;
 import command.DropMilitarsCommand;
 import command.ExchangeResourcesCommand;
@@ -261,14 +261,18 @@ public class CommandMaker {
 					new Response(Command.ERROR_COMMAND,"Cannot fill the tank in flight"));
 		
 		// check quantity
-		if (p.fuelInTank() + data.quantity < 0) 
+//		if (p.fuelInTank() + data.quantity < 0)
+//			return new Couple<>(
+//					new Nullable<Command>(),
+//					new Response(Command.ERROR_COMMAND,"Cannot deposit " + data.quantity + " fuel from tank. Minimum is : " + p.fuelInTank()));
+//		if (data.quantity > p.type.tankCapacity - p.fuelInTank())
+//			return new Couple<>(
+//					new Nullable<Command>(),
+//					new Response(Command.ERROR_COMMAND,"Too much fuel to fill"));
+		if (data.quantity > p.type.tankCapacity || data.quantity < 0)
 			return new Couple<>(
 					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Cannot deposit " + data.quantity + " fuel from tank. Minimum is : " + p.fuelInTank()));
-		if (data.quantity > p.type.tankCapacity - p.fuelInTank())
-			return new Couple<>(
-					new Nullable<Command>(),
-					new Response(Command.ERROR_COMMAND,"Too much fuel to fill"));
+					new Response(Command.ERROR_COMMAND,"Cannot fill fuel to "+data.quantity+", which is out of the tank capacity."));
 			
 		// check if enough fuel in base
 		if (p.curBase() instanceof Base.FullView)

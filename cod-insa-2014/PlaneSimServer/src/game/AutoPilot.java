@@ -132,7 +132,7 @@ public final class AutoPilot {
 		assert militaryToDrop > 0;
 
 		if (b.hasFronts() || b.model().ownerId() == 0) {
-			plane.model().militaryInHold -= militaryToDrop;
+			plane.model().militaryInHold -= Math.min(militaryToDrop, plane.model().militaryInHold);
 			
 			assert plane.model().militaryInHold >= 0;
 			
