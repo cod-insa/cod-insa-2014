@@ -8,6 +8,8 @@ var mymap;
 //Objects to draw
 var basesArray = new Array();	
 var planesArray = new Array();
+var bullets = new Array();
+var debris = new Array();
 
 //See settings.js for other variables
 //See resources.js for markers images
@@ -46,7 +48,7 @@ function initialisationMaps(){
 */
 function updateMapWithInfoFromServer()
 {
-	mymap.center = new google.maps.LatLng(center_lat,center_long);
+	mymap.setCenter(new google.maps.LatLng(center_lat,center_long));
 	mymap.setZoom(zoom_level);
 }
 

@@ -1,0 +1,141 @@
+body{
+background-color: #007FFF;
+color:white;
+margin:0;
+padding:0;
+}
+
+.modal
+{
+	color:#444444;
+}
+
+h3,h6{
+text-align:center;
+margin-right:10px;
+}
+
+a
+{
+color:white;
+}
+
+.ui-icon{
+zoom:1.5;
+-moz-transform:scale(1.5);
+-moz-transform-origin: 0 0;
+cursor:pointer;
+}
+
+#logobutton
+{
+cursor:pointer;
+width:50px;
+margin-right:20px;
+margin-left:20px;
+}
+
+.container-fluid{
+	margin:0px;
+}
+
+.bottomdiv{
+	position:fixed;
+	bottom:0;
+	height:30px;
+}
+
+#topcontain{
+    background-color: #007FFF;
+    margin:0px;
+    padding:0px;
+    position: relative;
+    border-radius:0 0 5px 0px;
+}
+
+#topright
+{
+    background-color: #007FFF;
+    margin:0px;
+    padding:0px;
+    padding-left:50px;
+    padding-bottom:12px;
+    padding-right:25px;  
+    border-radius:0 0 0 5px;
+    position:fixed; 
+    right:0;
+}
+
+#bottomcontain{
+background-color: #007FFF;
+margin:0px;
+padding:0 0 20px 20px;
+   position: relative;
+    border-radius:0px 5px 0 0;
+}
+
+#mapcontain{
+	background-color: #007FFF;
+    margin:0px;
+    padding:0px;
+    position: absolute;
+    width:100%;
+    height:100%;
+}
+
+
+#t1,#t2,#t3,#t4,#t5,#t6
+{
+	/*visibility:hidden;*/
+	margin:0;
+	padding:0;
+	text-align:center;
+	padding-top:5px;
+	min-width:70px;
+}
+
+#t1{background-color:red;}
+#t2{background-color:green;}
+#t3{background-color:blue;}
+#t4{background-color:yellow;color:black;}
+#t5{background-color:#AA44AA;}
+#t6{background-color:black;}
+
+
+
+/* Medium Displays: 641px and up */
+@media only screen and (max-width: 768px) {
+#topcontain{
+    border-radius:0;
+}
+#bottomcontain{
+    border-radius:0;
+}
+#topright{
+    border-radius:0;
+	width:100%;
+	height:80%;
+}
+#mapcontain{
+	visibility:hidden;
+}
+
+}
+
+
+
+/* Large Displays: 1024px and up */
+@media only screen and (max-width: 64.063em) {
+
+}
+/* X-Large Displays: 1441 and up */
+@media only screen and (min-width: 90.063em) {}
+/* XX-Large Displays: 1920 and up */
+@media only screen and (min-width: 120.063em) {}
+
+/* landscape mode */
+@media only screen and (orientation: landscape) {}
+
+/* portrait mode */
+@media only screen and (orientation: portrait) {}
+}

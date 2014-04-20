@@ -4,8 +4,8 @@
 //April 2014
 
 // Moving planes parameters
-var pas = 0.2;
-var refreshtime = 40;	//~25fps
+//var pas = 0.2;
+//var refreshtime = 40;	//~25fps
 
 
 // Server's port to open a socket on
