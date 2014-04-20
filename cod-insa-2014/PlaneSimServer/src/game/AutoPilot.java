@@ -170,35 +170,43 @@ public final class AutoPilot {
 		state = State.LANDING;
 	}
 	void land(Landable b) {
-		plane.targetTankFuel = -1;
 		
-		///////////////////////////
-		// FIXME TESTING
-		//b.model().ownerId(plane.model().ownerId());
-		if (Main.DEBUG_MODE && b instanceof GameBase)
-		{
-			((GameBase)b).capture(plane.model().ownerId());
-			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
-			((GameBase)b).model().fuelInStock += plane.model().type.holdCapacity/2;
+		if (b.asMaterialGameEntity().model().ownerId() == plane.model().ownerId() || b.asMaterialGameEntity().model().ownerId() == 0) {
+			
+			plane.targetTankFuel = -1;
+			
+			///////////////////////////
+			// FIXME TESTING
+			//b.model().ownerId(plane.model().ownerId());
+			if (Main.DEBUG_MODE && b instanceof GameBase)
+			{
+				((GameBase)b).capture(plane.model().ownerId());
+				((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
+				((GameBase)b).model().fuelInStock += plane.model().type.holdCapacity/2;
+			}
+			///////////////////////////
+			if (b instanceof GameCountry) {
+	//			plane.model().fuelInTank = plane.model().type.tankCapacity;
+				plane.targetTankFuel = plane.model().type.tankCapacity;
+			}
+			
+			if (b.model().planes.size()+1 > b.landingCapacity()) {
+				assert b.model().planes.size() == b.landingCapacity();
+	//			b.model().planes.get(0).unAssign();
+				sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?
+			}
+			
+	//		state = State.AT_AIRPORT;
+			setState(State.AT_AIRPORT);
+			plane.model().assignTo(b.model());//addPlane();
+			//plane.model.speed = 0;
+	//		for (ProgressAxis.Oriented pa: b.model().axes) {
+	//		}
+		} else {
+			resetEntityAim();
+			mode = Mode.ATTACK_ON_SIGHT;
+			state = State.IDLE;
 		}
-		///////////////////////////
-		if (b instanceof GameCountry) {
-//			plane.model().fuelInTank = plane.model().type.tankCapacity;
-			plane.targetTankFuel = plane.model().type.tankCapacity;
-		}
-		
-		if (b.model().planes.size()+1 > b.landingCapacity()) {
-			assert b.model().planes.size() == b.landingCapacity();
-//			b.model().planes.get(0).unAssign();
-			sim.getPlane(b.model().planes.get(0).id).autoPilot.unland(); // TODO: kick out the one with the most fuel first?
-		}
-		
-//		state = State.AT_AIRPORT;
-		setState(State.AT_AIRPORT);
-		plane.model().assignTo(b.model());//addPlane();
-		//plane.model.speed = 0;
-//		for (ProgressAxis.Oriented pa: b.model().axes) {
-//		}
 		
 //		System.out.println();
 	}
