@@ -110,7 +110,7 @@ public class GameAxis extends GameEntity {
 			if (baseAm().view().canExpand()) {
 //				ratioA(ratioA() + ratioSpeed1 * period);
 				ratioA(ratioA() + ratioSpeed1);
-				baseAm().fuelInStock -= GameSettings.FUEL_CONSUMPTION_RATE;
+				baseAm().fuelInStock -= GameSettings.FUEL_CONSUMPTION_RATE * ratioSpeed1;
 			}
 		}
 

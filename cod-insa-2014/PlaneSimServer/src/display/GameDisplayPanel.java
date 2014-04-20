@@ -1,9 +1,22 @@
 package display;
 
-import game.*;
 import game.AutoPilot.Mode;
+import game.Game;
+import game.GameBase;
+import game.GameCountry;
+import game.GameEntity;
+import game.GamePlane;
+import game.Landable;
+import game.World;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -473,14 +486,17 @@ public class GameDisplayPanel extends JPanel {
         
         
         synchronized (disp) {
-			for (List<GameEntity> els : disp.entitiesByAltitude)
+			for (List<GameEntity> els : disp.entitiesByAltitude) {
 				for (GameEntity e: els) {
 					//if (e instanceof Base) System.out.println("ok");
 					
 					e.getDisplay().draw(g2d, vtrans);
 					
 				}
-
+				for (GameEntity e: els) {
+					e.getDisplay().draw2(g2d, vtrans);
+				}
+			}
 			for (GameEntity e: sim.entities) {
 				e.getDisplay().drawOverlay(g2d, vtrans);
 			}

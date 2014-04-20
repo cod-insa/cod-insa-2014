@@ -179,6 +179,7 @@ public final class AutoPilot {
 		{
 			((GameBase)b).capture(plane.model().ownerId());
 			((GameBase)b).model().militaryGarrison += plane.model().type.holdCapacity/2;
+			((GameBase)b).model().fuelInStock += plane.model().type.holdCapacity/2;
 		}
 		///////////////////////////
 		if (b instanceof GameCountry) {

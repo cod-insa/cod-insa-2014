@@ -2,7 +2,6 @@ package display;
 
 import game.GameEntity;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -115,8 +114,11 @@ public static Color lightenColor(Color c, float coeff) {
 	
 	
 	
-	
+
 	public void draw (Graphics2D g2d, ViewTransform vtrans) {
+		init(g2d, vtrans);
+	}
+	public void draw2 (Graphics2D g2d, ViewTransform vtrans) {
 		init(g2d, vtrans);
 	}
 	public void drawOverlay (Graphics2D g2d, ViewTransform vtrans) {

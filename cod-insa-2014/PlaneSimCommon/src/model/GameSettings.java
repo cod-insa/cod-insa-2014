@@ -38,9 +38,9 @@ public class GameSettings {
 		 */
 		PROGRESSION_RATE = .002,
 		
-		FUEL_PROGRESSION_MULTIPLIER = .05,
+		FUEL_PROGRESSION_MULTIPLIER = .01, // .05,
 		
-		FUEL_CONSUMPTION_RATE = .005
+		FUEL_CONSUMPTION_RATE = 5 // .5 //.005
 		
 	;
 	
