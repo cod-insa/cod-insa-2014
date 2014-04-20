@@ -22,6 +22,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -513,16 +515,23 @@ public class GameDisplayPanel extends JPanel {
         Pixel bottom_right = vtrans.getViewPos(new Coord(sim.getWorld().width, sim.getWorld().height).view());
         g2d.drawRect(top_left.x, top_left.y, bottom_right.x-top_left.x, bottom_right.y-top_left.y);
 
+        
+        Point mouse = MouseInfo.getPointerInfo().getLocation();
+    	SwingUtilities.convertPointFromScreen(mouse, GameDisplayPanel.this);
+		Coord m = vtrans.getCoord(new Pixel(mouse.x, mouse.y));
 
 		g2d.setColor(Color.white);
 		g2d.setFont(infoFont);
 //		g2d.drawString(sim.getInfoString(), 0, 10);
-		g2d.drawString(sim.getInfoString(), 2, 12);
-        
-
+		double prec = 100;
+		//g2d.drawString(sim.getInfoString()+" | x:"+Math.round(m.x*prec)/prec+" y:"+Math.round(m.y*prec)/prec, 2, 12);
+		g2d.drawString(sim.getInfoString()+" | x:"+formatter.format(m.x)+" y:"+formatter.format(m.y), 2, 12);
+		     
+		//System.out.println(formatter.format(4.0));
 
     }
 	
+	static NumberFormat formatter = new DecimalFormat("#0.00");
 	
 }
 
