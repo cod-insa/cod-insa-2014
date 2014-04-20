@@ -244,6 +244,8 @@ public class Game {
 						System.out.println("==============================");
 						System.out.println();
 						
+//						log.info("\n\nScore ias : \n" + scores + "\n\n");
+						
 //						updateTimer.cancel();
 						stop();
 						

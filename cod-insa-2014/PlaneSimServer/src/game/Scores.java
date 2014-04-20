@@ -56,10 +56,10 @@ public class Scores {
 		StringBuffer sb = new StringBuffer();
 
 		for(int i =0 ; i<scores.length ; i++) {
-			sb.append(i);
-			sb.append('=');
+			sb.append(" IA num " + i);
+			sb.append(" : ");
 			sb.append(scores[i]);
-			sb.append('\n');
+			sb.append(" points \n");
 		}
 
 		return sb.toString();
