@@ -111,6 +111,7 @@ public class Proxy
 				log.error("One or both of the base " + a.base1_id + " and " + a.base2_id + " are unknown. Failed to add the axis");
 		
 		ai_country = new Country(d.myCountry.country_id, new Coord.Unique(d.myCountry.country.x,d.myCountry.country.y));
+		ai_country.ownerId(player_id);
 		ai_country.isAiObject = true;
 	}
 	
