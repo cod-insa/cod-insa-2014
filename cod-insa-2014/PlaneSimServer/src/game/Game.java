@@ -221,7 +221,7 @@ public class Game {
 						
 						log.info("Game ended after "+current_frame+" frames ("+timeOut+" theoretical seconds)."
 								+" Real time spent: "+Math.round(((double)(System.currentTimeMillis()-launchTime))/100d)/10d+" seconds.");
-						log.info("Score ias :" + scores);
+						log.info("\n\nScore ias : \n" + scores + "\n\n");
 						
 //						updateTimer.cancel();
 						stop();

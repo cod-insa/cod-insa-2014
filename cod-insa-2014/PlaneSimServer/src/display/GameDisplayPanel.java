@@ -33,6 +33,8 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import common.CoordConverter;
+
 import main.Main;
 import model.Coord;
 import model.Plane.State;
@@ -525,7 +527,7 @@ public class GameDisplayPanel extends JPanel {
 //		g2d.drawString(sim.getInfoString(), 0, 10);
 		double prec = 100;
 		//g2d.drawString(sim.getInfoString()+" | x:"+Math.round(m.x*prec)/prec+" y:"+Math.round(m.y*prec)/prec, 2, 12);
-		g2d.drawString(sim.getInfoString()+" | x:"+formatter.format(m.x)+" y:"+formatter.format(m.y), 2, 12);
+		g2d.drawString(sim.getInfoString()+" | x:"+formatter.format(sim.converter.getLongFromX(m.x))+" y:"+formatter.format(sim.converter.getLatFromY(m.y)), 2, 12);
 		     
 		//System.out.println(formatter.format(4.0));
 
