@@ -2,15 +2,23 @@ module Evaluator (
             Ia(..)
         ,   Fight(..)
         ,   ias
-        ,   combine
+        ,   maps
+        ,   times
         ,   duels
         )  where
 
-data Ia = Ia    {   name :: String
-                } deriving (Show, Eq)
+import Control.Monad (join)
 
-data Fight = Fight  {   left :: Ia
-                    ,   right :: Ia
+main :: IO ()
+main = mapM_ (print . show) duels
+
+data Ia = Ia    {   name :: String
+                } deriving (Show, Eq, Ord)
+
+data Fight = Fight  {   left    :: Ia
+                    ,   right   :: Ia
+                    ,   mapfile :: String
+                    ,   time    :: Int
                     } deriving (Show, Eq)
 
 ias :: [Ia]
@@ -23,8 +31,15 @@ ias = [
         Ia "Centre Val de Loire"
       ]
 
-combine :: (Eq a, Eq b) => (a -> a -> b) -> [a] -> [b]
-combine c s  = [ c x y | x <- s, y <- s, x /= y ]
+maps :: [String]
+maps = ["france"]
 
-duels :: [Fight]
-duels = combine Fight ias
+times :: [Int]
+times = [100, 1000, 3600]
+
+combine :: (Eq a, Eq b, Ord a,  Ord b) => (a -> a -> b -> c -> d) -> [a] -> [b] -> [c] -> [[d]]
+combine c s u v = [ t w x | w <- s, x <- s, w /= x, w < x ]
+    where t w x = join [ [ c w x y z, c x w y z ] | y <- u, z <- v ]
+
+duels :: [[Fight]]
+duels = combine Fight ias maps times
