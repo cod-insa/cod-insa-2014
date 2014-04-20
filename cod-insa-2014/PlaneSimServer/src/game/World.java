@@ -187,7 +187,7 @@ public class World implements Viewable<World.View> {
 	public void takeSnapshot() {
 		
 		/* Updating scores */
-		game.getScores().addScoreWithBases(bases);
+//		game.getScores().addScoreWithBases(bases);
 		
 		currentSnapshot = new Snapshot(this);
 		++currentSnapshotId;

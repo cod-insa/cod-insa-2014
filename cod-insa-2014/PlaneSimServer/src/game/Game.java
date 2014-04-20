@@ -17,9 +17,12 @@ import model.Plane.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import players.NetworkPlayerManager;
+
 import common.CoordConverter;
 import common.ListView;
 import common.Util;
+
 import control.Controller;
 import display.Displayer;
 
@@ -32,7 +35,7 @@ public class Game {
 	
 	//private Controller stepUpdate;
 	private FinalCountdown clock;
-	private Scores scores;
+//	private Scores scores;
 	
 	
 	Displayer disp;
@@ -61,6 +64,8 @@ public class Game {
 	int fps = 0;
 	long lastTime = -1;
 	
+	public NetworkPlayerManager npm;
+	
 	//public final Access<List<Entity>> entities = new BasicAccess(w.entities);
 //	public final RAccess<List<Entity<?>>> entities = new RAccess<List<Entity<?>>> () {
 //		public List<Entity<?>> get() {
@@ -79,7 +84,8 @@ public class Game {
 		
 		this.disp = disp;
 		this.nbPlayers = nbplay;
-		this.scores = new Scores(nbplay); // FIXME
+//		this.scores = new Scores(nbplay); // FIXME
+		
 		
 		try {
 			this.mapLoader = new MapLoader(this, mapName);
@@ -132,8 +138,8 @@ public class Game {
 	
 	public void start()
 	{
-		//TODO (called when all players have joined the game)
-		
+		//TODONE (called when all players have joined the game)
+
 		if (clock != null)
 			clock.start();
 		
@@ -178,6 +184,8 @@ public class Game {
 
 				/////////////////////////////////////
 			}
+
+			final double[] scores = new double[nbPlayers+1];
 			
 			final long launchTime = System.currentTimeMillis();
 			
@@ -186,7 +194,7 @@ public class Game {
 				public void run() {
 
 					if (current_frame/Settings.GAME_FRAMES_PER_SECOND < timeOut) {
-
+						
 						long time = System.currentTimeMillis();
 						//System.out.println(1f/(float)(time-lastTime));
 						fps = (int) (1000f / (float) (time - lastTime));
@@ -215,16 +223,33 @@ public class Game {
 						//throw new Error();
 						//System.out.println("B");
 						
+						for (GameBase b: world.bases) {
+							if(b.model().ownerId() < scores.length)
+								scores[b.model().ownerId()] += 1; //b.model().militaryGarrison;
+						}
+
 					} else {
 						
 						// TODO: game ending
 						
 						log.info("Game ended after "+current_frame+" frames ("+timeOut+" theoretical seconds)."
 								+" Real time spent: "+Math.round(((double)(System.currentTimeMillis()-launchTime))/100d)/10d+" seconds.");
-						log.info("\n\nScore ias : \n" + scores + "\n\n");
+//						log.info("Score ias :" + scores);
+//						for (double score : scores)
+						System.out.println();
+						log.info("Scoreboard:");
+						System.out.println("==============================");
+						for (int i = 1; i < scores.length; i++)
+							System.out.println("Player "+i+" ("+npm.getPlayer(i-1).getNickname()+"): "+scores[i]);
+						System.out.println("==============================");
+						System.out.println();
+						
+//						log.info("\n\nScore ias : \n" + scores + "\n\n");
 						
 //						updateTimer.cancel();
 						stop();
+						
+//						npm.disconnect();
 						
 					}
 					
@@ -267,10 +292,10 @@ public class Game {
 	}
 	
 	
-	public Scores getScores()
-	{
-		return scores;
-	}
+//	public Scores getScores()
+//	{
+//		return scores;
+//	}
 	
 	void update()
 	{
