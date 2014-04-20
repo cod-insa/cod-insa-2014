@@ -126,7 +126,7 @@ public class Proxy
 		other_visible_bases.clear();*/
 		
 		class UpdateBasicInfo { public UpdateBasicInfo(Base base, genbridge.BaseBasicData b) {
-			base.ownerId(b.base_id);
+			base.ownerId(b.ai_id);
 		}}
 		
 		class UpdateFullInfo { public UpdateFullInfo(Base base, genbridge.BaseFullData b) {
