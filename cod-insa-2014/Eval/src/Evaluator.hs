@@ -8,9 +8,20 @@ module Evaluator (
         )  where
 
 import Control.Monad (join)
+import System.Process
 
 main :: IO ()
-main = mapM_ (print . show) duels
+main = mapM_ getFight duels
+
+getFight :: [Fight] -> IO ()
+getFight xs = mapM_ e xs
+
+e x = do
+    s <- readProcess "ruby executor.rb" [mapfile x, show (time x)] ""
+    print s
+    return ()
+
+-- (lines [(name . left) x, (name . right) x])
 
 data Ia = Ia    {   name :: String
                 } deriving (Show, Eq, Ord)
