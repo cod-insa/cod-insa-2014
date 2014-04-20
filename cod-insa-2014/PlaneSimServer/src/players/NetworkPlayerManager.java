@@ -1,8 +1,8 @@
 package players;
 
+import static network.NetworkSettings.log;
 import game.Game;
 import game.Settings;
-import game.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +14,10 @@ import java.util.Set;
 import org.apache.thrift.transport.TTransportException;
 
 import common.Event;
-import common.Function;
 import common.ListView;
 import common.Util;
 
 import control.Controller;
-import static network.NetworkSettings.log;
 
 /**
  * PlayerManager creates player, receiving this order from the bridge 
@@ -79,6 +77,7 @@ public class NetworkPlayerManager {
 		authorizedNames.add("team_admin_554");
 		*/
 		this.game = game;
+		game.npm = this;
 	}
 
 	/**

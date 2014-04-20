@@ -1,11 +1,8 @@
 package network;
 
-import game.Debris;
 import game.Game;
 import game.GameBase;
-import game.GameEntity;
 import game.GamePlane;
-import game.Projectile;
 import game.MapLoader.MapInfo;
 import game.World;
 
@@ -21,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
-import model.Plane;
-import model.Plane.Type;
-
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_17;
@@ -34,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import players.NetworkPlayerManager;
+
 import common.CoordConverter;
 
 public class WebInterface extends WebSocketServer {
@@ -187,8 +182,8 @@ public class WebInterface extends WebSocketServer {
 			stringer.object();
 			stringer.key("name");
 			stringer.value(npm.getPlayer(i).getNickname());
-			stringer.key("score");
-			stringer.value(game.getScores().getScore(i));
+//			stringer.key("score");
+//			stringer.value(game.getScores().getScore(i));
 			stringer.endObject();
 		}
 		stringer.endArray();
