@@ -90,7 +90,7 @@ public class GameDisplayPanel extends JPanel {
 			if (c.model().position().y()-sim.getWorld().height > shiftMax)
 				shiftMax = c.model().position().y();
 		}
-		GAME_SHIFT_MARGIN = shiftMax + GameCountry.RADIUS*1.3;
+		GAME_SHIFT_MARGIN = shiftMax + GameCountry.RADIUS*1.7;
 //		System.out.println(GAME_SHIFT_MARGIN);
 		
 		/********** FIXME DEV TEST: **********/
