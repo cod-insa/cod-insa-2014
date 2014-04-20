@@ -78,6 +78,9 @@ public class Game {
 	}
 	*/ 
 	
+	public final double[] scores;
+	
+	
 	public Game (Displayer disp, int nbplay, String mapName, long seconds) {
 		
 		this.timeOut = seconds;
@@ -85,7 +88,7 @@ public class Game {
 		this.disp = disp;
 		this.nbPlayers = nbplay;
 //		this.scores = new Scores(nbplay); // FIXME
-		
+		this.scores = new double[nbPlayers+1];
 		
 		try {
 			this.mapLoader = new MapLoader(this, mapName);
@@ -185,7 +188,7 @@ public class Game {
 				/////////////////////////////////////
 			}
 
-			final double[] scores = new double[nbPlayers+1];
+//			final double[] scores = new double[nbPlayers+1];
 			
 			final long launchTime = System.currentTimeMillis();
 			
