@@ -229,8 +229,8 @@ public final class GamePlane extends MaterialGameEntity {
 		{
 			if (model().curBase() instanceof Country
 				|| ((model().curBase() instanceof Base)
-						&& ((Base)model().curBase()).militaryGarrison > milQuantity
-						&& ((Base)model().curBase()).fuelInStock > fuelQuantity)
+						&& ((Base)model().curBase()).militaryGarrison >= milQuantity
+						&& ((Base)model().curBase()).fuelInStock >= fuelQuantity)
 			) {
 				model().militaryInHold += milQuantity;
 				model().fuelInHold += fuelQuantity;
