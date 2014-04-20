@@ -259,7 +259,7 @@ public final class GamePlane extends MaterialGameEntity {
 //			((Base)model().curBase).fuelInStock -= quantity;
 //		}
 		if (model().state == State.AT_AIRPORT) {
-			targetTankFuel = quantity;
+			targetTankFuel = Math.min(quantity, model().type.tankCapacity);
 		} else {
 			Game.log.debug("Could not fill fuel when not at airport");
 		}
