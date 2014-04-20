@@ -562,6 +562,8 @@ public class Proxy
 			case LANDING:
 				s = Plane.State.LANDING;
 				break;
+			case DROPPING:
+				s = Plane.State.DROPPING;
 			default:
 				throw new Error("Unhandled plane state");
 			}

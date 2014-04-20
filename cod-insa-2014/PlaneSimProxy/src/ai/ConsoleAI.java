@@ -152,7 +152,7 @@ public class ConsoleAI extends AbstractAI
 				if (recognized)
 					System.out.println("Processed");
 			}
-			catch(IllegalArgumentException e) {
+			catch(IllegalArgumentException | IndexOutOfBoundsException e) {
 				System.out.println("Command failed: "+e);
 				System.err.println("Command failed: "+e);
 			}
