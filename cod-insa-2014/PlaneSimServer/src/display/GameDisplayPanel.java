@@ -528,8 +528,13 @@ public class GameDisplayPanel extends JPanel {
 		double prec = 100;
 		//g2d.drawString(sim.getInfoString()+" | x:"+Math.round(m.x*prec)/prec+" y:"+Math.round(m.y*prec)/prec, 2, 12);
 		g2d.drawString(sim.getInfoString()+" | x:"+formatter.format(sim.converter.getLongFromX(m.x))+" y:"+formatter.format(sim.converter.getLatFromY(m.y)), 2, 12);
-		g2d.drawString("Scores: "+(sim.scores[1])+" - "+(sim.scores[2]), 2, 24);
-		     
+		//g2d.drawString("Scores: "+(sim.scores[1])+" - "+(sim.scores[2]), 2, 24);
+		g2d.drawString("Scores: ", 2, 24);
+		for (int i = 0; i < sim.npm.getNbPlayers(); i++) {
+			g2d.drawString(sim.npm.getPlayer(i).getNickname()+": "+sim.scores[i+1], 2, 24+12*(i+1));
+		}
+		
+		
 		//System.out.println(formatter.format(4.0));
 
     }
